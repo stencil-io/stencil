@@ -1,0 +1,37 @@
+quarkus:
+  http:
+    cors: true
+
+  log:
+    level: DEBUG
+    category: 
+      io.resys:
+        level: DEBUG
+
+  stencil-ide:
+    server-path: /q/ide-services
+
+  stencil-ide-services:
+    service-path: /q/ide-services
+    db:
+      db-name: test-assets
+      connection-url: mongodb://appUser:123456@localhost:27017/test-assets?authSource=test-assets
+    repo:
+      repo-name: test-assets
+
+  stencil-sc:
+    service-path: /q/site
+    site-json: site.json
+
+"%prod":
+  quarkus:
+
+"%dev":
+  quarkus:
+    log:
+      level: DEBUG
+      category: 
+        io.thestencil:
+          level: DEBUG
+        io.resys:
+          level: DEBUG

@@ -1,0 +1,96 @@
+
+Repo
+  - id: 1, rev: 2
+    name: test1, prefix: 10_
+
+Refs
+  - 3: zoe-main
+
+Tags
+
+Commits
+  - id: 4
+    tree: 5, parent: , message: junit-test
+  - id: 6
+    tree: 7, parent: 4, message: junit-test
+  - id: 8
+    tree: 9, parent: 6, message: junit-test
+  - id: 10
+    tree: 11, parent: 8, message: junit-test
+  - id: 12
+    tree: 13, parent: 10, message: junit-test
+  - id: 14
+    tree: 15, parent: 12, message: junit-test
+  - id: 16
+    tree: 17, parent: 14, message: junit-test
+  - id: 18
+    tree: 19, parent: 16, message: junit-test
+  - id: 3
+    tree: 20, parent: 18, message: junit-test
+
+Trees
+  - id: 5
+    21: ARTICLE-1
+  - id: 7
+    22: ARTICLE-2
+    21: ARTICLE-1
+  - id: 9
+    23: RELEASE-3
+    22: ARTICLE-2
+    21: ARTICLE-1
+  - id: 11
+    24: RELEASE-4
+    23: RELEASE-3
+    22: ARTICLE-2
+    21: ARTICLE-1
+  - id: 13
+    24: RELEASE-4
+    23: RELEASE-3
+    25: LOCALE-5
+    22: ARTICLE-2
+    21: ARTICLE-1
+  - id: 15
+    26: PAGE-6
+    24: RELEASE-4
+    23: RELEASE-3
+    25: LOCALE-5
+    22: ARTICLE-2
+    21: ARTICLE-1
+  - id: 17
+    26: PAGE-6
+    24: RELEASE-4
+    27: PAGE-7
+    23: RELEASE-3
+    25: LOCALE-5
+    22: ARTICLE-2
+    21: ARTICLE-1
+  - id: 19
+    26: PAGE-6
+    24: RELEASE-4
+    27: PAGE-7
+    23: RELEASE-3
+    25: LOCALE-5
+    22: ARTICLE-2
+    21: ARTICLE-1
+    28: LINK-8
+  - id: 20
+    26: PAGE-6
+    24: RELEASE-4
+    27: PAGE-7
+    23: RELEASE-3
+    25: LOCALE-5
+    29: WORKFLOW-9
+    22: ARTICLE-2
+    21: ARTICLE-1
+    28: LINK-8
+
+Blobs
+  - 21: {"id":"ARTICLE-1","type":"ARTICLE","body":{"parentId":null,"name":"My first article","order":100}}
+  - 22: {"id":"ARTICLE-2","type":"ARTICLE","body":{"parentId":null,"name":"My second article","order":100}}
+  - 23: {"id":"RELEASE-3","type":"RELEASE","body":{"parentCommit":"6","name":"v1.5","note":"test release"}}
+  - 24: {"id":"RELEASE-4","type":"RELEASE","body":{"parentCommit":"8","name":"v2.4","note":"new content"}}
+  - 25: {"id":"LOCALE-5","type":"LOCALE","body":{"value":"en","enabled":true}}
+  - 26: {"id":"PAGE-6","type":"PAGE","body":{"article":"A1","locale":"en","content":"# English content"}}
+  - 27: {"id":"PAGE-7","type":"PAGE","body":{"article":"A1","locale":"fi","content":"# Finnish content"}}
+  - 28: {"id":"LINK-8","type":"LINK","body":{"articles":[],"locale":"en","content":"www.example.com","contentType":"internal","description":"click me"}}
+  - 29: {"id":"WORKFLOW-9","type":"WORKFLOW","body":{"name":"Form1","locale":"en","content":"firstForm","articles":[]}}
