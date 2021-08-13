@@ -28,21 +28,21 @@ db.createUser( { user: "appUser", pwd: "123456", roles: [ { role: "readWrite", d
 
 ## Extensions
 
-* quarkus-zoe-sc: Static content: Release can be compiled. One service that enables a "GET" and returns "Site".
-* quarkus-zoe-ide: Example of UI Integration. 
-* quarkus-zoe-ide-services: Provides backend for zoe-ide.
+* quarkus-stencil-sc: Static content: Release can be compiled. One service that enables a "GET" and returns "Site".
+* quarkus-stencil-ide: Example of UI Integration. 
+* quarkus-stencil-ide-services: Provides backend for zoe-ide.
 
 ## Extension configurations
 
 ```
 quarkus:
 
-  zoe-ide:
+  stencil-ide:
     service-path: /portal
-    server-path: /q/zoe-ide-services
+    server-path: /q/stencil-ide-services
 
   zoe-ide-services:
-    service-path: /q/zoe-ide-services
+    service-path: /q/stencil-ide-services
     db:
       db-name: test-assets
       connection-url: mongodb://appUser:123456@localhost:27017/test-assets?authSource=test-assets

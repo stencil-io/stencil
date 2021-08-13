@@ -1,6 +1,6 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
 
-# Zoe CMS
+# The Stencil CMS
 
 
 # Local Development Environment
@@ -19,7 +19,7 @@ sdk install maven
 ```
 mvn archetype:generate                                  \
   -DarchetypeGroupId=io.github.jocelynmutso             \
-  -DarchetypeArtifactId=zoe-maven-archetype             \
+ // -DarchetypeArtifactId=zoe-maven-archetype           \
  // -DgroupId=io.placeholder.test                       \
   -DartifactId=test-project
 
