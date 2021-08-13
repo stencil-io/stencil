@@ -34,12 +34,12 @@ else
 fi
 
 # Current and next version
-LAST_RELEASE_VERSION=$(cat zoe-build-parent/release.version)
+LAST_RELEASE_VERSION=$(cat build-parent/release.version)
 [[ $LAST_RELEASE_VERSION =~ ([^\\.]*)$ ]]
 MINOR_VERSION=`expr ${BASH_REMATCH[1]} + 1`
 MAJOR_VERSION=${LAST_RELEASE_VERSION:0:`expr ${#LAST_RELEASE_VERSION} - ${#MINOR_VERSION}`}
 RELEASE_VERSION=${MAJOR_VERSION}${MINOR_VERSION}
-echo ${RELEASE_VERSION} > zoe-build-parent/release.version
+echo ${RELEASE_VERSION} > build-parent/release.version
 
 
 PROJECT_VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
@@ -52,7 +52,7 @@ mvn -version
 git checkout ${branch}
 mvn versions:set -DnewVersion=${RELEASE_VERSION}
 git commit -am "Release: ${RELEASE_VERSION}"
-mvn clean deploy -Phdes-release --settings zoe-build-parent/ci-maven-settings.xml
+mvn clean deploy -Phdes-release --settings build-parent/ci-maven-settings.xml
 mvn versions:set -DnewVersion=${PROJECT_VERSION}
 git commit -am "Release: ${RELEASE_VERSION}"
 git push
