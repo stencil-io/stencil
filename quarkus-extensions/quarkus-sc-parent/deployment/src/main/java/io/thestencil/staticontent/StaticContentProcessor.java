@@ -105,7 +105,7 @@ public class StaticContentProcessor {
         .created(System.currentTimeMillis());
     final var content = client.build();
     final var contentValues = content.getSites().entrySet().stream()
-        .collect(Collectors.toMap(e -> e.getKey(), e -> Json.encode(e.getValue())));
+        .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
     
     if(!contentValues.containsKey(config.defaultLocale)) {
       throw new ConfigurationError("Markdowns must have localization for default-locale: '" + config.defaultLocale + "'!");
@@ -115,7 +115,7 @@ public class StaticContentProcessor {
       LOGGER.debug("Supported locales: '" + String.join(", ", contentValues.keySet()) + "'");
     }
     buildItems.produce(AdditionalBeanBuildItem.builder().setUnremovable().addBeanClass(StaticContentBeanFactory.class).build());
-    beans.produce(new BeanContainerListenerBuildItem(recorder.listener(content, contentValues, config.defaultLocale)));
+    beans.produce(new BeanContainerListenerBuildItem(recorder.listener(content, config.defaultLocale)));
   }
   
   @BuildStep

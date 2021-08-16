@@ -12301,9 +12301,9 @@ yocto-queue@^0.1.0:
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
 zoe-ide@^0.1.9:
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/zoe-ide/-/zoe-ide-0.1.9.tgz#b6b0cdc27911649795d7ba201aef7c3b52935ccf"
-  integrity sha512-bnebaCcdtSSTd34JxJwmvaqpKcmjO2u47v7SCFhNHLMqeZDfqj7V9XX41u8V0pDbdHJ91vQLJ+zr3BL7ALzQkQ==
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/zoe-ide/-/zoe-ide-0.1.11.tgz#dc4f959c008b96e5b7c75e34d4c525d3b6838b65"
+  integrity sha512-Xy5/nphp7jsg9STp5rRpB9TSzVNEfneduyM3OwnqKGpx5nhvbycUcn2yNB+SWe0Yl6gAfpJVKjUyr5MHNqc6mA==
 
 zwitch@^1.0.0:
   version "1.0.5"

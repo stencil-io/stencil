@@ -20,8 +20,8 @@ package io.thestencil.staticontent;
  * #L%
  */
 
-import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.enterprise.inject.spi.CDI;
 
@@ -32,6 +32,7 @@ import io.quarkus.vertx.http.runtime.CurrentVertxRequest;
 import io.thestencil.staticontent.api.SiteContent;
 import io.thestencil.staticontent.handlers.SiteResourceHandler;
 import io.vertx.core.Handler;
+import io.vertx.core.json.Json;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
@@ -40,16 +41,18 @@ import io.vertx.ext.web.RoutingContext;
 public class StaticContentRecorder {
 
   public BeanContainerListener listener(
-      SiteContent staticContent, 
-      Map<String, String> serializedContent,
+      SiteContent staticContent,
       String defaultLocale) {
+    
+    final var contentValues = staticContent.getSites().entrySet().stream()
+        .collect(Collectors.toMap(e -> e.getKey(), e -> Json.encode(e.getValue())));
     
     return beanContainer -> {
       StaticContentBeanFactory producer = beanContainer.instance(StaticContentBeanFactory.class);
       producer
         .setDefaultLocale(defaultLocale)
         .setStaticContent(staticContent)
-        .setSerializedContent(serializedContent);
+        .setSerializedContent(contentValues);
     };
   }
 
