@@ -4,7 +4,7 @@ Repo
     name: test1, prefix: 10_
 
 Refs
-  - 3: zoe-main
+  - 3: stencil-main
 
 Tags
 
