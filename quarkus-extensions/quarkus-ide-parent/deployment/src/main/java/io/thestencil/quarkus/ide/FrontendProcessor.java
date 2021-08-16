@@ -173,7 +173,7 @@ public class FrontendProcessor {
       }
       
       if(!indexReplaced) {
-        throw new ConfigurationError(new StringBuilder("Failed to create zoe-ide index.html, ")
+        throw new ConfigurationError(new StringBuilder("Failed to create stencil-ide index.html, ")
             .append("artifact = ").append(artifact).append(System.lineSeparator()).append(",")
             .append("path = ").append(frontendPath).append("!")
             .append("final destination = ").append(FINAL_DESTINATION).append("!")

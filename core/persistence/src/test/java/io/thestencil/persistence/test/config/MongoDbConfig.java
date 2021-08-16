@@ -175,7 +175,7 @@ public abstract class MongoDbConfig {
         .config((builder) -> builder
             .client(client)
             .repoName(repoId)
-            .headName("zoe-main")
+            .headName("stencil-main")
             .deserializer(deserializer)
             .serializer((entity) -> {
               try {

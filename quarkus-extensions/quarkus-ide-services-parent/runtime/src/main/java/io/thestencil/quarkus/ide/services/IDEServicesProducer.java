@@ -80,7 +80,7 @@ public class IDEServicesProducer {
   
   @Produces
   @ApplicationScoped
-  public IDEServicesContext zoeIdeServicesContext(Vertx vertx, ObjectMapper objectMapper) {
+  public IDEServicesContext stencilIdeServicesContext(Vertx vertx, ObjectMapper objectMapper) {
     
     final var paths = ServicesPathConfig.builder()
       .articlesPath(articlesPath)
