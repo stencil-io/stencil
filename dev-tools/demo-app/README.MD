@@ -41,7 +41,7 @@ quarkus:
     service-path: /portal
     server-path: /q/stencil-ide-services
 
-  zoe-ide-services:
+  stencil-ide-services:
     service-path: /q/stencil-ide-services
     db:
       db-name: test-assets
@@ -49,7 +49,7 @@ quarkus:
     repo:
       repo-name: test-assets
 
-  zoe-sc:
+  stencil-sc:
     service-path: /q/site
     site-json: site.json
     
