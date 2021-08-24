@@ -41,7 +41,7 @@
     <jackson.format.version>2.10.5</jackson.format.version>
 
 		<jandex.version>1.0.8</jandex.version>
-		<quarkus.version>1.13.2.Final</quarkus.version>
+		<quarkus.version>2.1.3.Final</quarkus.version>
     
     <flexmark.version>0.62.2</flexmark.version>
 

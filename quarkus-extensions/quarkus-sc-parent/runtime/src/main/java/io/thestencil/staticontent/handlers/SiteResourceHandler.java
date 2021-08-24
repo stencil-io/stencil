@@ -22,6 +22,7 @@ package io.thestencil.staticontent.handlers;
 
 import io.quarkus.security.identity.CurrentIdentityAssociation;
 import io.quarkus.vertx.http.runtime.CurrentVertxRequest;
+import io.quarkus.vertx.web.Route.HttpMethod;
 import io.thestencil.staticontent.StaticContentContext;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerResponse;
@@ -37,7 +38,9 @@ public class SiteResourceHandler extends HdesResourceHandler {
 
   @Override
   protected void handleResource(RoutingContext event, HttpServerResponse response, StaticContentContext ctx) {
-    switch (event.request().method()) {
+    
+    
+    switch (HttpMethod.valueOf(event.request().method().name())) {
     case GET:
       String locale = event.request().getParam("locale");
       String defs = ctx.getContentValue(locale);
@@ -45,6 +48,7 @@ public class SiteResourceHandler extends HdesResourceHandler {
       response.end(defs);
       break;
     default:
+      catch404("no-supported", ctx, response);
       break;
     }
   }

@@ -82,8 +82,12 @@ public class IDEServicesRecorder {
     return (route) -> route.handler(bodyHandler);
   }
 
-  public Consumer<Route> idRouteFunction(Handler<RoutingContext> bodyHandler, HttpMethod method) {
-    return (route) -> route.method(method).handler(bodyHandler);
+  public Consumer<Route> idRouteFunctionGet(Handler<RoutingContext> bodyHandler) {
+    return (route) -> route.method(HttpMethod.GET).handler(bodyHandler);
+  }
+
+  public Consumer<Route> idRouteFunctionDelete(Handler<RoutingContext> bodyHandler) {
+    return (route) -> route.method(HttpMethod.DELETE).handler(bodyHandler);
   }
   
   public Function<Router, Route> routeFunction(String rootPath, Handler<RoutingContext> bodyHandler) {

@@ -58,7 +58,6 @@ import io.thestencil.persistence.api.ImmutableWorkflow;
 import io.thestencil.persistence.api.ImmutableWorkflowArticlePage;
 import io.thestencil.persistence.api.ImmutableWorkflowMutator;
 import io.vertx.core.Handler;
-import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.RoutingContext;
 
 
@@ -130,7 +129,7 @@ public class IDEServicesProcessor {
           .displayOnNotFoundPage()
           .build());
       routes.produce(httpRoot.routeBuilder()
-          .routeFunction(path + "/:id", recorder.idRouteFunction(bodyHandler, HttpMethod.DELETE))
+          .routeFunction(path + "/:id", recorder.idRouteFunctionDelete(bodyHandler))
           .handler(handler)
           .displayOnNotFoundPage()
           .build());
@@ -145,18 +144,18 @@ public class IDEServicesProcessor {
     addRoute.accept(buildItem.getWorkflowsPath());
 
     routes.produce(httpRoot.routeBuilder()
-        .routeFunction(buildItem.getReleasesPath() + "/:id", recorder.idRouteFunction(bodyHandler, HttpMethod.GET))
+        .routeFunction(buildItem.getReleasesPath() + "/:id", recorder.idRouteFunctionGet(bodyHandler))
         .handler(handler)
         .displayOnNotFoundPage()
         .build());
     
     routes.produce(httpRoot.routeBuilder()
-        .routeFunction(buildItem.getLinksPath() + "/:id?:articleId", recorder.idRouteFunction(bodyHandler, HttpMethod.DELETE))
+        .routeFunction(buildItem.getLinksPath() + "/:id?:articleId", recorder.idRouteFunctionDelete(bodyHandler))
         .handler(handler)
         .displayOnNotFoundPage()
         .build());
     routes.produce(httpRoot.routeBuilder()
-        .routeFunction(buildItem.getWorkflowsPath() + "/:id?:articleId", recorder.idRouteFunction(bodyHandler, HttpMethod.DELETE))
+        .routeFunction(buildItem.getWorkflowsPath() + "/:id?:articleId", recorder.idRouteFunctionDelete(bodyHandler))
         .handler(handler)
         .displayOnNotFoundPage()
         .build());
