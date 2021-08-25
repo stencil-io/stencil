@@ -81,7 +81,7 @@ public class CreateWorkflowsDefault extends BuilderTemplate implements CreateWor
     body.putAll(this.body.getMap());
     body.put("language", lang);
     
-    return post(getUri("/processes/"))
+    return post(getUri("/createProcess/"))
         .putHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "application/json")
         .sendBuffer(io.vertx.mutiny.core.buffer.Buffer.newInstance(JsonObject.mapFrom(body).toBuffer()))
         .onItem().transform(resp -> map(resp, config.getFillPath(), config.getReviewPath()));
@@ -89,7 +89,7 @@ public class CreateWorkflowsDefault extends BuilderTemplate implements CreateWor
   
   private Workflow map(HttpResponse<?> resp, String fillUri, String reviewUri) {
     if (resp.statusCode() != 201) {
-      String error = "USER ACTIONS: Can't create response, e = " + resp.statusCode() + " | " + resp.statusMessage() + " | " + resp.headers() + " | " + getUri("/processes/");
+      String error = "USER ACTIONS: Can't create response, e = " + resp.statusCode() + " | " + resp.statusMessage() + " | " + resp.headers() + " | " + getUri("/createProcess/");
       LOGGER.error(error);
       return ImmutableWorkflow.builder()
           .id("").name("").status("")
