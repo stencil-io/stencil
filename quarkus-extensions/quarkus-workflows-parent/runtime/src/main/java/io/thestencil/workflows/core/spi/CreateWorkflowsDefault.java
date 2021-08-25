@@ -79,7 +79,7 @@ public class CreateWorkflowsDefault extends BuilderTemplate implements CreateWor
     
     final var body = new HashMap<String, Object>();
     body.putAll(this.body.getMap());
-    body.put(language, lang);
+    body.put("language", lang);
     
     return post(getUri("/processes/"))
         .putHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "application/json")
@@ -87,9 +87,9 @@ public class CreateWorkflowsDefault extends BuilderTemplate implements CreateWor
         .onItem().transform(resp -> map(resp, config.getFillPath(), config.getReviewPath()));
   }
   
-  private static Workflow map(HttpResponse<?> resp, String fillUri, String reviewUri) {
+  private Workflow map(HttpResponse<?> resp, String fillUri, String reviewUri) {
     if (resp.statusCode() != 201) {
-      String error = "USER ACTIONS: Can't create response, e = " + resp.statusCode() + " | " + resp.statusMessage() + " | " + resp.headers();
+      String error = "USER ACTIONS: Can't create response, e = " + resp.statusCode() + " | " + resp.statusMessage() + " | " + resp.headers() + " | " + getUri("/processes/");
       LOGGER.error(error);
       return ImmutableWorkflow.builder()
           .id("").name("").status("")
