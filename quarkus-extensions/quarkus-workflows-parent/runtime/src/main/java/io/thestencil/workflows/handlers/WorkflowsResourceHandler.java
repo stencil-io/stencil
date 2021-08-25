@@ -93,6 +93,11 @@ public class WorkflowsResourceHandler extends HdesResourceHandler {
 
     } else if(event.request().method() == HttpMethod.POST) {
       
+      if(event.getBody() == null) {
+        catch404("unsupported action without body", ctx, response);
+        return;
+      }
+      
       ctx.getClient().createUserAction()
       .actionName(actionId)
       .language(actionLocale)

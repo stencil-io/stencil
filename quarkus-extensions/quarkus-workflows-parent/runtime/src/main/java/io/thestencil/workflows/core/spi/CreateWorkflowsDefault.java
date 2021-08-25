@@ -65,17 +65,17 @@ public class CreateWorkflowsDefault extends BuilderTemplate implements CreateWor
   }
   @Override
   public CreateWorkflows body(JsonObject body) {
-    // TODO Auto-generated method stub
-    return null;
+    this.body = body;
+    return this;
   }
   @Override
   public Uni<Workflow> build() {
-    PortalAssert.notEmpty(userId, () -> "userId must be defined!");
+    //PortalAssert.notEmpty(userId, () -> "userId must be defined!");
     PortalAssert.notNull(body, () -> "body must be defined!");
     PortalAssert.notEmpty(actionName, () -> "actionName must be defined!");
 
     final var lang = language == null ? config.getDefaultLanguage() : language;
-    final var userId = this.userId;
+    //final var userId = this.userId;
     
     final var body = new HashMap<String, Object>();
     body.putAll(this.body.getMap());

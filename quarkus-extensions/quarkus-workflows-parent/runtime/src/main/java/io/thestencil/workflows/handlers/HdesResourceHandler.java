@@ -95,7 +95,11 @@ public abstract class HdesResourceHandler implements Handler<RoutingContext> {
     try {
       requestContext.activate();
       handleSecurity(event);
-      handleResource(event, response, ctx);
+      try {
+        handleResource(event, response, ctx);
+      } catch (Exception e) {
+        catch422(e, ctx, response);
+      }
     } finally {
       requestContext.terminate();
     }
