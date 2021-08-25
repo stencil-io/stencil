@@ -59,7 +59,6 @@ public interface WorkflowsClient {
     String getName();
     String getStatus();
     String getReviewUri();
-    String getMessagesUri();
     String getFormUri();
     String getFormId();
     @Nullable
