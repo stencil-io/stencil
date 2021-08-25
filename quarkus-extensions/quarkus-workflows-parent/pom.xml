@@ -4,19 +4,18 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>io.thestencil</groupId>
-    <artifactId>stencil-build-parent</artifactId>
+    <artifactId>stencil-quarkus-extensions</artifactId>
     <version>999-SNAPSHOT</version>
-    <relativePath>../build-parent/pom.xml</relativePath>
   </parent>
 
-  <artifactId>stencil-quarkus-extensions</artifactId>
+  <artifactId>quarkus-stencil-workflows-parent</artifactId>
   <packaging>pom</packaging>
 
+
   <modules>
-    <module>quarkus-ide-parent</module>
-    <module>quarkus-ide-services-parent</module>
-    <module>quarkus-sc-parent</module>
-    <module>quarkus-workflows-parent</module>
+    <module>deployment</module>
+    <module>runtime</module>
   </modules>
+
 
 </project>

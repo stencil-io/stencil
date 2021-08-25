@@ -48,6 +48,11 @@
         <artifactId>quarkus-stencil-sc</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>io.thestencil</groupId>
+        <artifactId>quarkus-stencil-workflows</artifactId>
+        <version>${project.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 </project>
