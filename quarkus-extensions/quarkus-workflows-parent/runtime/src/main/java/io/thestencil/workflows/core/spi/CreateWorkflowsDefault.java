@@ -89,7 +89,11 @@ public class CreateWorkflowsDefault extends BuilderTemplate implements CreateWor
   
   private Workflow map(HttpResponse<?> resp, String fillUri, String reviewUri) {
     if (resp.statusCode() != 201) {
-      String error = "USER ACTIONS: Can't create response, e = " + resp.statusCode() + " | " + resp.statusMessage() + " | " + resp.headers() + " | " + getUri("/createProcess/");
+      String error = 
+          "Stencil Workflows: Can't create response"
+          + ", uri: " + getUri("/createProcess/")
+          + ", code: " + resp.statusCode() 
+          + ", msg: " + resp.statusMessage();
       LOGGER.error(error);
       return ImmutableWorkflow.builder()
           .id("").name("").status("")
@@ -101,7 +105,7 @@ public class CreateWorkflowsDefault extends BuilderTemplate implements CreateWor
     }
     final var body = resp.bodyAsJsonObject();
     if(LOGGER.isDebugEnabled()) {
-      LOGGER.debug("USER ACTIONS: response body: " + body.encodePrettily());
+      LOGGER.debug("Stencil Workflows: response body: " + body.encodePrettily());
     }
     return QueryWorkflowsDefault.mapToUserAction(body, fillUri, reviewUri);
   }

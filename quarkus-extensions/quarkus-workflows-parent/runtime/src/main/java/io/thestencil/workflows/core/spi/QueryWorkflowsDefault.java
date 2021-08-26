@@ -90,7 +90,7 @@ public class QueryWorkflowsDefault extends BuilderTemplate implements QueryWorkf
 
   private Workflow mapToElement(HttpResponse<?> resp, String fillUri, String reviewUri) {
     if (resp.statusCode() != 200) {
-      String error = "USER ACTIONS: Can't create response, e = " + resp.statusCode() + " | " + resp.statusMessage() + " | " + resp.headers();
+      String error = "Stencil Workflows: Can't create response, e = " + resp.statusCode() + " | " + resp.statusMessage() + " | " + resp.headers();
       LOGGER.error(error);
       return null;
     }
@@ -104,7 +104,7 @@ public class QueryWorkflowsDefault extends BuilderTemplate implements QueryWorkf
   
   private Multi<Workflow> mapToList(HttpResponse<?> resp, String fillUri, String reviewUri) {
     if (resp.statusCode() != 200) {
-      String error = "USER ACTIONS: Can't create response, e = " + resp.statusCode() + " | " + resp.statusMessage() + " | " + resp.headers();
+      String error = "Stencil Workflows: Can't create response, e = " + resp.statusCode() + " | " + resp.statusMessage() + " | " + resp.headers();
       LOGGER.error(error);
       return Multi.createFrom().empty();
     }
