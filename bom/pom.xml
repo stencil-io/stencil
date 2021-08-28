@@ -35,12 +35,17 @@
 
       <dependency>
         <groupId>io.thestencil</groupId>
-        <artifactId>quarkus-stencil-ide</artifactId>
+        <artifactId>quarkus-stencil-composer</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>io.thestencil</groupId>
-        <artifactId>quarkus-stencil-ide-services</artifactId>
+        <artifactId>quarkus-stencil-composer-mongo</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.thestencil</groupId>
+        <artifactId>quarkus-stencil-composer-pg</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

@@ -8,10 +8,10 @@ quarkus:
       io.resys:
         level: DEBUG
 
-  stencil-ide:
+  stencil-composer:
     server-path: /q/ide-services
 
-  stencil-ide-services:
+  stencil-composer-mongo:
     service-path: /q/ide-services
     db:
       db-name: test-assets
