@@ -26,7 +26,6 @@ import io.resys.thena.docdb.api.actions.CommitActions.CommitResult;
 import io.resys.thena.docdb.api.actions.ObjectsActions.BlobObjects;
 import io.resys.thena.docdb.api.actions.ObjectsActions.ObjectsResult;
 import io.resys.thena.docdb.api.models.Message;
-import io.thestencil.persistence.api.ZoePersistence;
 import io.thestencil.persistence.api.ZoePersistence.Entity;
 import io.thestencil.persistence.api.ZoePersistence.EntityType;
 

@@ -36,9 +36,9 @@ import io.resys.thena.docdb.api.actions.RepoActions.RepoStatus;
 import io.thestencil.persistence.test.config.MongoDbConfig;
 
 
-public class SimpleTest extends MongoDbConfig {
+public class SimpleMongoTest extends MongoDbConfig {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(SimpleTest.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(SimpleMongoTest.class);
   
   @Value.Immutable
   public interface TestContent extends Serializable {

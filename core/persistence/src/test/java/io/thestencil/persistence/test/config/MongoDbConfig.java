@@ -21,12 +21,10 @@ package io.thestencil.persistence.test.config;
  */
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.io.IOUtils;
 import org.bson.codecs.DocumentCodecProvider;
 import org.bson.codecs.ValueCodecProvider;
 import org.bson.codecs.configuration.CodecRegistry;
@@ -57,6 +55,7 @@ import io.resys.thena.docdb.api.DocDB;
 import io.resys.thena.docdb.api.actions.RepoActions.RepoResult;
 import io.resys.thena.docdb.api.models.Diff;
 import io.resys.thena.docdb.api.models.Repo;
+import io.resys.thena.docdb.spi.ClientCollections;
 import io.resys.thena.docdb.spi.ClientState;
 import io.resys.thena.docdb.spi.DocDBCodecProvider;
 import io.resys.thena.docdb.spi.DocDBFactory;
@@ -67,7 +66,7 @@ import io.thestencil.persistence.spi.serializers.ZoeDeserializer;
 
 public abstract class MongoDbConfig {
   private static final MongodStarter starter = MongodStarter.getDefaultInstance();
-  private static ObjectMapper objectMapper = new ObjectMapper();
+  public static ObjectMapper objectMapper = new ObjectMapper();
   static {
     objectMapper.registerModule(new GuavaModule());
     objectMapper.registerModule(new JavaTimeModule());
@@ -124,7 +123,7 @@ public abstract class MongoDbConfig {
   }
 
   public ClientState createState() {
-    final var ctx = DocDBFactory.names("junit");
+    final var ctx = ClientCollections.defaults("junit");
     return DocDBFactory.state(ctx, mongo);
   }
 
@@ -155,8 +154,6 @@ public abstract class MongoDbConfig {
     final String result = new TestExporter(createState()).print(repo);
     return result;
   }
-
-  
   
   public ZoePersistence getPersistence(String repoId) {
     final DocDB client = getClient();
@@ -190,13 +187,5 @@ public abstract class MongoDbConfig {
             .authorProvider(() -> "junit-test"))
             
         .build();
-  }
-  
-  public static String toString(Class<?> type, String resource) {
-    try {
-      return IOUtils.toString(type.getClassLoader().getResource(resource), StandardCharsets.UTF_8);
-    } catch (IOException e) {
-      throw new RuntimeException(e.getMessage(), e);
-    }
   }
 }

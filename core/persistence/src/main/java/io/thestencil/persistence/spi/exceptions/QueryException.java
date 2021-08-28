@@ -24,7 +24,6 @@ import java.util.List;
 
 import io.resys.thena.docdb.api.actions.ObjectsActions.ObjectsResult;
 import io.resys.thena.docdb.api.models.Message;
-import io.thestencil.persistence.api.ZoePersistence;
 import io.thestencil.persistence.api.ZoePersistence.EntityType;
 
 public class QueryException extends RuntimeException {

@@ -1,5 +1,10 @@
 package io.thestencil.persistence.test.config;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Comparator;
+
 /*-
  * #%L
  * stencil-persistence
@@ -25,6 +30,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.apache.commons.io.IOUtils;
+
+import io.resys.thena.docdb.api.models.Objects.TreeValue;
 import io.resys.thena.docdb.api.models.Repo;
 import io.resys.thena.docdb.spi.ClientState;
 
@@ -70,7 +78,7 @@ public class TestExporter {
       .append(ID.apply(item.getCommit())).append(": ").append(item.getName())
       .append(System.lineSeparator());
       return item;
-    }).collectItems().asList().await().indefinitely();
+    }).collect().asList().await().indefinitely();
 
     
     result
@@ -87,7 +95,7 @@ public class TestExporter {
       .append(System.lineSeparator());
       
       return item;
-    }).collectItems().asList().await().indefinitely();
+    }).collect().asList().await().indefinitely();
     
     result
     .append(System.lineSeparator())
@@ -104,7 +112,7 @@ public class TestExporter {
       .append(System.lineSeparator());
       
       return item;
-    }).collectItems().asList().await().indefinitely();
+    }).collect().asList().await().indefinitely();
     
     
     result
@@ -113,18 +121,30 @@ public class TestExporter {
     
     ctx.query().trees()
     .find().onItem()
-    .transform(item -> {
-      result.append("  - id: ").append(ID.apply(item.getId())).append(System.lineSeparator());
-      item.getValues().entrySet().forEach(e -> {
-        result.append("    ")
-          .append(ID.apply(e.getValue().getBlob()))
-          .append(": ")
-          .append(e.getValue().getName())
-          .append(System.lineSeparator());
+    .transform(src -> {
+      
+      final var items = new ArrayList<TreeValue>(src.getValues().values());
+      items.sort(new Comparator<TreeValue>() {
+
+        @Override
+        public int compare(TreeValue o1, TreeValue o2) {
+          return o1.getName().compareTo(o2.getName());
+        }
+        
       });
       
-      return item;
-    }).collectItems().asList().await().indefinitely();
+      result.append("  - id: ").append(ID.apply(src.getId())).append(System.lineSeparator());
+      for(final var e : items) {
+          result.append("    ")
+            .append(ID.apply(e.getBlob()))
+            .append(": ")
+            .append(e.getName())
+            .append(System.lineSeparator());
+        
+      }
+      
+      return src;
+    }).collect().asList().await().indefinitely();
     
     
     
@@ -148,5 +168,14 @@ public class TestExporter {
       newText = newText.replaceAll(entry.getKey(), entry.getValue());
     }
     return newText;
+  }
+  
+
+  public static String toString(Class<?> type, String resource) {
+    try {
+      return IOUtils.toString(type.getClassLoader().getResource(resource), StandardCharsets.UTF_8);
+    } catch (IOException e) {
+      throw new RuntimeException(e.getMessage(), e);
+    }
   }
 }

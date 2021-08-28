@@ -1,7 +1,7 @@
 
 Repo
   - id: 1, rev: 2
-    name: test1, prefix: 10_
+    name: test1, prefix: nested_10_
 
 Refs
   - 3: stencil-main
@@ -10,139 +10,139 @@ Tags
 
 Commits
   - id: 4
-    tree: 5, parent: , message: junit-test
+    tree: 5, parent: , message: creating-article
   - id: 6
-    tree: 7, parent: 4, message: junit-test
+    tree: 7, parent: 4, message: creating-article
   - id: 8
-    tree: 9, parent: 6, message: junit-test
+    tree: 9, parent: 6, message: creating-release
   - id: 10
-    tree: 11, parent: 8, message: junit-test
+    tree: 11, parent: 8, message: creating-release
   - id: 12
-    tree: 13, parent: 10, message: junit-test
+    tree: 13, parent: 10, message: creating-locale
   - id: 14
-    tree: 15, parent: 12, message: junit-test
+    tree: 15, parent: 12, message: creating-page
   - id: 16
-    tree: 17, parent: 14, message: junit-test
+    tree: 17, parent: 14, message: creating-page
   - id: 18
-    tree: 19, parent: 16, message: junit-test
+    tree: 19, parent: 16, message: creating-link
   - id: 20
-    tree: 21, parent: 18, message: junit-test
+    tree: 21, parent: 18, message: creating-workflow
   - id: 22
-    tree: 23, parent: 20, message: junit-test
+    tree: 23, parent: 20, message: update type: 'ARTICLE', with id: 'ARTICLE-1'
   - id: 24
-    tree: 25, parent: 22, message: junit-test
+    tree: 25, parent: 22, message: update type: 'LOCALE', with id: 'LOCALE-5'
   - id: 26
-    tree: 27, parent: 24, message: junit-test
+    tree: 27, parent: 24, message: update type: 'PAGE', with id: 'PAGE-6'
   - id: 28
-    tree: 29, parent: 26, message: junit-test
+    tree: 29, parent: 26, message: update type: 'LINK', with id: 'LINK-8'
   - id: 3
-    tree: 30, parent: 28, message: junit-test
+    tree: 30, parent: 28, message: update type: 'WORKFLOW', with id: 'WORKFLOW-9'
 
 Trees
   - id: 5
     31: ARTICLE-1
   - id: 7
-    32: ARTICLE-2
     31: ARTICLE-1
+    32: ARTICLE-2
   - id: 9
-    33: RELEASE-3
-    32: ARTICLE-2
     31: ARTICLE-1
+    32: ARTICLE-2
+    33: RELEASE-3
   - id: 11
-    34: RELEASE-4
-    33: RELEASE-3
-    32: ARTICLE-2
     31: ARTICLE-1
+    32: ARTICLE-2
+    33: RELEASE-3
+    34: RELEASE-4
   - id: 13
-    34: RELEASE-4
-    33: RELEASE-3
-    35: LOCALE-5
-    32: ARTICLE-2
     31: ARTICLE-1
+    32: ARTICLE-2
+    35: LOCALE-5
+    33: RELEASE-3
+    34: RELEASE-4
   - id: 15
-    36: PAGE-6
-    34: RELEASE-4
-    33: RELEASE-3
-    35: LOCALE-5
-    32: ARTICLE-2
     31: ARTICLE-1
+    32: ARTICLE-2
+    35: LOCALE-5
+    36: PAGE-6
+    33: RELEASE-3
+    34: RELEASE-4
   - id: 17
+    31: ARTICLE-1
+    32: ARTICLE-2
+    35: LOCALE-5
     36: PAGE-6
-    34: RELEASE-4
     37: PAGE-7
     33: RELEASE-3
-    35: LOCALE-5
-    32: ARTICLE-2
-    31: ARTICLE-1
+    34: RELEASE-4
   - id: 19
+    31: ARTICLE-1
+    32: ARTICLE-2
+    38: LINK-8
+    35: LOCALE-5
     36: PAGE-6
-    34: RELEASE-4
     37: PAGE-7
     33: RELEASE-3
-    35: LOCALE-5
-    32: ARTICLE-2
-    31: ARTICLE-1
-    38: LINK-8
+    34: RELEASE-4
   - id: 21
-    36: PAGE-6
-    34: RELEASE-4
-    37: PAGE-7
-    33: RELEASE-3
-    35: LOCALE-5
-    39: WORKFLOW-9
-    32: ARTICLE-2
     31: ARTICLE-1
+    32: ARTICLE-2
     38: LINK-8
-  - id: 23
-    36: PAGE-6
-    34: RELEASE-4
-    37: PAGE-7
-    33: RELEASE-3
     35: LOCALE-5
-    39: WORKFLOW-9
-    32: ARTICLE-2
-    40: ARTICLE-1
-    38: LINK-8
-  - id: 25
     36: PAGE-6
-    34: RELEASE-4
     37: PAGE-7
     33: RELEASE-3
-    41: LOCALE-5
+    34: RELEASE-4
     39: WORKFLOW-9
-    32: ARTICLE-2
+  - id: 23
     40: ARTICLE-1
+    32: ARTICLE-2
     38: LINK-8
+    35: LOCALE-5
+    36: PAGE-6
+    37: PAGE-7
+    33: RELEASE-3
+    34: RELEASE-4
+    39: WORKFLOW-9
+  - id: 25
+    40: ARTICLE-1
+    32: ARTICLE-2
+    38: LINK-8
+    41: LOCALE-5
+    36: PAGE-6
+    37: PAGE-7
+    33: RELEASE-3
+    34: RELEASE-4
+    39: WORKFLOW-9
   - id: 27
-    42: PAGE-6
-    34: RELEASE-4
-    37: PAGE-7
-    33: RELEASE-3
-    41: LOCALE-5
-    39: WORKFLOW-9
-    32: ARTICLE-2
     40: ARTICLE-1
+    32: ARTICLE-2
     38: LINK-8
-  - id: 29
+    41: LOCALE-5
     42: PAGE-6
-    34: RELEASE-4
     37: PAGE-7
     33: RELEASE-3
-    41: LOCALE-5
+    34: RELEASE-4
     39: WORKFLOW-9
-    32: ARTICLE-2
+  - id: 29
     40: ARTICLE-1
+    32: ARTICLE-2
     43: LINK-8
-  - id: 30
+    41: LOCALE-5
     42: PAGE-6
-    34: RELEASE-4
     37: PAGE-7
     33: RELEASE-3
-    41: LOCALE-5
-    44: WORKFLOW-9
-    32: ARTICLE-2
+    34: RELEASE-4
+    39: WORKFLOW-9
+  - id: 30
     40: ARTICLE-1
+    32: ARTICLE-2
     43: LINK-8
+    41: LOCALE-5
+    42: PAGE-6
+    37: PAGE-7
+    33: RELEASE-3
+    34: RELEASE-4
+    44: WORKFLOW-9
 
 Blobs
   - 31: {"id":"ARTICLE-1","type":"ARTICLE","body":{"parentId":null,"name":"My first article","order":100}}

@@ -39,8 +39,25 @@
     </dependency>
     <dependency>
       <groupId>io.resys.hdes</groupId>
-      <artifactId>thena-docdb-mongo</artifactId>
+      <artifactId>thena-docdb-api</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>io.resys.hdes</groupId>
+      <artifactId>thena-docdb-pgsql</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.resys.hdes</groupId>
+      <artifactId>thena-docdb-mongo</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>org.mongodb</groupId>
       <artifactId>mongodb-driver-sync</artifactId>
@@ -50,6 +67,18 @@
       <artifactId>de.flapdoodle.embed.mongo</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-junit5</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-junit5-internal</artifactId>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>org.skyscreamer</groupId>
       <artifactId>jsonassert</artifactId>

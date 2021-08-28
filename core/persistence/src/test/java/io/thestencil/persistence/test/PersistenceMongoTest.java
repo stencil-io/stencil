@@ -44,9 +44,10 @@ import io.thestencil.persistence.api.ZoePersistence.Locale;
 import io.thestencil.persistence.api.ZoePersistence.Page;
 import io.thestencil.persistence.api.ZoePersistence.Workflow;
 import io.thestencil.persistence.test.config.MongoDbConfig;
+import io.thestencil.persistence.test.config.TestExporter;
 
 
-public class PersistenceTest extends MongoDbConfig {
+public class PersistenceMongoTest extends MongoDbConfig {
 
   
   
@@ -91,7 +92,7 @@ public class PersistenceTest extends MongoDbConfig {
       ).await().atMost(Duration.ofMinutes(1));
     
     // create state
-    var expected = super.toString(getClass(), "create_state.txt");
+    var expected = TestExporter.toString(getClass(), "create_state.txt");
     var actual = super.toRepoExport("test1");
     Assertions.assertEquals(expected, actual);
     
@@ -112,7 +113,7 @@ public class PersistenceTest extends MongoDbConfig {
     
     
     // update state
-    expected = super.toString(getClass(), "update_state.txt");
+    expected = TestExporter.toString(getClass(), "update_state.txt");
     actual = super.toRepoExport("test1");
     Assertions.assertEquals(expected, actual);
     
@@ -136,7 +137,7 @@ public class PersistenceTest extends MongoDbConfig {
     .await().atMost(Duration.ofMinutes(1));
     
     // delete state
-    expected = super.toString(getClass(), "delete_state.txt");
+    expected = TestExporter.toString(getClass(), "delete_state.txt");
     actual = super.toRepoExport("test1");
     Assertions.assertEquals(expected, actual);
     
