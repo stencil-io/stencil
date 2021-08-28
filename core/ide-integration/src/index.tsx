@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { ThemeProvider } from '@material-ui/core';
 import { IntlProvider } from 'react-intl'
 
-import { CMSEditor, API, messages } from 'zoe-ide';
+import { CMSEditor, API, messages } from '@the-stencil-io/composer';
 import { siteTheme } from './themes/siteTheme'
 
 const locale = "en";

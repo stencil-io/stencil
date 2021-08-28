@@ -48,7 +48,7 @@
 		<thena.version>999-SNAPSHOT</thena.version>
 		<eirslett.version>1.11.0</eirslett.version>
 		<yarnVersion>v1.22.5</yarnVersion>
-		<nodeVersion>v14.15.5</nodeVersion>
+		<nodeVersion>v14.16.1</nodeVersion>
 	</properties>
 
 	<build>
