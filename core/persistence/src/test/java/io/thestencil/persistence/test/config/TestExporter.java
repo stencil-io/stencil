@@ -65,7 +65,7 @@ public class TestExporter {
     .append("  - id: ").append(ID.apply(repo.getId()))
     .append(", rev: ").append(ID.apply(repo.getRev())).append(System.lineSeparator())
     .append("    name: ").append(repo.getName())
-    .append(", prefix: ").append(repo.getPrefix()).append(System.lineSeparator());
+    .append(System.lineSeparator());
     
     result
     .append(System.lineSeparator())

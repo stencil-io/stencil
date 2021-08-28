@@ -1,7 +1,7 @@
 
 Repo
   - id: 1, rev: 2
-    name: test1, prefix: nested_10_
+    name: test1
 
 Refs
   - 3: stencil-main
