@@ -45,7 +45,7 @@
     
     <flexmark.version>0.62.2</flexmark.version>
 
-		<thena.version>999-SNAPSHOT</thena.version>
+		<thena.version>1.1.13</thena.version>
 		<eirslett.version>1.11.0</eirslett.version>
 		<yarnVersion>v1.22.5</yarnVersion>
 		<nodeVersion>v14.16.1</nodeVersion>
