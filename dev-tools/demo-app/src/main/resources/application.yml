@@ -11,17 +11,22 @@ quarkus:
   stencil-composer:
     server-path: /q/ide-services
 
-  stencil-composer-mongo:
+  stencil-composer-pg:
     service-path: /q/ide-services
-    db:
-      db-name: test-assets
-      connection-url: mongodb://appUser:123456@localhost:27017/test-assets?authSource=test-assets
     repo:
       repo-name: test-assets
 
   stencil-sc:
     service-path: /q/site
     site-json: site.json
+
+  datasource:
+    db-kind: postgresql 
+    username: spo_stencil
+    password: joo4XooHllK2thei
+    reactive:
+      max-size: 16
+      url: postgresql://localhost:5432/spo_stencil
 
 "%prod":
   quarkus:
