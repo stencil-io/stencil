@@ -1,5 +1,9 @@
 package io.thestencil.quarkus.ide.services;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /*-
  * #%L
  * quarkus-stencil-ide-services-deployment
@@ -162,8 +166,11 @@ public class IDEServicesProcessor {
   }
   
   @BuildStep
-  public ReflectiveClassBuildItem reflection() {
-    return new ReflectiveClassBuildItem(true, true,
+  public ReflectiveClassBuildItem reflection() throws SecurityException, ClassNotFoundException {
+    ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+    List<String> names = new ArrayList<>();
+    
+    for(Class<?> clazz : Arrays.asList(
         ImmutableSiteState.class,
         ImmutableArticle.class,
         ImmutableArticleMutator.class,
@@ -184,9 +191,20 @@ public class IDEServicesProcessor {
         ImmutableRelease.class,
         ImmutableWorkflow.class,
         ImmutableWorkflowArticlePage.class,
-        ImmutableWorkflowMutator.class);
+        ImmutableWorkflowMutator.class)) {
+      Class<?>[] declaredClasses = classLoader.loadClass(clazz.getName()).getDeclaredClasses();
+      
+      names.add(clazz.getName());
+      for (Class<?> decl : declaredClasses) {
+        names.add(decl.getName());
+      }
+    }
+    
+    return new ReflectiveClassBuildItem(true, true, names.toArray(new String[] {}));
   }
 
+  
+  
   @BuildStep
   @Record(ExecutionTime.STATIC_INIT)
   public void frontendBeans(

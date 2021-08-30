@@ -31,13 +31,58 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 
 import io.quarkus.jackson.ObjectMapperCustomizer;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import io.resys.thena.docdb.spi.pgsql.DocDBFactory;
+import io.thestencil.persistence.api.ImmutableArticle;
+import io.thestencil.persistence.api.ImmutableArticleMutator;
+import io.thestencil.persistence.api.ImmutableCreateArticle;
+import io.thestencil.persistence.api.ImmutableCreateLink;
+import io.thestencil.persistence.api.ImmutableCreateLocale;
+import io.thestencil.persistence.api.ImmutableCreatePage;
+import io.thestencil.persistence.api.ImmutableCreateRelease;
+import io.thestencil.persistence.api.ImmutableCreateWorkflow;
+import io.thestencil.persistence.api.ImmutableEntity;
+import io.thestencil.persistence.api.ImmutableLink;
+import io.thestencil.persistence.api.ImmutableLinkArticlePage;
+import io.thestencil.persistence.api.ImmutableLinkMutator;
+import io.thestencil.persistence.api.ImmutableLocale;
+import io.thestencil.persistence.api.ImmutableLocaleMutator;
+import io.thestencil.persistence.api.ImmutablePage;
+import io.thestencil.persistence.api.ImmutablePageMutator;
+import io.thestencil.persistence.api.ImmutableRelease;
+import io.thestencil.persistence.api.ImmutableSiteState;
+import io.thestencil.persistence.api.ImmutableWorkflow;
+import io.thestencil.persistence.api.ImmutableWorkflowArticlePage;
+import io.thestencil.persistence.api.ImmutableWorkflowMutator;
 import io.thestencil.persistence.spi.ZoePersistenceImpl;
 import io.thestencil.persistence.spi.serializers.ZoeDeserializer;
 import io.vertx.mutiny.core.Vertx;
 import io.vertx.mutiny.pgclient.PgPool;
 
 @ApplicationScoped
+@RegisterForReflection(targets={ 
+    ImmutableSiteState.class,
+    ImmutableArticle.class,
+    ImmutableArticleMutator.class,
+    ImmutableCreateArticle.class,
+    ImmutableCreateLink.class,
+    ImmutableCreateLocale.class,
+    ImmutableCreatePage.class,
+    ImmutableCreateRelease.class,
+    ImmutableCreateWorkflow.class,
+    ImmutableEntity.class,
+    ImmutableLink.class,
+    ImmutableLinkArticlePage.class,
+    ImmutableLinkMutator.class,
+    ImmutableLocale.class,
+    ImmutableLocaleMutator.class,
+    ImmutablePage.class,
+    ImmutablePageMutator.class,
+    ImmutableRelease.class,
+    ImmutableWorkflow.class,
+    ImmutableWorkflowArticlePage.class,
+    ImmutableWorkflowMutator.class
+})
 public class IDEServicesProducer {
 
   private RuntimeConfig runtimeConfig;

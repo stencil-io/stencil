@@ -49,6 +49,7 @@ public interface CreateBuilder {
   Uni<Entity<Link>> link(CreateLink init);
   Uni<Entity<Workflow>> workflow(CreateWorkflow init);  
   
+
   @Value.Immutable
   @JsonSerialize(as = ImmutableCreateArticle.class)
   @JsonDeserialize(as = ImmutableCreateArticle.class)
