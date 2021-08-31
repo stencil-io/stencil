@@ -29,7 +29,7 @@ import io.quarkus.arc.runtime.BeanContainerListener;
 import io.quarkus.runtime.annotations.Recorder;
 import io.quarkus.security.identity.CurrentIdentityAssociation;
 import io.quarkus.vertx.http.runtime.CurrentVertxRequest;
-import io.thestencil.quarkus.ide.services.handlers.IDEServicesResourceHandler;
+import io.thestencil.persistence.web.HandlerComposer;
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.Route;
@@ -75,7 +75,7 @@ public class IDEServicesRecorder {
       association = null;
     }
     CurrentVertxRequest currentVertxRequest = CDI.current().select(CurrentVertxRequest.class).get();
-    return new IDEServicesResourceHandler(association, currentVertxRequest);
+    return new HandlerComposer(association, currentVertxRequest);
   }
 
   public Consumer<Route> routeFunction(Handler<RoutingContext> bodyHandler) {

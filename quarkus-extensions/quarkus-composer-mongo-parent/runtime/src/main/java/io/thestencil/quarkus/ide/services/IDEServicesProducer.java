@@ -45,6 +45,8 @@ import io.resys.thena.docdb.spi.DocDBCodecProvider;
 import io.resys.thena.docdb.spi.DocDBFactory;
 import io.thestencil.persistence.spi.ZoePersistenceImpl;
 import io.thestencil.persistence.spi.serializers.ZoeDeserializer;
+import io.thestencil.persistence.web.HandlerContext;
+import io.thestencil.persistence.web.ServicesPathConfig;
 import io.vertx.mutiny.core.Vertx;
 
 @ApplicationScoped
@@ -80,7 +82,7 @@ public class IDEServicesProducer {
   
   @Produces
   @ApplicationScoped
-  public IDEServicesContext stencilIdeServicesContext(Vertx vertx, ObjectMapper objectMapper) {
+  public HandlerContext stencilIdeServicesContext(Vertx vertx, ObjectMapper objectMapper) {
     
     final var paths = ServicesPathConfig.builder()
       .articlesPath(articlesPath)
@@ -120,7 +122,7 @@ public class IDEServicesProducer {
     
     
     // create repo if not present
-    return new IDEServicesContext(client, paths);
+    return new HandlerContext(client, paths);
   }
   
   public static String cleanPath(String value) {
