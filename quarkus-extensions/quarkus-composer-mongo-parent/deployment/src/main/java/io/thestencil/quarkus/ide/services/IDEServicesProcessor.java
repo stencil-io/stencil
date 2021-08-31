@@ -1,5 +1,8 @@
 package io.thestencil.quarkus.ide.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /*-
  * #%L
  * quarkus-stencil-ide-services-deployment
@@ -36,27 +39,7 @@ import io.quarkus.vertx.http.deployment.BodyHandlerBuildItem;
 import io.quarkus.vertx.http.deployment.HttpRootPathBuildItem;
 import io.quarkus.vertx.http.deployment.RouteBuildItem;
 import io.quarkus.vertx.http.deployment.devmode.NotFoundPageDisplayableEndpointBuildItem;
-import io.thestencil.persistence.api.ImmutableArticle;
-import io.thestencil.persistence.api.ImmutableArticleMutator;
-import io.thestencil.persistence.api.ImmutableCreateArticle;
-import io.thestencil.persistence.api.ImmutableCreateLink;
-import io.thestencil.persistence.api.ImmutableCreateLocale;
-import io.thestencil.persistence.api.ImmutableCreatePage;
-import io.thestencil.persistence.api.ImmutableCreateRelease;
-import io.thestencil.persistence.api.ImmutableCreateWorkflow;
-import io.thestencil.persistence.api.ImmutableEntity;
-import io.thestencil.persistence.api.ImmutableLink;
-import io.thestencil.persistence.api.ImmutableLinkArticlePage;
-import io.thestencil.persistence.api.ImmutableLinkMutator;
-import io.thestencil.persistence.api.ImmutableLocale;
-import io.thestencil.persistence.api.ImmutableLocaleMutator;
-import io.thestencil.persistence.api.ImmutablePage;
-import io.thestencil.persistence.api.ImmutablePageMutator;
-import io.thestencil.persistence.api.ImmutableRelease;
-import io.thestencil.persistence.api.ImmutableSiteState;
-import io.thestencil.persistence.api.ImmutableWorkflow;
-import io.thestencil.persistence.api.ImmutableWorkflowArticlePage;
-import io.thestencil.persistence.api.ImmutableWorkflowMutator;
+import io.thestencil.persistence.api.Serializers;
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
 
@@ -162,30 +145,22 @@ public class IDEServicesProcessor {
   }
   
   @BuildStep
-  public ReflectiveClassBuildItem reflection() {
-    return new ReflectiveClassBuildItem(true, true,
-        ImmutableSiteState.class,
-        ImmutableArticle.class,
-        ImmutableArticleMutator.class,
-        ImmutableCreateArticle.class,
-        ImmutableCreateLink.class,
-        ImmutableCreateLocale.class,
-        ImmutableCreatePage.class,
-        ImmutableCreateRelease.class,
-        ImmutableCreateWorkflow.class,
-        ImmutableEntity.class,
-        ImmutableLink.class,
-        ImmutableLinkArticlePage.class,
-        ImmutableLinkMutator.class,
-        ImmutableLocale.class,
-        ImmutableLocaleMutator.class,
-        ImmutablePage.class,
-        ImmutablePageMutator.class,
-        ImmutableRelease.class,
-        ImmutableWorkflow.class,
-        ImmutableWorkflowArticlePage.class,
-        ImmutableWorkflowMutator.class);
+  public ReflectiveClassBuildItem reflection() throws SecurityException, ClassNotFoundException {
+    ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+    List<String> names = new ArrayList<>();
+    
+    for(Class<?> clazz : Serializers.VALUES) {
+      Class<?>[] declaredClasses = classLoader.loadClass(clazz.getName()).getDeclaredClasses();
+      
+      names.add(clazz.getName());
+      for (Class<?> decl : declaredClasses) {
+        names.add(decl.getName());
+      }
+    }
+    
+    return new ReflectiveClassBuildItem(true, true, names.toArray(new String[] {}));
   }
+
 
   @BuildStep
   @Record(ExecutionTime.STATIC_INIT)
