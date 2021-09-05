@@ -42,6 +42,7 @@ public class IDEServicesRecorder {
   
   public BeanContainerListener configureBuildtimeConfig(
       String servicePath,
+      String migrationPath,
       String articlesPath,
       String pagesPath,
       String workflowsPath,
@@ -52,6 +53,7 @@ public class IDEServicesRecorder {
     return beanContainer -> {
       IDEServicesProducer producer = beanContainer.instance(IDEServicesProducer.class);
       producer
+        .setMigrationPath(migrationPath)
         .setArticlesPath(articlesPath)
         .setLinksPath(linksPath)
         .setLocalePath(localePath)

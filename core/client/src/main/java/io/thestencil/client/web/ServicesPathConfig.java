@@ -23,6 +23,7 @@ package io.thestencil.client.web;
 public class ServicesPathConfig {
   
   private final String servicePath;
+  private final String migrationPath;
   private final String articlesPath;
   private final String pagesPath;
   private final String workflowsPath;
@@ -32,6 +33,7 @@ public class ServicesPathConfig {
   
   public ServicesPathConfig(
       String servicePath, 
+      String migrationPath,
       String articlesPath, 
       String pagesPath, 
       String workflowsPath,
@@ -39,6 +41,7 @@ public class ServicesPathConfig {
       String releasesPath,
       String localePath) {
     super();
+    this.migrationPath = migrationPath;
     this.servicePath = servicePath;
     this.articlesPath = articlesPath;
     this.pagesPath = pagesPath;
@@ -69,7 +72,10 @@ public class ServicesPathConfig {
   public String getLocalePath() {
     return localePath;
   }
-  
+  public String getMigrationPath() {
+    return migrationPath;
+  }
+
   
   public static Builder builder() {
     return new Builder();
@@ -83,7 +89,7 @@ public class ServicesPathConfig {
     private String linksPath;
     private String releasesPath;
     private String localePath;
-
+    private String migrationPath;
     public Builder servicePath(String servicePath) {
       this.servicePath = servicePath;
       return this;
@@ -112,9 +118,14 @@ public class ServicesPathConfig {
       this.localePath = localePath;
       return this;
     }
+    public Builder migrationPath(String migrationPath) {
+      this.migrationPath = migrationPath;
+      return this;
+    }
+
     
     public ServicesPathConfig build() {
-      return new ServicesPathConfig(servicePath, articlesPath, pagesPath, workflowsPath, linksPath, releasesPath, localePath);
+      return new ServicesPathConfig(servicePath, migrationPath, articlesPath, pagesPath, workflowsPath, linksPath, releasesPath, localePath);
     }
   }
 }

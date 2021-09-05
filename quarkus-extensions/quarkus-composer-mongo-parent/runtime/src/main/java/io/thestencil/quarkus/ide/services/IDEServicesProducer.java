@@ -60,6 +60,7 @@ public class IDEServicesProducer {
   private String linksPath;
   private String releasesPath;
   private String localePath;
+  private String migrationPath;
   
   public IDEServicesProducer setRuntimeConfig(RuntimeConfig runtimeConfig) {
     this.runtimeConfig = runtimeConfig;
@@ -85,6 +86,7 @@ public class IDEServicesProducer {
   public HandlerContext stencilIdeServicesContext(Vertx vertx, ObjectMapper objectMapper) {
     
     final var paths = ServicesPathConfig.builder()
+      .migrationPath(migrationPath)
       .articlesPath(articlesPath)
       .servicePath(servicePath)
       .pagesPath(pagesPath)
@@ -162,6 +164,10 @@ public class IDEServicesProducer {
 
   public IDEServicesProducer setLocalePath(String localePath) {
     this.localePath = localePath;
+    return this;
+  }
+  public IDEServicesProducer setMigrationPath(String migrationPath) {
+    this.migrationPath = migrationPath;
     return this;
   }
 }

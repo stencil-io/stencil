@@ -50,7 +50,8 @@ public class IDEServicesProducer {
   private String linksPath;
   private String releasesPath;
   private String localePath;
-  
+  private String migrationPath;
+
   public IDEServicesProducer setRuntimeConfig(RuntimeConfig runtimeConfig) {
     this.runtimeConfig = runtimeConfig;
     return this;
@@ -76,6 +77,7 @@ public class IDEServicesProducer {
     
     final var paths = ServicesPathConfig.builder()
       .articlesPath(articlesPath)
+      .migrationPath(migrationPath)
       .servicePath(servicePath)
       .pagesPath(pagesPath)
       .workflowsPath(workflowsPath)
@@ -147,5 +149,10 @@ public class IDEServicesProducer {
   public IDEServicesProducer setLocalePath(String localePath) {
     this.localePath = localePath;
     return this;
+  }  
+  public IDEServicesProducer setMigrationPath(String migrationPath) {
+    this.migrationPath = migrationPath;
+    return this;
   }
+
 }

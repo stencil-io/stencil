@@ -21,6 +21,7 @@ package io.thestencil.client.api.beans;
  */
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -51,9 +52,9 @@ public final class LocalizedSiteBean implements MigrationBuilder.LocalizedSite {
     this.id = Objects.requireNonNull(id, "id");
     this.images = Objects.requireNonNull(images, "images");
     this.locale = Objects.requireNonNull(locale, "locale");
-    this.topics = Map.copyOf(topics);
-    this.blobs = Map.copyOf(blobs);
-    this.links = Map.copyOf(links);
+    this.topics = new LinkedHashMap<>(topics);
+    this.blobs = new LinkedHashMap<>(blobs);
+    this.links = new LinkedHashMap<>(links);
   }
   public LocalizedSiteBean() {
     super();

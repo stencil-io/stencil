@@ -31,9 +31,11 @@ public final class IDEServicesBuildItem extends SimpleBuildItem {
   private final String linksPath;
   private final String releasesPath;
   private final String localePath;
+  private final String migrationPath;
   
   public IDEServicesBuildItem(
       String servicePath, 
+      String migrationPath, 
       String articlesPath, 
       String pagesPath, 
       String workflowsPath,
@@ -48,8 +50,12 @@ public final class IDEServicesBuildItem extends SimpleBuildItem {
     this.linksPath = linksPath;
     this.releasesPath = releasesPath;
     this.localePath = localePath;
+    this.migrationPath = migrationPath;
   }
 
+  public String getMigrationPath() {
+    return migrationPath;
+  }
   public String getServicePath() {
     return servicePath;
   }
@@ -85,6 +91,7 @@ public final class IDEServicesBuildItem extends SimpleBuildItem {
     private String linksPath;
     private String releasesPath;
     private String localePath;
+    private String migrationPath;
 
     public Builder(String servicePath) {
       super();
@@ -114,9 +121,12 @@ public final class IDEServicesBuildItem extends SimpleBuildItem {
       this.localePath = servicePath + "/" + localePath;
       return this;
     }
-    
+    public Builder migrationPath(String migrationPath) {
+      this.migrationPath = servicePath + "/" + migrationPath;
+      return this;
+    }    
     public IDEServicesBuildItem build() {
-      return new IDEServicesBuildItem(servicePath, articlesPath, pagesPath, workflowsPath, linksPath, releasesPath, localePath);
+      return new IDEServicesBuildItem(servicePath, migrationPath, articlesPath, pagesPath, workflowsPath, linksPath, releasesPath, localePath);
     }
   }
 }

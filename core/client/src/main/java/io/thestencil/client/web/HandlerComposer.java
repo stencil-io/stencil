@@ -42,6 +42,7 @@ import io.thestencil.client.api.ImmutableLocaleMutator;
 import io.thestencil.client.api.ImmutableWorkflowArticlePage;
 import io.thestencil.client.api.ImmutableWorkflowMutator;
 import io.thestencil.client.api.UpdateBuilder.PageMutator;
+import io.thestencil.client.api.beans.SitesBean;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpMethod;
@@ -74,6 +75,16 @@ public class HandlerComposer extends HandlerTemplate {
             response, ctx, objectMapper);
       } else {
         catch404("unsupported repository action", ctx, response);
+      }
+      
+    } else if (path.startsWith(ctx.getPaths().getMigrationPath())) {
+
+      if (event.request().method() == HttpMethod.POST) {
+        subscribe(
+            client.migration().importData(read(event, objectMapper, SitesBean.class)), 
+            response, ctx, objectMapper);
+      } else {
+        catch404("unsupported migration action", ctx, response);
       }
       
     } else if (path.startsWith(ctx.getPaths().getArticlesPath())) {

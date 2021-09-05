@@ -64,6 +64,7 @@ public class IDEServicesProcessor {
     buildItems.produce(AdditionalBeanBuildItem.builder().setUnremovable().addBeanClass(IDEServicesProducer.class).build());
     beans.produce(new BeanContainerListenerBuildItem(recorder.configureBuildtimeConfig(
         buildItem.getServicePath(), 
+        buildItem.getMigrationPath(),
         buildItem.getArticlesPath(), 
         buildItem.getPagesPath(), 
         buildItem.getWorkflowsPath(), 
@@ -177,6 +178,7 @@ public class IDEServicesProcessor {
         .workflowsPath("workflows")
         .linksPath("links")
         .releasesPath("releases")
+        .migrationPath("migrations")
         .build();
     
     displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(httpRootPathBuildItem.resolvePath(servicePath), "Stencil Actions"));

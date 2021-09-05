@@ -21,6 +21,7 @@ package io.thestencil.client.api.beans;
  */
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -40,7 +41,7 @@ public final class SitesBean implements MigrationBuilder.Sites {
       Long created,
       Map<String, ? extends MigrationBuilder.LocalizedSite> sites) {
     this.created = Objects.requireNonNull(created, "created");
-    this.sites = Map.copyOf(sites);
+    this.sites = new LinkedHashMap<>(sites);
   }
   public SitesBean() {
     super();
