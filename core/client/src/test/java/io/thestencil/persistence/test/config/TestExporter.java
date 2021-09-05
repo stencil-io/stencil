@@ -157,7 +157,7 @@ public class TestExporter {
     .transform(item -> {
       result.append("  - ").append(ID.apply(item.getId())).append(": ").append(replaceContent(item.getValue(), replacements)).append(System.lineSeparator());
       return item;
-    }).collectItems().asList().await().indefinitely();
+    }).collect().asList().await().indefinitely();
     
     return result.toString();
   }
