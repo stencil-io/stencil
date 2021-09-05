@@ -21,21 +21,21 @@ package io.thestencil.staticontent;
  */
 
 import io.quarkus.builder.item.SimpleBuildItem;
-import io.thestencil.staticontent.api.MarkdownContent;
+import io.thestencil.staticontent.api.StaticContentClient.Markdowns;
 
 public final class StaticContentBuildItem extends SimpleBuildItem {
   private final String projectsUiFinalDestination;
   private final String projectsUiPath;
-  private final MarkdownContent content;
+  private final Markdowns content;
 
-  public StaticContentBuildItem(String projectsUiFinalDestination, String projectsUiPath, MarkdownContent content) {
+  public StaticContentBuildItem(String projectsUiFinalDestination, String projectsUiPath, Markdowns content) {
     super();
     this.projectsUiFinalDestination = projectsUiFinalDestination;
     this.projectsUiPath = projectsUiPath;
     this.content = content;
   }
 
-  public MarkdownContent getContent() {
+  public Markdowns getContent() {
     return content;
   }
   public String getUiFinalDestination() {

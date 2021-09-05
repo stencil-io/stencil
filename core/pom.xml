@@ -13,9 +13,9 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>ide-integration</module>
-    <module>persistence</module>
-    <module>persistence-api</module>
+    <module>composer-integration</module>
+    <module>client</module>
+    <module>client-api</module>
     <module>static-content</module>
   </modules>
 

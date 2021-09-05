@@ -16,7 +16,7 @@
     </dependency>
     <dependency>
       <groupId>io.thestencil</groupId>
-      <artifactId>stencil-ide-integration</artifactId>
+      <artifactId>stencil-composer-integration</artifactId>
     </dependency>
 
     <dependency>

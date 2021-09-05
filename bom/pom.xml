@@ -14,17 +14,17 @@
     <dependencies>
       <dependency>
         <groupId>io.thestencil</groupId>
-        <artifactId>stencil-ide-integration</artifactId>
+        <artifactId>stencil-composer-integration</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>io.thestencil</groupId>
-        <artifactId>stencil-persistence</artifactId>
+        <artifactId>stencil-client</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>io.thestencil</groupId>
-        <artifactId>stencil-persistence-api</artifactId>
+        <artifactId>stencil-client-api</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -51,6 +51,11 @@
       <dependency>
         <groupId>io.thestencil</groupId>
         <artifactId>quarkus-stencil-sc</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.thestencil</groupId>
+        <artifactId>quarkus-stencil-site-pg</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

@@ -27,12 +27,12 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Singleton;
 
 import io.quarkus.arc.DefaultBean;
-import io.thestencil.staticontent.api.SiteContent;
+import io.thestencil.client.api.MigrationBuilder.Sites;
 
 @ApplicationScoped
 public class StaticContentBeanFactory {
   
-  private SiteContent staticContent;
+  private Sites staticContent;
   private Map<String, String> serializedContent;
   private String defaultLocale;
   
@@ -40,7 +40,7 @@ public class StaticContentBeanFactory {
     this.defaultLocale = defaultLocale;
     return this;
   }
-  public StaticContentBeanFactory setStaticContent(SiteContent staticContent) {
+  public StaticContentBeanFactory setStaticContent(Sites staticContent) {
     this.staticContent = staticContent;
     return this;
   }

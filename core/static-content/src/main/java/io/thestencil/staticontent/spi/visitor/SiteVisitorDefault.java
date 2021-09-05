@@ -28,20 +28,16 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import io.thestencil.staticontent.api.SiteContent.Blob;
-import io.thestencil.staticontent.api.SiteContent.Site;
-import io.thestencil.staticontent.api.SiteContent.Topic;
-import io.thestencil.staticontent.api.SiteContent.TopicHeading;
-import io.thestencil.staticontent.api.SiteContent.TopicLink;
-import io.thestencil.staticontent.api.StaticContentClient.ImageData;
-import io.thestencil.staticontent.api.StaticContentClient.LinkData;
-import io.thestencil.staticontent.api.StaticContentClient.TopicData;
-import io.thestencil.staticontent.api.StaticContentClient.TopicNameData;
-import io.thestencil.staticontent.spi.beans.MutableBlob;
-import io.thestencil.staticontent.spi.beans.MutableSite;
-import io.thestencil.staticontent.spi.beans.MutableTopic;
-import io.thestencil.staticontent.spi.beans.MutableTopicHeading;
-import io.thestencil.staticontent.spi.beans.MutableTopicLink;
+import io.thestencil.client.api.MigrationBuilder.LocalizedSite;
+import io.thestencil.client.api.MigrationBuilder.Topic;
+import io.thestencil.client.api.MigrationBuilder.TopicBlob;
+import io.thestencil.client.api.MigrationBuilder.TopicHeading;
+import io.thestencil.client.api.MigrationBuilder.TopicLink;
+import io.thestencil.client.api.beans.TopicBean;
+import io.thestencil.client.api.beans.TopicBlobBean;
+import io.thestencil.client.api.beans.TopicHeadingBean;
+import io.thestencil.client.api.beans.TopicLinkBean;
+import io.thestencil.client.api.beans.LocalizedSiteBean;
 import io.thestencil.staticontent.spi.support.ParserAssert;
 import io.thestencil.staticontent.spi.support.Sha2;
 
@@ -51,7 +47,7 @@ public class SiteVisitorDefault implements SiteVisitor {
   private final Map<String, List<LinkData>> pathLinkData = new HashMap<>();
   private final Map<String, TopicNameData> pathTopicNamesData = new HashMap<>();
   private final Map<String, ImageData> images = new HashMap<>();
-  private final Map<String, Blob> blobs = new HashMap<>();
+  private final Map<String, TopicBlob> blobs = new HashMap<>();
   private final Map<String, TopicLink> links = new HashMap<>();
   
   private final Function<Object, String> serializer;
@@ -90,18 +86,18 @@ public class SiteVisitorDefault implements SiteVisitor {
     pathTopicNamesData.put(names.getPath(), names);
   }
   @Override
-  public Sites visit(String imageUrl) {
+  public SiteVisitorOutput visit(String imageUrl) {
     this.imageUrl = imageUrl;
-    final var builder = ImmutableSites.builder();
+    final var builder = ImmutableSiteVisitorOutput.builder();
     final var sites = this.localeTopicData.entrySet().stream()
         .map(this::visitLocale)
         .collect(Collectors.toList());
     return builder.sites(sites).addAllMessage(messages).build();
   }
 
-  private Site visitLocale(Map.Entry<String, List<TopicData>> localization) {
+  private LocalizedSite visitLocale(Map.Entry<String, List<TopicData>> localization) {
     final var siteTopics = new HashMap<String, Topic>();
-    final var siteBlobs = new HashMap<String, Blob>();
+    final var siteBlobs = new HashMap<String, TopicBlob>();
     final var siteLinks = new HashMap<String, TopicLink>();
     final var visitedTopics = new ArrayList<String>();
     final var parents = new ArrayList<String>();
@@ -114,7 +110,14 @@ public class SiteVisitorDefault implements SiteVisitor {
       final var blob = visitTopicBlob(src);
       final var topicLinks = visitTopicLinks(topicId, locale);
       final var topicHeadings = visitTopicHeadings(src);
-      final var topic = new MutableTopic(topicId, name, topicLinks, parent, blob, topicHeadings);
+      final var topic = TopicBean.builder()
+          .id(topicId)
+          .name(name)
+          .links(topicLinks)
+          .parent(parent)
+          .blob(blob)
+          .headings(topicHeadings)
+          .build(); 
       
       if(parent != null) {
         parents.add(parent);
@@ -135,13 +138,26 @@ public class SiteVisitorDefault implements SiteVisitor {
       final var id = parent;
       final var name = visitTopicName(parent, locale);
       final var topicLinks = visitTopicLinks(id, locale);
-      final var topic = new MutableTopic(id, name, topicLinks, null, null, Collections.emptyList());
+      final var topic = TopicBean.builder()
+          .id(id)
+          .name(name)
+          .links(topicLinks)
+          .build(); 
+      
       topic.getLinks().forEach(link -> siteLinks.put(link, this.links.get(link)));
       siteTopics.put(topic.getId(), topic);
     }
 
-    final var id = Sha2.blobId(serializer.apply(new MutableSite("", imageUrl, locale, siteTopics, siteBlobs, siteLinks)));
-    return new MutableSite(id, imageUrl, locale, siteTopics, siteBlobs, siteLinks);
+    final var result = LocalizedSiteBean.builder()
+        .id("")
+        .images(imageUrl)
+        .locale(locale)
+        .topics(siteTopics)
+        .blobs(siteBlobs)
+        .links(siteLinks)
+        .build();
+    final var id = Sha2.blobId(serializer.apply(result));
+    return LocalizedSiteBean.builder().from(result).id(id).build();
   }
   
   private String visitTopicParent(TopicData topic) {
@@ -186,18 +202,19 @@ public class SiteVisitorDefault implements SiteVisitor {
   private String visitTopicBlob(TopicData topic) {
     String blob = topic.getValue();
     String id = Sha2.blobId(blob);
-    this.blobs.put(id, new MutableBlob(id, blob));
+    this.blobs.put(id, TopicBlobBean.builder().id(id).value(blob).build());
     return id;
   }   
   private List<TopicHeading> visitTopicHeadings(TopicData topic) {
     List<TopicHeading> result = new ArrayList<>();
     int index = 1;
-    for(final var heading : topic.getHeadings()) {
-      result.add(new MutableTopicHeading(
-          String.valueOf(index++), 
-          heading.getName(), 
-          heading.getOrder(), 
-          heading.getLevel()));
+    for(final var heading : topic.getHeadings()) {      
+      result.add(TopicHeadingBean.builder()
+        .id(String.valueOf(index++))
+        .name(heading.getName())
+        .order(heading.getOrder())
+        .level(heading.getLevel())
+        .build());
     }
     return result;
   }   
@@ -218,20 +235,18 @@ public class SiteVisitorDefault implements SiteVisitor {
       final var allLocales = link.getLocale() == null || link.getLocale().isBlank();
       final var topicLocale = link.getLocale() != null && link.getLocale().indexOf(locale) > -1;
       if(allLocales || topicLocale) {
-        final var template = new MutableTopicLink(
-            "template",
-            link.getType(),
-            link.getName(),
-            link.getValue(),
-            link.getWorkflow());
+        
+        final var template = TopicLinkBean.builder()
+          .id("template")
+          .global(link.getGlobal())
+          .type(link.getType())
+          .name(link.getName())
+          .value(link.getValue())
+          .workflow(link.getWorkflow())
+          .build();
         
         String id = Sha2.blobId(template.toString());
-        this.links.put(id, new MutableTopicLink(
-            id,
-            template.getType(),
-            template.getName(),
-            template.getValue(),
-            template.getSecured()));
+        this.links.put(id, TopicLinkBean.builder().from(template).id(id).build());
         result.add(id);
       }
     }

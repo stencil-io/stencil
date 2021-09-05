@@ -22,7 +22,6 @@ package io.thestencil.staticontent.spi;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -31,24 +30,23 @@ import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import io.thestencil.persistence.api.ZoePersistence.SiteState;
-import io.thestencil.staticontent.api.ImmutableImageData;
+import io.thestencil.client.api.MigrationBuilder.Sites;
+import io.thestencil.client.api.StencilClient.SiteState;
+import io.thestencil.client.api.beans.SitesBean;
 import io.thestencil.staticontent.api.ImmutableImageResource;
-import io.thestencil.staticontent.api.ImmutableLinkData;
 import io.thestencil.staticontent.api.ImmutableMarkdown;
-import io.thestencil.staticontent.api.ImmutableMarkdownContent;
-import io.thestencil.staticontent.api.ImmutableTopicData;
-import io.thestencil.staticontent.api.ImmutableTopicNameData;
-import io.thestencil.staticontent.api.MarkdownContent;
-import io.thestencil.staticontent.api.SiteContent;
+import io.thestencil.staticontent.api.ImmutableMarkdowns;
 import io.thestencil.staticontent.api.StaticContentClient;
-import io.thestencil.staticontent.spi.beans.MutableStaticContent;
 import io.thestencil.staticontent.spi.support.ParserAssert;
 import io.thestencil.staticontent.spi.visitor.CSVLinksVisitor;
+import io.thestencil.staticontent.spi.visitor.ImmutableLinkData;
+import io.thestencil.staticontent.spi.visitor.ImmutableTopicData;
 import io.thestencil.staticontent.spi.visitor.MarkdownException;
 import io.thestencil.staticontent.spi.visitor.MarkdownVisitor;
 import io.thestencil.staticontent.spi.visitor.SiteStateVisitor;
 import io.thestencil.staticontent.spi.visitor.SiteVisitor;
+import io.thestencil.staticontent.spi.visitor.SiteVisitor.LinkData;
+import io.thestencil.staticontent.spi.visitor.SiteVisitor.TopicData;
 import io.thestencil.staticontent.spi.visitor.SiteVisitorDefault;
 
 public class StaticContentClientDefault implements StaticContentClient {
@@ -60,142 +58,23 @@ public class StaticContentClientDefault implements StaticContentClient {
     objectMapper.registerModule(new Jdk8Module());
   }
   
-  
   @Override
-  public StaticContentBuilder create() {
-    
-    return new StaticContentBuilder() {
-      private final SiteVisitor visitor = new SiteVisitorDefault((src) -> {
-        try {
-          return objectMapper.writeValueAsString(src);
-        } catch(IOException e) {
-          throw new RuntimeException(e.getMessage(), e);
+  public MarkdownBuilder markdown() {
+    return new MarkdownBuilder() {
+      private Markdowns jsonOfSiteState;
+      private ImmutableMarkdowns.Builder fromFiles;
+      
+      @Override
+      public MarkdownBuilder md(String path, byte[] value) {
+        if(fromFiles == null) {
+          fromFiles = ImmutableMarkdowns.builder();
         }
-      });
-      private String imageUrl;
-      private Long created;
-      
-      @Override
-      public StaticContentBuilder topic(
-          Function<ImmutableTopicData.Builder, TopicData> newTopic) {
-        visitor.visitTopicData(newTopic.apply(ImmutableTopicData.builder()));
-        return this;
-      }
-      @Override
-      public StaticContentBuilder link(
-          Function<ImmutableLinkData.Builder, LinkData> newLink) {
-        visitor.visitLinkData(newLink.apply(ImmutableLinkData.builder()));
-        return this;
-      }
-      @Override
-      public StaticContentBuilder image(
-          Function<ImmutableImageData.Builder, ImageData> newImage) {
-        visitor.visitImageData(newImage.apply(ImmutableImageData.builder()));
-        return this;
-      }
-      @Override
-      public StaticContentBuilder topicName(
-          Function<ImmutableTopicNameData.Builder, TopicNameData> newTopicNames) {
-        visitor.visitTopicNameData(newTopicNames.apply(ImmutableTopicNameData.builder()));
-        return this;
-      }
-      @Override
-      public StaticContentBuilder imageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-        return this;
-      }
-      @Override
-      public StaticContentBuilder created(long created) {
-        this.created = created;
-        return this;
-      }
-      
-      @Override
-      public SiteContent build() {
-        ParserAssert.notEmpty(imageUrl, () -> "imageUrl can't be empty!");
-        ParserAssert.notNull(created, () -> "created can't be empty!");
-      
-        final var visited = visitor.visit(imageUrl);
-        final var content = visited.getSites().stream().collect(
-            Collectors.toMap(e -> e.getLocale(), e -> e)
-        );
-        return new MutableStaticContent(created, content);
-      }
-      
-    };
-  }
-
-  
-  public static Builder builder() {
-    return new Builder();
-  }
-  
-  public static class Builder {
-    public StaticContentClientDefault build() {
-      return new StaticContentClientDefault();
-    }
-  }
-
-  @Override
-  public StaticContentBuilder from(SiteState site) {
-    final var content = new SiteStateVisitor().visit(site);
-    return from(content);
-  }
-  
-  @Override
-  public StaticContentBuilder from(MarkdownContent content) {
-    final var client = StaticContentClientDefault.builder().build().create();
-    content.getValues()
-    .forEach(value -> client.topic(builder -> builder
-        .path(value.getPath())
-        .locale(value.getLocale())
-        .headings(value.getHeadings())
-        .images(value.getImages())
-        .value(value.getValue())
-        .build()));
-  
-    content.getLinks()
-    .forEach(link -> link.getLocale().forEach(locale -> client.link(builder -> builder
-          .id(link.getId())
-          .path(link.getPath())
-          .locale(locale)
-          .type(link.getType())
-          .name(link.getDesc())
-          .value(link.getValue())
-          .workflow(link.getType().equals(SiteStateVisitor.LINK_TYPE_WORKFLOW))
-          .build()
-        )));
-    return client;
-  }
-
-
-  @Override
-  public SiteState parseSiteState(String json) {
-    try {
-      return objectMapper.readValue(json, SiteState.class);
-    } catch (IOException e) {
-      throw new RuntimeException(e.getMessage(), e);
-    }
-  
-  }
-  @Override
-  public MarkdownContent parseMd(SiteState site) {
-    final var content = new SiteStateVisitor().visit(site);
-    return content;
-  }
-
-  @Override
-  public FileParser parseFiles() {
-    return new FileParser() {
-      private final ImmutableMarkdownContent.Builder result = ImmutableMarkdownContent.builder();
-      @Override
-      public FileParser add(String path, byte[] value) {
         if (!path.toLowerCase().endsWith(".md")) {
           final var cleanName = path.toLowerCase();
           if(cleanName.equals("links.csv")) {
-            result.addAllLinks(new CSVLinksVisitor(path).visit(value));
+            fromFiles.addAllLinks(new CSVLinksVisitor(path).visit(value));
           } else if(cleanName.startsWith("images/")) {
-            result.addImages(ImmutableImageResource.builder().path(path).value(value).build());
+            fromFiles.addImages(ImmutableImageResource.builder().path(path).value(value).build());
           }
           return this;
         }
@@ -226,7 +105,7 @@ public class StaticContentClientDefault implements StaticContentClient {
             throw new MarkdownException("markdown must have atleast one h1(line starting with one # my super menu)");
           }
           
-          result.addValues(ImmutableMarkdown.builder()
+          fromFiles.addValues(ImmutableMarkdown.builder()
               .path(cleanPath)
               .locale(locale)
               .value(content)
@@ -234,16 +113,125 @@ public class StaticContentClientDefault implements StaticContentClient {
               .addAllImages(ast.getImages())
               .build());
           
+          
           return this;
         } catch (Exception e) {
           throw new MarkdownException("Failed to parse markdown: '" + path + "', error: " + e.getMessage(), e);
         }
       }
-
+      
       @Override
-      public MarkdownContent build() {
-        return result.build();
+      public MarkdownBuilder json(String jsonOfSiteState) {
+        try {
+          final var site = objectMapper.readValue(jsonOfSiteState, SiteState.class);
+          this.jsonOfSiteState = new SiteStateVisitor().visit(site);
+        } catch (IOException e) {
+          throw new RuntimeException(e.getMessage(), e);
+        }
+        return this;
+      }
+      
+      @Override
+      public Markdowns build() {
+        ParserAssert.isTrue(jsonOfSiteState != null || fromFiles != null, () -> "json or md files must be provided!");
+        ParserAssert.isTrue(jsonOfSiteState == null || fromFiles == null, () -> "json or md files both can't be provided!");
+        
+        if(fromFiles != null) {
+          return fromFiles.build();
+        }
+        return this.jsonOfSiteState;
       }
     };
   }
+  @Override
+  public SitesBuilder sites() {
+    return new SitesBuilder() {
+      private final SiteVisitor visitor = new SiteVisitorDefault(StaticContentClientDefault::writeAsString);
+      private String imageUrl;
+      private Long created;
+      private Markdowns markdowns;
+      
+      @Override
+      public SitesBuilder source(Markdowns markdowns) {
+        this.markdowns = markdowns;
+        return this;
+      }
+      @Override
+      public SitesBuilder imagePath(String imagePath) {
+        this.imageUrl = imagePath;
+        return this;
+      }
+      @Override
+      public SitesBuilder created(long created) {
+        this.created = created;
+        return this;
+      }
+      private SitesBuilder topic(
+          Function<ImmutableTopicData.Builder, TopicData> newTopic) {
+        visitor.visitTopicData(newTopic.apply(ImmutableTopicData.builder()));
+        return this;
+      }
+      private SitesBuilder link(
+          Function<ImmutableLinkData.Builder, LinkData> newLink) {
+        visitor.visitLinkData(newLink.apply(ImmutableLinkData.builder()));
+        return this;
+      }
+      @Override
+      public Sites build() {
+        ParserAssert.notEmpty(imageUrl, () -> "imageUrl can't be empty!");
+        ParserAssert.notNull(created, () -> "created can't be empty!");
+        ParserAssert.notNull(markdowns, () -> "markdowns can't be empty!");
+
+        markdowns.getValues()
+        .forEach(value -> topic(builder -> builder
+        .path(value.getPath())
+        .locale(value.getLocale())
+        .headings(value.getHeadings())
+        .images(value.getImages())
+        .value(value.getValue())
+        .build()));
+      
+        markdowns.getLinks()
+        .forEach(link -> link.getLocale().forEach(locale -> link(builder -> builder
+          .id(link.getId())
+          .path(link.getPath())
+          .locale(locale)
+          .type(link.getType())
+          .name(link.getDesc())
+          .global(link.getGlobal())
+          .value(link.getValue())
+          .workflow(link.getType().equals(SiteStateVisitor.LINK_TYPE_WORKFLOW))
+          .build()
+        )));
+        
+        final var visited = visitor.visit(imageUrl);
+        final var content = visited.getSites().stream().collect(
+          Collectors.toMap(e -> e.getLocale(), e -> e)
+        );
+        return SitesBean.builder()
+            .created(created)
+            .sites(content)
+            .build();
+      }
+    };
+  }
+  
+  
+  private static String writeAsString(Object anyObject) {
+    try {
+      return objectMapper.writeValueAsString(anyObject);
+    } catch(IOException e) {
+      throw new RuntimeException(e.getMessage(), e);
+    }
+  }
+  public static Builder builder() {
+    return new Builder();
+  }
+  
+  public static class Builder {
+    public StaticContentClientDefault build() {
+      return new StaticContentClientDefault();
+    }
+  }
+
 }

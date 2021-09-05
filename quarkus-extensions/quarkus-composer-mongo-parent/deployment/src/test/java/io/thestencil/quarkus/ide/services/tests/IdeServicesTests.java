@@ -21,6 +21,7 @@ package io.thestencil.quarkus.ide.services.tests;
  */
 
 import java.util.Arrays;
+
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -30,17 +31,17 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import io.quarkus.test.QuarkusUnitTest;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import io.thestencil.persistence.api.ImmutableArticleMutator;
-import io.thestencil.persistence.api.ImmutableCreateArticle;
-import io.thestencil.persistence.api.ImmutableCreateLink;
-import io.thestencil.persistence.api.ImmutableCreateLocale;
-import io.thestencil.persistence.api.ImmutableCreatePage;
-import io.thestencil.persistence.api.ImmutableCreateRelease;
-import io.thestencil.persistence.api.ImmutableCreateWorkflow;
-import io.thestencil.persistence.api.ImmutableLinkMutator;
-import io.thestencil.persistence.api.ImmutableLocaleMutator;
-import io.thestencil.persistence.api.ImmutablePageMutator;
-import io.thestencil.persistence.api.ImmutableWorkflowMutator;
+import io.thestencil.client.api.ImmutableArticleMutator;
+import io.thestencil.client.api.ImmutableCreateArticle;
+import io.thestencil.client.api.ImmutableCreateLink;
+import io.thestencil.client.api.ImmutableCreateLocale;
+import io.thestencil.client.api.ImmutableCreatePage;
+import io.thestencil.client.api.ImmutableCreateRelease;
+import io.thestencil.client.api.ImmutableCreateWorkflow;
+import io.thestencil.client.api.ImmutableLinkMutator;
+import io.thestencil.client.api.ImmutableLocaleMutator;
+import io.thestencil.client.api.ImmutablePageMutator;
+import io.thestencil.client.api.ImmutableWorkflowMutator;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 

@@ -35,7 +35,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 import io.thestencil.staticontent.api.ImmutableLinkResource;
-import io.thestencil.staticontent.api.MarkdownContent.LinkResource;
+import io.thestencil.staticontent.api.StaticContentClient.LinkResource;
 
 public class CSVLinksVisitor {
   private String file;
@@ -92,6 +92,7 @@ public class CSVLinksVisitor {
         .value(value)
         .type(type)
         .workflow(SiteStateVisitor.LINK_TYPE_WORKFLOW.equals(type))
+        .global(path == null || path.isBlank())
         .build();
   }
   

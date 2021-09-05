@@ -32,10 +32,10 @@ import com.fasterxml.jackson.datatype.guava.GuavaModule;
 
 import io.quarkus.jackson.ObjectMapperCustomizer;
 import io.resys.thena.docdb.spi.pgsql.DocDBFactory;
-import io.thestencil.persistence.spi.ZoePersistenceImpl;
-import io.thestencil.persistence.spi.serializers.ZoeDeserializer;
-import io.thestencil.persistence.web.HandlerContext;
-import io.thestencil.persistence.web.ServicesPathConfig;
+import io.thestencil.client.spi.StencilClientImpl;
+import io.thestencil.client.spi.serializers.ZoeDeserializer;
+import io.thestencil.client.web.HandlerContext;
+import io.thestencil.client.web.ServicesPathConfig;
 import io.vertx.mutiny.core.Vertx;
 import io.vertx.mutiny.pgclient.PgPool;
 
@@ -87,7 +87,7 @@ public class IDEServicesProducer {
     
     final var docDb = DocDBFactory.create().client(pgPool).build();
     final var deserializer = new ZoeDeserializer(objectMapper);
-    final var client = ZoePersistenceImpl.builder()
+    final var client = StencilClientImpl.builder()
         .config((builder) -> builder
             .client(docDb)
             .repoName(runtimeConfig.repo.repoName)

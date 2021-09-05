@@ -29,7 +29,7 @@ import io.quarkus.arc.runtime.BeanContainerListener;
 import io.quarkus.runtime.annotations.Recorder;
 import io.quarkus.security.identity.CurrentIdentityAssociation;
 import io.quarkus.vertx.http.runtime.CurrentVertxRequest;
-import io.thestencil.staticontent.api.SiteContent;
+import io.thestencil.client.api.MigrationBuilder.Sites;
 import io.thestencil.staticontent.handlers.SiteResourceHandler;
 import io.vertx.core.Handler;
 import io.vertx.core.json.Json;
@@ -41,7 +41,7 @@ import io.vertx.ext.web.RoutingContext;
 public class StaticContentRecorder {
 
   public BeanContainerListener listener(
-      SiteContent staticContent,
+      Sites staticContent,
       String defaultLocale) {
     
     final var contentValues = staticContent.getSites().entrySet().stream()

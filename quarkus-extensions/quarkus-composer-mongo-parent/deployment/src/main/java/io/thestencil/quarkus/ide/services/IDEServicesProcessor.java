@@ -39,7 +39,7 @@ import io.quarkus.vertx.http.deployment.BodyHandlerBuildItem;
 import io.quarkus.vertx.http.deployment.HttpRootPathBuildItem;
 import io.quarkus.vertx.http.deployment.RouteBuildItem;
 import io.quarkus.vertx.http.deployment.devmode.NotFoundPageDisplayableEndpointBuildItem;
-import io.thestencil.persistence.api.Serializers;
+import io.thestencil.client.api.Serializers;
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
 

@@ -43,10 +43,10 @@ import io.quarkus.jackson.ObjectMapperCustomizer;
 import io.quarkus.mongodb.impl.ReactiveMongoClientImpl;
 import io.resys.thena.docdb.spi.DocDBCodecProvider;
 import io.resys.thena.docdb.spi.DocDBFactory;
-import io.thestencil.persistence.spi.ZoePersistenceImpl;
-import io.thestencil.persistence.spi.serializers.ZoeDeserializer;
-import io.thestencil.persistence.web.HandlerContext;
-import io.thestencil.persistence.web.ServicesPathConfig;
+import io.thestencil.client.spi.StencilClientImpl;
+import io.thestencil.client.spi.serializers.ZoeDeserializer;
+import io.thestencil.client.web.HandlerContext;
+import io.thestencil.client.web.ServicesPathConfig;
 import io.vertx.mutiny.core.Vertx;
 
 @ApplicationScoped
@@ -103,7 +103,7 @@ public class IDEServicesProducer {
     
     final var docDb = DocDBFactory.create().db(runtimeConfig.db.dbName).client(mongo).build();
     final var deserializer = new ZoeDeserializer(objectMapper);
-    final var client = ZoePersistenceImpl.builder()
+    final var client = StencilClientImpl.builder()
         .config((builder) -> builder
             .client(docDb)
             .repoName(runtimeConfig.repo.repoName)

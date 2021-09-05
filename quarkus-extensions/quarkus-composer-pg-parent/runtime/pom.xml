@@ -12,7 +12,7 @@
   <dependencies>
     <dependency>
       <groupId>io.thestencil</groupId>
-      <artifactId>stencil-persistence</artifactId>
+      <artifactId>stencil-client</artifactId>
     </dependency>
     <dependency>
       <groupId>io.resys.hdes</groupId>

@@ -30,7 +30,7 @@ import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import io.thestencil.persistence.api.ZoePersistence.SiteState;
+import io.thestencil.client.api.StencilClient.SiteState;
 import io.thestencil.staticontent.tests.SiteTest;
 
 public class TestUtils {

@@ -2,22 +2,22 @@
   "created" : 1,
   "sites" : {
     "en" : {
-      "id" : "0849c33fe4809754b1a57e58f3eace5a",
+      "id" : "357fce536dac9591dab36bbc6a0ca60c",
       "images" : "/images",
       "locale" : "en",
       "topics" : {
         "test-article" : {
           "id" : "test-article",
           "name" : "Header 1",
-          "links" : [ "446f87877962da61ac3d01e1af27675d" ],
-          "parent" : null,
-          "blob" : "6f1514d1ae57930d4fd6b8a4d42f13aa",
+          "links" : [ "87064ae8fd00873452180450e514d992", "17d92e81f48edfba9177bb55e987a5b4" ],
           "headings" : [ {
             "id" : "1",
             "name" : "# Header 1",
             "order" : 1,
             "level" : 1
-          } ]
+          } ],
+          "parent" : null,
+          "blob" : "6f1514d1ae57930d4fd6b8a4d42f13aa"
         }
       },
       "blobs" : {
@@ -27,12 +27,21 @@
         }
       },
       "links" : {
-        "446f87877962da61ac3d01e1af27675d" : {
-          "id" : "446f87877962da61ac3d01e1af27675d",
+        "17d92e81f48edfba9177bb55e987a5b4" : {
+          "id" : "17d92e81f48edfba9177bb55e987a5b4",
+          "type" : "workflow",
+          "name" : "workflow name",
+          "value" : "cool name",
+          "global" : true,
+          "workflow" : true
+        },
+        "87064ae8fd00873452180450e514d992" : {
+          "id" : "87064ae8fd00873452180450e514d992",
           "type" : "internal",
           "name" : "description",
           "value" : "www.example.com",
-          "secured" : false
+          "global" : false,
+          "workflow" : false
         }
       }
     }

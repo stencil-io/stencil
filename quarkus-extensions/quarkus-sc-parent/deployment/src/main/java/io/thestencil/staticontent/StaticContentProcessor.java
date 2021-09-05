@@ -21,7 +21,6 @@ package io.thestencil.staticontent;
  */
 
 import java.io.FileInputStream;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -55,13 +54,9 @@ import io.quarkus.vertx.http.deployment.HttpRootPathBuildItem;
 import io.quarkus.vertx.http.deployment.NonApplicationRootPathBuildItem;
 import io.quarkus.vertx.http.deployment.RouteBuildItem;
 import io.quarkus.vertx.http.deployment.devmode.NotFoundPageDisplayableEndpointBuildItem;
-import io.thestencil.persistence.api.ZoePersistence.SiteState;
-import io.thestencil.staticontent.StaticContentBeanFactory;
-import io.thestencil.staticontent.StaticContentRecorder;
-import io.thestencil.staticontent.api.MarkdownContent;
+import io.thestencil.staticontent.api.StaticContentClient.Markdowns;
 import io.thestencil.staticontent.spi.StaticContentClientDefault;
 import io.vertx.core.Handler;
-import io.vertx.core.json.Json;
 import io.vertx.ext.web.RoutingContext;
 
 public class StaticContentProcessor {
@@ -100,8 +95,8 @@ public class StaticContentProcessor {
     
     
     final var client = StaticContentClientDefault.builder().build()
-        .from(buildItem.getContent())
-        .imageUrl(buildItem.getUiPath())
+        .sites().source(buildItem.getContent())
+        .imagePath(buildItem.getUiPath())
         .created(System.currentTimeMillis());
     final var content = client.build();
     final var contentValues = content.getSites().entrySet().stream()
@@ -197,13 +192,13 @@ public class StaticContentProcessor {
           .copyResourcesForDevOrTest(liveReloadBuildItem, curateOutcomeBuildItem, launch, artifact, webjarPrefix + artifact.getVersion(), false);
       String tempAbsolutePath = tempPath.toAbsolutePath().toString();
       
-      final var builder = StaticContentClientDefault.builder().build().parseFiles();
+      final var builder = StaticContentClientDefault.builder().build().markdown();
       Files.walk(tempPath).filter(Files::isRegularFile).forEach(file -> {
         try {
           String absolutePath = file.toAbsolutePath().toString();
           String path = absolutePath.substring(tempAbsolutePath.length() + 1);
           byte[] bytes = FileUtil.readFileContents(new FileInputStream(file.toFile()));
-          builder.add(path, bytes);
+          builder.md(path, bytes);
         } catch(IOException e) {
           throw new ConfigurationError("Failed to read file: '" + file + "'!");
         }
@@ -226,7 +221,7 @@ public class StaticContentProcessor {
     // native image
     final String frontendPath = httpRootPathBuildItem.resolvePath(config.imagePath);
     final Map<String, byte[]> files = WebJarUtil.copyResourcesForProduction(curateOutcomeBuildItem, artifact, webjarPrefix + artifact.getVersion());
-    final var builder = StaticContentClientDefault.builder().build().parseFiles();
+    final var builder = StaticContentClientDefault.builder().build().markdown();
     
     for (Map.Entry<String, byte[]> file : files.entrySet()) {
       String fileName = file.getKey();
@@ -239,7 +234,7 @@ public class StaticContentProcessor {
         generatedResources.produce(new GeneratedResourceBuildItem(fileName, content));
         nativeImage.produce(new NativeImageResourceBuildItem(fileName));
       }
-      builder.add(file.getKey(), file.getValue());
+      builder.md(file.getKey(), file.getValue());
     }      
     buildProducer.produce(new StaticContentBuildItem(FINAL_DESTINATION, frontendPath, builder.build()));
     
@@ -265,16 +260,15 @@ public class StaticContentProcessor {
     
     // dev envir    
     if (launch.getLaunchMode().isDevOrTest()) {
-      SiteState site;
+      String site;
       try {
         final var stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(tempPath.toString());
-        String content = IOUtils.toString(stream, StandardCharsets.UTF_8);
-        site = StaticContentClientDefault.builder().build().parseSiteState(content);        
+        site = IOUtils.toString(stream, StandardCharsets.UTF_8);        
       } catch(IOException e) {
         throw new ConfigurationError("Failed to read file: '" + tempPath + "'!");
       }
       
-      final MarkdownContent md = StaticContentClientDefault.builder().build().parseMd(site);
+      final Markdowns md = StaticContentClientDefault.builder().build().markdown().json(site).build();
       final String frontendPath = httpRootPathBuildItem.resolvePath(config.imagePath);
       buildProducer.produce(new StaticContentBuildItem(tempPath.toAbsolutePath().toString(), frontendPath, md));
       displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(httpRootPathBuildItem.resolvePath(frontendPath + "/"), "Zoe Static Content"));
@@ -284,19 +278,18 @@ public class StaticContentProcessor {
     
     // native image
     final String frontendPath = httpRootPathBuildItem.resolvePath(config.imagePath);
-    final SiteState site;
+    final String site;
     
     try {
       final var stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(tempPath.toString());
-      String content = IOUtils.toString(stream, StandardCharsets.UTF_8);
-      site = StaticContentClientDefault.builder().build().parseSiteState(content);
+      site = IOUtils.toString(stream, StandardCharsets.UTF_8);
     } catch(IOException e) {
       throw new ConfigurationError("Failed to read file: '" + tempPath + "'!");
     }
 
     String fileName = tempPath.toFile().getName().toString();
     fileName = FINAL_DESTINATION + "/" + fileName;
-    final MarkdownContent md = StaticContentClientDefault.builder().build().parseMd(site);
+    final Markdowns md = StaticContentClientDefault.builder().build().markdown().json(site).build();
     buildProducer.produce(new StaticContentBuildItem(FINAL_DESTINATION, frontendPath, md));
   }
 }

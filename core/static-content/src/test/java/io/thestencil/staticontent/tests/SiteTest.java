@@ -23,7 +23,6 @@ package io.thestencil.staticontent.tests;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import io.thestencil.persistence.api.ZoePersistence.SiteState;
 import io.thestencil.staticontent.api.StaticContentClient;
 import io.thestencil.staticontent.spi.StaticContentClientDefault;
 import io.thestencil.staticontent.tests.config.TestUtils;
@@ -33,12 +32,17 @@ public class SiteTest {
   
   @Test
   public void buildSite() {
-    final SiteState site = TestUtils.getSite("site.json");
 
-    final var content = StaticContentClientDefault.builder().build()
-        .from(site).imageUrl("/images").created(1l)
+    final var md = StaticContentClientDefault
+        .builder().build()
+        .markdown().json(TestUtils.toString("site.json"))
         .build();
-  
+
+    final var content = StaticContentClientDefault
+        .builder().build()
+        .sites().imagePath("/images").created(1l)
+        .source(md)
+        .build();
     
     String expected = TestUtils.toString("content.json");
     String actual = TestUtils.prettyPrint(content);

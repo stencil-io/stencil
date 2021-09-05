@@ -24,18 +24,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import io.thestencil.persistence.api.ZoePersistence.Article;
-import io.thestencil.persistence.api.ZoePersistence.Entity;
-import io.thestencil.persistence.api.ZoePersistence.Link;
-import io.thestencil.persistence.api.ZoePersistence.Locale;
-import io.thestencil.persistence.api.ZoePersistence.SiteState;
-import io.thestencil.persistence.api.ZoePersistence.Workflow;
+import io.thestencil.client.api.StencilClient.Article;
+import io.thestencil.client.api.StencilClient.Entity;
+import io.thestencil.client.api.StencilClient.Link;
+import io.thestencil.client.api.StencilClient.Locale;
+import io.thestencil.client.api.StencilClient.SiteState;
+import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.staticontent.api.ImmutableLinkResource;
 import io.thestencil.staticontent.api.ImmutableMarkdown;
-import io.thestencil.staticontent.api.ImmutableMarkdownContent;
-import io.thestencil.staticontent.api.MarkdownContent;
-import io.thestencil.staticontent.api.MarkdownContent.LinkResource;
-import io.thestencil.staticontent.api.MarkdownContent.Markdown;
+import io.thestencil.staticontent.api.ImmutableMarkdowns;
+import io.thestencil.staticontent.api.StaticContentClient.LinkResource;
+import io.thestencil.staticontent.api.StaticContentClient.Markdown;
+import io.thestencil.staticontent.api.StaticContentClient.Markdowns;
 
 public class SiteStateVisitor {
   
@@ -43,9 +43,9 @@ public class SiteStateVisitor {
   private final List<Entity<Locale>> locales = new ArrayList<>();
   private SiteState entity;
   
-  public MarkdownContent visit(SiteState entity) {
+  public Markdowns visit(SiteState entity) {
     this.entity = entity;
-    final var result = ImmutableMarkdownContent.builder()
+    final var result = ImmutableMarkdowns.builder()
         .addAllLocales(visitLocales(entity).stream().map(e -> e.getBody().getValue()).collect(Collectors.toList()));
     
     for(final var article : entity.getArticles().values()) {
@@ -64,13 +64,12 @@ public class SiteStateVisitor {
 
   private List<LinkResource> visitWorkflows(Entity<Workflow> link) {
     final List<LinkResource> result = new ArrayList<>();
+    final var locale = locales.stream().filter(l -> link.getBody().getLocale().equals(l.getId())).findFirst();
+    if(locale.isEmpty()) {
+      return result;
+    }    
     
     for(final var articleId : link.getBody().getArticles()) {
-      final var locale = locales.stream().filter(l -> link.getBody().getLocale().equals(l.getId())).findFirst();
-      if(locale.isEmpty()) {
-        continue;
-      }
-      
       final var article = entity.getArticles().get(articleId);
       final var resource = ImmutableLinkResource.builder()
           .id(link.getId() + "-" + locale.get().getBody().getValue())
@@ -78,23 +77,38 @@ public class SiteStateVisitor {
           .desc(link.getBody().getName())
           .path(visitArticlePath(article))
           .value(link.getBody().getContent())
-          .workflow(true)
+          .workflow(true).global(false)
           .type(LINK_TYPE_WORKFLOW)
           .build();
       result.add(resource);
     }
+
+    if(link.getBody().getArticles().isEmpty()) {
+      for(Entity<Article> article : entity.getArticles().values()) {
+        final var resource = ImmutableLinkResource.builder()
+            .id(link.getId() + "-" + locale.get().getBody().getValue())
+            .addLocale(locale.get().getBody().getValue())
+            .desc(link.getBody().getName())
+            .path(visitArticlePath(article))
+            .value(link.getBody().getContent())
+            .workflow(true).global(true)
+            .type(LINK_TYPE_WORKFLOW)
+            .build();
+        result.add(resource);
+      }
+    }
+    
     return result;
   }
   
   private List<LinkResource> visitLinks(Entity<Link> link) {
     final List<LinkResource> result = new ArrayList<>();
+    final var locale = locales.stream().filter(l -> link.getBody().getLocale().equals(l.getId())).findFirst();
+    if(locale.isEmpty()) {
+      return result;
+    }
     
     for(final var articleId : link.getBody().getArticles()) {
-      final var locale = locales.stream().filter(l -> link.getBody().getLocale().equals(l.getId())).findFirst();
-      if(locale.isEmpty()) {
-        continue;
-      }
-      
       final var article = entity.getArticles().get(articleId);
       final var resource = ImmutableLinkResource.builder()
           .id(link.getId() + "-" + locale.get().getBody().getValue())
@@ -102,11 +116,27 @@ public class SiteStateVisitor {
           .desc(link.getBody().getDescription())
           .path(visitArticlePath(article))
           .value(link.getBody().getContent())
-          .workflow(false)
+          .workflow(false).global(false)
           .type(link.getBody().getContentType())
           .build();
       result.add(resource);
     }
+    
+    if(link.getBody().getArticles().isEmpty()) {
+      for(Entity<Article> article : entity.getArticles().values()) {
+        final var resource = ImmutableLinkResource.builder()
+            .id(link.getId() + "-" + locale.get().getBody().getValue())
+            .addLocale(locale.get().getBody().getValue())
+            .desc(link.getBody().getDescription())
+            .path(visitArticlePath(article))
+            .value(link.getBody().getContent())
+            .workflow(false).global(true)
+            .type(link.getBody().getContentType())
+            .build();
+        result.add(resource);
+      }
+    }
+    
     return result;
   }
   

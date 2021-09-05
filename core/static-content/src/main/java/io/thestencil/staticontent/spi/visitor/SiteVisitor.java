@@ -21,28 +21,27 @@ package io.thestencil.staticontent.spi.visitor;
  */
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
 import org.immutables.value.Value;
 
-import io.thestencil.staticontent.api.SiteContent.Site;
-import io.thestencil.staticontent.api.StaticContentClient.ImageData;
-import io.thestencil.staticontent.api.StaticContentClient.LinkData;
-import io.thestencil.staticontent.api.StaticContentClient.TopicData;
-import io.thestencil.staticontent.api.StaticContentClient.TopicNameData;
+import io.thestencil.client.api.MigrationBuilder.LocalizedSite;
+import io.thestencil.staticontent.api.StaticContentClient.Heading;
+import io.thestencil.staticontent.api.StaticContentClient.ImageTag;
 
 public interface SiteVisitor {
   void visitTopicData(TopicData topic);
   void visitLinkData(LinkData link);
   void visitImageData(ImageData image);
   void visitTopicNameData(TopicNameData names);
-  Sites visit(String imageUrl);
+  SiteVisitorOutput visit(String imageUrl);
   
   @Value.Immutable
-  interface Sites {
+  interface SiteVisitorOutput {
     List<Message> getMessage();
-    List<Site> getSites();
+    List<LocalizedSite> getSites();
   }
   
   @Value.Immutable
@@ -50,5 +49,38 @@ public interface SiteVisitor {
     String getText();
     @Nullable
     Object getObject();
+  }
+
+  @Value.Immutable
+  interface TopicData {
+    String getPath();
+    String getLocale();
+    String getValue();
+    List<Heading> getHeadings();
+    List<ImageTag> getImages();
+  }
+
+  @Value.Immutable
+  interface TopicNameData {
+    String getPath();
+    Map<String, String> getLocale();
+  }
+
+  @Value.Immutable
+  interface LinkData {
+    String getId();
+    String getPath();
+    String getName();
+    String getType();
+    String getValue();
+    String getLocale();
+    Boolean getGlobal();
+    Boolean getWorkflow();
+  }
+
+  @Value.Immutable
+  interface ImageData {
+    String getPath();
+    byte[] getValue();
   }
 }

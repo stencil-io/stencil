@@ -1,5 +1,13 @@
 package io.thestencil.staticontent.api;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import org.immutables.value.Value;
+
+import io.thestencil.client.api.MigrationBuilder.Sites;
+
 /*-
  * #%L
  * stencil-static-content
@@ -20,71 +28,71 @@ package io.thestencil.staticontent.api;
  * #L%
  */
 
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-
-import org.immutables.value.Value;
-
-import io.thestencil.persistence.api.ZoePersistence.SiteState;
-import io.thestencil.staticontent.api.MarkdownContent.Heading;
-import io.thestencil.staticontent.api.MarkdownContent.ImageTag;
-
 public interface StaticContentClient {
-  StaticContentBuilder create();
-  StaticContentBuilder from(SiteState site);
-  StaticContentBuilder from(MarkdownContent site);
   
+  MarkdownBuilder markdown();
+  SitesBuilder sites();
   
-  SiteState parseSiteState(String json);
-  MarkdownContent parseMd(SiteState site);
-  FileParser parseFiles();
-  
-  interface FileParser {
-    FileParser add(String path, byte[] value);
-    MarkdownContent build();
+  interface SitesBuilder {
+    SitesBuilder imagePath(String imagePath);
+    SitesBuilder created(long created);
+    SitesBuilder source(Markdowns markdowns);
+    Sites build();
   }
   
-  interface StaticContentBuilder {
-    StaticContentBuilder topic(Function<ImmutableTopicData.Builder, TopicData> newTopic);
-    StaticContentBuilder topicName(Function<ImmutableTopicNameData.Builder, TopicNameData> newTopicNames);
-    StaticContentBuilder link(Function<ImmutableLinkData.Builder, LinkData> newLink);
-    StaticContentBuilder image(Function<ImmutableImageData.Builder, ImageData> newImage);
-    StaticContentBuilder imageUrl(String imageUrl);
-    StaticContentBuilder created(long created);
-    SiteContent build();
+  interface MarkdownBuilder {
+    MarkdownBuilder json(String jsonOfSiteState);
+    MarkdownBuilder md(String path, byte[] value);
+    Markdowns build();
   }
   
   @Value.Immutable
-  interface TopicData {
+  interface Markdowns {
+    List<Markdown> getValues();
+    List<ImageResource> getImages();
+    List<LinkResource> getLinks();
+    List<String> getLocales();
+  }
+  @Value.Immutable
+  interface LinkResource {
+    String getId();
+    String getType();
     String getPath();
+    String getValue();
+    List<String> getLocale();
+    Boolean getWorkflow();
+    Boolean getGlobal();
+    @Nullable
+    String getDesc();
+  }
+  
+  @Value.Immutable
+  interface ImageResource {
+    String getPath();
+    byte[] getValue();
+  }
+  
+  @Value.Immutable
+  interface Markdown {
     String getLocale();
+    String getPath();
     String getValue();
     List<Heading> getHeadings();
     List<ImageTag> getImages();
   }
-
-  @Value.Immutable
-  interface TopicNameData {
-    String getPath();
-    Map<String, String> getLocale();
-  }
-
   
   @Value.Immutable
-  interface LinkData {
-    String getId();
-    String getPath();
+  interface Heading {
+    Integer getOrder();
+    Integer getLevel();
     String getName();
-    String getType();
-    String getValue();
-    String getLocale();
-    Boolean getWorkflow();
   }
   
   @Value.Immutable
-  interface ImageData {
+  interface ImageTag {
+    Integer getLine();
+    String getTitle();
+    String getAltText();
     String getPath();
-    byte[] getValue();
   }
 }
