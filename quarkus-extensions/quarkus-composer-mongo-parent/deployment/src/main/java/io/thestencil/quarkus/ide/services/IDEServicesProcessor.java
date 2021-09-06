@@ -120,6 +120,7 @@ public class IDEServicesProcessor {
     };
     
     addRoute.accept(buildItem.getServicePath());
+    addRoute.accept(buildItem.getMigrationPath());
     addRoute.accept(buildItem.getArticlesPath());
     addRoute.accept(buildItem.getPagesPath());
     addRoute.accept(buildItem.getLinksPath());

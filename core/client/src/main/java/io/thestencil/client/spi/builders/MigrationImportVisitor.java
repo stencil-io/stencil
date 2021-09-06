@@ -206,7 +206,7 @@ public class MigrationImportVisitor {
     int order = 0;    
     try {
       order = Integer.parseInt(name.substring(0, 3));
-      name = topic.getName().substring(4);
+      name = name.substring(4);
     } catch(Exception e) { }
     
     final var gid = gid(EntityType.ARTICLE);

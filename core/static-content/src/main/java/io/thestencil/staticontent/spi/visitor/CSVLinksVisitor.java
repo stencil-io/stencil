@@ -51,6 +51,7 @@ public class CSVLinksVisitor {
     try {
       parser = new CSVParser(reader, CSVFormat.EXCEL
           .withHeader()
+          .withCommentMarker('/')
           .withAllowMissingColumnNames(false)
           .withIgnoreEmptyLines(true)
           );
