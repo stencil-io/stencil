@@ -149,7 +149,7 @@ public class MigrationImportVisitor {
     
     
     final var link = ImmutableLink.builder()
-      .description("")
+      .description(topicLink.getName())
       .locale(locale.getId())
       .contentType(topicLink.getType())
       .content(topicLink.getValue())
