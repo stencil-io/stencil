@@ -221,6 +221,7 @@ public class CreateBuilderImpl implements CreateBuilder {
         .name(init.getName())
         .locale(init.getLocale())
         .content(init.getContent())
+        .articles(init.getArticles())
         .build();
       
       final Entity<Workflow> entity = ImmutableEntity.<Workflow>builder()

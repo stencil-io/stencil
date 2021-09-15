@@ -104,7 +104,8 @@ public interface CreateBuilder {
   interface CreateWorkflow {
     String getName();
     String getLocale(); 
-    String getContent(); 
+    String getContent();
+    List<String> getArticles();
   }
 
 }
