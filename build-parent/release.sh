@@ -58,3 +58,4 @@ mvn clean deploy -Phdes-release --settings build-parent/ci-maven-settings.xml
 mvn versions:set -DnewVersion=${PROJECT_VERSION}
 git commit -am "Release: ${RELEASE_VERSION}"
 git push
+git push origin --tags
