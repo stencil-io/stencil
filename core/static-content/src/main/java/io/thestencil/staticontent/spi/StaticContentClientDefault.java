@@ -51,11 +51,10 @@ import io.thestencil.staticontent.spi.visitor.SiteVisitorDefault;
 
 public class StaticContentClientDefault implements StaticContentClient {
 
-  private static ObjectMapper objectMapper = new ObjectMapper();
-  static {
-    objectMapper.registerModule(new GuavaModule());
-    objectMapper.registerModule(new JavaTimeModule());
-    objectMapper.registerModule(new Jdk8Module());
+  private final ObjectMapper objectMapper;
+  public StaticContentClientDefault(ObjectMapper objectMapper) {
+    super();
+    this.objectMapper = objectMapper;
   }
   
   @Override
@@ -132,6 +131,12 @@ public class StaticContentClientDefault implements StaticContentClient {
       }
       
       @Override
+      public MarkdownBuilder json(SiteState jsonOfSiteState) {
+        this.jsonOfSiteState = new SiteStateVisitor().visit(jsonOfSiteState);
+        return this;
+      }
+      
+      @Override
       public Markdowns build() {
         ParserAssert.isTrue(jsonOfSiteState != null || fromFiles != null, () -> "json or md files must be provided!");
         ParserAssert.isTrue(jsonOfSiteState == null || fromFiles == null, () -> "json or md files both can't be provided!");
@@ -146,7 +151,7 @@ public class StaticContentClientDefault implements StaticContentClient {
   @Override
   public SitesBuilder sites() {
     return new SitesBuilder() {
-      private final SiteVisitor visitor = new SiteVisitorDefault(StaticContentClientDefault::writeAsString);
+      private final SiteVisitor visitor = new SiteVisitorDefault(obj -> writeAsString(obj, objectMapper));
       private String imageUrl;
       private Long created;
       private Markdowns markdowns;
@@ -217,7 +222,15 @@ public class StaticContentClientDefault implements StaticContentClient {
   }
   
   
-  private static String writeAsString(Object anyObject) {
+  private static ObjectMapper objectMapper() {
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.registerModule(new GuavaModule());
+    objectMapper.registerModule(new JavaTimeModule());
+    objectMapper.registerModule(new Jdk8Module());
+    return objectMapper;
+  } 
+  
+  private static String writeAsString(Object anyObject, ObjectMapper objectMapper) {
     try {
       return objectMapper.writeValueAsString(anyObject);
     } catch(IOException e) {
@@ -230,7 +243,10 @@ public class StaticContentClientDefault implements StaticContentClient {
   
   public static class Builder {
     public StaticContentClientDefault build() {
-      return new StaticContentClientDefault();
+      return new StaticContentClientDefault(objectMapper());
+    }
+    public StaticContentClientDefault build(ObjectMapper objectMapper) {
+      return new StaticContentClientDefault(objectMapper);
     }
   }
 

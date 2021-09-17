@@ -66,7 +66,7 @@ public class HandlerComposer extends HandlerTemplate {
       if (event.request().method() == HttpMethod.POST) {
         client.create().repo()
         .onItem().transform(data -> JsonObject.mapFrom(data).toBuffer())
-        .onFailure().invoke(e -> catch422(e, ctx, response))
+        .onFailure().invoke(e -> HandlerStatusCodes.catch422(e, response))
         .subscribe().with(data -> response.end(data));
         
       } else if(event.request().method() == HttpMethod.GET) { 
@@ -74,7 +74,7 @@ public class HandlerComposer extends HandlerTemplate {
             client.query().head(), 
             response, ctx, objectMapper);
       } else {
-        catch404("unsupported repository action", ctx, response);
+        HandlerStatusCodes.catch404("unsupported repository action", response);
       }
       
     } else if (path.startsWith(ctx.getPaths().getMigrationPath())) {
@@ -84,7 +84,7 @@ public class HandlerComposer extends HandlerTemplate {
             client.migration().importData(read(event, objectMapper, SitesBean.class)), 
             response, ctx, objectMapper);
       } else {
-        catch404("unsupported migration action", ctx, response);
+        HandlerStatusCodes.catch404("unsupported migration action", response);
       }
       
     } else if (path.startsWith(ctx.getPaths().getArticlesPath())) {
@@ -105,7 +105,7 @@ public class HandlerComposer extends HandlerTemplate {
             client.delete().article(event.pathParam("id")),
             response, ctx, objectMapper);
       } else {
-        catch404("unsupported article action", ctx, response);
+        HandlerStatusCodes.catch404("unsupported article action", response);
       }
       
       
@@ -141,7 +141,7 @@ public class HandlerComposer extends HandlerTemplate {
         }
         
       } else {
-        catch404("unsupported links action", ctx, response);
+        HandlerStatusCodes.catch404("unsupported links action", response);
       }
     
       
@@ -165,7 +165,7 @@ public class HandlerComposer extends HandlerTemplate {
             client.delete().locale(event.pathParam("id")),
             response, ctx, objectMapper);
       } else {
-        catch404("unsupported locale action", ctx, response);
+        HandlerStatusCodes.catch404("unsupported locale action", response);
       }
       
       
@@ -182,7 +182,7 @@ public class HandlerComposer extends HandlerTemplate {
             client.query().release(event.pathParam("id")), 
             response, ctx, objectMapper);        
       } else {
-        catch404("unsupported release action", ctx, response);
+        HandlerStatusCodes.catch404("unsupported release action", response);
       }
       
     } else if(path.startsWith(ctx.getPaths().getWorkflowsPath())) {
@@ -220,7 +220,7 @@ public class HandlerComposer extends HandlerTemplate {
         }
 
       } else {
-        catch404("unsupported workflow action", ctx, response);
+        HandlerStatusCodes.catch404("unsupported workflow action", response);
       }
       
       
@@ -251,10 +251,10 @@ public class HandlerComposer extends HandlerTemplate {
             response, ctx, objectMapper);
  
       } else {
-        catch404("unsupported page action", ctx, response);
+        HandlerStatusCodes.catch404("unsupported page action", response);
       }
     } else {
-      catch404("unsupported action", ctx, response);
+      HandlerStatusCodes.catch404("unsupported action", response);
     }
   }
   
@@ -292,7 +292,7 @@ public class HandlerComposer extends HandlerTemplate {
         throw new RuntimeException(e.getMessage(), e);
       }
     })
-    .onFailure().invoke(e -> catch422(e, ctx, response))
+    .onFailure().invoke(e -> HandlerStatusCodes.catch422(e, response))
     .subscribe().with(data -> response.end(data)); 
   }
 }

@@ -2,7 +2,7 @@ package io.thestencil.site;
 
 /*-
  * #%L
- * quarkus-stencil-sc
+ * quarkus-stencil-ide-services
  * %%
  * Copyright (C) 2021 Copyright 2021 ReSys OÜ
  * %%
@@ -20,8 +20,8 @@ package io.thestencil.site;
  * #L%
  */
 
+import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import javax.enterprise.inject.spi.CDI;
 
@@ -29,35 +29,31 @@ import io.quarkus.arc.runtime.BeanContainerListener;
 import io.quarkus.runtime.annotations.Recorder;
 import io.quarkus.security.identity.CurrentIdentityAssociation;
 import io.quarkus.vertx.http.runtime.CurrentVertxRequest;
-import io.thestencil.site.api.SiteContent;
-import io.thestencil.site.handlers.SiteResourceHandler;
+import io.thestencil.site.handlers.SiteHandler;
 import io.vertx.core.Handler;
-import io.vertx.core.json.Json;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 
 @Recorder
-public class StaticContentRecorder {
-
-  public BeanContainerListener listener(
-      SiteContent staticContent,
-      String defaultLocale) {
-    
-    final var contentValues = staticContent.getSites().entrySet().stream()
-        .collect(Collectors.toMap(e -> e.getKey(), e -> Json.encode(e.getValue())));
+public class SiteRecorder {
+  public static final String FEATURE_BUILD_ITEM = "stencil-site-pg";
+  
+  public BeanContainerListener configureBuildtimeConfig(
+      String servicePath) {
     
     return beanContainer -> {
-      StaticContentBeanFactory producer = beanContainer.instance(StaticContentBeanFactory.class);
-      producer
-        .setDefaultLocale(defaultLocale)
-        .setStaticContent(staticContent)
-        .setSerializedContent(contentValues);
+      SiteProducer producer = beanContainer.instance(SiteProducer.class);
+      producer.setServicePath(servicePath);
     };
   }
-
   
-  public Handler<RoutingContext> staticContentHandler() {
+  public void configureRuntimeConfig(RuntimeConfig runtimeConfig) {
+    CDI.current().select(SiteProducer.class).get().setRuntimeConfig(runtimeConfig);
+  }
+
+  public Handler<RoutingContext> ideServicesHandler() {
     final var identityAssociations = CDI.current().select(CurrentIdentityAssociation.class);
     CurrentIdentityAssociation association;
     if (identityAssociations.isResolvable()) {
@@ -66,7 +62,15 @@ public class StaticContentRecorder {
       association = null;
     }
     CurrentVertxRequest currentVertxRequest = CDI.current().select(CurrentVertxRequest.class).get();
-    return new SiteResourceHandler(association, currentVertxRequest);
+    return new SiteHandler(association, currentVertxRequest);
+  }
+
+  public Consumer<Route> routeFunction(Handler<RoutingContext> bodyHandler) {
+    return (route) -> route.handler(bodyHandler);
+  }
+
+  public Consumer<Route> idRouteFunctionGet(Handler<RoutingContext> bodyHandler) {
+    return (route) -> route.method(HttpMethod.GET).handler(bodyHandler);
   }
 
   public Function<Router, Route> routeFunction(String rootPath, Handler<RoutingContext> bodyHandler) {

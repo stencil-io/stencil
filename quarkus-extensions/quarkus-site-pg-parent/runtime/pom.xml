@@ -11,12 +11,34 @@
 
   <dependencies>
     <dependency>
+      <groupId>io.thestencil</groupId>
+      <artifactId>stencil-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.thestencil</groupId>
+      <artifactId>stencil-static-content</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.resys.hdes</groupId>
+      <artifactId>thena-docdb-pgsql</artifactId>
+    </dependency>
+
+
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-jackson</artifactId>
+    </dependency>
+    <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-core</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-vertx-http</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-mutiny-reactive-streams-operators</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>

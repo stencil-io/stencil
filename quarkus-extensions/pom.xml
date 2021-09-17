@@ -17,6 +17,7 @@
     <module>quarkus-composer-mongo-parent</module>
     <module>quarkus-composer-pg-parent</module>
     <module>quarkus-sc-parent</module>
+    <module>quarkus-site-pg-parent</module>
     <module>quarkus-workflows-parent</module>
   </modules>
 

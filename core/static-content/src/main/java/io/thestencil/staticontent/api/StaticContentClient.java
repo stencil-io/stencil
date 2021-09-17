@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import org.immutables.value.Value;
 
 import io.thestencil.client.api.MigrationBuilder.Sites;
+import io.thestencil.client.api.StencilClient.SiteState;
 
 /*-
  * #%L
@@ -42,6 +43,7 @@ public interface StaticContentClient {
   
   interface MarkdownBuilder {
     MarkdownBuilder json(String jsonOfSiteState);
+    MarkdownBuilder json(SiteState jsonOfSiteState);
     MarkdownBuilder md(String path, byte[] value);
     Markdowns build();
   }

@@ -1,8 +1,8 @@
-package io.thestencil.staticontent;
+package io.thestencil.site.pg;
 
 /*-
  * #%L
- * quarkus-stencil-sc-deployment
+ * quarkus-stencil-ide-services-deployment
  * %%
  * Copyright (C) 2021 Copyright 2021 ReSys OÜ
  * %%
@@ -20,44 +20,16 @@ package io.thestencil.staticontent;
  * #L%
  */
 
-import java.nio.file.Path;
-import java.util.Optional;
-
 import io.quarkus.runtime.annotations.ConfigItem;
 import io.quarkus.runtime.annotations.ConfigRoot;
+import io.thestencil.site.SiteRecorder;
 
-@ConfigRoot(name = StaticContentProcessor.FEATURE_BUILD_ITEM)
-public class StaticContentConfig {
+@ConfigRoot(name = SiteRecorder.FEATURE_BUILD_ITEM)
+public class SiteConfig {
   
   /**
    * Static content routing path
    */
-  @ConfigItem(defaultValue = "portal-app/site")
+  @ConfigItem(defaultValue = "stencil-sites")
   String servicePath;
-  
-  /**
-   * Static content for accessing images
-   */
-  @ConfigItem(defaultValue = "portal-app/site/images")
-  String imagePath;
-  
-  /**
-   * Default locale and not found locale for site contents
-   */
-  @ConfigItem(defaultValue = "en")
-  String defaultLocale;
-  
-  /**
-   * Artifact from where to search
-   */
-  @ConfigItem
-  Optional<Path> siteJson;
-  
-  /**
-   * Artifact from where to search
-   * groupId:artifactId
-   * io.resys.client.portal:static-content
-   */
-  @ConfigItem
-  Optional<String> webjar;
 }

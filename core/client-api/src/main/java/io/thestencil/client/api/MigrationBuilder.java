@@ -26,6 +26,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import io.smallrye.mutiny.Uni;
 import io.thestencil.client.api.StencilClient.SiteState;
@@ -45,6 +46,7 @@ public interface MigrationBuilder {
     Map<String, LocalizedSite> getSites();
   }
 
+  @JsonSerialize(as = LocalizedSiteBean.class)
   @JsonDeserialize(as = LocalizedSiteBean.class)
   interface LocalizedSite {
     String getId();
@@ -56,12 +58,14 @@ public interface MigrationBuilder {
     Map<String, TopicLink> getLinks();
   }
 
+  @JsonSerialize(as = TopicBlobBean.class)
   @JsonDeserialize(as = TopicBlobBean.class)
   interface TopicBlob {
     String getId();
     String getValue();
   }
 
+  @JsonSerialize(as = TopicBean.class)
   @JsonDeserialize(as = TopicBean.class)
   interface Topic {
     String getId();
@@ -74,6 +78,7 @@ public interface MigrationBuilder {
     String getBlob();
   }
 
+  @JsonSerialize(as = TopicHeadingBean.class)
   @JsonDeserialize(as = TopicHeadingBean.class)
   interface TopicHeading {
     String getId();
@@ -82,6 +87,7 @@ public interface MigrationBuilder {
     Integer getLevel();
   }
   
+  @JsonSerialize(as = TopicLinkBean.class)
   @JsonDeserialize(as = TopicLinkBean.class)
   interface TopicLink {
     String getId();
