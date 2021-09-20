@@ -22,7 +22,6 @@ package io.thestencil.staticontent.spi.visitor;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,12 +43,12 @@ import io.thestencil.staticontent.spi.support.Sha2;
 
 public class SiteVisitorDefault implements SiteVisitor {
   private final List<Message> messages = new ArrayList<>();
-  private final Map<String, List<TopicData>> localeTopicData = new HashMap<>();
-  private final Map<String, List<LinkData>> pathLinkData = new HashMap<>();
-  private final Map<String, TopicNameData> pathTopicNamesData = new HashMap<>();
-  private final Map<String, ImageData> images = new HashMap<>();
-  private final Map<String, TopicBlob> blobs = new HashMap<>();
-  private final Map<String, TopicLink> links = new HashMap<>();
+  private final Map<String, List<TopicData>> localeTopicData = new LinkedHashMap<>();
+  private final Map<String, List<LinkData>> pathLinkData = new LinkedHashMap<>();
+  private final Map<String, TopicNameData> pathTopicNamesData = new LinkedHashMap<>();
+  private final Map<String, ImageData> images = new LinkedHashMap<>();
+  private final Map<String, TopicBlob> blobs = new LinkedHashMap<>();
+  private final Map<String, TopicLink> links = new LinkedHashMap<>();
   
   private final Function<Object, String> serializer;
   private String imageUrl;
