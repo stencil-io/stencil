@@ -22,6 +22,7 @@ package io.thestencil.staticontent.spi.visitor;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,12 +44,12 @@ import io.thestencil.staticontent.spi.support.Sha2;
 
 public class SiteVisitorDefault implements SiteVisitor {
   private final List<Message> messages = new ArrayList<>();
-  private final Map<String, List<TopicData>> localeTopicData = new LinkedHashMap<>();
-  private final Map<String, List<LinkData>> pathLinkData = new LinkedHashMap<>();
-  private final Map<String, TopicNameData> pathTopicNamesData = new LinkedHashMap<>();
-  private final Map<String, ImageData> images = new LinkedHashMap<>();
-  private final Map<String, TopicBlob> blobs = new LinkedHashMap<>();
-  private final Map<String, TopicLink> links = new LinkedHashMap<>();
+  private final Map<String, List<TopicData>> localeTopicData = new HashMap<>();
+  private final Map<String, List<LinkData>> pathLinkData = new HashMap<>();
+  private final Map<String, TopicNameData> pathTopicNamesData = new HashMap<>();
+  private final Map<String, ImageData> images = new HashMap<>();
+  private final Map<String, TopicBlob> blobs = new HashMap<>();
+  private final Map<String, TopicLink> links = new HashMap<>();
   
   private final Function<Object, String> serializer;
   private String imageUrl;
@@ -92,6 +93,8 @@ public class SiteVisitorDefault implements SiteVisitor {
     final var sites = this.localeTopicData.entrySet().stream()
         .map(this::visitLocale)
         .collect(Collectors.toList());
+    sites.sort((s1, s2) -> s1.getId().compareTo(s2.getId()));
+    
     return builder.sites(sites).addAllMessage(messages).build();
   }
 
@@ -152,12 +155,25 @@ public class SiteVisitorDefault implements SiteVisitor {
         .id("")
         .images(imageUrl)
         .locale(locale)
-        .topics(siteTopics)
-        .blobs(siteBlobs)
-        .links(siteLinks)
+        .topics(sort(siteTopics))
+        .blobs(sort(siteBlobs))
+        .links(sort(siteLinks))
         .build();
     final var id = Sha2.blobId(serializer.apply(result));
     return LocalizedSiteBean.builder().from(result).id(id).build();
+  }
+  
+  private <K> Map<String, K> sort(Map<String, K> input) {
+
+    final var values = new ArrayList<>(input.entrySet());
+    values.sort((e1, e2) -> e1.getKey().compareTo(e2.getKey()));
+
+    Map<String, K> result = new LinkedHashMap<>();
+    for(final var entry : values) {
+      result.put(entry.getKey(), entry.getValue());
+    }
+    
+    return result;
   }
   
   private String visitTopicParent(TopicData topic) {
