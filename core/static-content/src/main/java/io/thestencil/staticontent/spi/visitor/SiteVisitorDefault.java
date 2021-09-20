@@ -23,6 +23,7 @@ package io.thestencil.staticontent.spi.visitor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -33,11 +34,11 @@ import io.thestencil.client.api.MigrationBuilder.Topic;
 import io.thestencil.client.api.MigrationBuilder.TopicBlob;
 import io.thestencil.client.api.MigrationBuilder.TopicHeading;
 import io.thestencil.client.api.MigrationBuilder.TopicLink;
+import io.thestencil.client.api.beans.LocalizedSiteBean;
 import io.thestencil.client.api.beans.TopicBean;
 import io.thestencil.client.api.beans.TopicBlobBean;
 import io.thestencil.client.api.beans.TopicHeadingBean;
 import io.thestencil.client.api.beans.TopicLinkBean;
-import io.thestencil.client.api.beans.LocalizedSiteBean;
 import io.thestencil.staticontent.spi.support.ParserAssert;
 import io.thestencil.staticontent.spi.support.Sha2;
 
@@ -96,9 +97,9 @@ public class SiteVisitorDefault implements SiteVisitor {
   }
 
   private LocalizedSite visitLocale(Map.Entry<String, List<TopicData>> localization) {
-    final var siteTopics = new HashMap<String, Topic>();
-    final var siteBlobs = new HashMap<String, TopicBlob>();
-    final var siteLinks = new HashMap<String, TopicLink>();
+    final var siteTopics = new LinkedHashMap<String, Topic>();
+    final var siteBlobs = new LinkedHashMap<String, TopicBlob>();
+    final var siteLinks = new LinkedHashMap<String, TopicLink>();
     final var visitedTopics = new ArrayList<String>();
     final var parents = new ArrayList<String>();
     final var locale = localization.getKey();
