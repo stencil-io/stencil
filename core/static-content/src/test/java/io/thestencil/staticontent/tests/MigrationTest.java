@@ -41,7 +41,7 @@ public class MigrationTest {
     final var src = new File("src/test/resources/migration").toPath();
     final var absPath = src.toAbsolutePath().toString();
     final var builder = StaticContentClientDefault.builder().build().markdown();
-    Files.walk(src).filter(Files::isRegularFile).forEach(file -> {
+    Files.walk(src).filter(Files::isRegularFile).sorted((p1, p2) -> p1.getFileName().toString().compareTo(p2.getFileName().toString())).forEach(file -> {
       try {
         String absolutePath = file.toAbsolutePath().toString();
         String path = absolutePath.substring(absPath.length() + 1);
