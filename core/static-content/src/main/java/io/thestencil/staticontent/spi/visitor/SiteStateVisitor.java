@@ -175,9 +175,9 @@ public class SiteStateVisitor {
     Entity<Article> article = src;
     do {
       if(path.length() > 0) {
-        path.append("/");
+        path.insert(0, "/");
       }
-      path.append(article.getBody().getName());
+      path.insert(0, article.getBody().getName());
       final var parentId = article.getBody().getParentId();
       article = parentId == null ? null : entity.getArticles().get(parentId);
     } while(article != null);
