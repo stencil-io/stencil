@@ -61,7 +61,7 @@ public class MigrationTest {
     Assertions.assertEquals(expected, actual);   
   }
   
-  //@Test
+  @Test
   public void migration() throws IOException {
     final var src = new File("src/test/resources/migration-1").toPath();
     final var absPath = src.toAbsolutePath().toString();

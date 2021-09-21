@@ -182,7 +182,7 @@ public class SiteStateVisitor {
       article = parentId == null ? null : entity.getArticles().get(parentId);
     } while(article != null);
 
-    return path.toString();
+    return String.format("%03d", src.getBody().getOrder()) + "_" + path.toString();
   }
   
   
