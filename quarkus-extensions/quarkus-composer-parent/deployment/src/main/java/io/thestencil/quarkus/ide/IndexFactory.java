@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 
 import io.quarkus.deployment.configuration.ConfigurationError;
 import io.quarkus.deployment.util.FileUtil;
@@ -74,7 +75,7 @@ public class IndexFactory {
       StringBuilder newHref = new StringBuilder().append(newPath);
       StringBuilder newConfig = new StringBuilder()
           .append("const portalconfig={")
-          .append("server: { url: '" + server + "' }, ")
+          .append("server: { url: '" + server + "', buildTime: '" + LocalDateTime.now() + "' }, ")
           .append("}");  
       
       return (indexFileContent
