@@ -177,12 +177,12 @@ public class SiteStateVisitor {
       if(path.length() > 0) {
         path.insert(0, "/");
       }
-      path.insert(0, article.getBody().getName());
+      path.insert(0, String.format("%03d", article.getBody().getOrder()) + "_" + article.getBody().getName());
       final var parentId = article.getBody().getParentId();
       article = parentId == null ? null : entity.getArticles().get(parentId);
     } while(article != null);
 
-    return String.format("%03d", src.getBody().getOrder()) + "_" + path.toString();
+    return path.toString();
   }
   
   
