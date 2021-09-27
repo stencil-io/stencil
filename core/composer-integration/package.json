@@ -6,7 +6,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
-    "@the-stencil-io/composer": "^1.0.10",
+    "@the-stencil-io/composer": "^1.0.12",
     "@types/jest": "^26.0.23",
     "@types/node": "^12.20.15",
     "@types/react": "^17.0.10",

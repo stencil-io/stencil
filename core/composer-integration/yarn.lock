@@ -1829,10 +1829,10 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
-"@the-stencil-io/composer@^1.0.10":
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/@the-stencil-io/composer/-/composer-1.0.10.tgz#1e89a86437d398a36f5997b32e8ad2ea3364756b"
-  integrity sha512-CKJsJFdLMbVlHMmT95VSctmC78TMX8W7ZaSPwTmu80//4hU/Ruc88rJMZgLIC72TPVdXAdQdyZcjkVELT5grwQ==
+"@the-stencil-io/composer@^1.0.12":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@the-stencil-io/composer/-/composer-1.0.12.tgz#00c3d9da58ff74e895fde4c20eb8a8238c78bef9"
+  integrity sha512-6snkDTMbI+YfUXN6iYk1ojTerqCw9qb3SntkWYml7CZGCWBStZ5186plzzJWcwzqbtOc66XzaB8jB3HWBQaCCg==
 
 "@tootallnate/once@1":
   version "1.1.2"
