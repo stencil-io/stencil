@@ -1,5 +1,7 @@
 package io.thestencil.client.spi;
 
+import java.util.Collection;
+
 /*-
  * #%L
  * stencil-persistence
@@ -52,6 +54,7 @@ public interface PersistenceConfig {
     <T extends EntityBody> Uni<Entity<T>> delete(Entity<T> toBeDeleted);
     <T extends EntityBody> Uni<EntityState<T>> get(String blobId, EntityType type);
     <T extends EntityBody> Uni<Entity<T>> save(Entity<T> toBeSaved);
+    Uni<Collection<Entity<?>>> save(Collection<Entity<?>> toBeSaved);
   }  
   
   @FunctionalInterface

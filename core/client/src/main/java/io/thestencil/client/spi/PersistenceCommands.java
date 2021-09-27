@@ -1,5 +1,7 @@
 package io.thestencil.client.spi;
 
+import java.util.Collection;
+
 /*-
  * #%L
  * stencil-persistence
@@ -91,5 +93,26 @@ public class PersistenceCommands implements PersistenceConfig.Commands {
         }
         throw new SaveException(toBeSaved, commit);
       });
+  }
+
+  @Override
+  public Uni<Collection<Entity<?>>> save(Collection<Entity<?>> entities) {
+    final var commitBuilder = config.getClient().commit().head().head(config.getRepoName(), config.getHeadName());
+    final Entity<?> first = entities.iterator().next();
+    
+    for(final var target : entities) {
+      commitBuilder.append(target.getId(), config.getSerializer().toString(target));
+    }
+    
+    return commitBuilder
+        .message("update type: '" + first.getType() + "', with id: '" + first.getId() + "'")
+        .parentIsLatest()
+        .author(config.getAuthorProvider().getAuthor())
+        .build().onItem().transform(commit -> {
+          if(commit.getStatus() == CommitStatus.OK) {
+            return entities;
+          }
+          throw new SaveException(first, commit);
+        });
   }
 }

@@ -29,25 +29,26 @@ import java.util.stream.Collectors;
 import io.resys.thena.docdb.api.actions.CommitActions.CommitStatus;
 import io.resys.thena.docdb.api.actions.ObjectsActions.ObjectsStatus;
 import io.smallrye.mutiny.Uni;
-import io.thestencil.client.api.StencilClient.Article;
-import io.thestencil.client.api.StencilClient.Entity;
-import io.thestencil.client.api.StencilClient.EntityType;
-import io.thestencil.client.api.StencilClient.Link;
-import io.thestencil.client.api.StencilClient.Locale;
-import io.thestencil.client.api.StencilClient.Page;
-import io.thestencil.client.api.StencilClient.Workflow;
-import io.thestencil.client.spi.PersistenceCommands;
-import io.thestencil.client.spi.PersistenceConfig;
-import io.thestencil.client.spi.PersistenceConfig.EntityState;
-import io.thestencil.client.spi.exceptions.QueryException;
-import io.thestencil.client.spi.exceptions.SaveException;
 import io.thestencil.client.api.ImmutableArticle;
 import io.thestencil.client.api.ImmutableEntity;
 import io.thestencil.client.api.ImmutableLink;
 import io.thestencil.client.api.ImmutableLocale;
 import io.thestencil.client.api.ImmutablePage;
 import io.thestencil.client.api.ImmutableWorkflow;
+import io.thestencil.client.api.StencilClient.Article;
+import io.thestencil.client.api.StencilClient.Entity;
+import io.thestencil.client.api.StencilClient.EntityType;
+import io.thestencil.client.api.StencilClient.Link;
+import io.thestencil.client.api.StencilClient.Locale;
+import io.thestencil.client.api.StencilClient.Page;
+import io.thestencil.client.api.StencilClient.SiteState;
+import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.client.api.UpdateBuilder;
+import io.thestencil.client.spi.PersistenceCommands;
+import io.thestencil.client.spi.PersistenceConfig;
+import io.thestencil.client.spi.PersistenceConfig.EntityState;
+import io.thestencil.client.spi.exceptions.QueryException;
+import io.thestencil.client.spi.exceptions.SaveException;
 
 public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuilder {
 
@@ -58,15 +59,56 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
   @Override
   public Uni<Entity<Article>> article(ArticleMutator changes) {
     // Get the article
-    final Uni<EntityState<Article>> query = get(changes.getArticleId(), EntityType.ARTICLE);
+    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
     
     // Change the article
-    return query.onItem().transformToUni(state -> save(changeArticle(state, changes)));
+    return query.onItem().transformToUni(state -> changeArticle(state, changes));
   }
   
-  private Entity<Article> changeArticle(EntityState<Article> state, ArticleMutator changes) {
-    final var start = state.getEntity();
-    return ImmutableEntity.<Article>builder()
+  private Uni<Entity<Article>> changeArticle(SiteState site, ArticleMutator changes) {
+    Entity<Article> start = site.getArticles().get(changes.getArticleId());
+    List<Entity<?>> linkChanges = new ArrayList<>();
+    
+    // update article links
+    if(changes.getLinks() != null) {
+      for(Entity<Link> link : site.getLinks().values()) {
+        
+        final var isArticleInLink = link.getBody().getArticles().contains(changes.getArticleId());
+        final var isLinkInChanges = changes.getLinks().contains(link.getId());
+        
+        // link already defined for article
+        if(isArticleInLink &&  isLinkInChanges) {
+          continue;
+        }
+        
+        // add link
+        if(isLinkInChanges && !isArticleInLink) {
+          
+          
+          final var newLink = ImmutableEntity.<Link>builder().from(link)
+              .body(ImmutableLink.builder().from(link.getBody())
+                  .addArticles(changes.getArticleId())
+                  .build())
+              .build(); 
+          linkChanges.add(newLink);
+        }
+        
+        // remove link
+        if(isArticleInLink && !isLinkInChanges) {
+          final var articles = new ArrayList<>(link.getBody().getArticles());
+          articles.remove(changes.getArticleId());
+          
+          final var newLink = ImmutableEntity.<Link>builder().from(link)
+              .body(ImmutableLink.builder().from(link.getBody())
+                  .articles(articles)
+                  .build())
+              .build();
+          linkChanges.add(newLink);
+        }
+      }
+    }
+    
+    final var result = ImmutableEntity.<Article>builder()
         .from(start)
         .body(ImmutableArticle.builder().from(start.getBody())
             .name(changes.getName())
@@ -74,6 +116,12 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
             .parentId(changes.getParentId())
             .build())
         .build();
+    
+    final var allChanges = new ArrayList<Entity<?>>();
+    allChanges.add(result);
+    allChanges.addAll(linkChanges);
+    
+    return save(allChanges).onItem().transform(e -> result); 
   }
   
   @Override

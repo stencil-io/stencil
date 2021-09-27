@@ -64,6 +64,9 @@ public interface UpdateBuilder {
     String getParentId();
     String getName();
     Integer getOrder();
+    
+    @Nullable
+    List<String> getLinks();
   }
   @Value.Immutable
   @JsonSerialize(as = ImmutablePageMutator.class)

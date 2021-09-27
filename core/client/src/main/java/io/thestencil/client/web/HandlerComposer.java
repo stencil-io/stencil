@@ -100,6 +100,7 @@ public class HandlerComposer extends HandlerTemplate {
         subscribe(
             client.update().article(read(event, objectMapper, ImmutableArticleMutator.class)),
             response, ctx, objectMapper);
+        
       } else if(event.request().method() == HttpMethod.DELETE) {
         subscribe(
             client.delete().article(event.pathParam("id")),
