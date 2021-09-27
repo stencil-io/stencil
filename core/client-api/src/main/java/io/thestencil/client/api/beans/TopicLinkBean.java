@@ -26,7 +26,9 @@ import java.util.Objects;
 
 import javax.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Var;
 
 import io.thestencil.client.api.MigrationBuilder;
@@ -35,17 +37,20 @@ public final class TopicLinkBean implements MigrationBuilder.TopicLink {
   private String id;
   private String type;
   private String name;
+  private String path;
   private String value;
   private Boolean global;
   private Boolean workflow;
   public TopicLinkBean(
       String id,
+      String path,
       String type,
       String name,
       String value,
       Boolean global,
       Boolean workflow) {
     this.id = Objects.requireNonNull(id, "id");
+    this.path = Objects.requireNonNull(path, "path");
     this.type = Objects.requireNonNull(type, "type");
     this.name = Objects.requireNonNull(name, "name");
     this.value = Objects.requireNonNull(value, "value");
@@ -57,6 +62,9 @@ public final class TopicLinkBean implements MigrationBuilder.TopicLink {
   }
   public void setId(String id) {
     this.id = id;
+  }
+  public void setPath(String path) {
+    this.path = path;
   }
   public void setType(String type) {
     this.type = type;
@@ -75,6 +83,9 @@ public final class TopicLinkBean implements MigrationBuilder.TopicLink {
   }
   public String getId() {
     return id;
+  }
+  public String getPath() {
+    return path;
   }
   public String getType() {
     return type;
@@ -101,6 +112,7 @@ public final class TopicLinkBean implements MigrationBuilder.TopicLink {
   private boolean equalTo(TopicLinkBean another) {
     return id.equals(another.id)
         && type.equals(another.type)
+        && path.equals(another.path)
         && name.equals(another.name)
         && value.equals(another.value)
         && global.equals(another.global)
@@ -110,6 +122,7 @@ public final class TopicLinkBean implements MigrationBuilder.TopicLink {
   public int hashCode() {
     @Var int h = 5381;
     h += (h << 5) + id.hashCode();
+    h += (h << 5) + path.hashCode();
     h += (h << 5) + type.hashCode();
     h += (h << 5) + name.hashCode();
     h += (h << 5) + value.hashCode();
@@ -122,6 +135,7 @@ public final class TopicLinkBean implements MigrationBuilder.TopicLink {
     return MoreObjects.toStringHelper("TopicLink")
         .omitNullValues()
         .add("id", id)
+        .add("path", path)
         .add("type", type)
         .add("name", name)
         .add("value", value)
@@ -135,14 +149,16 @@ public final class TopicLinkBean implements MigrationBuilder.TopicLink {
   }
   public static final class Builder {
     private static final long INIT_BIT_ID = 0x1L;
-    private static final long INIT_BIT_TYPE = 0x2L;
-    private static final long INIT_BIT_NAME = 0x4L;
-    private static final long INIT_BIT_VALUE = 0x8L;
-    private static final long INIT_BIT_GLOBAL = 0x10L;
-    private static final long INIT_BIT_WORKFLOW = 0x20L;
-    private long initBits = 0x3fL;
+    private static final long INIT_BIT_PATH = 0x2L;
+    private static final long INIT_BIT_TYPE = 0x4L;
+    private static final long INIT_BIT_NAME = 0x8L;
+    private static final long INIT_BIT_VALUE = 0x10L;
+    private static final long INIT_BIT_GLOBAL = 0x20L;
+    private static final long INIT_BIT_WORKFLOW = 0x40L;
+    private long initBits = 0x7fL;
 
     private @Nullable String id;
+    private @Nullable String path;
     private @Nullable String type;
     private @Nullable String name;
     private @Nullable String value;
@@ -150,10 +166,12 @@ public final class TopicLinkBean implements MigrationBuilder.TopicLink {
     private @Nullable Boolean workflow;
 
     private Builder() {
-    } 
+    }
+    @CanIgnoreReturnValue 
     public final Builder from(MigrationBuilder.TopicLink instance) {
       Objects.requireNonNull(instance, "instance");
       id(instance.getId());
+      path(instance.getPath());
       type(instance.getType());
       name(instance.getName());
       value(instance.getValue());
@@ -161,31 +179,51 @@ public final class TopicLinkBean implements MigrationBuilder.TopicLink {
       workflow(instance.getWorkflow());
       return this;
     }
+    @CanIgnoreReturnValue 
+    @JsonProperty("id")
     public final Builder id(String id) {
       this.id = Objects.requireNonNull(id, "id");
       initBits &= ~INIT_BIT_ID;
       return this;
     }
+    @CanIgnoreReturnValue 
+    @JsonProperty("path")
+    public final Builder path(String path) {
+      this.path = Objects.requireNonNull(path, "path");
+      initBits &= ~INIT_BIT_PATH;
+      return this;
+    }
+    @CanIgnoreReturnValue 
+    @JsonProperty("type")
     public final Builder type(String type) {
       this.type = Objects.requireNonNull(type, "type");
       initBits &= ~INIT_BIT_TYPE;
       return this;
     }
+    @CanIgnoreReturnValue 
+    @JsonProperty("name")
     public final Builder name(String name) {
       this.name = Objects.requireNonNull(name, "name");
       initBits &= ~INIT_BIT_NAME;
       return this;
     }
+    @CanIgnoreReturnValue 
+    @JsonProperty("value")
     public final Builder value(String value) {
       this.value = Objects.requireNonNull(value, "value");
       initBits &= ~INIT_BIT_VALUE;
       return this;
     }
+
+    @CanIgnoreReturnValue 
+    @JsonProperty("global")
     public final Builder global(Boolean global) {
       this.global = Objects.requireNonNull(global, "global");
       initBits &= ~INIT_BIT_GLOBAL;
       return this;
     }
+    @CanIgnoreReturnValue 
+    @JsonProperty("workflow")
     public final Builder workflow(Boolean workflow) {
       this.workflow = Objects.requireNonNull(workflow, "workflow");
       initBits &= ~INIT_BIT_WORKFLOW;
@@ -195,11 +233,13 @@ public final class TopicLinkBean implements MigrationBuilder.TopicLink {
       if (initBits != 0) {
         throw new IllegalStateException(formatRequiredAttributesMessage());
       }
-      return new TopicLinkBean(id, type, name, value, global, workflow);
+      return new TopicLinkBean(id, path, type, name, value, global, workflow);
     }
+
     private String formatRequiredAttributesMessage() {
       List<String> attributes = new ArrayList<>();
       if ((initBits & INIT_BIT_ID) != 0) attributes.add("id");
+      if ((initBits & INIT_BIT_PATH) != 0) attributes.add("path");
       if ((initBits & INIT_BIT_TYPE) != 0) attributes.add("type");
       if ((initBits & INIT_BIT_NAME) != 0) attributes.add("name");
       if ((initBits & INIT_BIT_VALUE) != 0) attributes.add("value");

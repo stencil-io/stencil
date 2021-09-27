@@ -91,6 +91,7 @@ public interface MigrationBuilder {
   @JsonDeserialize(as = TopicLinkBean.class)
   interface TopicLink {
     String getId();
+    String getPath();
     String getType();
     String getName();
     String getValue();

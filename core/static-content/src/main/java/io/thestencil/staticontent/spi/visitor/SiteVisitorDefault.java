@@ -116,6 +116,7 @@ public class SiteVisitorDefault implements SiteVisitor {
       final var topic = TopicBean.builder()
           .id(topicId)
           .name(name)
+          
           .links(topicLinks)
           .parent(parent)
           .blob(blob)
@@ -254,6 +255,7 @@ public class SiteVisitorDefault implements SiteVisitor {
         
         final var template = TopicLinkBean.builder()
           .id("template")
+          .path(link.getPath())
           .global(link.getGlobal())
           .type(link.getType())
           .name(link.getName())

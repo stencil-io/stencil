@@ -1,116 +1,15 @@
 {
   "created" : 1,
   "sites" : {
-    "fi" : {
-      "id" : "09c9d88d7917800252cb880e21628577",
-      "images" : "/",
-      "locale" : "fi",
-      "topics" : {
-        "000_index" : {
-          "id" : "000_index",
-          "name" : "Tervetuloa",
-          "links" : [ "413805d55fb8bbc25497a40a19aea9ad", "53f67b9718946723964bf1fdd5e4fe1c" ],
-          "headings" : [ {
-            "id" : "1",
-            "name" : "# Tervetuloa",
-            "order" : 1,
-            "level" : 1
-          }, {
-            "id" : "2",
-            "name" : "#### nested",
-            "order" : 2,
-            "level" : 4
-          } ],
-          "parent" : null,
-          "blob" : "8e768bc1d058a86e32ff08824f3c8095"
-        },
-        "100_residence" : {
-          "id" : "100_residence",
-          "name" : "Asuminen",
-          "links" : [ "53f67b9718946723964bf1fdd5e4fe1c" ],
-          "headings" : [ {
-            "id" : "1",
-            "name" : "# Asuminen",
-            "order" : 1,
-            "level" : 1
-          }, {
-            "id" : "2",
-            "name" : "#### nested",
-            "order" : 2,
-            "level" : 4
-          } ],
-          "parent" : null,
-          "blob" : "03223a2fccf68ea2a6de1c13ac5fadcc"
-        },
-        "200_democracy" : {
-          "id" : "200_democracy",
-          "name" : "Demokratia",
-          "links" : [ "aedd4390032d63be00b512d07f34b06e", "53f67b9718946723964bf1fdd5e4fe1c" ],
-          "headings" : [ {
-            "id" : "1",
-            "name" : "# Demokratia",
-            "order" : 1,
-            "level" : 1
-          }, {
-            "id" : "2",
-            "name" : "#### nested",
-            "order" : 2,
-            "level" : 4
-          } ],
-          "parent" : null,
-          "blob" : "70968420f4ad5e1cd57ba336e9a40249"
-        }
-      },
-      "blobs" : {
-        "03223a2fccf68ea2a6de1c13ac5fadcc" : {
-          "id" : "03223a2fccf68ea2a6de1c13ac5fadcc",
-          "value" : "# Asuminen\ncontent\n\n#### nested\n"
-        },
-        "70968420f4ad5e1cd57ba336e9a40249" : {
-          "id" : "70968420f4ad5e1cd57ba336e9a40249",
-          "value" : "# Demokratia\ncontent\n\n#### nested\n"
-        },
-        "8e768bc1d058a86e32ff08824f3c8095" : {
-          "id" : "8e768bc1d058a86e32ff08824f3c8095",
-          "value" : "# Tervetuloa\ncontent\n\n#### nested\n"
-        }
-      },
-      "links" : {
-        "413805d55fb8bbc25497a40a19aea9ad" : {
-          "id" : "413805d55fb8bbc25497a40a19aea9ad",
-          "type" : "phone",
-          "name" : "TEXT IN FI for INDEX",
-          "value" : "+357 786767",
-          "global" : false,
-          "workflow" : false
-        },
-        "53f67b9718946723964bf1fdd5e4fe1c" : {
-          "id" : "53f67b9718946723964bf1fdd5e4fe1c",
-          "type" : "workflow",
-          "name" : "workflow LINK IN FI",
-          "value" : "General message",
-          "global" : true,
-          "workflow" : true
-        },
-        "aedd4390032d63be00b512d07f34b06e" : {
-          "id" : "aedd4390032d63be00b512d07f34b06e",
-          "type" : "internal",
-          "name" : "TEXT IN FIN for DEM",
-          "value" : "https://www.some.site.com/",
-          "global" : false,
-          "workflow" : false
-        }
-      }
-    },
     "sv" : {
-      "id" : "2e1e5233bd329d1c61c9f89024f01079",
+      "id" : "463d866b2bfb4de534b3962ea7052339",
       "images" : "/",
       "locale" : "sv",
       "topics" : {
         "000_index" : {
           "id" : "000_index",
           "name" : "Välkommen",
-          "links" : [ "a943406053728f0cef9aa8a4ff40691c", "4d28b049ea5ca150b564a1f0a4a76041" ],
+          "links" : [ "e13b04481ca9c97fcd2d0415ee9693cd", "e617a26067ef2a11d3ae4e95a416cfc6" ],
           "headings" : [ {
             "id" : "1",
             "name" : "# Välkommen",
@@ -128,7 +27,7 @@
         "100_residence" : {
           "id" : "100_residence",
           "name" : "Boende",
-          "links" : [ "4d28b049ea5ca150b564a1f0a4a76041" ],
+          "links" : [ "e617a26067ef2a11d3ae4e95a416cfc6" ],
           "headings" : [ {
             "id" : "1",
             "name" : "# Boende",
@@ -146,7 +45,7 @@
         "200_democracy" : {
           "id" : "200_democracy",
           "name" : "Demokrati",
-          "links" : [ "169bd3cf9e323a620d4e41727f23b6c7", "4d28b049ea5ca150b564a1f0a4a76041" ],
+          "links" : [ "7f5e4540055d46ced87141a234b6c108", "e617a26067ef2a11d3ae4e95a416cfc6" ],
           "headings" : [ {
             "id" : "1",
             "name" : "# Demokrati",
@@ -177,26 +76,133 @@
         }
       },
       "links" : {
-        "169bd3cf9e323a620d4e41727f23b6c7" : {
-          "id" : "169bd3cf9e323a620d4e41727f23b6c7",
+        "7f5e4540055d46ced87141a234b6c108" : {
+          "id" : "7f5e4540055d46ced87141a234b6c108",
           "type" : "internal",
           "name" : "TEXT IN SV for DEM",
+          "path" : "democracy",
           "value" : "https://www.some.site.com/",
           "global" : false,
           "workflow" : false
         },
-        "4d28b049ea5ca150b564a1f0a4a76041" : {
-          "id" : "4d28b049ea5ca150b564a1f0a4a76041",
+        "e13b04481ca9c97fcd2d0415ee9693cd" : {
+          "id" : "e13b04481ca9c97fcd2d0415ee9693cd",
+          "type" : "phone",
+          "name" : "TEXT IN SV for INDEX",
+          "path" : "index",
+          "value" : "+357 786767",
+          "global" : false,
+          "workflow" : false
+        },
+        "e617a26067ef2a11d3ae4e95a416cfc6" : {
+          "id" : "e617a26067ef2a11d3ae4e95a416cfc6",
           "type" : "workflow",
           "name" : "workflow LINK IN SV",
+          "path" : "",
+          "value" : "General message",
+          "global" : true,
+          "workflow" : true
+        }
+      }
+    },
+    "fi" : {
+      "id" : "ff21a96ba982899cf4fb72cde3391210",
+      "images" : "/",
+      "locale" : "fi",
+      "topics" : {
+        "000_index" : {
+          "id" : "000_index",
+          "name" : "Tervetuloa",
+          "links" : [ "ec7920f7fed165ca3b6df043845d2f60", "b0b59cfc8583d240c47c4eabb7bdde1e" ],
+          "headings" : [ {
+            "id" : "1",
+            "name" : "# Tervetuloa",
+            "order" : 1,
+            "level" : 1
+          }, {
+            "id" : "2",
+            "name" : "#### nested",
+            "order" : 2,
+            "level" : 4
+          } ],
+          "parent" : null,
+          "blob" : "8e768bc1d058a86e32ff08824f3c8095"
+        },
+        "100_residence" : {
+          "id" : "100_residence",
+          "name" : "Asuminen",
+          "links" : [ "b0b59cfc8583d240c47c4eabb7bdde1e" ],
+          "headings" : [ {
+            "id" : "1",
+            "name" : "# Asuminen",
+            "order" : 1,
+            "level" : 1
+          }, {
+            "id" : "2",
+            "name" : "#### nested",
+            "order" : 2,
+            "level" : 4
+          } ],
+          "parent" : null,
+          "blob" : "03223a2fccf68ea2a6de1c13ac5fadcc"
+        },
+        "200_democracy" : {
+          "id" : "200_democracy",
+          "name" : "Demokratia",
+          "links" : [ "0e813f098c1d889900560ca96896bbb1", "b0b59cfc8583d240c47c4eabb7bdde1e" ],
+          "headings" : [ {
+            "id" : "1",
+            "name" : "# Demokratia",
+            "order" : 1,
+            "level" : 1
+          }, {
+            "id" : "2",
+            "name" : "#### nested",
+            "order" : 2,
+            "level" : 4
+          } ],
+          "parent" : null,
+          "blob" : "70968420f4ad5e1cd57ba336e9a40249"
+        }
+      },
+      "blobs" : {
+        "03223a2fccf68ea2a6de1c13ac5fadcc" : {
+          "id" : "03223a2fccf68ea2a6de1c13ac5fadcc",
+          "value" : "# Asuminen\ncontent\n\n#### nested\n"
+        },
+        "70968420f4ad5e1cd57ba336e9a40249" : {
+          "id" : "70968420f4ad5e1cd57ba336e9a40249",
+          "value" : "# Demokratia\ncontent\n\n#### nested\n"
+        },
+        "8e768bc1d058a86e32ff08824f3c8095" : {
+          "id" : "8e768bc1d058a86e32ff08824f3c8095",
+          "value" : "# Tervetuloa\ncontent\n\n#### nested\n"
+        }
+      },
+      "links" : {
+        "0e813f098c1d889900560ca96896bbb1" : {
+          "id" : "0e813f098c1d889900560ca96896bbb1",
+          "type" : "internal",
+          "name" : "TEXT IN FIN for DEM",
+          "path" : "democracy",
+          "value" : "https://www.some.site.com/",
+          "global" : false,
+          "workflow" : false
+        },
+        "b0b59cfc8583d240c47c4eabb7bdde1e" : {
+          "id" : "b0b59cfc8583d240c47c4eabb7bdde1e",
+          "type" : "workflow",
+          "name" : "workflow LINK IN FI",
+          "path" : "",
           "value" : "General message",
           "global" : true,
           "workflow" : true
         },
-        "a943406053728f0cef9aa8a4ff40691c" : {
-          "id" : "a943406053728f0cef9aa8a4ff40691c",
+        "ec7920f7fed165ca3b6df043845d2f60" : {
+          "id" : "ec7920f7fed165ca3b6df043845d2f60",
           "type" : "phone",
-          "name" : "TEXT IN SV for INDEX",
+          "name" : "TEXT IN FI for INDEX",
+          "path" : "index",
           "value" : "+357 786767",
           "global" : false,
           "workflow" : false
@@ -204,14 +210,14 @@
       }
     },
     "en" : {
-      "id" : "83a309eb778c0f9ccac5bfb832052a45",
+      "id" : "307cb1f8c16151dfe29c212abffb496d",
       "images" : "/",
       "locale" : "en",
       "topics" : {
         "000_index" : {
           "id" : "000_index",
           "name" : "Welcome",
-          "links" : [ "9bac30a8cae2eb6311c78c988d75991a", "840cc7d8f2aef89c9c27b5bce5d765dd" ],
+          "links" : [ "eee60d19acb9ab97d92e4d40b7f1ad09", "baa314b77a861b348ec10e117e08c540" ],
           "headings" : [ {
             "id" : "1",
             "name" : "# Welcome",
@@ -229,7 +235,7 @@
         "100_residence" : {
           "id" : "100_residence",
           "name" : "Residence",
-          "links" : [ "840cc7d8f2aef89c9c27b5bce5d765dd" ],
+          "links" : [ "baa314b77a861b348ec10e117e08c540" ],
           "headings" : [ {
             "id" : "1",
             "name" : "# Residence",
@@ -247,7 +253,7 @@
         "200_democracy" : {
           "id" : "200_democracy",
           "name" : "Democracy",
-          "links" : [ "840cc7d8f2aef89c9c27b5bce5d765dd" ],
+          "links" : [ "baa314b77a861b348ec10e117e08c540" ],
           "headings" : [ {
             "id" : "1",
             "name" : "# Democracy",
@@ -278,18 +284,20 @@
         }
       },
       "links" : {
-        "840cc7d8f2aef89c9c27b5bce5d765dd" : {
-          "id" : "840cc7d8f2aef89c9c27b5bce5d765dd",
+        "baa314b77a861b348ec10e117e08c540" : {
+          "id" : "baa314b77a861b348ec10e117e08c540",
           "type" : "workflow",
           "name" : "workflow LINK IN EN",
+          "path" : "",
           "value" : "General message",
           "global" : true,
           "workflow" : true
         },
-        "9bac30a8cae2eb6311c78c988d75991a" : {
-          "id" : "9bac30a8cae2eb6311c78c988d75991a",
+        "eee60d19acb9ab97d92e4d40b7f1ad09" : {
+          "id" : "eee60d19acb9ab97d92e4d40b7f1ad09",
           "type" : "phone",
           "name" : "TEXT IN EN for INDEX",
+          "path" : "index",
           "value" : "+357 786767",
           "global" : false,
           "workflow" : false
