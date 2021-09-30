@@ -67,7 +67,7 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
   
   private Uni<Entity<Article>> changeArticle(SiteState site, ArticleMutator changes) {
     Entity<Article> start = site.getArticles().get(changes.getArticleId());
-    List<Entity<?>> linkChanges = new ArrayList<>();
+    List<Entity<?>> additionalChanges = new ArrayList<>();
     
     // update article links
     if(changes.getLinks() != null) {
@@ -90,7 +90,7 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
                   .addArticles(changes.getArticleId())
                   .build())
               .build(); 
-          linkChanges.add(newLink);
+          additionalChanges.add(newLink);
         }
         
         // remove link
@@ -103,10 +103,51 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
                   .articles(articles)
                   .build())
               .build();
-          linkChanges.add(newLink);
+          additionalChanges.add(newLink);
         }
       }
     }
+    
+    // update article workflows
+    if(changes.getWorkflows() != null) {
+      for(Entity<Workflow> workflow : site.getWorkflows().values()) {
+        
+        final var isArticleInWorkflow = workflow.getBody().getArticles().contains(changes.getArticleId());
+        final var isWorkflowInChanges = changes.getWorkflows().contains(workflow.getId());
+        
+        // workflow already defined for article
+        if(isArticleInWorkflow &&  isWorkflowInChanges) {
+          continue;
+        }
+        
+        // add workflow
+        if(isWorkflowInChanges && !isArticleInWorkflow) {
+          
+          
+          final var newWorkflow = ImmutableEntity.<Workflow>builder().from(workflow)
+              .body(ImmutableWorkflow.builder().from(workflow.getBody())
+                  .addArticles(changes.getArticleId())
+                  .build())
+              .build(); 
+          additionalChanges.add(newWorkflow);
+        }
+        
+        // remove link
+        if(isArticleInWorkflow && !isWorkflowInChanges) {
+          final var articles = new ArrayList<>(workflow.getBody().getArticles());
+          articles.remove(changes.getArticleId());
+          
+          final var newWorkflow = ImmutableEntity.<Workflow>builder().from(workflow)
+              .body(ImmutableWorkflow.builder().from(workflow.getBody())
+                  .articles(articles)
+                  .build())
+              .build();
+          additionalChanges.add(newWorkflow);
+        }
+      }
+    }
+
+
     
     final var result = ImmutableEntity.<Article>builder()
         .from(start)
@@ -119,7 +160,7 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
     
     final var allChanges = new ArrayList<Entity<?>>();
     allChanges.add(result);
-    allChanges.addAll(linkChanges);
+    allChanges.addAll(additionalChanges);
     
     return save(allChanges).onItem().transform(e -> result); 
   }

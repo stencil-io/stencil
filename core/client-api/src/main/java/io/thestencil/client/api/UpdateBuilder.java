@@ -67,6 +67,7 @@ public interface UpdateBuilder {
     
     @Nullable
     List<String> getLinks();
+    List<String> getWorkflows();
   }
   @Value.Immutable
   @JsonSerialize(as = ImmutablePageMutator.class)
