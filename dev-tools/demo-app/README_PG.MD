@@ -9,14 +9,14 @@ docker run -i --rm -p 8080:8080 demo-app:1
 # run via maven debug
 mvn compile quarkus:dev
 
-# mongo - start mongo and mongo express 
+# pg - start postgre db if it's not running
 docker-compose -f dev-tools/demo-app/src/main/resources/docker/stack-pg.yml up -d
 
-# mongo
+# postgre admin ui
 
 http://localhost:8091/
 
-# mongo shell
+# postgre shell
 docker exec -it <CONTAINER_ID> bash
 
 # create db via shell
