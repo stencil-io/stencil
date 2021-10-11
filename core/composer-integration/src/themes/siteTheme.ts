@@ -1,6 +1,6 @@
 /*-
  * #%L
- * stencil-ide-integration
+ * stencil-composer-integration
  * %%
  * Copyright (C) 2021 Copyright 2021 ReSys OÜ
  * %%
@@ -17,10 +17,10 @@
  * limitations under the License.
  * #L%
  */
-import { createTheme } from "@material-ui/core/styles";
-import { PaletteOptions } from '@material-ui/core/styles/createPalette';
+import { createTheme, PaletteOptions } from "@mui/material/styles";
 
-declare module '@material-ui/core/styles/createPalette' {
+
+declare module '@mui/material/styles' {
   interface Palette {
     article: Palette['primary'];
     page: Palette['primary'];
@@ -29,6 +29,7 @@ declare module '@material-ui/core/styles/createPalette' {
     release: Palette['primary'];
     locale: Palette['primary'];
     import: Palette['primary'];
+    activeItem: Palette['primary'];
   }
   interface PaletteOptions {
     article: Palette['primary'];
@@ -38,11 +39,12 @@ declare module '@material-ui/core/styles/createPalette' {
     release: Palette['primary'];
     locale: Palette['primary'];
     import: Palette['primary'];
+    activeItem: Palette['primary'];
   }
 }
 
 const palette = {
-  type: 'light',
+  mode: 'light',
 
   primary: {
     main: '#607196',
@@ -121,6 +123,12 @@ const palette = {
     dark: 'rgba(64, 119, 118)',
     light: 'rgba(86, 159, 158)',
     contrastText: '#fff'
+  },
+  activeItem: {
+    main: '#edf6f9',
+    dark: '#edf6f9',
+    light: '#edf6f9',
+    contrastText: '#000'
   }
 
 
@@ -177,71 +185,84 @@ const siteTheme = createTheme({
       fontSize: "1rem",
     }
   },
-  overrides: {
+
+
+
+  components: {
 
     MuiCardActions: {
-      root: {
+      styleOverrides: {
+        root: {
 
+        }
       }
     },
     MuiListItem: {
-      root: {
-        paddingTop: 0,
-        paddingBottom: 0,
+      styleOverrides: {
+        root: {
+          paddingTop: 0,
+          paddingBottom: 0,
+        }
       }
     },
 
     MuiListItemText: {
-      root: {
-        paddingTop: 0,
-        paddingBottom: 0,
-        marginTop: 0,
-        marginBottom: 0,
-      },
-      primary: {
-        color: palette.text.primary,
-        "&:hover": {
-          color: palette.primary.dark,
-          fontWeight: 'bold',
-        }
-      },
+      styleOverrides: {
+        root: {
+          paddingTop: 0,
+          paddingBottom: 0,
+          marginTop: 0,
+          marginBottom: 0,
+        },
+        primary: {
+          color: palette.text.primary,
+          "&:hover": {
+            color: palette.primary.dark,
+            fontWeight: 'bold',
+          }
+        },
 
-      secondary: {
-        fontSize: '.9rem',
-        color: palette.text.primary,
-        "&:hover": {
-          color: palette.primary.dark,
-          fontWeight: 'bold',
+        secondary: {
+          fontSize: '.9rem',
+          color: palette.text.primary,
+          "&:hover": {
+            color: palette.primary.dark,
+            fontWeight: 'bold',
+          }
         }
+
       }
     },
 
     MuiButton: {
-      root: {
-        fontVariant: 'body2',
-        borderRadius: 0,
-        textTransform: 'capitalize',
-        borderWidth: '2px solid !important',
-      },
-    },
 
-    MuiPaper: {
-      root: {
-        elevation: 1,
-        borderColor: palette.secondary.main,
-        transition: 'unset'
+      styleOverrides: {
+        root: {
+          fontVariant: 'body2',
+          borderRadius: 0,
+          textTransform: 'capitalize',
+          borderWidth: '2px solid !important',
+        }
+      },
+      defaultProps: {
+        variant: 'outlined',
       }
     },
-  },
-  props: {
-    MuiButton: {
-      variant: 'outlined',
 
-    },
     MuiPaper: {
-      square: true,
-
+      styleOverrides: {
+        root: {
+          elevation: 1,
+          borderColor: palette.secondary.main,
+          transition: 'unset'
+        }
+      },
+      defaultProps: {
+        square: true,
+      }
     },
+
+
   },
 
 });
