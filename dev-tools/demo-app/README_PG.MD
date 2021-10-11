@@ -1,26 +1,14 @@
 # build
 mvn package -Pnative
-
 docker build -f src/main/docker/Dockerfile.native -t demo-app:1 .
 
-# run
-docker run -i --rm -p 8080:8080 demo-app:1
-
-# run via maven debug
-mvn compile quarkus:dev
-
-# pg - start postgre db if it's not running
-docker-compose -f dev-tools/demo-app/src/main/resources/docker/stack-pg.yml up -d
-
-# postgre admin ui
-
-http://localhost:8091/
-
-# postgre shell
-docker exec -it <CONTAINER_ID> bash
-
 # create db via shell
-
+create database my_stencil encoding 'UTF8' lc_collate='fi_FI.UTF8' lc_ctype='fi_FI.UTF8' template template0;
+revoke connect on database my_stencil from public;
+create user my_stencil;
+grant all privileges on database "my_stencil" to my_stencil;
+\password my_stencil
+password: my_stencil_password
 
 
 ## Extensions
@@ -35,18 +23,28 @@ docker exec -it <CONTAINER_ID> bash
 quarkus:
 
   stencil-composer:
-    service-path: /portal
-    server-path: /q/stencil-composer-services
+    server-path: /q/ide-services
 
   stencil-composer-pg:
-    service-path: /q/stencil-composer-services
-
+    service-path: /q/ide-services
     repo:
       repo-name: test-assets
 
-  stencil-sc:
-    service-path: /q/site
-    site-json: site.json
+  datasource:
+    db-kind: postgresql 
+    username: spo_stencil
+    password: joo4XooHllK2thei
+    reactive:
+      max-size: 3
+      url: postgresql://localhost:5432/spo_stencil
     
 ```
-    
+
+
+# run locally
+docker run -i --rm -p 8080:8080 demo-app:1
+## run using maven
+mvn compile quarkus:dev
+## pg - start postgre db if it's not running
+docker-compose -f dev-tools/demo-app/src/main/resources/docker/stack-pg.yml up -d
+http://localhost:8091/

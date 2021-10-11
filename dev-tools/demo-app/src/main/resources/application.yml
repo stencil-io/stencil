@@ -16,16 +16,12 @@ quarkus:
     repo:
       repo-name: test-assets
 
-  stencil-sc:
-    service-path: /q/site
-    site-json: site.json
-
   datasource:
     db-kind: postgresql 
     username: spo_stencil
     password: joo4XooHllK2thei
     reactive:
-      max-size: 16
+      max-size: 3
       url: postgresql://localhost:5432/spo_stencil
 
 "%prod":
