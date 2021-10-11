@@ -5,7 +5,7 @@
   <parent>
     <groupId>io.thestencil</groupId>
     <artifactId>stencil-quarkus-extensions</artifactId>
-    <version>1.111</version>
+    <version>999-SNAPSHOT</version>
   </parent>
 
   <artifactId>quarkus-stencil-composer-pg-parent</artifactId>
