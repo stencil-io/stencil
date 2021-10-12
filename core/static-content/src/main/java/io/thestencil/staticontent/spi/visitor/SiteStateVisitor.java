@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.thestencil.client.api.StencilClient.Article;
 import io.thestencil.client.api.StencilClient.Entity;
 import io.thestencil.client.api.StencilClient.Link;
@@ -38,7 +41,7 @@ import io.thestencil.staticontent.api.StaticContentClient.Markdown;
 import io.thestencil.staticontent.api.StaticContentClient.Markdowns;
 
 public class SiteStateVisitor {
-  
+  private static final Logger LOGGER = LoggerFactory.getLogger(SiteStateVisitor.class);
   public static String LINK_TYPE_WORKFLOW = "workflow";
   private final List<Entity<Locale>> locales = new ArrayList<>();
   private SiteState entity;
@@ -155,7 +158,8 @@ public class SiteStateVisitor {
       final var content = page.getBody().getContent();
       final var ast = new MarkdownVisitor().visit(content);
       if(ast.getHeadings().stream().filter(entity -> entity.getLevel() == 1).findFirst().isEmpty()) {
-        throw new MarkdownException("markdown must have atleast one h1(line starting with one # my super menu)");
+        //throw new MarkdownException();
+        LOGGER.error("Failed to parse article '" + article.getBody().getName() + "', markdown must have atleast one h1(line starting with one # my super menu)");
       }
       
       result.add(ImmutableMarkdown.builder()
