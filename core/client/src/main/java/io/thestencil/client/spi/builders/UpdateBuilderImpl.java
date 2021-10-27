@@ -151,7 +151,8 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
     
     final var result = ImmutableEntity.<Article>builder()
         .from(start)
-        .body(ImmutableArticle.builder().from(start.getBody())
+        .body(ImmutableArticle.builder()
+            .from(start.getBody())
             .name(changes.getName())
             .order(changes.getOrder())
             .parentId(changes.getParentId())
@@ -234,7 +235,7 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
           toBeSaved.forEach(e -> command.append(e.getId(), config.getSerializer().toString(e)));
 
           return command
-            .message("update type: '" + EntityType.PAGE + "', with ids: '" + String.join(",", ids) + "'")
+            .message("UPDATE: '" + EntityType.PAGE + "', count: '" + ids.size() + "'")
             .parentIsLatest()
             .author(config.getAuthorProvider().getAuthor())
             .build().onItem().transform(commit -> {

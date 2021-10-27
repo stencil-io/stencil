@@ -45,6 +45,12 @@ quarkus:
 docker run -i --rm -p 8080:8080 demo-app:1
 ## run using maven
 mvn compile quarkus:dev
+
 ## pg - start postgre db if it's not running
 docker-compose -f dev-tools/demo-app/src/main/resources/docker/stack-pg.yml up -d
 http://localhost:8091/
+
+
+## default postgre port
+5432
+

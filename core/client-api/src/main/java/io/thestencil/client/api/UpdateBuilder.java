@@ -67,6 +67,7 @@ public interface UpdateBuilder {
     
     @Nullable
     List<String> getLinks();
+    @Nullable
     List<String> getWorkflows();
   }
   @Value.Immutable
