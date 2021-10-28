@@ -237,33 +237,52 @@ public class CreateBuilderImpl implements CreateBuilder {
   }
 
   @Override
-  public Uni<Entity<Workflow>> workflow(CreateWorkflow init) {
-      final var gid = gid(EntityType.WORKFLOW);
-      final var workflow = ImmutableWorkflow.builder()
-        .name(init.getName())
-        .locale(init.getLocale())
-        .content(init.getContent())
-        .articles(init.getArticles())
-        .build();
+  public Uni<List<Entity<Workflow>>> workflow(CreateWorkflow init) {
+    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
+    return query.onItem().transformToUni(state -> {
       
-      final Entity<Workflow> entity = ImmutableEntity.<Workflow>builder()
-          .id(gid)
-          .type(EntityType.WORKFLOW)
-          .body(workflow)
-          .build();
-      
-      return config.getClient().commit().head()
+      final var builder = config.getClient().commit().head()
           .head(config.getRepoName(), config.getHeadName())
           .message("creating-workflow")
           .parentIsLatest()
-          .author(config.getAuthorProvider().getAuthor())
-          .append(gid, config.getSerializer().toString(entity))
+          .author(config.getAuthorProvider().getAuthor());
+      
+      final var created = new ArrayList<Entity<Workflow>>();
+      
+      for(var localeId : init.getLocales()) {
+        
+        
+        final var gid = gid(EntityType.WORKFLOW);
+        final var workflow = ImmutableWorkflow.builder()
+          .name(init.getName())
+          .locale(localeId)
+          .content(init.getContent())
+          .articles(init.getArticles())
+          .build();
+        
+        final Entity<Workflow> entity = ImmutableEntity.<Workflow>builder()
+            .id(gid)
+            .type(EntityType.WORKFLOW)
+            .body(workflow)
+            .build();
+        
+        builder.append(gid, config.getSerializer().toString(entity));
+        created.add(entity);
+        
+        if(!state.getLocales().containsKey(localeId)) {
+          throw new ConstraintException(entity, "Locale with id: '" + localeId + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
+        }
+      }
+      
+      return builder
           .build().onItem().transform(commit -> {
             if(commit.getStatus() == CommitStatus.OK) {
-              return entity;
+              return created;
             }
-            throw new SaveException(entity, commit);
+            throw new SaveException(Collections.unmodifiableList(created), commit);
           });
+        
+      });
   }
   
   private String gid(EntityType type) {

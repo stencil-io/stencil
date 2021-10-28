@@ -47,7 +47,7 @@ public interface CreateBuilder {
   Uni<Entity<Locale>> locale(CreateLocale init);
   Uni<Entity<Page>> page(CreatePage init);
   Uni<List<Entity<Link>>> link(CreateLink init);
-  Uni<Entity<Workflow>> workflow(CreateWorkflow init);  
+  Uni<List<Entity<Workflow>>> workflow(CreateWorkflow init);  
   
 
   @Value.Immutable
@@ -103,7 +103,7 @@ public interface CreateBuilder {
   @JsonDeserialize(as = ImmutableCreateWorkflow.class)
   interface CreateWorkflow {
     String getName();
-    String getLocale(); 
+    List<String> getLocales(); 
     String getContent();
     List<String> getArticles();
   }
