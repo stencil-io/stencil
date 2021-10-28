@@ -67,30 +67,43 @@ public class CreateBuilderImpl implements CreateBuilder {
   
   @Override
   public Uni<Entity<Article>> article(CreateArticle init) {
-    final var gid = gid(EntityType.ARTICLE);
-    final var article = ImmutableArticle.builder()
-        .name(init.getName())
-        .parentId(init.getParentId())
-        .order(Optional.ofNullable(init.getOrder()).orElse(0))
-        .build();
-    final Entity<Article> entity = ImmutableEntity.<Article>builder()
-        .id(gid)
-        .type(EntityType.ARTICLE)
-        .body(article)
-        .build();
+    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
     
-    return config.getClient().commit().head()
-      .head(config.getRepoName(), config.getHeadName())
-      .message("creating-article")
-      .parentIsLatest()
-      .author(config.getAuthorProvider().getAuthor())
-      .append(gid, config.getSerializer().toString(entity))
-      .build().onItem().transform(commit -> {
-        if(commit.getStatus() == CommitStatus.OK) {
-          return entity;
-        }
-        throw new SaveException(entity, commit);
-      });
+    return query.onItem().transformToUni(state -> {
+    
+      final var gid = gid(EntityType.ARTICLE);
+      final var article = ImmutableArticle.builder()
+          .name(init.getName())
+          .parentId(init.getParentId())
+          .order(Optional.ofNullable(init.getOrder()).orElse(0))
+          .build();
+      final Entity<Article> entity = ImmutableEntity.<Article>builder()
+          .id(gid)
+          .type(EntityType.ARTICLE)
+          .body(article)
+          .build();
+      
+      final var duplicate = state.getArticles().values().stream()
+          .filter(p -> p.getBody().getName().equals(init.getName()))
+          .findFirst();
+      
+      if(duplicate.isPresent()) {
+        throw new ConstraintException(entity, "Article: '" + init.getName() + "' already exists!");
+      }
+      
+      return config.getClient().commit().head()
+        .head(config.getRepoName(), config.getHeadName())
+        .message("creating-article")
+        .parentIsLatest()
+        .author(config.getAuthorProvider().getAuthor())
+        .append(gid, config.getSerializer().toString(entity))
+        .build().onItem().transform(commit -> {
+          if(commit.getStatus() == CommitStatus.OK) {
+            return entity;
+          }
+          throw new SaveException(entity, commit);
+        });
+    });
   }
 
   @Override
@@ -133,59 +146,93 @@ public class CreateBuilderImpl implements CreateBuilder {
 
   @Override
   public Uni<Entity<Locale>> locale(CreateLocale init) {
-    final var gid = gid(EntityType.LOCALE);
-    final var locale = ImmutableLocale.builder()
-        .value(init.getLocale())
-        .enabled(true)
-        .build();
+    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
     
-    final Entity<Locale> entity = ImmutableEntity.<Locale>builder()
-        .id(gid)
-        .type(EntityType.LOCALE)
-        .body(locale)
-        .build();
-    
-    return config.getClient().commit().head()
-        .head(config.getRepoName(), config.getHeadName())
-        .message("creating-locale")
-        .parentIsLatest()
-        .author(config.getAuthorProvider().getAuthor())
-        .append(gid, config.getSerializer().toString(entity))
-        .build().onItem().transform(commit -> {
-          if(commit.getStatus() == CommitStatus.OK) {
-            return entity;
-          }
-          throw new SaveException(entity, commit);
-        });
+    return query.onItem().transformToUni(state -> {
+      
+      final var gid = gid(EntityType.LOCALE);
+      final var locale = ImmutableLocale.builder()
+          .value(init.getLocale())
+          .enabled(true)
+          .build();
+      
+      final Entity<Locale> entity = ImmutableEntity.<Locale>builder()
+          .id(gid)
+          .type(EntityType.LOCALE)
+          .body(locale)
+          .build();
+      
+      final var duplicate = state.getLocales().values().stream()
+          .filter(p -> p.getBody().getValue().equals(init.getLocale()))
+          .findFirst();
+      
+      if(duplicate.isPresent()) {
+        throw new ConstraintException(entity, "Locale: '" + init.getLocale() + "' already exists!");
+      }
+      
+      
+      return config.getClient().commit().head()
+          .head(config.getRepoName(), config.getHeadName())
+          .message("creating-locale")
+          .parentIsLatest()
+          .author(config.getAuthorProvider().getAuthor())
+          .append(gid, config.getSerializer().toString(entity))
+          .build().onItem().transform(commit -> {
+            if(commit.getStatus() == CommitStatus.OK) {
+              return entity;
+            }
+            throw new SaveException(entity, commit);
+          });
+      
+    });
   }
 
   @Override
   public Uni<Entity<Page>> page(CreatePage init) {
-    final var gid = gid(EntityType.PAGE);
-    final var page = ImmutablePage.builder()
-        .article(init.getArticleId())
-        .locale(init.getLocale())
-        .content(Optional.ofNullable(init.getContent()).orElse(""))
-        .build();
-    
-    final Entity<Page> entity = ImmutableEntity.<Page>builder()
-        .id(gid)
-        .type(EntityType.PAGE)
-        .body(page)
-        .build();
-    
-    return config.getClient().commit().head()
-        .head(config.getRepoName(), config.getHeadName())
-        .message("creating-page")
-        .parentIsLatest()
-        .author(config.getAuthorProvider().getAuthor())
-        .append(gid, config.getSerializer().toString(entity))
-        .build().onItem().transform(commit -> {
-          if(commit.getStatus() == CommitStatus.OK) {
-            return entity;
-          }
-          throw new SaveException(entity, commit);
-        });
+
+    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
+    return query.onItem().transformToUni(state -> {
+      final var localeId = init.getLocale();
+      final var gid = gid(EntityType.PAGE);
+      final var page = ImmutablePage.builder()
+          .article(init.getArticleId())
+          .locale(localeId)
+          .content(Optional.ofNullable(init.getContent()).orElse(""))
+          .build();
+      
+      final Entity<Page> entity = ImmutableEntity.<Page>builder()
+          .id(gid)
+          .type(EntityType.PAGE)
+          .body(page)
+          .build();
+      
+
+      if(!state.getLocales().containsKey(localeId)) {
+        throw new ConstraintException(entity, "Locale with id: '" + localeId + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
+      }
+      
+      final var duplicate = state.getPages().values().stream()
+          .filter(p -> p.getBody().getArticle().equals(init.getArticleId()))
+          .filter(p -> p.getBody().getLocale().equals(init.getLocale()))
+          .findFirst();
+      
+      if(duplicate.isPresent()) {
+        throw new ConstraintException(entity, "Page locale with id: '" + localeId + "' already exists!");
+      }
+      
+      return config.getClient().commit().head()
+          .head(config.getRepoName(), config.getHeadName())
+          .message("creating-page")
+          .parentIsLatest()
+          .author(config.getAuthorProvider().getAuthor())
+          .append(gid, config.getSerializer().toString(entity))
+          .build().onItem().transform(commit -> {
+            if(commit.getStatus() == CommitStatus.OK) {
+              return entity;
+            }
+            throw new SaveException(entity, commit);
+          });
+    });
   }
 
   @Override
@@ -250,7 +297,6 @@ public class CreateBuilderImpl implements CreateBuilder {
       final var created = new ArrayList<Entity<Workflow>>();
       
       for(var localeId : init.getLocales()) {
-        
         
         final var gid = gid(EntityType.WORKFLOW);
         final var workflow = ImmutableWorkflow.builder()

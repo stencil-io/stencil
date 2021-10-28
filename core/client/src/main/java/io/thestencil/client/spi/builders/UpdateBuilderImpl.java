@@ -47,6 +47,7 @@ import io.thestencil.client.api.UpdateBuilder;
 import io.thestencil.client.spi.PersistenceCommands;
 import io.thestencil.client.spi.PersistenceConfig;
 import io.thestencil.client.spi.PersistenceConfig.EntityState;
+import io.thestencil.client.spi.exceptions.ConstraintException;
 import io.thestencil.client.spi.exceptions.QueryException;
 import io.thestencil.client.spi.exceptions.SaveException;
 
@@ -68,6 +69,15 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
   private Uni<Entity<Article>> changeArticle(SiteState site, ArticleMutator changes) {
     Entity<Article> start = site.getArticles().get(changes.getArticleId());
     List<Entity<?>> additionalChanges = new ArrayList<>();
+    
+    final var duplicate = site.getArticles().values().stream()
+        .filter(p -> !p.getId().equals(changes.getArticleId()))
+        .filter(p -> p.getBody().getName().equals(changes.getName()))
+        .findFirst();
+    
+    if(duplicate.isPresent()) {
+      throw new ConstraintException(start, "Article: '" + changes.getName() + "' already exists!");
+    }
     
     // update article links
     if(changes.getLinks() != null) {
@@ -168,15 +178,25 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
   
   @Override
   public Uni<Entity<Locale>> locale(LocaleMutator changes) {
-    // Get the locale
-    final Uni<EntityState<Locale>> query = get(changes.getLocaleId(), EntityType.LOCALE);
-    
+    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
+  
     // Change the locale
     return query.onItem().transformToUni(state -> save(changeLocale(state, changes)));
   }
   
-  private Entity<Locale> changeLocale(EntityState<Locale> state, LocaleMutator changes) {
-    final var start = state.getEntity();
+  private Entity<Locale> changeLocale(SiteState site, LocaleMutator changes) {
+    final Entity<Locale> start = site.getLocales().get(changes.getLocaleId());
+
+    final var duplicate = site.getLocales().values().stream()
+        .filter(p -> !p.getId().equals(changes.getLocaleId()))
+        .filter(p -> p.getBody().getValue().equals(changes.getValue()))
+        .findFirst();
+    
+    if(duplicate.isPresent()) {
+      throw new ConstraintException(start, "Locale: '" + changes.getValue() + "' already exists!");
+    }
+    
+    
     return ImmutableEntity.<Locale>builder()
         .from(start)
         .body(ImmutableLocale.builder().from(start.getBody())
@@ -262,14 +282,19 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
   @Override
   public Uni<Entity<Link>> link(LinkMutator changes) {
     // Get the link
-    final Uni<EntityState<Link>> query = get(changes.getLinkId(), EntityType.LINK);
+    
+    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
     
     // Change the link
     return query.onItem().transformToUni(state -> save(changeLink(state, changes)));
   }
   
-  private Entity<Link> changeLink(EntityState<Link> state, LinkMutator changes) {
-    final var start = state.getEntity();
+  private Entity<Link> changeLink(SiteState site, LinkMutator changes) {
+    final var start = site.getLinks().get(changes.getLinkId());
+    final var localeId = changes.getLocale();
+    if(!site.getLocales().containsKey(localeId)) {
+      throw new ConstraintException(start, "Locale with id: '" + localeId + "' does not exist in: '" + String.join(",", site.getLocales().keySet()) + "'!");          
+    }
     return ImmutableEntity.<Link>builder()
         .from(start)
         .body(ImmutableLink.builder().from(start.getBody())
@@ -285,14 +310,18 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
   @Override
   public Uni<Entity<Workflow>> workflow(WorkflowMutator changes) {
     // Get the Workflow
-    final Uni<EntityState<Workflow>> query = get(changes.getWorkflowId(), EntityType.WORKFLOW);
+    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
     
     // Change the Workflow
     return query.onItem().transformToUni(state -> save(changeWorkflow(state, changes)));
   }
   
-  private Entity<Workflow> changeWorkflow(EntityState<Workflow> state, WorkflowMutator changes) {
-    final var start = state.getEntity();
+  private Entity<Workflow> changeWorkflow(SiteState site, WorkflowMutator changes) {
+    final var start = site.getWorkflows().get(changes.getWorkflowId());
+    final var localeId = changes.getLocale();
+    if(!site.getLocales().containsKey(localeId)) {
+      throw new ConstraintException(start, "Locale with id: '" + localeId + "' does not exist in: '" + String.join(",", site.getLocales().keySet()) + "'!");          
+    }
     return ImmutableEntity.<Workflow>builder()
         .from(start)
         .body(ImmutableWorkflow.builder().from(start.getBody())

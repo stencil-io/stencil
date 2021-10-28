@@ -139,7 +139,7 @@ public class IdeServicesTests extends PgSqlDbConfig {
     .body(
         JsonObject.mapFrom(
             ImmutableCreateWorkflow.builder()
-            .locale(localeId)
+            .addLocales(localeId)
             .content("cool name")
             .name("workflow name")
             .build()
@@ -149,7 +149,7 @@ public class IdeServicesTests extends PgSqlDbConfig {
             .extract()
             .response()
             .body()
-            .path("id");
+            .path("[0].id");
    
 
    String releaseId = RestAssured.given()
@@ -230,7 +230,7 @@ public class IdeServicesTests extends PgSqlDbConfig {
             .workflowId(workflowId)
             .content("updated workflow")
             .name("SuperFlow")
-            .locale("et")
+            .locale(localeId)
             .build()
             ).toString())
           .when().put("/stencil-ide-services/workflows")

@@ -20,142 +20,161 @@ Commits
   - id: 12
     tree: 13, parent: 10, message: creating-locale
   - id: 14
-    tree: 15, parent: 12, message: creating-page
+    tree: 15, parent: 12, message: creating-locale
   - id: 16
     tree: 17, parent: 14, message: creating-page
   - id: 18
-    tree: 19, parent: 16, message: creating-link
+    tree: 19, parent: 16, message: creating-page
   - id: 20
-    tree: 21, parent: 18, message: creating-workflow
+    tree: 21, parent: 18, message: creating-link
   - id: 22
-    tree: 23, parent: 20, message: update type: 'ARTICLE', with id: 'ARTICLE-1'
+    tree: 23, parent: 20, message: creating-workflow
   - id: 24
-    tree: 25, parent: 22, message: update type: 'LOCALE', with id: 'LOCALE-5'
+    tree: 25, parent: 22, message: update type: 'ARTICLE', with id: 'ARTICLE-1'
   - id: 26
-    tree: 27, parent: 24, message: update type: 'PAGE', with id: 'PAGE-6'
+    tree: 27, parent: 24, message: update type: 'LOCALE', with id: 'LOCALE-5'
   - id: 28
-    tree: 29, parent: 26, message: update type: 'LINK', with id: 'LINK-8'
+    tree: 29, parent: 26, message: update type: 'PAGE', with id: 'PAGE-7'
+  - id: 30
+    tree: 31, parent: 28, message: update type: 'LINK', with id: 'LINK-9'
   - id: 3
-    tree: 30, parent: 28, message: update type: 'WORKFLOW', with id: 'WORKFLOW-9'
+    tree: 32, parent: 30, message: update type: 'WORKFLOW', with id: 'WORKFLOW-10'
 
 Trees
   - id: 5
-    31: ARTICLE-1
+    33: ARTICLE-1
   - id: 7
-    31: ARTICLE-1
-    32: ARTICLE-2
+    33: ARTICLE-1
+    34: ARTICLE-2
   - id: 9
-    31: ARTICLE-1
-    32: ARTICLE-2
-    33: RELEASE-3
+    33: ARTICLE-1
+    34: ARTICLE-2
+    35: RELEASE-3
   - id: 11
-    31: ARTICLE-1
-    32: ARTICLE-2
-    33: RELEASE-3
-    34: RELEASE-4
+    33: ARTICLE-1
+    34: ARTICLE-2
+    35: RELEASE-3
+    36: RELEASE-4
   - id: 13
-    31: ARTICLE-1
-    32: ARTICLE-2
-    35: LOCALE-5
-    33: RELEASE-3
-    34: RELEASE-4
+    33: ARTICLE-1
+    34: ARTICLE-2
+    37: LOCALE-5
+    35: RELEASE-3
+    36: RELEASE-4
   - id: 15
-    31: ARTICLE-1
-    32: ARTICLE-2
-    35: LOCALE-5
-    36: PAGE-6
-    33: RELEASE-3
-    34: RELEASE-4
+    33: ARTICLE-1
+    34: ARTICLE-2
+    37: LOCALE-5
+    38: LOCALE-6
+    35: RELEASE-3
+    36: RELEASE-4
   - id: 17
-    31: ARTICLE-1
-    32: ARTICLE-2
-    35: LOCALE-5
-    36: PAGE-6
-    37: PAGE-7
-    33: RELEASE-3
-    34: RELEASE-4
+    33: ARTICLE-1
+    34: ARTICLE-2
+    37: LOCALE-5
+    38: LOCALE-6
+    39: PAGE-7
+    35: RELEASE-3
+    36: RELEASE-4
   - id: 19
-    31: ARTICLE-1
-    32: ARTICLE-2
-    38: LINK-8
-    35: LOCALE-5
-    36: PAGE-6
-    37: PAGE-7
-    33: RELEASE-3
-    34: RELEASE-4
+    33: ARTICLE-1
+    34: ARTICLE-2
+    37: LOCALE-5
+    38: LOCALE-6
+    39: PAGE-7
+    40: PAGE-8
+    35: RELEASE-3
+    36: RELEASE-4
   - id: 21
-    31: ARTICLE-1
-    32: ARTICLE-2
-    38: LINK-8
-    35: LOCALE-5
-    36: PAGE-6
-    37: PAGE-7
-    33: RELEASE-3
-    34: RELEASE-4
-    39: WORKFLOW-9
+    33: ARTICLE-1
+    34: ARTICLE-2
+    41: LINK-9
+    37: LOCALE-5
+    38: LOCALE-6
+    39: PAGE-7
+    40: PAGE-8
+    35: RELEASE-3
+    36: RELEASE-4
   - id: 23
-    40: ARTICLE-1
-    32: ARTICLE-2
-    38: LINK-8
-    35: LOCALE-5
-    36: PAGE-6
-    37: PAGE-7
-    33: RELEASE-3
-    34: RELEASE-4
-    39: WORKFLOW-9
+    33: ARTICLE-1
+    34: ARTICLE-2
+    41: LINK-9
+    37: LOCALE-5
+    38: LOCALE-6
+    39: PAGE-7
+    40: PAGE-8
+    35: RELEASE-3
+    36: RELEASE-4
+    42: WORKFLOW-10
   - id: 25
-    40: ARTICLE-1
-    32: ARTICLE-2
-    38: LINK-8
-    41: LOCALE-5
-    36: PAGE-6
-    37: PAGE-7
-    33: RELEASE-3
-    34: RELEASE-4
-    39: WORKFLOW-9
+    43: ARTICLE-1
+    34: ARTICLE-2
+    41: LINK-9
+    37: LOCALE-5
+    38: LOCALE-6
+    39: PAGE-7
+    40: PAGE-8
+    35: RELEASE-3
+    36: RELEASE-4
+    42: WORKFLOW-10
   - id: 27
-    40: ARTICLE-1
-    32: ARTICLE-2
-    38: LINK-8
-    41: LOCALE-5
-    42: PAGE-6
-    37: PAGE-7
-    33: RELEASE-3
-    34: RELEASE-4
-    39: WORKFLOW-9
+    43: ARTICLE-1
+    34: ARTICLE-2
+    41: LINK-9
+    44: LOCALE-5
+    38: LOCALE-6
+    39: PAGE-7
+    40: PAGE-8
+    35: RELEASE-3
+    36: RELEASE-4
+    42: WORKFLOW-10
   - id: 29
-    40: ARTICLE-1
-    32: ARTICLE-2
-    43: LINK-8
-    41: LOCALE-5
-    42: PAGE-6
-    37: PAGE-7
-    33: RELEASE-3
-    34: RELEASE-4
-    39: WORKFLOW-9
-  - id: 30
-    40: ARTICLE-1
-    32: ARTICLE-2
-    43: LINK-8
-    41: LOCALE-5
-    42: PAGE-6
-    37: PAGE-7
-    33: RELEASE-3
-    34: RELEASE-4
-    44: WORKFLOW-9
+    43: ARTICLE-1
+    34: ARTICLE-2
+    41: LINK-9
+    44: LOCALE-5
+    38: LOCALE-6
+    45: PAGE-7
+    40: PAGE-8
+    35: RELEASE-3
+    36: RELEASE-4
+    42: WORKFLOW-10
+  - id: 31
+    43: ARTICLE-1
+    34: ARTICLE-2
+    46: LINK-9
+    44: LOCALE-5
+    38: LOCALE-6
+    45: PAGE-7
+    40: PAGE-8
+    35: RELEASE-3
+    36: RELEASE-4
+    42: WORKFLOW-10
+  - id: 32
+    43: ARTICLE-1
+    34: ARTICLE-2
+    46: LINK-9
+    44: LOCALE-5
+    38: LOCALE-6
+    45: PAGE-7
+    40: PAGE-8
+    35: RELEASE-3
+    36: RELEASE-4
+    47: WORKFLOW-10
 
 Blobs
-  - 31: {"id":"ARTICLE-1","type":"ARTICLE","body":{"parentId":null,"name":"My first article","order":100}}
-  - 32: {"id":"ARTICLE-2","type":"ARTICLE","body":{"parentId":null,"name":"My second article","order":100}}
-  - 33: {"id":"RELEASE-3","type":"RELEASE","body":{"parentCommit":"6","name":"v1.5","note":"test release"}}
-  - 34: {"id":"RELEASE-4","type":"RELEASE","body":{"parentCommit":"8","name":"v2.4","note":"new content"}}
-  - 35: {"id":"LOCALE-5","type":"LOCALE","body":{"value":"en","enabled":true}}
-  - 36: {"id":"PAGE-6","type":"PAGE","body":{"article":"A1","locale":"en","content":"# English content"}}
-  - 37: {"id":"PAGE-7","type":"PAGE","body":{"article":"A1","locale":"fi","content":"# Finnish content"}}
-  - 38: {"id":"LINK-8","type":"LINK","body":{"articles":[],"locale":"LOCALE-5","content":"www.example.com","contentType":"internal","description":"click me"}}
-  - 39: {"id":"WORKFLOW-9","type":"WORKFLOW","body":{"name":"Form1","locale":"en","content":"firstForm","articles":[]}}
-  - 40: {"id":"ARTICLE-1","type":"ARTICLE","body":{"parentId":null,"name":"Revised Article1","order":300}}
-  - 41: {"id":"LOCALE-5","type":"LOCALE","body":{"value":"fi","enabled":false}}
-  - 42: {"id":"PAGE-6","type":"PAGE","body":{"article":"A1","locale":"fi","content":"new content for page1"}}
-  - 43: {"id":"LINK-8","type":"LINK","body":{"articles":["A1"],"locale":"sv","content":"www.wikipedia.com","contentType":"external","description":"Don't click me"}}
-  - 44: {"id":"WORKFLOW-9","type":"WORKFLOW","body":{"name":"First form part 2","locale":"sv","content":"revision of firstForm","articles":[]}}
+  - 33: {"id":"ARTICLE-1","type":"ARTICLE","body":{"parentId":null,"name":"My first article","order":100}}
+  - 34: {"id":"ARTICLE-2","type":"ARTICLE","body":{"parentId":null,"name":"My second article","order":100}}
+  - 35: {"id":"RELEASE-3","type":"RELEASE","body":{"parentCommit":"6","name":"v1.5","note":"test release"}}
+  - 36: {"id":"RELEASE-4","type":"RELEASE","body":{"parentCommit":"8","name":"v2.4","note":"new content"}}
+  - 37: {"id":"LOCALE-5","type":"LOCALE","body":{"value":"en","enabled":true}}
+  - 38: {"id":"LOCALE-6","type":"LOCALE","body":{"value":"fi","enabled":true}}
+  - 39: {"id":"PAGE-7","type":"PAGE","body":{"article":"A1","locale":"LOCALE-5","content":"# English content"}}
+  - 40: {"id":"PAGE-8","type":"PAGE","body":{"article":"A1","locale":"LOCALE-6","content":"# Finnish content"}}
+  - 41: {"id":"LINK-9","type":"LINK","body":{"articles":[],"locale":"LOCALE-5","content":"www.example.com","contentType":"internal","description":"click me"}}
+  - 42: {"id":"WORKFLOW-10","type":"WORKFLOW","body":{"name":"Form1","locale":"LOCALE-5","content":"firstForm","articles":[]}}
+  - 43: {"id":"ARTICLE-1","type":"ARTICLE","body":{"parentId":null,"name":"Revised Article1","order":300}}
+  - 44: {"id":"LOCALE-5","type":"LOCALE","body":{"value":"gb","enabled":false}}
+  - 45: {"id":"PAGE-7","type":"PAGE","body":{"article":"A1","locale":"LOCALE-5","content":"new content for page1"}}
+  - 46: {"id":"LINK-9","type":"LINK","body":{"articles":["A1"],"locale":"LOCALE-6","content":"www.wikipedia.com","contentType":"external","description":"Don't click me"}}
+  - 47: {"id":"WORKFLOW-10","type":"WORKFLOW","body":{"name":"First form part 2","locale":"LOCALE-6","content":"revision of firstForm","articles":[]}}

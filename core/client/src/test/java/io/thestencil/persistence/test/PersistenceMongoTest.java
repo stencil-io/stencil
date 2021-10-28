@@ -57,39 +57,43 @@ public class PersistenceMongoTest extends MongoDbConfig {
     
    Entity<Article> article1 = repo.create().article(
         ImmutableCreateArticle.builder().name("My first article").order(100).build()
-    ).await().atMost(Duration.ofMinutes(1));
+    )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
 
    Entity<Article> article2 = repo.create().article(
         ImmutableCreateArticle.builder().name("My second article").order(100).build()
-    ).await().atMost(Duration.ofMinutes(1));
+    )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     repo.create().release(
         ImmutableCreateRelease.builder().name("v1.5").note("test release").build()
-     ).await().atMost(Duration.ofMinutes(1));
+     )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     repo.create().release(
         ImmutableCreateRelease.builder().name("v2.4").note("new content").build()
-     ).await().atMost(Duration.ofMinutes(1));
+     )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     Entity<Locale> locale1 = repo.create().locale(
         ImmutableCreateLocale.builder().locale("en").build()
+      )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
+    
+    Entity<Locale> locale2 = repo.create().locale(
+        ImmutableCreateLocale.builder().locale("fi").build()
       ).await().atMost(Duration.ofMinutes(1));
     
     Entity<Page> page1 = repo.create().page(
-        ImmutableCreatePage.builder().articleId("A1").locale("en").content("# English content").build()
-      ).await().atMost(Duration.ofMinutes(1));
+        ImmutableCreatePage.builder().articleId("A1").locale(locale1.getId()).content("# English content").build()
+      )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     repo.create().page(
-        ImmutableCreatePage.builder().articleId("A1").locale("fi").content("# Finnish content").build()
-      ).await().atMost(Duration.ofMinutes(1));
+        ImmutableCreatePage.builder().articleId("A1").locale(locale2.getId()).content("# Finnish content").build()
+      )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     Entity<Link> link1 = repo.create().link(
         ImmutableCreateLink.builder().type("internal").addLocales("LOCALE-5").description("click me").value("www.example.com").build()
-      ).await().atMost(Duration.ofMinutes(1)).iterator().next();
+      )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1)).iterator().next();
     
     Entity<Workflow> workflow1 = repo.create().workflow( 
-        ImmutableCreateWorkflow.builder().name("Form1").locale("en").content("firstForm").build()
-      ).await().atMost(Duration.ofMinutes(1));
+        ImmutableCreateWorkflow.builder().name("Form1").addLocales("LOCALE-5").content("firstForm").build()
+      )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1)).iterator().next();
     
     // create state
     var expected = TestExporter.toString(getClass(), "create_state.txt");
@@ -97,19 +101,19 @@ public class PersistenceMongoTest extends MongoDbConfig {
     Assertions.assertEquals(expected, actual);
     
     repo.update().article(ImmutableArticleMutator.builder().articleId(article1.getId()).name("Revised Article1").order(300).build())
-    .await().atMost(Duration.ofMinutes(1));
+          .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
-    repo.update().locale(ImmutableLocaleMutator.builder().localeId(locale1.getId()).value("fi").enabled(false).build())
-    .await().atMost(Duration.ofMinutes(1));
+    repo.update().locale(ImmutableLocaleMutator.builder().localeId(locale1.getId()).value("gb").enabled(false).build())
+          .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
-    repo.update().page(ImmutablePageMutator.builder().pageId(page1.getId()).content("new content for page1").locale("fi").build())
-    .await().atMost(Duration.ofMinutes(1));
+    repo.update().page(ImmutablePageMutator.builder().pageId(page1.getId()).content("new content for page1").locale(locale1.getId()).build())
+          .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
-    repo.update().link(ImmutableLinkMutator.builder().linkId(link1.getId()).articles(Arrays.asList("A1")).description("Don't click me").locale("sv").content("www.wikipedia.com").type("external").build())
-    .await().atMost(Duration.ofMinutes(1));
+    repo.update().link(ImmutableLinkMutator.builder().linkId(link1.getId()).articles(Arrays.asList("A1")).description("Don't click me").locale(locale2.getId()).content("www.wikipedia.com").type("external").build())
+          .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
-    repo.update().workflow(ImmutableWorkflowMutator.builder().workflowId(workflow1.getId()).content("revision of firstForm").locale("sv").name("First form part 2").build())
-    .await().atMost(Duration.ofMinutes(1));
+    repo.update().workflow(ImmutableWorkflowMutator.builder().workflowId(workflow1.getId()).content("revision of firstForm").locale(locale2.getId()).name("First form part 2").build())
+          .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     
     // update state
@@ -119,22 +123,22 @@ public class PersistenceMongoTest extends MongoDbConfig {
     
     
     repo.delete().article(article1.getId())
-    .await().atMost(Duration.ofMinutes(1));
+          .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     repo.delete().article(article2.getId())
-    .await().atMost(Duration.ofMinutes(1));
+          .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     repo.delete().locale(locale1.getId())
-    .await().atMost(Duration.ofMinutes(1));
+          .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     repo.delete().page(page1.getId())
-    .await().atMost(Duration.ofMinutes(1));
+          .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     repo.delete().link(link1.getId())
-    .await().atMost(Duration.ofMinutes(1));
+          .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     repo.delete().workflow(workflow1.getId())
-    .await().atMost(Duration.ofMinutes(1));
+          .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     // delete state
     expected = TestExporter.toString(getClass(), "delete_state.txt");
