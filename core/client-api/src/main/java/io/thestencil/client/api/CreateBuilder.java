@@ -46,7 +46,7 @@ public interface CreateBuilder {
   Uni<Entity<Release>> release(CreateRelease init);
   Uni<Entity<Locale>> locale(CreateLocale init);
   Uni<Entity<Page>> page(CreatePage init);
-  Uni<Entity<Link>> link(CreateLink init);
+  Uni<List<Entity<Link>>> link(CreateLink init);
   Uni<Entity<Workflow>> workflow(CreateWorkflow init);  
   
 
@@ -92,7 +92,7 @@ public interface CreateBuilder {
   @JsonDeserialize(as = ImmutableCreateLink.class)
   interface CreateLink {
     String getValue();
-    String getLocale();
+    List<String> getLocales();
     String getDescription(); 
     String getType();
     List<String> getArticles();

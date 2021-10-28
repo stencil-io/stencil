@@ -123,7 +123,7 @@ public class IdeServicesTests extends MongoDbConfig {
     .body(
         JsonObject.mapFrom(
             ImmutableCreateLink.builder()
-            .locale(localeId)
+            .addLocales(localeId)
             .description("description")
             .value("www.example.com")
             .type("internal")
@@ -135,7 +135,7 @@ public class IdeServicesTests extends MongoDbConfig {
             .extract()
             .response()
             .body()
-            .path("id");
+            .path("[0].id");
   
    String workflowId = RestAssured.given() 
     .body(

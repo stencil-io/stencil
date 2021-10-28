@@ -86,8 +86,8 @@ public class PersistencePgTest extends PgTestTemplate {
       )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     Entity<Link> link1 = repo.create().link(
-        ImmutableCreateLink.builder().type("internal").locale("en").description("click me").value("www.example.com").build()
-      )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
+        ImmutableCreateLink.builder().type("internal").addLocales("LOCALE-5").description("click me").value("www.example.com").build()
+      )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1)).iterator().next();
     
     Entity<Workflow> workflow1 = repo.create().workflow( 
         ImmutableCreateWorkflow.builder().name("Form1").locale("en").content("firstForm").build()

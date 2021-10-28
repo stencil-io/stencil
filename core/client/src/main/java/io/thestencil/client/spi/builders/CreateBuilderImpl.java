@@ -1,5 +1,9 @@
 package io.thestencil.client.spi.builders;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /*-
  * #%L
  * stencil-persistence
@@ -26,6 +30,15 @@ import io.resys.thena.docdb.api.actions.CommitActions.CommitStatus;
 import io.resys.thena.docdb.api.actions.ObjectsActions.ObjectsStatus;
 import io.resys.thena.docdb.api.actions.RepoActions.RepoStatus;
 import io.smallrye.mutiny.Uni;
+import io.thestencil.client.api.CreateBuilder;
+import io.thestencil.client.api.ImmutableArticle;
+import io.thestencil.client.api.ImmutableEntity;
+import io.thestencil.client.api.ImmutableLink;
+import io.thestencil.client.api.ImmutableLocale;
+import io.thestencil.client.api.ImmutablePage;
+import io.thestencil.client.api.ImmutableRelease;
+import io.thestencil.client.api.ImmutableSiteState;
+import io.thestencil.client.api.ImmutableWorkflow;
 import io.thestencil.client.api.StencilClient.Article;
 import io.thestencil.client.api.StencilClient.Entity;
 import io.thestencil.client.api.StencilClient.EntityType;
@@ -37,18 +50,10 @@ import io.thestencil.client.api.StencilClient.SiteContentType;
 import io.thestencil.client.api.StencilClient.SiteState;
 import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.client.spi.PersistenceConfig;
+import io.thestencil.client.spi.exceptions.ConstraintException;
 import io.thestencil.client.spi.exceptions.RefException;
 import io.thestencil.client.spi.exceptions.RepoException;
 import io.thestencil.client.spi.exceptions.SaveException;
-import io.thestencil.client.api.CreateBuilder;
-import io.thestencil.client.api.ImmutableArticle;
-import io.thestencil.client.api.ImmutableEntity;
-import io.thestencil.client.api.ImmutableLink;
-import io.thestencil.client.api.ImmutableLocale;
-import io.thestencil.client.api.ImmutablePage;
-import io.thestencil.client.api.ImmutableRelease;
-import io.thestencil.client.api.ImmutableSiteState;
-import io.thestencil.client.api.ImmutableWorkflow;
 
 
 public class CreateBuilderImpl implements CreateBuilder {
@@ -184,34 +189,51 @@ public class CreateBuilderImpl implements CreateBuilder {
   }
 
   @Override
-  public Uni<Entity<Link>> link(CreateLink init) {
-    final var gid = gid(EntityType.LINK);
-    final var link = ImmutableLink.builder()
-      .description(init.getDescription())
-      .locale(init.getLocale())
-      .contentType(init.getType())
-      .content(init.getValue())
-      .articles(init.getArticles())
-      .build();
+  public Uni<List<Entity<Link>>> link(CreateLink init) {
     
-    final Entity<Link> entity = ImmutableEntity.<Link>builder()
-      .id(gid)
-      .type(EntityType.LINK)
-      .body(link)
-      .build();
-  
-    return config.getClient().commit().head()
-      .head(config.getRepoName(), config.getHeadName())
-      .message("creating-link")
-      .parentIsLatest()
-      .author(config.getAuthorProvider().getAuthor())
-      .append(gid, config.getSerializer().toString(entity))
-      .build().onItem().transform(commit -> {
-        if(commit.getStatus() == CommitStatus.OK) {
-          return entity;
+    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
+    return query.onItem().transformToUni(state -> {
+      
+      final var builder = config.getClient().commit().head()
+        .head(config.getRepoName(), config.getHeadName())
+        .message("creating-link")
+        .parentIsLatest()
+        .author(config.getAuthorProvider().getAuthor());
+      
+      final var created = new ArrayList<Entity<Link>>();
+
+      for(final var localeId : init.getLocales()) {
+        final var gid = gid(EntityType.LINK);
+        final var link = ImmutableLink.builder()
+          .description(init.getDescription())
+          .locale(localeId)
+          .contentType(init.getType())
+          .content(init.getValue())
+          .articles(init.getArticles())
+          .build();
+        
+        final Entity<Link> entity = ImmutableEntity.<Link>builder()
+          .id(gid)
+          .type(EntityType.LINK)
+          .body(link)
+          .build();
+        builder.append(gid, config.getSerializer().toString(entity));
+        created.add(entity);
+        
+        if(!state.getLocales().containsKey(localeId)) {
+          throw new ConstraintException(entity, "Locale with id: '" + localeId + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
         }
-        throw new SaveException(entity, commit);
-      });
+      }
+    
+      return builder
+        .build().onItem().transform(commit -> {
+          if(commit.getStatus() == CommitStatus.OK) {
+            return created;
+          }
+          throw new SaveException(Collections.unmodifiableList(created), commit);
+        });
+      
+    });
   }
 
   @Override

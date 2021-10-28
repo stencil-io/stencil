@@ -152,7 +152,7 @@ Blobs
   - 35: {"id":"LOCALE-5","type":"LOCALE","body":{"value":"en","enabled":true}}
   - 36: {"id":"PAGE-6","type":"PAGE","body":{"article":"A1","locale":"en","content":"# English content"}}
   - 37: {"id":"PAGE-7","type":"PAGE","body":{"article":"A1","locale":"fi","content":"# Finnish content"}}
-  - 38: {"id":"LINK-8","type":"LINK","body":{"articles":[],"locale":"en","content":"www.example.com","contentType":"internal","description":"click me"}}
+  - 38: {"id":"LINK-8","type":"LINK","body":{"articles":[],"locale":"LOCALE-5","content":"www.example.com","contentType":"internal","description":"click me"}}
   - 39: {"id":"WORKFLOW-9","type":"WORKFLOW","body":{"name":"Form1","locale":"en","content":"firstForm","articles":[]}}
   - 40: {"id":"ARTICLE-1","type":"ARTICLE","body":{"parentId":null,"name":"Revised Article1","order":300}}
   - 41: {"id":"LOCALE-5","type":"LOCALE","body":{"value":"fi","enabled":false}}

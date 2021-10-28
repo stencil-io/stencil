@@ -92,5 +92,5 @@ Blobs
   - 25: {"id":"LOCALE-5","type":"LOCALE","body":{"value":"en","enabled":true}}
   - 26: {"id":"PAGE-6","type":"PAGE","body":{"article":"A1","locale":"en","content":"# English content"}}
   - 27: {"id":"PAGE-7","type":"PAGE","body":{"article":"A1","locale":"fi","content":"# Finnish content"}}
-  - 28: {"id":"LINK-8","type":"LINK","body":{"articles":[],"locale":"en","content":"www.example.com","contentType":"internal","description":"click me"}}
+  - 28: {"id":"LINK-8","type":"LINK","body":{"articles":[],"locale":"LOCALE-5","content":"www.example.com","contentType":"internal","description":"click me"}}
   - 29: {"id":"WORKFLOW-9","type":"WORKFLOW","body":{"name":"Form1","locale":"en","content":"firstForm","articles":[]}}
