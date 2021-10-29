@@ -39,6 +39,7 @@ import io.thestencil.client.api.ImmutableCreatePage;
 import io.thestencil.client.api.ImmutableCreateRelease;
 import io.thestencil.client.api.ImmutableCreateWorkflow;
 import io.thestencil.client.api.ImmutableLinkMutator;
+import io.thestencil.client.api.ImmutableLocaleLabel;
 import io.thestencil.client.api.ImmutableLocaleMutator;
 import io.thestencil.client.api.ImmutablePageMutator;
 import io.thestencil.client.api.ImmutableWorkflowMutator;
@@ -122,7 +123,7 @@ public class IdeServicesTests extends PgSqlDbConfig {
         JsonObject.mapFrom(
             ImmutableCreateLink.builder()
             .addLocales(localeId)
-            .description("description")
+            .labelValue("description")
             .value("www.example.com")
             .type("internal")
             .addArticles(articleId)
@@ -133,15 +134,15 @@ public class IdeServicesTests extends PgSqlDbConfig {
             .extract()
             .response()
             .body()
-            .path("[0].id");
+            .path("id");
   
    String workflowId = RestAssured.given() 
     .body(
         JsonObject.mapFrom(
             ImmutableCreateWorkflow.builder()
             .addLocales(localeId)
-            .content("cool name")
-            .name("workflow name")
+            .labelValue("cool name")
+            .value("workflow name")
             .build()
             ).toString())
           .when().post("/stencil-ide-services/workflows")
@@ -149,7 +150,7 @@ public class IdeServicesTests extends PgSqlDbConfig {
             .extract()
             .response()
             .body()
-            .path("[0].id");
+            .path("id");
    
 
    String releaseId = RestAssured.given()
@@ -202,10 +203,12 @@ public class IdeServicesTests extends PgSqlDbConfig {
          JsonObject.mapFrom(
             ImmutableLinkMutator.builder()
             .linkId(linkId)
-            .content("# new content")
-            .locale(localeId)
-            .description("stuff")
+            .addLabels(ImmutableLocaleLabel.builder()
+                .labelValue("# new content")
+                .locale(localeId)
+                .build())
             .type("internal")
+            .value("super duper")
             .build()
             ).toString())
           .when().put("/stencil-ide-services/links")
@@ -228,9 +231,11 @@ public class IdeServicesTests extends PgSqlDbConfig {
          JsonObject.mapFrom(
             ImmutableWorkflowMutator.builder()
             .workflowId(workflowId)
-            .content("updated workflow")
-            .name("SuperFlow")
-            .locale(localeId)
+            .addLabels(ImmutableLocaleLabel.builder()
+                .labelValue("updated workflow")
+                .locale(localeId)
+                .build())
+            .value("SuperFlow")
             .build()
             ).toString())
           .when().put("/stencil-ide-services/workflows")

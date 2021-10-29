@@ -1,9 +1,5 @@
 package io.thestencil.client.spi.builders;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 /*-
  * #%L
  * stencil-persistence
@@ -35,6 +31,7 @@ import io.thestencil.client.api.ImmutableArticle;
 import io.thestencil.client.api.ImmutableEntity;
 import io.thestencil.client.api.ImmutableLink;
 import io.thestencil.client.api.ImmutableLocale;
+import io.thestencil.client.api.ImmutableLocaleLabel;
 import io.thestencil.client.api.ImmutablePage;
 import io.thestencil.client.api.ImmutableRelease;
 import io.thestencil.client.api.ImmutableSiteState;
@@ -236,96 +233,81 @@ public class CreateBuilderImpl implements CreateBuilder {
   }
 
   @Override
-  public Uni<List<Entity<Link>>> link(CreateLink init) {
+  public Uni<Entity<Link>> link(CreateLink init) {
     
     final Uni<SiteState> query = new QueryBuilderImpl(config).head();
     return query.onItem().transformToUni(state -> {
+      final var gid = gid(EntityType.LINK);
+      final var link = ImmutableLink.builder()
+        .contentType(init.getType())
+        .value(init.getValue())
+        .articles(init.getArticles());
       
-      final var builder = config.getClient().commit().head()
+      for(final var localeId : init.getLocales()) {
+        link.addLabels(ImmutableLocaleLabel.builder()
+            .locale(localeId)
+            .labelValue(init.getLabelValue())
+            .build());
+        
+        if(!state.getLocales().containsKey(localeId)) {
+          throw new ConstraintException(
+              ImmutableEntity.<Link>builder().id(gid).type(EntityType.LINK).body(link.build()).build(), 
+              "Locale with id: '" + localeId + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
+        }
+      }
+      
+      final var entity = ImmutableEntity.<Link>builder().id(gid).type(EntityType.LINK).body(link.build()).build();
+      
+      return config.getClient().commit().head()
         .head(config.getRepoName(), config.getHeadName())
         .message("creating-link")
         .parentIsLatest()
-        .author(config.getAuthorProvider().getAuthor());
-      
-      final var created = new ArrayList<Entity<Link>>();
-
-      for(final var localeId : init.getLocales()) {
-        final var gid = gid(EntityType.LINK);
-        final var link = ImmutableLink.builder()
-          .description(init.getDescription())
-          .locale(localeId)
-          .contentType(init.getType())
-          .content(init.getValue())
-          .articles(init.getArticles())
-          .build();
-        
-        final Entity<Link> entity = ImmutableEntity.<Link>builder()
-          .id(gid)
-          .type(EntityType.LINK)
-          .body(link)
-          .build();
-        builder.append(gid, config.getSerializer().toString(entity));
-        created.add(entity);
-        
-        if(!state.getLocales().containsKey(localeId)) {
-          throw new ConstraintException(entity, "Locale with id: '" + localeId + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
-        }
-      }
-    
-      return builder
+        .author(config.getAuthorProvider().getAuthor())
+        .append(gid, config.getSerializer().toString(entity))
         .build().onItem().transform(commit -> {
           if(commit.getStatus() == CommitStatus.OK) {
-            return created;
+            return entity;
           }
-          throw new SaveException(Collections.unmodifiableList(created), commit);
+          throw new SaveException(entity, commit);
         });
       
     });
   }
 
   @Override
-  public Uni<List<Entity<Workflow>>> workflow(CreateWorkflow init) {
+  public Uni<Entity<Workflow>> workflow(CreateWorkflow init) {
     final Uni<SiteState> query = new QueryBuilderImpl(config).head();
     return query.onItem().transformToUni(state -> {
       
-      final var builder = config.getClient().commit().head()
+      final var gid = gid(EntityType.WORKFLOW);
+      final var workflow = ImmutableWorkflow.builder().devMode(init.getDevMode()).value(init.getValue()).articles(init.getArticles());
+            
+      for(var localeId : init.getLocales()) {        
+        workflow.addLabels(ImmutableLocaleLabel.builder()
+            .locale(localeId)
+            .labelValue(init.getLabelValue())
+            .build());
+
+        if(!state.getLocales().containsKey(localeId)) {
+          throw new ConstraintException(
+              ImmutableEntity.<Workflow>builder().id(gid).type(EntityType.WORKFLOW).body(workflow.build()).build(), 
+              "Locale with id: '" + localeId + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
+        }
+      }
+
+      final var entity = ImmutableEntity.<Workflow>builder().id(gid).type(EntityType.WORKFLOW).body(workflow.build()).build();
+      
+      return config.getClient().commit().head()
           .head(config.getRepoName(), config.getHeadName())
           .message("creating-workflow")
           .parentIsLatest()
-          .author(config.getAuthorProvider().getAuthor());
-      
-      final var created = new ArrayList<Entity<Workflow>>();
-      
-      for(var localeId : init.getLocales()) {
-        
-        final var gid = gid(EntityType.WORKFLOW);
-        final var workflow = ImmutableWorkflow.builder()
-          .name(init.getName())
-          .locale(localeId)
-          .content(init.getContent())
-          .articles(init.getArticles())
-          .build();
-        
-        final Entity<Workflow> entity = ImmutableEntity.<Workflow>builder()
-            .id(gid)
-            .type(EntityType.WORKFLOW)
-            .body(workflow)
-            .build();
-        
-        builder.append(gid, config.getSerializer().toString(entity));
-        created.add(entity);
-        
-        if(!state.getLocales().containsKey(localeId)) {
-          throw new ConstraintException(entity, "Locale with id: '" + localeId + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
-        }
-      }
-      
-      return builder
+          .author(config.getAuthorProvider().getAuthor())
+          .append(gid, config.getSerializer().toString(entity))
           .build().onItem().transform(commit -> {
             if(commit.getStatus() == CommitStatus.OK) {
-              return created;
+              return entity;
             }
-            throw new SaveException(Collections.unmodifiableList(created), commit);
+            throw new SaveException(entity, commit);
           });
         
       });

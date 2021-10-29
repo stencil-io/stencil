@@ -32,6 +32,7 @@ import io.thestencil.client.api.ImmutableArticle;
 import io.thestencil.client.api.ImmutableEntity;
 import io.thestencil.client.api.ImmutableLink;
 import io.thestencil.client.api.ImmutableLocale;
+import io.thestencil.client.api.ImmutableLocaleLabel;
 import io.thestencil.client.api.ImmutablePage;
 import io.thestencil.client.api.ImmutableWorkflow;
 import io.thestencil.client.api.MigrationBuilder.LocalizedSite;
@@ -45,6 +46,7 @@ import io.thestencil.client.api.StencilClient.EntityType;
 import io.thestencil.client.api.StencilClient.Link;
 import io.thestencil.client.api.StencilClient.Locale;
 import io.thestencil.client.api.StencilClient.Page;
+import io.thestencil.client.api.StencilClient.SiteState;
 import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.client.spi.PersistenceConfig;
 
@@ -54,10 +56,13 @@ public class MigrationImportVisitor {
   private final Map<String, Entity<Article>> articlesByTopicId = new HashMap<>();
   private final Map<String, Entity<Link>> links = new HashMap<>();
   private final Map<String, Entity<Workflow>> workflows = new HashMap<>();
+  private final SiteState current;
+  private final List<String> commitedIds = new ArrayList<>();
   
-  public MigrationImportVisitor(PersistenceConfig config) {
+  public MigrationImportVisitor(PersistenceConfig config, SiteState current) {
     super();
     this.config = config;
+    this.current = current;
     this.commit = this.config.getClient().commit().head();
   }
   
@@ -87,36 +92,87 @@ public class MigrationImportVisitor {
     }
     
     for(final var entity : links.values()) {
-      commit.append(entity.getId(), config.getSerializer().toString(entity));
+      visitCommit(entity);
     }
 
     for(final var entity : workflows.values()) {
-      commit.append(entity.getId(), config.getSerializer().toString(entity));
+      visitCommit(entity);
     }
+    
+    visitCurrentState(current);
+    
     return commit;
+  }
+  
+  private void visitCurrentState(SiteState current) {
+    current.getLocales().values().stream()
+      .filter(e -> !commitedIds.contains(e.getId()))
+      .forEach(e -> commit.remove(e.getId()));
+    current.getPages().values().stream()
+      .filter(e -> !commitedIds.contains(e.getId()))
+      .forEach(e -> commit.remove(e.getId()));
+    current.getLinks().values().stream()
+      .filter(e -> !commitedIds.contains(e.getId()))
+      .forEach(e -> commit.remove(e.getId()));
+    current.getArticles().values().stream()
+      .filter(e -> !commitedIds.contains(e.getId()))
+      .forEach(e -> commit.remove(e.getId()));
+    current.getWorkflows().values().stream()
+      .filter(e -> !commitedIds.contains(e.getId()))
+      .forEach(e -> commit.remove(e.getId()));
+  }
+  
+  private void visitCommit(Entity<?> entity) {
+    if(commitedIds.contains(entity.getId())) {
+      throw new IllegalArgumentException("id already in commit: " + entity.getId());
+    }
+    commitedIds.add(entity.getId());
+    commit.append(entity.getId(), config.getSerializer().toString(entity));
   }
   
   private Entity<Workflow> visitWorkflow(TopicLink topicLink, Entity<Locale> locale, Entity<Article> article) {
     final var topicLinkId = topicLinkId(topicLink, locale);
     final List<String> articles = new ArrayList<>();
 
-    final String gid;
-    if(links.containsKey(topicLinkId)) {
-      final var created = links.get(topicLinkId);
-      gid = created.getId();
+
+    if(workflows.containsKey(topicLinkId)) {
+      final var created = workflows.get(topicLinkId);
       articles.addAll(created.getBody().getArticles());
       if(!articles.contains(article.getId())) {
         articles.add(article.getId());
       }
-    } else {
-      gid = gid(EntityType.WORKFLOW);
-      articles.add(article.getId());
+      
+      final var duplicate = created.getBody().getLabels().stream()
+        .filter(label -> label.getLocale().equals(locale.getId()))
+        .findFirst();
+      
+      if(duplicate.isEmpty()) {
+        final var next = ImmutableEntity.<Workflow>builder()
+            .from(created)
+            .body(ImmutableWorkflow.builder()
+                .from(created.getBody())
+                .addLabels(ImmutableLocaleLabel.builder()
+                  .labelValue(topicLink.getName())
+                  .locale(locale.getId())
+                  .build())
+                .build())
+            .build();
+        this.workflows.put(topicLinkId, next);
+        return next;
+      }
+      
+      return created;
     }
     
+    final var gid = gid(EntityType.WORKFLOW);
+    articles.add(article.getId());    
+  
     final var workflow = ImmutableWorkflow.builder()
-      .name(topicLink.getName())
-      .locale(locale.getId())
-      .content(topicLink.getValue())
+      .value(topicLink.getValue()) // pointer
+      .addLabels(ImmutableLocaleLabel.builder()
+          .labelValue(topicLink.getName())
+          .locale(locale.getId())
+          .build())
       .articles(Boolean.TRUE.equals(topicLink.getGlobal()) ? Collections.emptyList() : articles)
       .build();
     final Entity<Workflow> entity = ImmutableEntity.<Workflow>builder()
@@ -132,27 +188,46 @@ public class MigrationImportVisitor {
     final var topicLinkId = topicLinkId(topicLink, locale);
     final List<String> articles = new ArrayList<>();
     
-    final String gid;
     if(links.containsKey(topicLinkId)) {
       
       final var created = links.get(topicLinkId);
-      gid = created.getId();
       articles.addAll(created.getBody().getArticles());
       if(!articles.contains(article.getId())) {
         articles.add(article.getId());
       }
+      final var duplicate = created.getBody().getLabels().stream()
+          .filter(label -> label.getLocale().equals(locale.getId()))
+          .findFirst();
+        
+        if(duplicate.isEmpty()) {
+          final var next = ImmutableEntity.<Link>builder()
+            .from(created)
+            .body(ImmutableLink.builder()
+                .from(created.getBody())
+                .addLabels(ImmutableLocaleLabel.builder()
+                  .labelValue(topicLink.getName())
+                  .locale(locale.getId())
+                  .build())
+                .build())
+            .build();
+          links.put(topicLinkId, next);
+          
+          return next;
+        }
       
-    } else {
-      gid = gid(EntityType.LINK);
-      articles.add(article.getId());
+        return created;
     }
     
+    final var gid = gid(EntityType.LINK);
+    articles.add(article.getId());
     
     final var link = ImmutableLink.builder()
-      .description(topicLink.getName())
-      .locale(locale.getId())
       .contentType(topicLink.getType())
-      .content(topicLink.getValue())
+      .value(topicLink.getValue())
+      .addLabels(ImmutableLocaleLabel.builder()
+          .labelValue(topicLink.getName())
+          .locale(locale.getId())
+          .build())
       .articles(Boolean.TRUE.equals(topicLink.getGlobal()) ? Collections.emptyList() : articles)
       .build();
     
@@ -167,7 +242,7 @@ public class MigrationImportVisitor {
   }
   
   private String topicLinkId(TopicLink topicLink, Entity<Locale> locale) {
-    return topicLink.getType() + "::" + locale.getId() + "::" + topicLink.getName() + "/" + topicLink.getValue() + "/";
+    return topicLink.getType() + "::" + topicLink.getValue();
     
   }
   
@@ -184,7 +259,7 @@ public class MigrationImportVisitor {
         .type(EntityType.PAGE)
         .body(page)
         .build();
-    commit.append(gid, config.getSerializer().toString(entity));
+    visitCommit(entity);
     return entity;
   }
   
@@ -222,7 +297,7 @@ public class MigrationImportVisitor {
         .build();
     
     articlesByTopicId.put(topic.getId(), entity);
-    commit.append(gid, config.getSerializer().toString(entity));
+    visitCommit(entity);
     return entity;
   }
   
@@ -239,7 +314,7 @@ public class MigrationImportVisitor {
         .body(locale)
         .build();
     
-    commit.append(gid, config.getSerializer().toString(entity));
+    visitCommit(entity);
     return entity;
   }
   

@@ -23,6 +23,7 @@ package io.thestencil.client.spi.builders;
 import io.resys.thena.docdb.api.actions.CommitActions.CommitStatus;
 import io.smallrye.mutiny.Uni;
 import io.thestencil.client.api.MigrationBuilder;
+import io.thestencil.client.api.StencilClient.SiteContentType;
 import io.thestencil.client.api.StencilClient.SiteState;
 import io.thestencil.client.spi.PersistenceConfig;
 import io.thestencil.client.spi.exceptions.ImportException;
@@ -38,16 +39,28 @@ public class MigrationBuilderImpl implements MigrationBuilder {
 
   @Override
   public Uni<SiteState> importData(Sites sites) {
-    return new MigrationImportVisitor(config).visit(sites)
-    .head(config.getRepoName(), config.getHeadName())
-    .message("import-sites")
-    .parentIsLatest()
-    .author(config.getAuthorProvider().getAuthor())
-    .build().onItem().transformToUni(commit -> {
-      if(commit.getStatus() == CommitStatus.OK) {
-        return new QueryBuilderImpl(config).head();
+    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
+    
+    return query.onItem().transformToUni(site -> {
+      
+      final var builder = new MigrationImportVisitor(config, site).visit(sites).head(config.getRepoName(), config.getHeadName());
+      
+      if(site.getContentType() == SiteContentType.OK) {
+        builder.parent(site.getCommit());
+      } else {
+        builder.parentIsLatest();
       }
-      throw new ImportException(sites, commit);
-    });
+      
+      return builder 
+      .message("import-sites")
+      .author(config.getAuthorProvider().getAuthor())
+      .build().onItem().transformToUni(commit -> {
+        if(commit.getStatus() == CommitStatus.OK) {
+          return new QueryBuilderImpl(config).head();
+        }
+        throw new ImportException(sites, commit);
+      });
+    })
+    ;
   }
 }

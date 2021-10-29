@@ -34,6 +34,7 @@ import io.thestencil.client.api.StencilClient.Article;
 import io.thestencil.client.api.StencilClient.Entity;
 import io.thestencil.client.api.StencilClient.Link;
 import io.thestencil.client.api.StencilClient.Locale;
+import io.thestencil.client.api.StencilClient.LocaleLabel;
 import io.thestencil.client.api.StencilClient.Page;
 import io.thestencil.client.api.StencilClient.Workflow;
 
@@ -83,10 +84,11 @@ public interface UpdateBuilder {
   @JsonDeserialize(as = ImmutableLinkMutator.class)
   interface LinkMutator {
     String getLinkId();
-    String getContent(); 
-    String getLocale(); 
-    String getDescription();
+    String getValue(); 
     String getType();
+    @Nullable
+    List<LocaleLabel> getLabels();
+    @Nullable
     List<String> getArticles();
   }
   @Value.Immutable
@@ -94,9 +96,12 @@ public interface UpdateBuilder {
   @JsonDeserialize(as = ImmutableWorkflowMutator.class)
   interface WorkflowMutator {
     String getWorkflowId(); 
-    String getName(); 
-    String getLocale(); 
-    String getContent();
+    String getValue();
+    @Nullable
+    List<LocaleLabel> getLabels();
+    @Nullable
     List<String> getArticles();
+    @Nullable
+    Boolean getDevMode();
   }
 }

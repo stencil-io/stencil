@@ -40,6 +40,7 @@ import io.thestencil.client.api.ImmutableCreatePage;
 import io.thestencil.client.api.ImmutableCreateRelease;
 import io.thestencil.client.api.ImmutableCreateWorkflow;
 import io.thestencil.client.api.ImmutableLinkMutator;
+import io.thestencil.client.api.ImmutableLocaleLabel;
 import io.thestencil.client.api.ImmutableLocaleMutator;
 import io.thestencil.client.api.ImmutablePageMutator;
 import io.thestencil.client.api.ImmutableWorkflowMutator;
@@ -48,8 +49,6 @@ import io.thestencil.persistence.test.config.TestExporter;
 
 
 public class PersistenceMongoTest extends MongoDbConfig {
-
-  
   
   @Test
   public void test1() {
@@ -88,12 +87,14 @@ public class PersistenceMongoTest extends MongoDbConfig {
       )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     Entity<Link> link1 = repo.create().link(
-        ImmutableCreateLink.builder().type("internal").addLocales("LOCALE-5").description("click me").value("www.example.com").build()
-      )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1)).iterator().next();
+        ImmutableCreateLink.builder().type("internal").value("www.example.com")
+        .addLocales("LOCALE-5").labelValue("click me")
+        .build()
+      )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     Entity<Workflow> workflow1 = repo.create().workflow( 
-        ImmutableCreateWorkflow.builder().name("Form1").addLocales("LOCALE-5").content("firstForm").build()
-      )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1)).iterator().next();
+        ImmutableCreateWorkflow.builder().value("Form1").addLocales("LOCALE-5").labelValue("firstForm").build()
+      )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     // create state
     var expected = TestExporter.toString(getClass(), "create_state.txt");
@@ -109,10 +110,24 @@ public class PersistenceMongoTest extends MongoDbConfig {
     repo.update().page(ImmutablePageMutator.builder().pageId(page1.getId()).content("new content for page1").locale(locale1.getId()).build())
           .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
-    repo.update().link(ImmutableLinkMutator.builder().linkId(link1.getId()).articles(Arrays.asList("A1")).description("Don't click me").locale(locale2.getId()).content("www.wikipedia.com").type("external").build())
-          .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
+    repo.update().link(ImmutableLinkMutator.builder()
+          .linkId(link1.getId()).articles(Arrays.asList("A1"))
+          .value("www.wikipedia.com").type("external")
+          .addLabels(ImmutableLocaleLabel.builder()
+              .labelValue("Don't click me").locale(locale2.getId())
+              .build())
+          .build())
+          
+    .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
-    repo.update().workflow(ImmutableWorkflowMutator.builder().workflowId(workflow1.getId()).content("revision of firstForm").locale(locale2.getId()).name("First form part 2").build())
+    repo.update().workflow(ImmutableWorkflowMutator.builder()
+        .workflowId(workflow1.getId())
+        .value("revision of firstForm")
+        .addLabels(ImmutableLocaleLabel.builder()
+            .locale(locale2.getId())
+            .labelValue("First form part 2")
+            .build())
+        .build())
           .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     

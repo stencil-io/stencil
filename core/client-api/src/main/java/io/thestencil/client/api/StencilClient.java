@@ -28,6 +28,7 @@ import javax.annotation.Nullable;
 
 import org.immutables.value.Value;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -51,7 +52,9 @@ public interface StencilClient {
   @JsonSerialize(as = ImmutableSiteState.class)
   @JsonDeserialize(as = ImmutableSiteState.class)
   interface SiteState {
-    String getName(); 
+    String getName();
+    @Nullable
+    String getCommit();
     SiteContentType getContentType();
     Map<String, Entity<Release>> getReleases();
     Map<String, Entity<Locale>> getLocales();
@@ -79,17 +82,6 @@ public interface StencilClient {
   }
 
   interface EntityBody extends Serializable {
-  }
-
-  @Value.Immutable
-  @JsonSerialize(as = ImmutableLink.class)
-  @JsonDeserialize(as = ImmutableLink.class)
-  interface Link extends EntityBody {
-    List<String> getArticles();
-    String getLocale();
-    String getContent();
-    String getContentType();
-    String getDescription();
   }
   
   @Value.Immutable
@@ -124,10 +116,30 @@ public interface StencilClient {
   @JsonSerialize(as = ImmutableWorkflow.class)
   @JsonDeserialize(as = ImmutableWorkflow.class)
   interface Workflow extends EntityBody {
-    String getName();
-    String getLocale();
-    String getContent();
+    String getValue(); // pointer to actual workflow
+    @Nullable
+    @JsonInclude(JsonInclude.Include.NON_NULL) 
+    Boolean getDevMode();
     List<String> getArticles();
+    List<LocaleLabel> getLabels();
+  }
+  
+  @Value.Immutable
+  @JsonSerialize(as = ImmutableLink.class)
+  @JsonDeserialize(as = ImmutableLink.class)
+  interface Link extends EntityBody {
+    String getValue();
+    String getContentType();
+    List<String> getArticles();
+    List<LocaleLabel> getLabels();
+  }
+
+  @Value.Immutable
+  @JsonSerialize(as = ImmutableLocaleLabel.class)
+  @JsonDeserialize(as = ImmutableLocaleLabel.class)
+  interface LocaleLabel extends Serializable {
+    String getLocale();     // locale id
+    String getLabelValue(); // translation in locale
   }
   
   @Value.Immutable

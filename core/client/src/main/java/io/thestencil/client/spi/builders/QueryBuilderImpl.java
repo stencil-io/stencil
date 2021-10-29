@@ -82,10 +82,16 @@ public class QueryBuilderImpl extends PersistenceCommands implements QueryBuilde
                     .build();
               }
               
+              final var commit = state.getObjects().getCommit();
+              
               final var tree = state.getObjects().getTree();
               final var blobs = state.getObjects().getBlobs();
               final var builder = mapTree(tree, blobs);
-              return builder.name(siteName).contentType(SiteContentType.OK).build();
+              return builder
+                  .commit(commit.getId())
+                  .name(siteName)
+                  .contentType(SiteContentType.OK)
+                  .build();
             });
       });
   }

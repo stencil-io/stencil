@@ -291,18 +291,22 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
   
   private Entity<Link> changeLink(SiteState site, LinkMutator changes) {
     final var start = site.getLinks().get(changes.getLinkId());
-    final var localeId = changes.getLocale();
-    if(!site.getLocales().containsKey(localeId)) {
-      throw new ConstraintException(start, "Locale with id: '" + localeId + "' does not exist in: '" + String.join(",", site.getLocales().keySet()) + "'!");          
+    
+    if(changes.getLabels() != null ) {
+      for(final var label : changes.getLabels()) {
+        final var localeId = label.getLocale();
+        if(!site.getLocales().containsKey(localeId)) {
+          throw new ConstraintException(start, "Locale with id: '" + localeId + "' does not exist in: '" + String.join(",", site.getLocales().keySet()) + "'!");          
+        }
+      }
     }
     return ImmutableEntity.<Link>builder()
         .from(start)
         .body(ImmutableLink.builder().from(start.getBody())
-            .content(changes.getContent())
-            .description(changes.getDescription())
-            .locale(changes.getLocale())
+            .value(changes.getValue())
+            .labels(changes.getLabels() == null ? start.getBody().getLabels() : changes.getLabels())
             .contentType(changes.getType())
-            .articles(changes.getArticles())
+            .articles(changes.getArticles() == null ? start.getBody().getArticles() : changes.getArticles())
             .build())
         .build();
   }
@@ -318,17 +322,21 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
   
   private Entity<Workflow> changeWorkflow(SiteState site, WorkflowMutator changes) {
     final var start = site.getWorkflows().get(changes.getWorkflowId());
-    final var localeId = changes.getLocale();
-    if(!site.getLocales().containsKey(localeId)) {
-      throw new ConstraintException(start, "Locale with id: '" + localeId + "' does not exist in: '" + String.join(",", site.getLocales().keySet()) + "'!");          
+    if(changes.getLabels() != null ) {
+      for(final var label : changes.getLabels()) {
+        final var localeId = label.getLocale();
+        if(!site.getLocales().containsKey(localeId)) {
+          throw new ConstraintException(start, "Locale with id: '" + localeId + "' does not exist in: '" + String.join(",", site.getLocales().keySet()) + "'!");          
+        }
+      }
     }
     return ImmutableEntity.<Workflow>builder()
         .from(start)
         .body(ImmutableWorkflow.builder().from(start.getBody())
-            .content(changes.getContent())
-            .locale(changes.getLocale())
-            .name(changes.getName())
-            .articles(changes.getArticles())
+            .devMode(changes.getDevMode())
+            .value(changes.getValue())
+            .labels(changes.getLabels() == null ? start.getBody().getLabels() : changes.getLabels())
+            .articles(changes.getArticles() == null ? start.getBody().getArticles() : changes.getArticles())
             .build())
         .build();
   }

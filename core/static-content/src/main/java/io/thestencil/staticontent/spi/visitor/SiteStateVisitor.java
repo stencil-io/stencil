@@ -21,7 +21,9 @@ package io.thestencil.staticontent.spi.visitor;
  */
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -44,6 +46,7 @@ public class SiteStateVisitor {
   private static final Logger LOGGER = LoggerFactory.getLogger(SiteStateVisitor.class);
   public static String LINK_TYPE_WORKFLOW = "workflow";
   private final List<Entity<Locale>> locales = new ArrayList<>();
+  private final Map<String, Entity<Locale>> enablesLocales = new HashMap<>();
   private SiteState entity;
   
   public Markdowns visit(SiteState entity) {
@@ -67,37 +70,57 @@ public class SiteStateVisitor {
 
   private List<LinkResource> visitWorkflows(Entity<Workflow> link) {
     final List<LinkResource> result = new ArrayList<>();
-    final var locale = locales.stream().filter(l -> link.getBody().getLocale().equals(l.getId())).findFirst();
-    if(locale.isEmpty()) {
+    
+    final var usedLocales = link.getBody().getLabels().stream()
+        .map(label -> label.getLocale())
+        .collect(Collectors.toList());
+
+    if(locales.stream().filter(l -> usedLocales.contains(l.getId())).findFirst().isEmpty()) {
       return result;
-    }    
+    }
     
     for(final var articleId : link.getBody().getArticles()) {
       final var article = entity.getArticles().get(articleId);
-      final var resource = ImmutableLinkResource.builder()
-          .id(link.getId() + "-" + locale.get().getBody().getValue())
-          .addLocale(locale.get().getBody().getValue())
-          .desc(link.getBody().getName())
-          .path(visitArticlePath(article))
-          .value(link.getBody().getContent())
-          .workflow(true).global(false)
-          .type(LINK_TYPE_WORKFLOW)
-          .build();
-      result.add(resource);
+      
+      for(final var label : link.getBody().getLabels()) {
+        if(!enablesLocales.keySet().contains(label.getLocale())) {
+          continue;
+        }
+        
+        final var locale = enablesLocales.get(label.getLocale());
+        final var resource = ImmutableLinkResource.builder()
+            .id(link.getId() + "-" + locale.getBody().getValue())
+            .addLocale(locale.getBody().getValue())
+            .desc(label.getLabelValue())
+            .path(visitArticlePath(article))
+            .value(link.getBody().getValue())
+            .workflow(true).global(false)
+            .type(LINK_TYPE_WORKFLOW)
+            .build();
+        result.add(resource);
+      }
     }
 
     if(link.getBody().getArticles().isEmpty()) {
       for(Entity<Article> article : entity.getArticles().values()) {
-        final var resource = ImmutableLinkResource.builder()
-            .id(link.getId() + "-" + locale.get().getBody().getValue())
-            .addLocale(locale.get().getBody().getValue())
-            .desc(link.getBody().getName())
-            .path(visitArticlePath(article))
-            .value(link.getBody().getContent())
-            .workflow(true).global(true)
-            .type(LINK_TYPE_WORKFLOW)
-            .build();
-        result.add(resource);
+        
+        for(final var label : link.getBody().getLabels()) {
+          if(!enablesLocales.keySet().contains(label.getLocale())) {
+            continue;
+          }
+        
+          final var locale = enablesLocales.get(label.getLocale());
+          final var resource = ImmutableLinkResource.builder()
+              .id(link.getId() + "-" + locale.getBody().getValue())
+              .addLocale(locale.getBody().getValue())
+              .desc(label.getLabelValue())
+              .path(visitArticlePath(article))
+              .value(link.getBody().getValue())
+              .workflow(true).global(true)
+              .type(LINK_TYPE_WORKFLOW)
+              .build();
+          result.add(resource);
+        }
       }
     }
     
@@ -106,37 +129,57 @@ public class SiteStateVisitor {
   
   private List<LinkResource> visitLinks(Entity<Link> link) {
     final List<LinkResource> result = new ArrayList<>();
-    final var locale = locales.stream().filter(l -> link.getBody().getLocale().equals(l.getId())).findFirst();
-    if(locale.isEmpty()) {
+    
+    final var usedLocales = link.getBody().getLabels().stream()
+        .map(label -> label.getLocale())
+        .collect(Collectors.toList());
+
+    if(locales.stream().filter(l -> usedLocales.contains(l.getId())).findFirst().isEmpty()) {
       return result;
     }
     
     for(final var articleId : link.getBody().getArticles()) {
       final var article = entity.getArticles().get(articleId);
-      final var resource = ImmutableLinkResource.builder()
-          .id(link.getId() + "-" + locale.get().getBody().getValue())
-          .addLocale(locale.get().getBody().getValue())
-          .desc(link.getBody().getDescription())
-          .path(visitArticlePath(article))
-          .value(link.getBody().getContent())
-          .workflow(false).global(false)
-          .type(link.getBody().getContentType())
-          .build();
-      result.add(resource);
+      
+      for(final var label : link.getBody().getLabels()) {
+        if(!enablesLocales.keySet().contains(label.getLocale())) {
+          continue;
+        }
+      
+        final var locale = enablesLocales.get(label.getLocale());
+        final var resource = ImmutableLinkResource.builder()
+            .id(link.getId() + "-" + locale.getBody().getValue())
+            .addLocale(locale.getBody().getValue())
+            .desc(label.getLabelValue())
+            .path(visitArticlePath(article))
+            .value(link.getBody().getValue())
+            .workflow(false).global(false)
+            .type(link.getBody().getContentType())
+            .build();
+        result.add(resource);
+      }
     }
     
     if(link.getBody().getArticles().isEmpty()) {
       for(Entity<Article> article : entity.getArticles().values()) {
-        final var resource = ImmutableLinkResource.builder()
-            .id(link.getId() + "-" + locale.get().getBody().getValue())
-            .addLocale(locale.get().getBody().getValue())
-            .desc(link.getBody().getDescription())
-            .path(visitArticlePath(article))
-            .value(link.getBody().getContent())
-            .workflow(false).global(true)
-            .type(link.getBody().getContentType())
-            .build();
-        result.add(resource);
+        
+        for(final var label : link.getBody().getLabels()) {
+          if(!enablesLocales.keySet().contains(label.getLocale())) {
+            continue;
+          }
+        
+          final var locale = enablesLocales.get(label.getLocale());
+          final var resource = ImmutableLinkResource.builder()
+              .id(link.getId() + "-" + locale.getBody().getValue())
+              .addLocale(locale.getBody().getValue())
+              .desc(label.getLabelValue())
+              .path(visitArticlePath(article))
+              .value(link.getBody().getValue())
+              .workflow(false).global(true)
+              .type(link.getBody().getContentType())
+              .build();
+          result.add(resource);
+        }
       }
     }
     
@@ -194,6 +237,8 @@ public class SiteStateVisitor {
     this.locales.addAll(site.getLocales().values().stream()
         .filter(l -> l.getBody().getEnabled())
         .collect(Collectors.toList()));
+    this.enablesLocales.putAll(this.locales.stream()
+        .collect(Collectors.toMap(e -> e.getId(), e -> e)));
     return locales;
   }
 }

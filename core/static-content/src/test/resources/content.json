@@ -2,14 +2,14 @@
   "created" : 1,
   "sites" : {
     "en" : {
-      "id" : "26c67653c6cdeac4caebe892f104bad8",
+      "id" : "6111e870dcc453e91eca3e4c415ff22f",
       "images" : "/images",
       "locale" : "en",
       "topics" : {
         "000_test-article" : {
           "id" : "000_test-article",
           "name" : "Header 1",
-          "links" : [ "3047608d3761989a2c6ea71cf7cc3ef0", "4531b1dfb2ac3f37174162c1f4313212" ],
+          "links" : [ "3047608d3761989a2c6ea71cf7cc3ef0", "0d53af3ab209110e87307ff22e90900d" ],
           "headings" : [ {
             "id" : "1",
             "name" : "# Header 1",
@@ -27,6 +27,15 @@
         }
       },
       "links" : {
+        "0d53af3ab209110e87307ff22e90900d" : {
+          "id" : "0d53af3ab209110e87307ff22e90900d",
+          "type" : "workflow",
+          "name" : "cool name",
+          "path" : "000_test-article",
+          "value" : "workflow name",
+          "global" : true,
+          "workflow" : true
+        },
         "3047608d3761989a2c6ea71cf7cc3ef0" : {
           "id" : "3047608d3761989a2c6ea71cf7cc3ef0",
           "type" : "internal",
@@ -35,15 +44,6 @@
           "value" : "www.example.com",
           "global" : false,
           "workflow" : false
-        },
-        "4531b1dfb2ac3f37174162c1f4313212" : {
-          "id" : "4531b1dfb2ac3f37174162c1f4313212",
-          "type" : "workflow",
-          "name" : "workflow name",
-          "path" : "000_test-article",
-          "value" : "cool name",
-          "global" : true,
-          "workflow" : true
         }
       }
     }

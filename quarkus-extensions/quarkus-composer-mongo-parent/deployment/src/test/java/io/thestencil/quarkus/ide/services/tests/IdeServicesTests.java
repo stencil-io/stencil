@@ -39,6 +39,7 @@ import io.thestencil.client.api.ImmutableCreatePage;
 import io.thestencil.client.api.ImmutableCreateRelease;
 import io.thestencil.client.api.ImmutableCreateWorkflow;
 import io.thestencil.client.api.ImmutableLinkMutator;
+import io.thestencil.client.api.ImmutableLocaleLabel;
 import io.thestencil.client.api.ImmutableLocaleMutator;
 import io.thestencil.client.api.ImmutablePageMutator;
 import io.thestencil.client.api.ImmutableWorkflowMutator;
@@ -124,7 +125,7 @@ public class IdeServicesTests extends MongoDbConfig {
         JsonObject.mapFrom(
             ImmutableCreateLink.builder()
             .addLocales(localeId)
-            .description("description")
+            .labelValue("description")
             .value("www.example.com")
             .type("internal")
             .addArticles(articleId)
@@ -135,15 +136,15 @@ public class IdeServicesTests extends MongoDbConfig {
             .extract()
             .response()
             .body()
-            .path("[0].id");
+            .path("id");
   
    String workflowId = RestAssured.given() 
     .body(
         JsonObject.mapFrom(
             ImmutableCreateWorkflow.builder()
             .addLocales(localeId)
-            .content("cool name")
-            .name("workflow name")
+            .labelValue("cool name")
+            .value("workflow name")
             .build()
             ).toString())
           .when().post("/stencil-ide-services/workflows")
@@ -151,7 +152,7 @@ public class IdeServicesTests extends MongoDbConfig {
             .extract()
             .response()
             .body()
-            .path("[0].id");
+            .path("id");
    
 
    String releaseId = RestAssured.given()
@@ -204,9 +205,11 @@ public class IdeServicesTests extends MongoDbConfig {
          JsonObject.mapFrom(
             ImmutableLinkMutator.builder()
             .linkId(linkId)
-            .content("# new content")
-            .locale(localeId)
-            .description("stuff")
+            .value("# new content")
+            .addLabels(ImmutableLocaleLabel.builder()
+                .labelValue("stuff")
+                .locale(localeId)
+              .build())
             .type("internal")
             .build()
             ).toString())
@@ -230,9 +233,11 @@ public class IdeServicesTests extends MongoDbConfig {
          JsonObject.mapFrom(
             ImmutableWorkflowMutator.builder()
             .workflowId(workflowId)
-            .content("updated workflow")
-            .name("SuperFlow")
-            .locale(localeId)
+            .value("updated workflow")
+            .addLabels(ImmutableLocaleLabel.builder()
+              .labelValue("SuperFlow")
+              .locale(localeId)
+              .build())
             .build()
             ).toString())
           .when().put("/stencil-ide-services/workflows")
