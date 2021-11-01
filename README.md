@@ -29,7 +29,3 @@ mvn clean compile quarkus:dev
 
 ```
 
-## Quarkus extensions TODO
-
-
-
