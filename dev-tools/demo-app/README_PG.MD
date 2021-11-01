@@ -54,3 +54,18 @@ http://localhost:8091/
 ## default postgre port
 5432
 
+## Drop table 
+
+ `localhost:8091`  
+ 
+ Drop order:
+ 
+ 1. nested_10_refs
+ 2. nested_10_tags
+ 3. nested_10_commits
+ 4. nested_10_treeitems
+ 5. nested_10_trees
+ 6. nested_10_blobs
+ 7. repos
+
+
