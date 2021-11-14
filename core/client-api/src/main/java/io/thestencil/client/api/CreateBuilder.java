@@ -34,6 +34,7 @@ import io.thestencil.client.api.StencilClient.Article;
 import io.thestencil.client.api.StencilClient.Entity;
 import io.thestencil.client.api.StencilClient.Link;
 import io.thestencil.client.api.StencilClient.Locale;
+import io.thestencil.client.api.StencilClient.LocaleLabel;
 import io.thestencil.client.api.StencilClient.Page;
 import io.thestencil.client.api.StencilClient.Release;
 import io.thestencil.client.api.StencilClient.SiteState;
@@ -91,11 +92,10 @@ public interface CreateBuilder {
   @JsonSerialize(as = ImmutableCreateLink.class)
   @JsonDeserialize(as = ImmutableCreateLink.class)
   interface CreateLink {
-    String getValue();
-    String getLabelValue(); 
+    String getValue(); 
     String getType();
-    List<String> getLocales();
     List<String> getArticles();
+    List<LocaleLabel> getLabels();
   }
   
   @Value.Immutable
@@ -103,9 +103,8 @@ public interface CreateBuilder {
   @JsonDeserialize(as = ImmutableCreateWorkflow.class)
   interface CreateWorkflow {
     String getValue();
-    String getLabelValue();
-    List<String> getLocales(); 
     List<String> getArticles();
+    List<LocaleLabel> getLabels();
     @Nullable
     Boolean getDevMode();
   }

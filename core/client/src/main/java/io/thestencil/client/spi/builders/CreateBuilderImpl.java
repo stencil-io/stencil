@@ -243,16 +243,16 @@ public class CreateBuilderImpl implements CreateBuilder {
         .value(init.getValue())
         .articles(init.getArticles());
       
-      for(final var localeId : init.getLocales()) {
+      for(final var label : init.getLabels()) {
         link.addLabels(ImmutableLocaleLabel.builder()
-            .locale(localeId)
-            .labelValue(init.getLabelValue())
+            .locale(label.getLocale())
+            .labelValue(label.getLabelValue())
             .build());
         
-        if(!state.getLocales().containsKey(localeId)) {
+        if(!state.getLocales().containsKey(label.getLocale())) {
           throw new ConstraintException(
               ImmutableEntity.<Link>builder().id(gid).type(EntityType.LINK).body(link.build()).build(), 
-              "Locale with id: '" + localeId + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
+              "Locale with id: '" + label.getLocale() + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
         }
       }
       
@@ -282,16 +282,16 @@ public class CreateBuilderImpl implements CreateBuilder {
       final var gid = gid(EntityType.WORKFLOW);
       final var workflow = ImmutableWorkflow.builder().devMode(init.getDevMode()).value(init.getValue()).articles(init.getArticles());
             
-      for(var localeId : init.getLocales()) {        
+      for(final var label : init.getLabels()) {        
         workflow.addLabels(ImmutableLocaleLabel.builder()
-            .locale(localeId)
-            .labelValue(init.getLabelValue())
+            .locale(label.getLocale())
+            .labelValue(label.getLabelValue())
             .build());
 
-        if(!state.getLocales().containsKey(localeId)) {
+        if(!state.getLocales().containsKey(label.getLocale())) {
           throw new ConstraintException(
               ImmutableEntity.<Workflow>builder().id(gid).type(EntityType.WORKFLOW).body(workflow.build()).build(), 
-              "Locale with id: '" + localeId + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
+              "Locale with id: '" + label.getLocale() + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
         }
       }
 

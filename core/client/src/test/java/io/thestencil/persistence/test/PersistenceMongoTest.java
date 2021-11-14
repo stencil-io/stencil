@@ -88,12 +88,16 @@ public class PersistenceMongoTest extends MongoDbConfig {
     
     Entity<Link> link1 = repo.create().link(
         ImmutableCreateLink.builder().type("internal").value("www.example.com")
-        .addLocales("LOCALE-5").labelValue("click me")
+        .addLabels(ImmutableLocaleLabel.builder()
+            .locale("LOCALE-5").labelValue("click me")
+            .build())
         .build()
       )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     Entity<Workflow> workflow1 = repo.create().workflow( 
-        ImmutableCreateWorkflow.builder().value("Form1").addLocales("LOCALE-5").labelValue("firstForm").build()
+        ImmutableCreateWorkflow.builder().value("Form1")
+          .addLabels(ImmutableLocaleLabel.builder().locale("LOCALE-5").labelValue("firstForm").build())
+          .build()
       )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     // create state
