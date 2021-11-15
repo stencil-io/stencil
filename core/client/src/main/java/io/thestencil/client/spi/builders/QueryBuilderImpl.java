@@ -26,6 +26,7 @@ import io.resys.thena.docdb.api.actions.ObjectsActions.ObjectsStatus;
 import io.resys.thena.docdb.api.models.Objects.Blob;
 import io.resys.thena.docdb.api.models.Objects.Tree;
 import io.smallrye.mutiny.Uni;
+import io.thestencil.client.api.ImmutableSiteState;
 import io.thestencil.client.api.StencilClient.Article;
 import io.thestencil.client.api.StencilClient.Entity;
 import io.thestencil.client.api.StencilClient.EntityType;
@@ -42,7 +43,6 @@ import io.thestencil.client.spi.PersistenceConfig;
 import io.thestencil.client.spi.PersistenceConfig.EntityState;
 import io.thestencil.client.spi.exceptions.QueryException;
 import io.thestencil.client.spi.exceptions.RefException;
-import io.thestencil.client.api.ImmutableSiteState;
 
 public class QueryBuilderImpl extends PersistenceCommands implements QueryBuilder {
   
@@ -53,7 +53,6 @@ public class QueryBuilderImpl extends PersistenceCommands implements QueryBuilde
   @Override
   public Uni<SiteState> head() {
     final var siteName = config.getRepoName() + ":" + config.getHeadName();
-    
     return config.getClient().repo().query().id(config.getRepoName()).get().onItem()
       .transformToUni(repo -> {
         if(repo == null) {
@@ -83,10 +82,9 @@ public class QueryBuilderImpl extends PersistenceCommands implements QueryBuilde
               }
               
               final var commit = state.getObjects().getCommit();
-              
               final var tree = state.getObjects().getTree();
               final var blobs = state.getObjects().getBlobs();
-              final var builder = mapTree(tree, blobs);
+              final var builder = mapTree(tree, blobs, config);
               return builder
                   .commit(commit.getId())
                   .name(siteName)
@@ -97,7 +95,7 @@ public class QueryBuilderImpl extends PersistenceCommands implements QueryBuilde
   }
   
   @SuppressWarnings("unchecked")
-  private ImmutableSiteState.Builder mapTree(Tree tree, Map<String, Blob> blobs) {
+  public static ImmutableSiteState.Builder mapTree(Tree tree, Map<String, Blob> blobs, PersistenceConfig config) {
     final var builder = ImmutableSiteState.builder();
     for(final var treeValue : tree.getValues().values()) {
       final var blob = blobs.get(treeValue.getBlob());
@@ -150,7 +148,7 @@ public class QueryBuilderImpl extends PersistenceCommands implements QueryBuilde
       
       final var tree = state.getObjects().getTree();
       final var blobs = state.getObjects().getBlobs();
-      final var builder = mapTree(tree, blobs).putReleases(release.getEntity().getId(), release.getEntity());
+      final var builder = mapTree(tree, blobs, config).putReleases(release.getEntity().getId(), release.getEntity());
       return builder.name(config.getRepoName() + ":" + config.getHeadName() + ":" + release.getEntity().getBody().getName()).contentType(SiteContentType.RELEASE).build();
     });
   }

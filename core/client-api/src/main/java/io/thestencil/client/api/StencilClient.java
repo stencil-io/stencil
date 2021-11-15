@@ -149,5 +149,60 @@ public interface StencilClient {
     String getParentCommit();
     String getName();
     String getNote();
+    
+    List<LocaleReleaseItem> getLocales();
+    List<ArticleReleaseItem> getArticles();
+    List<LinkReleaseItem> getLinks();
+    List<ReleaseItem> getWorkflows();
+    List<PageReleaseItem> getPages();
+  }
+  
+  
+  @Value.Immutable
+  @JsonSerialize(as = ImmutableLinkReleaseItem.class)
+  @JsonDeserialize(as = ImmutableLinkReleaseItem.class)
+  interface LinkReleaseItem extends ReleaseItem {
+    String getValue();
+    String getContentType();
+    List<String> getArticles();
+    List<LocaleLabel> getLabels();    
+  }
+  
+  @Value.Immutable
+  @JsonSerialize(as = ImmutableWorkflowReleaseItem.class)
+  @JsonDeserialize(as = ImmutableWorkflowReleaseItem.class)
+  interface WorkflowReleaseItem extends ReleaseItem {
+    String getValue(); // pointer to actual workflow
+    List<String> getArticles();
+    List<LocaleLabel> getLabels();
+  }
+  
+  @Value.Immutable
+  @JsonSerialize(as = ImmutableLocaleReleaseItem.class)
+  @JsonDeserialize(as = ImmutableLocaleReleaseItem.class)
+  interface LocaleReleaseItem extends ReleaseItem {
+    String getValue(); // language code
+  }
+  
+  @Value.Immutable
+  @JsonSerialize(as = ImmutableArticleReleaseItem.class)
+  @JsonDeserialize(as = ImmutableArticleReleaseItem.class)
+  interface ArticleReleaseItem extends ReleaseItem {
+    String getName();
+    @Nullable
+    String getParentId();
+  }
+  
+  @Value.Immutable
+  @JsonSerialize(as = ImmutablePageReleaseItem.class)
+  @JsonDeserialize(as = ImmutablePageReleaseItem.class)
+  interface PageReleaseItem extends ReleaseItem {
+    String getLocale();
+    String getH1();
+  }
+  
+  interface ReleaseItem extends Serializable {
+    String getId();
+    String getHash();
   }
 }

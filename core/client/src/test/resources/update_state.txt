@@ -165,8 +165,8 @@ Trees
 Blobs
   - 33: {"id":"ARTICLE-1","type":"ARTICLE","body":{"parentId":null,"name":"My first article","order":100}}
   - 34: {"id":"ARTICLE-2","type":"ARTICLE","body":{"parentId":null,"name":"My second article","order":100}}
-  - 35: {"id":"RELEASE-3","type":"RELEASE","body":{"parentCommit":"6","name":"v1.5","note":"test release"}}
-  - 36: {"id":"RELEASE-4","type":"RELEASE","body":{"parentCommit":"8","name":"v2.4","note":"new content"}}
+  - 35: {"id":"RELEASE-3","type":"RELEASE","body":{"parentCommit":"6","name":"v1.5","note":"test release","locales":[],"articles":[],"links":[],"workflows":[],"pages":[]}}
+  - 36: {"id":"RELEASE-4","type":"RELEASE","body":{"parentCommit":"8","name":"v2.4","note":"new content","locales":[],"articles":[],"links":[],"workflows":[],"pages":[]}}
   - 37: {"id":"LOCALE-5","type":"LOCALE","body":{"value":"en","enabled":true}}
   - 38: {"id":"LOCALE-6","type":"LOCALE","body":{"value":"fi","enabled":true}}
   - 39: {"id":"PAGE-7","type":"PAGE","body":{"article":"A1","locale":"LOCALE-5","content":"# English content"}}

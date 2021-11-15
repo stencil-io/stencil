@@ -105,18 +105,22 @@ public class CreateBuilderImpl implements CreateBuilder {
 
   @Override
   public Uni<Entity<Release>> release(CreateRelease init) {
+  
+    
     return config.getClient().objects().refState()
       .repo(config.getRepoName())
       .ref(config.getHeadName())
+      .blobs(true)
       .build().onItem().transformToUni(state -> {
         if(state.getStatus() == ObjectsStatus.OK) {
           final var gid = gid(EntityType.RELEASE);
           
-          final var release = ImmutableRelease.builder()
-              .name(init.getName())
-              .note(Optional.ofNullable(init.getNote()).orElse(""))
-              .parentCommit(state.getObjects().getRef().getCommit())
-              .build();
+          final var release = new CreateReleaseVisitor(state, config)
+              .visit(ImmutableRelease.builder()
+                .name(init.getName())
+                .note(Optional.ofNullable(init.getNote()).orElse(""))
+                .parentCommit(state.getObjects().getRef().getCommit())
+              ).build();
 
           final Entity<Release> entity = ImmutableEntity.<Release>builder()
               .id(gid)

@@ -124,8 +124,12 @@ public class IdeServicesTests extends MongoDbConfig {
     .body(
         JsonObject.mapFrom(
             ImmutableCreateLink.builder()
-            .addLocales(localeId)
-            .labelValue("description")
+            .addLabels(
+                ImmutableLocaleLabel.builder()
+                  .locale(localeId)
+                  .labelValue("description")
+                .build()
+            )
             .value("www.example.com")
             .type("internal")
             .addArticles(articleId)
@@ -142,8 +146,9 @@ public class IdeServicesTests extends MongoDbConfig {
     .body(
         JsonObject.mapFrom(
             ImmutableCreateWorkflow.builder()
-            .addLocales(localeId)
-            .labelValue("cool name")
+            .addLabels(ImmutableLocaleLabel.builder()
+            .locale(localeId)
+            .labelValue("cool name").build())
             .value("workflow name")
             .build()
             ).toString())
