@@ -153,7 +153,7 @@ public interface StencilClient {
     List<LocaleReleaseItem> getLocales();
     List<ArticleReleaseItem> getArticles();
     List<LinkReleaseItem> getLinks();
-    List<ReleaseItem> getWorkflows();
+    List<WorkflowReleaseItem> getWorkflows();
     List<PageReleaseItem> getPages();
   }
   
