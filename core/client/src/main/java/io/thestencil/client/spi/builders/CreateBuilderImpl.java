@@ -87,6 +87,10 @@ public class CreateBuilderImpl implements CreateBuilder {
       if(duplicate.isPresent()) {
         throw new ConstraintException(entity, "Article: '" + init.getName() + "' already exists!");
       }
+
+      if(init.getParentId() != null && !state.getArticles().containsKey(init.getParentId())) {
+        throw new ConstraintException(entity, "Article: '" + init.getName() + "', parent: '" + init.getParentId() + "' does not exist!");
+      }
       
       return config.getClient().commit().head()
         .head(config.getRepoName(), config.getHeadName())

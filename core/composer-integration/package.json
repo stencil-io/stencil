@@ -10,7 +10,7 @@
     "@mui/styles": "^5.0.1",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
-    "@the-stencil-io/composer": "^1.0.18",
+    "@the-stencil-io/composer": "^1.0.19",
     "@types/jest": "^26.0.23",
     "@types/node": "^12.20.15",
     "@types/react": "^17.0.10",
