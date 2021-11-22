@@ -50,6 +50,7 @@ public class Serializers {
     ImmutableCreateRelease.class,
     ImmutableCreateWorkflow.class,
     ImmutableEntity.class,
+    ImmutableLocaleLabel.class,
     ImmutableLink.class,
     ImmutableLinkArticlePage.class,
     ImmutableLinkMutator.class,
@@ -60,5 +61,12 @@ public class Serializers {
     ImmutableRelease.class,
     ImmutableWorkflow.class,
     ImmutableWorkflowArticlePage.class,
-    ImmutableWorkflowMutator.class);
+    ImmutableWorkflowMutator.class,
+    
+    ImmutableLocaleReleaseItem.class,
+    ImmutableArticleReleaseItem.class,
+    ImmutableLinkReleaseItem.class,
+    ImmutableWorkflowReleaseItem.class,
+    ImmutablePageReleaseItem.class
+  );
 }
