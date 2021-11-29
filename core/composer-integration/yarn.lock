@@ -2048,10 +2048,10 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@the-stencil-io/composer@^1.0.27":
-  version "1.0.27"
-  resolved "https://registry.yarnpkg.com/@the-stencil-io/composer/-/composer-1.0.27.tgz#6897e61d1f561edc22f2ec9fce6104ebb32af926"
-  integrity sha512-myAkc3DxQzrxUpJRv01oy9iwTxTc56WbMq8/a0BJTyUQRrty2qyKveEHeGjeL0lYH4DVoirrgCkaubEtPqTeLg==
+"@the-stencil-io/composer@^1.0.28":
+  version "1.0.28"
+  resolved "https://registry.yarnpkg.com/@the-stencil-io/composer/-/composer-1.0.28.tgz#d6f16d5cce91e701be747246e23b42c1fa245147"
+  integrity sha512-/Rfx2UeqY7UPd5HCYatZk50c8N7KO4Ye/BtAh97UEPjh6jazrpxUHYaJZ7cPw4S6oyLDas8KTr0xzvFQnAq3AQ==
   dependencies:
     d3 "^7.1.1"
     js-file-download "^0.4.12"
