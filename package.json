@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@the-stencil-io/composer": "^1.0.26"
+  }
+}
