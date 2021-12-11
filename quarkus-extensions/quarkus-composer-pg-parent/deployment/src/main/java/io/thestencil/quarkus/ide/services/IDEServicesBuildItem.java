@@ -32,6 +32,7 @@ public final class IDEServicesBuildItem extends SimpleBuildItem {
   private final String releasesPath;
   private final String localePath;
   private final String migrationPath;
+  private final String templatesPath;
   
   public IDEServicesBuildItem(
       String servicePath, 
@@ -41,7 +42,8 @@ public final class IDEServicesBuildItem extends SimpleBuildItem {
       String workflowsPath,
       String linksPath, 
       String releasesPath,
-      String localePath) {
+      String localePath,
+      String templatesPath) {
     super();
     this.servicePath = servicePath;
     this.articlesPath = articlesPath;
@@ -51,6 +53,7 @@ public final class IDEServicesBuildItem extends SimpleBuildItem {
     this.releasesPath = releasesPath;
     this.localePath = localePath;
     this.migrationPath = migrationPath;
+    this.templatesPath = templatesPath;
   }
 
   public String getMigrationPath() {
@@ -77,6 +80,9 @@ public final class IDEServicesBuildItem extends SimpleBuildItem {
   public String getLocalePath() {
     return localePath;
   }
+  public String getTemplatesPath() {
+    return templatesPath;
+  }  
   
   
   public static Builder builder(String servicePath) {
@@ -92,6 +98,7 @@ public final class IDEServicesBuildItem extends SimpleBuildItem {
     private String releasesPath;
     private String localePath;
     private String migrationPath;
+    private String templatesPath;
 
     public Builder(String servicePath) {
       super();
@@ -125,8 +132,12 @@ public final class IDEServicesBuildItem extends SimpleBuildItem {
       this.migrationPath = servicePath + "/" + migrationPath;
       return this;
     }    
+    public Builder templatesPath(String templatesPath) {
+      this.templatesPath = servicePath + "/" + templatesPath;
+      return this;
+    }    
     public IDEServicesBuildItem build() {
-      return new IDEServicesBuildItem(servicePath, migrationPath, articlesPath, pagesPath, workflowsPath, linksPath, releasesPath, localePath);
+      return new IDEServicesBuildItem(servicePath, migrationPath, articlesPath, pagesPath, workflowsPath, linksPath, releasesPath, localePath, templatesPath);
     }
   }
 }

@@ -59,6 +59,7 @@ public class IDEServicesProducer {
   private String workflowsPath;
   private String linksPath;
   private String releasesPath;
+  private String templatesPath;
   private String localePath;
   private String migrationPath;
   
@@ -94,6 +95,7 @@ public class IDEServicesProducer {
       .linksPath(linksPath)
       .localePath(localePath)
       .releasesPath(releasesPath)
+      .templatesPath(templatesPath)
       .build();
     
     final var mongo = new ReactiveMongoClientImpl(MongoClients.create(
@@ -170,4 +172,9 @@ public class IDEServicesProducer {
     this.migrationPath = migrationPath;
     return this;
   }
+  public IDEServicesProducer setTemplatesPath(String templatesPath) {
+    this.templatesPath = templatesPath;
+    return this;
+  }
+  
 }

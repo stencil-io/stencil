@@ -40,8 +40,8 @@ public class ServicesPathConfig {
       String workflowsPath,
       String linksPath, 
       String releasesPath,
-      String templatesPath,
-      String localePath) {
+      String localePath,
+      String templatesPath) {
     super();
     this.migrationPath = migrationPath;
     this.servicePath = servicePath;
@@ -50,8 +50,8 @@ public class ServicesPathConfig {
     this.workflowsPath = workflowsPath;
     this.linksPath = linksPath;
     this.releasesPath = releasesPath;
-    this.localePath = localePath;
     this.templatesPath = templatesPath;
+    this.localePath = localePath;
   }
 
   public String getServicePath() {
@@ -79,7 +79,7 @@ public class ServicesPathConfig {
     return migrationPath;
   }
   public String getTemplatePath() {
-	return templatesPath;
+    return templatesPath;
   }
 
   
@@ -108,7 +108,7 @@ public class ServicesPathConfig {
     public Builder templatesPath(String templatesPath) {
       this.templatesPath = templatesPath;
       return this;
-      }
+    }
     public Builder pagesPath(String pagesPath) {
       this.pagesPath = pagesPath;
       return this;

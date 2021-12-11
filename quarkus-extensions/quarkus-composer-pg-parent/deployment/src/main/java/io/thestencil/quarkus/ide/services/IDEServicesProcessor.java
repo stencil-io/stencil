@@ -70,7 +70,8 @@ public class IDEServicesProcessor {
         buildItem.getWorkflowsPath(), 
         buildItem.getLinksPath(), 
         buildItem.getReleasesPath(), 
-        buildItem.getLocalePath())));
+        buildItem.getLocalePath(),
+        buildItem.getTemplatesPath())));
   }
 
   
@@ -180,6 +181,7 @@ public class IDEServicesProcessor {
         .linksPath("links")
         .releasesPath("releases")
         .migrationPath("migrations")
+        .templatesPath("templates")
         .build();
     
     displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(httpRootPathBuildItem.resolvePath(servicePath), "Stencil Actions"));
