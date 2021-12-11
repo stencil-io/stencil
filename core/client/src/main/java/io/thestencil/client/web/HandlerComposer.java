@@ -62,7 +62,6 @@ public class HandlerComposer extends HandlerTemplate {
   protected void handleResource(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) {
     response.headers().set(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
     final var path = getPath(event);
-    final var client = ctx.getClient();
     
     if(path.endsWith(ctx.getPaths().getServicePath())) {
     	doSite(event, response, ctx, objectMapper);
