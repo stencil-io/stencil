@@ -127,6 +127,7 @@ public class IDEServicesProcessor {
     addRoute.accept(buildItem.getLinksPath());
     addRoute.accept(buildItem.getLocalePath());
     addRoute.accept(buildItem.getReleasesPath());
+    addRoute.accept(buildItem.getTemplatesPath());
     addRoute.accept(buildItem.getWorkflowsPath());
 
     routes.produce(httpRoot.routeBuilder()
