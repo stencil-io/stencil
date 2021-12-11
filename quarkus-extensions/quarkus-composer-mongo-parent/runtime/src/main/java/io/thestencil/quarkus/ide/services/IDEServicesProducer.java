@@ -59,9 +59,10 @@ public class IDEServicesProducer {
   private String workflowsPath;
   private String linksPath;
   private String releasesPath;
-  private String templatesPath;
   private String localePath;
   private String migrationPath;
+  private String templatesPath;
+
   
   public IDEServicesProducer setRuntimeConfig(RuntimeConfig runtimeConfig) {
     this.runtimeConfig = runtimeConfig;
