@@ -46,6 +46,7 @@ import io.thestencil.client.api.StencilClient.Page;
 import io.thestencil.client.api.StencilClient.Release;
 import io.thestencil.client.api.StencilClient.SiteContentType;
 import io.thestencil.client.api.StencilClient.SiteState;
+import io.thestencil.client.api.StencilClient.Template;
 import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.client.spi.PersistenceConfig;
 import io.thestencil.client.spi.exceptions.ConstraintException;
@@ -115,16 +116,15 @@ public class CreateBuilderImpl implements CreateBuilder {
     return query.onItem().transformToUni(state -> {
     
       final var gid = gid(EntityType.TEMPLATE);
-      final var article = ImmutableTemplate.builder()
+      final var template = ImmutableTemplate.builder()
           .name(init.getName())
           .description(init.getDescription())
           .type(init.getType())
           .content(init.getContent())
-          .created(Optional.ofNullable(init.getCreated()))
           .build();
       final Entity<Template> entity = ImmutableEntity.<Template>builder()
           .id(gid)
-          .type(EntityType.Template)
+          .type(EntityType.TEMPLATE)
           .body(template)
           .build();
       

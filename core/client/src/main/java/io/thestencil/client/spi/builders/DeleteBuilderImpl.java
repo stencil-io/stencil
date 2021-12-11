@@ -23,20 +23,21 @@ package io.thestencil.client.spi.builders;
 import java.util.stream.Collectors;
 
 import io.smallrye.mutiny.Uni;
+import io.thestencil.client.api.DeleteBuilder;
+import io.thestencil.client.api.ImmutableEntity;
+import io.thestencil.client.api.ImmutableLink;
+import io.thestencil.client.api.ImmutableWorkflow;
 import io.thestencil.client.api.StencilClient.Article;
 import io.thestencil.client.api.StencilClient.Entity;
 import io.thestencil.client.api.StencilClient.EntityType;
 import io.thestencil.client.api.StencilClient.Link;
 import io.thestencil.client.api.StencilClient.Locale;
 import io.thestencil.client.api.StencilClient.Page;
+import io.thestencil.client.api.StencilClient.Template;
 import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.client.spi.PersistenceCommands;
 import io.thestencil.client.spi.PersistenceConfig;
 import io.thestencil.client.spi.PersistenceConfig.EntityState;
-import io.thestencil.client.api.DeleteBuilder;
-import io.thestencil.client.api.ImmutableEntity;
-import io.thestencil.client.api.ImmutableLink;
-import io.thestencil.client.api.ImmutableWorkflow;
 
 public class DeleteBuilderImpl extends PersistenceCommands implements DeleteBuilder {
   
@@ -56,6 +57,15 @@ public class DeleteBuilderImpl extends PersistenceCommands implements DeleteBuil
     final Uni<EntityState<Locale>> query = get(localeId, EntityType.LOCALE);
     
     // Delete the locale
+    return query.onItem().transformToUni(state -> delete(state.getEntity()));
+  }
+  
+  @Override
+  public Uni<Entity<Template>> template(String templateId) {
+    // Get the page
+    final Uni<EntityState<Template>> query = get(templateId, EntityType.TEMPLATE);
+    
+    // Delete the template
     return query.onItem().transformToUni(state -> delete(state.getEntity()));
   }
 

@@ -34,6 +34,7 @@ import io.thestencil.client.api.StencilClient.Link;
 import io.thestencil.client.api.StencilClient.Locale;
 import io.thestencil.client.api.StencilClient.Page;
 import io.thestencil.client.api.StencilClient.Release;
+import io.thestencil.client.api.StencilClient.Template;
 import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.client.spi.PersistenceConfig;
 
@@ -69,6 +70,9 @@ public class ZoeDeserializer implements PersistenceConfig.Deserializer {
         case WORKFLOW: {
           return (Entity<T>) objectMapper.readValue(value, new TypeReference<Entity<Workflow>>() {});  
         }
+        case TEMPLATE: {
+          return (Entity<T>) objectMapper.readValue(value, new TypeReference<Entity<Template>>() {});  
+        }
         default: throw new RuntimeException("can't map: " + entityType);
       }
       
@@ -101,6 +105,9 @@ public class ZoeDeserializer implements PersistenceConfig.Deserializer {
       }
       case WORKFLOW: {
         return objectMapper.convertValue(node, new TypeReference<Entity<Workflow>>() {});
+      }
+      case TEMPLATE: {
+        return objectMapper.convertValue(node, new TypeReference<Entity<Template>>() {});
       }
       default:
         throw new RuntimeException("can't map: " + node);

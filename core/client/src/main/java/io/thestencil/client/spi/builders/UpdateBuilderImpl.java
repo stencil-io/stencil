@@ -34,6 +34,7 @@ import io.thestencil.client.api.ImmutableEntity;
 import io.thestencil.client.api.ImmutableLink;
 import io.thestencil.client.api.ImmutableLocale;
 import io.thestencil.client.api.ImmutablePage;
+import io.thestencil.client.api.ImmutableTemplate;
 import io.thestencil.client.api.ImmutableWorkflow;
 import io.thestencil.client.api.StencilClient.Article;
 import io.thestencil.client.api.StencilClient.Entity;
@@ -42,6 +43,7 @@ import io.thestencil.client.api.StencilClient.Link;
 import io.thestencil.client.api.StencilClient.Locale;
 import io.thestencil.client.api.StencilClient.Page;
 import io.thestencil.client.api.StencilClient.SiteState;
+import io.thestencil.client.api.StencilClient.Template;
 import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.client.api.UpdateBuilder;
 import io.thestencil.client.spi.PersistenceCommands;
@@ -206,6 +208,38 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
         .build();
   }
 
+  @Override
+  public Uni<Entity<Template>> template(TemplateMutator changes) {
+    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
+  
+    // Change the template
+    return query.onItem().transformToUni(state -> save(changeTemplate(state, changes)));
+  }
+  
+  private Entity<Template> changeTemplate(SiteState site, TemplateMutator changes) {
+    final Entity<Template> start = site.getTemplates().get(changes.getTemplateId());
+
+    final var duplicate = site.getTemplates().values().stream()
+        .filter(p -> !p.getId().equals(changes.getTemplateId()))
+        .filter(p -> p.getBody().getName().equals(changes.getName()))
+        .findFirst();
+    
+    if(duplicate.isPresent()) {
+      throw new ConstraintException(start, "Template: '" + changes.getName() + "' already exists!");
+    }
+    
+    
+    return ImmutableEntity.<Template>builder()
+        .from(start)
+        .body(ImmutableTemplate.builder().from(start.getBody())
+            .name(changes.getName())
+            .content(changes.getContent())
+            .type(changes.getType())
+            .description(changes.getDescription())
+            .build())
+        .build();
+  }
+  
   @Override
   public Uni<Entity<Page>> page(PageMutator changes) {
     // Get the page

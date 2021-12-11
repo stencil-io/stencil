@@ -41,7 +41,7 @@ public interface DeleteBuilder {
   Uni<Entity<Page>> page(String pageId);
   Uni<Entity<Link>> link(String linkId);
   Uni<Entity<Link>> linkArticlePage(LinkArticlePage linkArticlePage);
-  Uni<Entity<Template>> Template(String templateId);
+  Uni<Entity<Template>> template(String templateId);
   Uni<Entity<Workflow>> workflow(String workflowId);
   Uni<Entity<Workflow>> workflowArticlePage(WorkflowArticlePage workflowArticlePage);
 
