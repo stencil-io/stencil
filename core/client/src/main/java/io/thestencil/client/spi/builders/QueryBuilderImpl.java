@@ -37,6 +37,7 @@ import io.thestencil.client.api.StencilClient.QueryBuilder;
 import io.thestencil.client.api.StencilClient.Release;
 import io.thestencil.client.api.StencilClient.SiteContentType;
 import io.thestencil.client.api.StencilClient.SiteState;
+import io.thestencil.client.api.StencilClient.Template;
 import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.client.spi.PersistenceCommands;
 import io.thestencil.client.spi.PersistenceConfig;
@@ -121,6 +122,9 @@ public class QueryBuilderImpl extends PersistenceCommands implements QueryBuilde
       case WORKFLOW:
         builder.putWorkflows(id, (Entity<Workflow>) entity);
         break;
+      case TEMPLATE:
+	    builder.putTemplates(id, (Entity<Template>) entity);
+	    break;
       default: throw new RuntimeException("Don't know how to convert entity: " + entity.toString() + "!");
       }
     }

@@ -10,101 +10,116 @@ Tags
 
 Commits
   - id: 4
-    tree: 5, parent: , message: creating-article
+    tree: 5, parent: , message: creating-template
   - id: 6
     tree: 7, parent: 4, message: creating-article
   - id: 8
-    tree: 9, parent: 6, message: creating-release
+    tree: 9, parent: 6, message: creating-article
   - id: 10
     tree: 11, parent: 8, message: creating-release
   - id: 12
-    tree: 13, parent: 10, message: creating-locale
+    tree: 13, parent: 10, message: creating-release
   - id: 14
     tree: 15, parent: 12, message: creating-locale
   - id: 16
-    tree: 17, parent: 14, message: creating-page
+    tree: 17, parent: 14, message: creating-locale
   - id: 18
     tree: 19, parent: 16, message: creating-page
   - id: 20
-    tree: 21, parent: 18, message: creating-link
+    tree: 21, parent: 18, message: creating-page
+  - id: 22
+    tree: 23, parent: 20, message: creating-link
   - id: 3
-    tree: 22, parent: 20, message: creating-workflow
+    tree: 24, parent: 22, message: creating-workflow
 
 Trees
   - id: 5
-    23: ARTICLE-1
+    25: TEMPLATE-1
   - id: 7
-    23: ARTICLE-1
-    24: ARTICLE-2
+    26: ARTICLE-2
+    25: TEMPLATE-1
   - id: 9
-    23: ARTICLE-1
-    24: ARTICLE-2
-    25: RELEASE-3
+    26: ARTICLE-2
+    27: ARTICLE-3
+    25: TEMPLATE-1
   - id: 11
-    23: ARTICLE-1
-    24: ARTICLE-2
-    25: RELEASE-3
-    26: RELEASE-4
+    26: ARTICLE-2
+    27: ARTICLE-3
+    28: RELEASE-4
+    25: TEMPLATE-1
   - id: 13
-    23: ARTICLE-1
-    24: ARTICLE-2
-    27: LOCALE-5
-    25: RELEASE-3
-    26: RELEASE-4
+    26: ARTICLE-2
+    27: ARTICLE-3
+    28: RELEASE-4
+    29: RELEASE-5
+    25: TEMPLATE-1
   - id: 15
-    23: ARTICLE-1
-    24: ARTICLE-2
-    27: LOCALE-5
-    28: LOCALE-6
-    25: RELEASE-3
-    26: RELEASE-4
+    26: ARTICLE-2
+    27: ARTICLE-3
+    30: LOCALE-6
+    28: RELEASE-4
+    29: RELEASE-5
+    25: TEMPLATE-1
   - id: 17
-    23: ARTICLE-1
-    24: ARTICLE-2
-    27: LOCALE-5
-    28: LOCALE-6
-    29: PAGE-7
-    25: RELEASE-3
-    26: RELEASE-4
+    26: ARTICLE-2
+    27: ARTICLE-3
+    30: LOCALE-6
+    31: LOCALE-7
+    28: RELEASE-4
+    29: RELEASE-5
+    25: TEMPLATE-1
   - id: 19
-    23: ARTICLE-1
-    24: ARTICLE-2
-    27: LOCALE-5
-    28: LOCALE-6
-    29: PAGE-7
-    30: PAGE-8
-    25: RELEASE-3
-    26: RELEASE-4
+    26: ARTICLE-2
+    27: ARTICLE-3
+    30: LOCALE-6
+    31: LOCALE-7
+    32: PAGE-8
+    28: RELEASE-4
+    29: RELEASE-5
+    25: TEMPLATE-1
   - id: 21
-    23: ARTICLE-1
-    24: ARTICLE-2
-    31: LINK-9
-    27: LOCALE-5
-    28: LOCALE-6
-    29: PAGE-7
-    30: PAGE-8
-    25: RELEASE-3
-    26: RELEASE-4
-  - id: 22
-    23: ARTICLE-1
-    24: ARTICLE-2
-    31: LINK-9
-    27: LOCALE-5
-    28: LOCALE-6
-    29: PAGE-7
-    30: PAGE-8
-    25: RELEASE-3
-    26: RELEASE-4
-    32: WORKFLOW-10
+    26: ARTICLE-2
+    27: ARTICLE-3
+    30: LOCALE-6
+    31: LOCALE-7
+    32: PAGE-8
+    33: PAGE-9
+    28: RELEASE-4
+    29: RELEASE-5
+    25: TEMPLATE-1
+  - id: 23
+    26: ARTICLE-2
+    27: ARTICLE-3
+    34: LINK-10
+    30: LOCALE-6
+    31: LOCALE-7
+    32: PAGE-8
+    33: PAGE-9
+    28: RELEASE-4
+    29: RELEASE-5
+    25: TEMPLATE-1
+  - id: 24
+    26: ARTICLE-2
+    27: ARTICLE-3
+    34: LINK-10
+    30: LOCALE-6
+    31: LOCALE-7
+    32: PAGE-8
+    33: PAGE-9
+    28: RELEASE-4
+    29: RELEASE-5
+    25: TEMPLATE-1
+    35: WORKFLOW-11
 
 Blobs
-  - 23: {"id":"ARTICLE-1","type":"ARTICLE","body":{"parentId":null,"name":"My first article","order":100}}
-  - 24: {"id":"ARTICLE-2","type":"ARTICLE","body":{"parentId":null,"name":"My second article","order":100}}
-  - 25: {"id":"RELEASE-3","type":"RELEASE","body":{"parentCommit":"6","name":"v1.5","note":"test release","locales":[],"articles":[],"links":[],"workflows":[],"pages":[]}}
-  - 26: {"id":"RELEASE-4","type":"RELEASE","body":{"parentCommit":"8","name":"v2.4","note":"new content","locales":[],"articles":[],"links":[],"workflows":[],"pages":[]}}
-  - 27: {"id":"LOCALE-5","type":"LOCALE","body":{"value":"en","enabled":true}}
-  - 28: {"id":"LOCALE-6","type":"LOCALE","body":{"value":"fi","enabled":true}}
-  - 29: {"id":"PAGE-7","type":"PAGE","body":{"article":"A1","locale":"LOCALE-5","content":"# English content"}}
-  - 30: {"id":"PAGE-8","type":"PAGE","body":{"article":"A1","locale":"LOCALE-6","content":"# Finnish content"}}
-  - 31: {"id":"LINK-9","type":"LINK","body":{"value":"www.example.com","contentType":"internal","articles":[],"labels":[{"locale":"LOCALE-5","labelValue":"click me"}]}}
-  - 32: {"id":"WORKFLOW-10","type":"WORKFLOW","body":{"value":"Form1","articles":[],"labels":[{"locale":"LOCALE-5","labelValue":"firstForm"}]}}
+  - 25: {"id":"TEMPLATE-1","type":"TEMPLATE","body":{"name":"Nice page template","description":"Generic page structure","content":"# Header 1","type":"Page"}}
+  - 26: {"id":"ARTICLE-2","type":"ARTICLE","body":{"parentId":null,"name":"My first article","order":100}}
+  - 27: {"id":"ARTICLE-3","type":"ARTICLE","body":{"parentId":null,"name":"My second article","order":100}}
+  - 28: {"id":"RELEASE-4","type":"RELEASE","body":{"parentCommit":"8","name":"v1.5","note":"test release","locales":[],"articles":[],"links":[],"workflows":[],"pages":[],"templates":[]}}
+  - 29: {"id":"RELEASE-5","type":"RELEASE","body":{"parentCommit":"10","name":"v2.4","note":"new content","locales":[],"articles":[],"links":[],"workflows":[],"pages":[],"templates":[]}}
+  - 30: {"id":"LOCALE-6","type":"LOCALE","body":{"value":"en","enabled":true}}
+  - 31: {"id":"LOCALE-7","type":"LOCALE","body":{"value":"fi","enabled":true}}
+  - 32: {"id":"PAGE-8","type":"PAGE","body":{"article":"A1","locale":"LOCALE-6","content":"# English content"}}
+  - 33: {"id":"PAGE-9","type":"PAGE","body":{"article":"A1","locale":"LOCALE-7","content":"# Finnish content"}}
+  - 34: {"id":"LINK-10","type":"LINK","body":{"value":"www.example.com","contentType":"internal","articles":[],"labels":[{"locale":"LOCALE-6","labelValue":"click me"}]}}
+  - 35: {"id":"WORKFLOW-11","type":"WORKFLOW","body":{"value":"Form1","articles":[],"labels":[{"locale":"LOCALE-6","labelValue":"firstForm"}]}}

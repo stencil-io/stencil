@@ -33,6 +33,7 @@ import io.thestencil.client.api.StencilClient.Entity;
 import io.thestencil.client.api.StencilClient.Link;
 import io.thestencil.client.api.StencilClient.Locale;
 import io.thestencil.client.api.StencilClient.Page;
+import io.thestencil.client.api.StencilClient.Template;
 import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.client.api.ImmutableArticleMutator;
 import io.thestencil.client.api.ImmutableCreateArticle;
@@ -40,11 +41,13 @@ import io.thestencil.client.api.ImmutableCreateLink;
 import io.thestencil.client.api.ImmutableCreateLocale;
 import io.thestencil.client.api.ImmutableCreatePage;
 import io.thestencil.client.api.ImmutableCreateRelease;
+import io.thestencil.client.api.ImmutableCreateTemplate;
 import io.thestencil.client.api.ImmutableCreateWorkflow;
 import io.thestencil.client.api.ImmutableLinkMutator;
 import io.thestencil.client.api.ImmutableLocaleLabel;
 import io.thestencil.client.api.ImmutableLocaleMutator;
 import io.thestencil.client.api.ImmutablePageMutator;
+import io.thestencil.client.api.ImmutableTemplateMutator;
 import io.thestencil.client.api.ImmutableWorkflowMutator;
 import io.thestencil.persistence.test.config.PgProfile;
 import io.thestencil.persistence.test.config.PgTestTemplate;
@@ -54,10 +57,15 @@ import io.thestencil.persistence.test.config.TestExporter;
 @TestProfile(PgProfile.class)
 public class PersistencePgTest extends PgTestTemplate {
   
+
   @Test
   public void test1() {
     final var repo = getPersistence("test1");
     
+    Entity<Template> template1 = repo.create().template(
+        ImmutableCreateTemplate.builder().name("Nice page template").content("# Header 1").type("Page").description("Generic page structure").build()
+    ).onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
+        
    Entity<Article> article1 = repo.create().article(
         ImmutableCreateArticle.builder().name("My first article").order(100).build()
     )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
@@ -93,16 +101,14 @@ public class PersistencePgTest extends PgTestTemplate {
     Entity<Link> link1 = repo.create().link(
         ImmutableCreateLink.builder().type("internal").value("www.example.com")
         .addLabels(ImmutableLocaleLabel.builder()
-            .locale("LOCALE-5").labelValue("click me")
+            .locale(locale1.getId()).labelValue("click me")
             .build())
         .build()
       )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     Entity<Workflow> workflow1 = repo.create().workflow( 
         ImmutableCreateWorkflow.builder().value("Form1")
-          .addLabels(ImmutableLocaleLabel.builder()
-              .locale("LOCALE-5").labelValue("firstForm")
-              .build())
+          .addLabels(ImmutableLocaleLabel.builder().locale(locale1.getId()).labelValue("firstForm").build())
           .build()
       )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
@@ -111,6 +117,14 @@ public class PersistencePgTest extends PgTestTemplate {
     var actual = super.toRepoExport("test1");
     Assertions.assertEquals(expected, actual);
     
+    repo.update().template(ImmutableTemplateMutator.builder().templateId(template1.getId())
+    	.name("new name")
+    	.content("cool content")
+    	.type("PAGE")
+    	.description("description")
+    	.build())
+          .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
+
     repo.update().article(ImmutableArticleMutator.builder().articleId(article1.getId()).name("Revised Article1").order(300).build())
           .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
@@ -146,7 +160,9 @@ public class PersistencePgTest extends PgTestTemplate {
     actual = super.toRepoExport("test1");
     Assertions.assertEquals(expected, actual);
     
-    
+    repo.delete().template(template1.getId())
+    	  .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
+
     repo.delete().article(article1.getId())
           .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
@@ -168,6 +184,7 @@ public class PersistencePgTest extends PgTestTemplate {
     // delete state
     expected = TestExporter.toString(getClass(), "delete_state.txt");
     actual = super.toRepoExport("test1");
-    Assertions.assertEquals(expected, actual); 
+    Assertions.assertEquals(expected, actual);
+    
   }
 }
