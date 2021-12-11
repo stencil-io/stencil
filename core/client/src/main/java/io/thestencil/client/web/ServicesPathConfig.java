@@ -30,6 +30,7 @@ public class ServicesPathConfig {
   private final String linksPath;
   private final String releasesPath;
   private final String localePath;
+  private final String templatesPath;
   
   public ServicesPathConfig(
       String servicePath, 
@@ -39,6 +40,7 @@ public class ServicesPathConfig {
       String workflowsPath,
       String linksPath, 
       String releasesPath,
+      String templatesPath,
       String localePath) {
     super();
     this.migrationPath = migrationPath;
@@ -49,6 +51,7 @@ public class ServicesPathConfig {
     this.linksPath = linksPath;
     this.releasesPath = releasesPath;
     this.localePath = localePath;
+    this.templatesPath = templatesPath;
   }
 
   public String getServicePath() {
@@ -75,6 +78,9 @@ public class ServicesPathConfig {
   public String getMigrationPath() {
     return migrationPath;
   }
+  public String getTemplatePath() {
+	return templatesPath;
+  }
 
   
   public static Builder builder() {
@@ -88,6 +94,7 @@ public class ServicesPathConfig {
     private String workflowsPath;
     private String linksPath;
     private String releasesPath;
+    private String templatesPath;
     private String localePath;
     private String migrationPath;
     public Builder servicePath(String servicePath) {
@@ -98,6 +105,10 @@ public class ServicesPathConfig {
       this.articlesPath = articlesPath;
       return this;
     }
+    public Builder templatesPath(String templatesPath) {
+      this.templatesPath = templatesPath;
+      return this;
+      }
     public Builder pagesPath(String pagesPath) {
       this.pagesPath = pagesPath;
       return this;
@@ -125,7 +136,7 @@ public class ServicesPathConfig {
 
     
     public ServicesPathConfig build() {
-      return new ServicesPathConfig(servicePath, migrationPath, articlesPath, pagesPath, workflowsPath, linksPath, releasesPath, localePath);
+      return new ServicesPathConfig(servicePath, migrationPath, articlesPath, pagesPath, workflowsPath, linksPath, releasesPath, localePath, templatesPath);
     }
   }
 }

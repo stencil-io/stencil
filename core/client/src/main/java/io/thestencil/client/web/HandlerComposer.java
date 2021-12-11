@@ -35,10 +35,12 @@ import io.thestencil.client.api.ImmutableCreateLink;
 import io.thestencil.client.api.ImmutableCreateLocale;
 import io.thestencil.client.api.ImmutableCreatePage;
 import io.thestencil.client.api.ImmutableCreateRelease;
+import io.thestencil.client.api.ImmutableCreateTemplate;
 import io.thestencil.client.api.ImmutableCreateWorkflow;
 import io.thestencil.client.api.ImmutableLinkArticlePage;
 import io.thestencil.client.api.ImmutableLinkMutator;
 import io.thestencil.client.api.ImmutableLocaleMutator;
+import io.thestencil.client.api.ImmutableTemplateMutator;
 import io.thestencil.client.api.ImmutableWorkflowArticlePage;
 import io.thestencil.client.api.ImmutableWorkflowMutator;
 import io.thestencil.client.api.UpdateBuilder.PageMutator;
@@ -63,197 +65,23 @@ public class HandlerComposer extends HandlerTemplate {
     final var client = ctx.getClient();
     
     if(path.endsWith(ctx.getPaths().getServicePath())) {
-      if (event.request().method() == HttpMethod.POST) {
-        client.create().repo()
-        .onItem().transform(data -> JsonObject.mapFrom(data).toBuffer())
-        .onFailure().invoke(e -> HandlerStatusCodes.catch422(e, response))
-        .subscribe().with(data -> response.end(data));
-        
-      } else if(event.request().method() == HttpMethod.GET) { 
-        subscribe(
-            client.query().head(), 
-            response, ctx, objectMapper);
-      } else {
-        HandlerStatusCodes.catch404("unsupported repository action", response);
-      }
-      
+    	doSite(event, response, ctx, objectMapper);
     } else if (path.startsWith(ctx.getPaths().getMigrationPath())) {
-
-      if (event.request().method() == HttpMethod.POST) {
-        subscribe(
-            client.migration().importData(read(event, objectMapper, SitesBean.class)), 
-            response, ctx, objectMapper);
-      } else {
-        HandlerStatusCodes.catch404("unsupported migration action", response);
-      }
-      
+      doMigration(event, response, ctx, objectMapper);
     } else if (path.startsWith(ctx.getPaths().getArticlesPath())) {
-      
-      // ARTICLES
-      
-      if (event.request().method() == HttpMethod.POST) {
-        subscribe(
-            client.create().article(read(event, objectMapper, ImmutableCreateArticle.class)), 
-            response, ctx, objectMapper);
-        
-      } else if(event.request().method() == HttpMethod.PUT) {
-        subscribe(
-            client.update().article(read(event, objectMapper, ImmutableArticleMutator.class)),
-            response, ctx, objectMapper);
-        
-      } else if(event.request().method() == HttpMethod.DELETE) {
-        subscribe(
-            client.delete().article(event.pathParam("id")),
-            response, ctx, objectMapper);
-      } else {
-        HandlerStatusCodes.catch404("unsupported article action", response);
-      }
-      
-      
-    } else if(path.startsWith(ctx.getPaths().getLinksPath())) {
-      
-      // LINKS
-      
-      if (event.request().method() == HttpMethod.POST) {
-        subscribe(
-            client.create().link(read(event, objectMapper, ImmutableCreateLink.class)), 
-            response, ctx, objectMapper);
-        
-      } else if(event.request().method() == HttpMethod.PUT) {
-        subscribe(
-            client.update().link(read(event, objectMapper, ImmutableLinkMutator.class)),
-            response, ctx, objectMapper);
-      } else if(event.request().method() == HttpMethod.DELETE) {
-        
-        final var linkId = event.pathParam("id");
-        final var articleId = event.queryParam("articleId");
-        
-        if(articleId.isEmpty()) {
-          subscribe(
-              client.delete().link(linkId),
-              response, ctx, objectMapper);
-        } else {
-          subscribe(
-              client.delete().linkArticlePage(ImmutableLinkArticlePage.builder()
-                  .articleId(articleId.iterator().next())
-                  .linkId(linkId)
-                  .build()),
-              response, ctx, objectMapper);  
-        }
-        
-      } else {
-        HandlerStatusCodes.catch404("unsupported links action", response);
-      }
-    
-      
+      doArticles(event, response, ctx, objectMapper);
+    } else if(path.startsWith(ctx.getPaths().getLinksPath())){
+      doLinks(event, response, ctx, objectMapper);
     } else if(path.startsWith(ctx.getPaths().getLocalePath())) {
-      
-
-      
-      // LOCALES
-      
-      if (event.request().method() == HttpMethod.POST) {
-        subscribe(
-            client.create().locale(read(event, objectMapper, ImmutableCreateLocale.class)), 
-            response, ctx, objectMapper);
-        
-      } else if(event.request().method() == HttpMethod.PUT) {
-        subscribe(
-            client.update().locale(read(event, objectMapper, ImmutableLocaleMutator.class)),
-            response, ctx, objectMapper);
-      } else if(event.request().method() == HttpMethod.DELETE) {
-        subscribe(
-            client.delete().locale(event.pathParam("id")),
-            response, ctx, objectMapper);
-      } else {
-        HandlerStatusCodes.catch404("unsupported locale action", response);
-      }
-      
-      
+      doLocales(event, response, ctx, objectMapper);
     } else if(path.startsWith(ctx.getPaths().getReleasesPath())) {
-
-      // RELEASES
-      
-      if (event.request().method() == HttpMethod.POST) {
-        subscribe(
-            client.create().release(read(event, objectMapper, ImmutableCreateRelease.class)), 
-            response, ctx, objectMapper);
-      } else if(event.request().method() == HttpMethod.GET) {
-        subscribe(
-            client.query().release(event.pathParam("id")), 
-            response, ctx, objectMapper);        
-      } else {
-        HandlerStatusCodes.catch404("unsupported release action", response);
-      }
-      
+      doReleases(event, response, ctx, objectMapper);
+    } else if(path.startsWith(ctx.getPaths().getTemplatePath())) {
+      doTemplates(event, response, ctx, objectMapper);
     } else if(path.startsWith(ctx.getPaths().getWorkflowsPath())) {
-      
-          
-      // WORKFLOWS
-      
-      if (event.request().method() == HttpMethod.POST) {
-        subscribe(
-            client.create().workflow(read(event, objectMapper, ImmutableCreateWorkflow.class)), 
-            response, ctx, objectMapper);
-        
-      } else if(event.request().method() == HttpMethod.PUT) {
-        subscribe(
-            client.update().workflow(read(event, objectMapper, ImmutableWorkflowMutator.class)),
-            response, ctx, objectMapper);
-      } else if(event.request().method() == HttpMethod.DELETE) {
-        
-        
-        final var workflowId = event.pathParam("id");
-        final var articleId = event.queryParam("articleId");
-        
-        if(articleId.isEmpty()) {
-          subscribe(
-              client.delete().workflow(workflowId),
-              response, ctx, objectMapper);
-          
-        } else {
-          subscribe(
-              client.delete().workflowArticlePage(ImmutableWorkflowArticlePage.builder()
-                  .articleId(articleId.iterator().next())
-                  .workflowId(workflowId)
-                  .build()),
-              response, ctx, objectMapper);  
-        }
-
-      } else {
-        HandlerStatusCodes.catch404("unsupported workflow action", response);
-      }
-      
-      
+      doWorkflows(event, response, ctx, objectMapper);
     } else if(path.startsWith(ctx.getPaths().getPagesPath())) {
-      
-      // PAGES
-      
-      if (event.request().method() == HttpMethod.POST) {
-        subscribe(
-            client.create().page(read(event, objectMapper, ImmutableCreatePage.class)),
-            response, ctx, objectMapper);
-      } else if(event.request().method() == HttpMethod.PUT) {
-        
-        
-        try {
-          List<PageMutator> pages = objectMapper.readValue(event.getBody().getBytes(), new TypeReference<List<PageMutator>>(){});
-          
-          subscribe(
-              client.update().pages(pages),
-              response, ctx, objectMapper);
-        } catch(IOException e) {
-          throw new RuntimeException(e.getMessage(), e);
-        }
-        
-      } else if(event.request().method() == HttpMethod.DELETE) {
-        subscribe(
-            client.delete().page(event.pathParam("id")),
-            response, ctx, objectMapper);
- 
-      } else {
-        HandlerStatusCodes.catch404("unsupported page action", response);
-      }
+      doPages(event, response, ctx, objectMapper);
     } else {
       HandlerStatusCodes.catch404("unsupported action", response);
     }
@@ -263,6 +91,208 @@ public class HandlerComposer extends HandlerTemplate {
     final var path = event.normalizedPath();
     
     return path.endsWith("/") ? path.substring(0, path.length() -1) : path;
+  }
+  
+  public void doSite(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) {
+	  final var client = ctx.getClient();
+    if (event.request().method() == HttpMethod.POST) {
+  		client.create().repo()
+  		.onItem().transform(data -> JsonObject.mapFrom(data).toBuffer())
+  		.onFailure().invoke(e -> HandlerStatusCodes.catch422(e, response))
+  		.subscribe().with(data -> response.end(data));
+  
+    } else if(event.request().method() == HttpMethod.GET) { 
+  		subscribe(
+  		    client.query().head(), 
+  		    response, ctx, objectMapper);
+    } else {
+      	HandlerStatusCodes.catch404("unsupported repository action", response);
+  	}
+  }
+  
+  public void doArticles(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) {
+    final var client = ctx.getClient();    
+    if (event.request().method() == HttpMethod.POST) {
+      subscribe(
+          client.create().article(read(event, objectMapper, ImmutableCreateArticle.class)), 
+          response, ctx, objectMapper);
+      
+    } else if(event.request().method() == HttpMethod.PUT) {
+      subscribe(
+          client.update().article(read(event, objectMapper, ImmutableArticleMutator.class)),
+          response, ctx, objectMapper);
+      
+    } else if(event.request().method() == HttpMethod.DELETE) {
+      subscribe(
+          client.delete().article(event.pathParam("id")),
+          response, ctx, objectMapper);
+    } else {
+      HandlerStatusCodes.catch404("unsupported article action", response);
+    }
+  }
+  
+  public void doLinks(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) {
+    final var client = ctx.getClient();
+    if (event.request().method() == HttpMethod.POST) {
+      subscribe(
+          client.create().link(read(event, objectMapper, ImmutableCreateLink.class)), 
+          response, ctx, objectMapper);
+      
+    } else if(event.request().method() == HttpMethod.PUT) {
+      subscribe(
+          client.update().link(read(event, objectMapper, ImmutableLinkMutator.class)),
+          response, ctx, objectMapper);
+    } else if(event.request().method() == HttpMethod.DELETE) {
+      
+      final var linkId = event.pathParam("id");
+      final var articleId = event.queryParam("articleId");
+      
+      if(articleId.isEmpty()) {
+        subscribe(
+            client.delete().link(linkId),
+            response, ctx, objectMapper);
+      } else {
+        subscribe(
+            client.delete().linkArticlePage(ImmutableLinkArticlePage.builder()
+                .articleId(articleId.iterator().next())
+                .linkId(linkId)
+                .build()),
+            response, ctx, objectMapper);  
+      }
+    } else {
+      HandlerStatusCodes.catch404("unsupported links action", response);
+    }
+  }
+  
+  public void doTemplates(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) {
+    final var client = ctx.getClient();    
+    if (event.request().method() == HttpMethod.POST) {
+      subscribe(
+          client.create().template(read(event, objectMapper, ImmutableCreateTemplate.class)), 
+          response, ctx, objectMapper);
+      
+    } else if(event.request().method() == HttpMethod.PUT) {
+      subscribe(
+          client.update().template(read(event, objectMapper, ImmutableTemplateMutator.class)),
+          response, ctx, objectMapper);
+    } else if(event.request().method() == HttpMethod.DELETE) {
+      subscribe(
+          client.delete().template(event.pathParam("id")),
+          response, ctx, objectMapper);
+    } else {
+      HandlerStatusCodes.catch404("unsupported template action", response);
+    }
+  }
+  
+  public void doReleases(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) {
+    final var client = ctx.getClient();
+
+    if (event.request().method() == HttpMethod.POST) {
+      subscribe(
+          client.create().release(read(event, objectMapper, ImmutableCreateRelease.class)), 
+          response, ctx, objectMapper);
+    } else if(event.request().method() == HttpMethod.GET) {
+      subscribe(
+          client.query().release(event.pathParam("id")), 
+          response, ctx, objectMapper);        
+    } else {
+      HandlerStatusCodes.catch404("unsupported release action", response);
+    }
+  }
+  
+  public void doLocales(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) {
+    final var client = ctx.getClient();
+    if (event.request().method() == HttpMethod.POST) {
+      subscribe(
+          client.create().locale(read(event, objectMapper, ImmutableCreateLocale.class)), 
+          response, ctx, objectMapper);
+      
+    } else if(event.request().method() == HttpMethod.PUT) {
+      subscribe(
+          client.update().locale(read(event, objectMapper, ImmutableLocaleMutator.class)),
+          response, ctx, objectMapper);
+    } else if(event.request().method() == HttpMethod.DELETE) {
+      subscribe(
+          client.delete().locale(event.pathParam("id")),
+          response, ctx, objectMapper);
+    } else {
+      HandlerStatusCodes.catch404("unsupported locale action", response);
+    }
+  }
+  
+  public void doWorkflows(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) {
+    final var client = ctx.getClient();
+    if (event.request().method() == HttpMethod.POST) {
+      subscribe(
+          client.create().workflow(read(event, objectMapper, ImmutableCreateWorkflow.class)), 
+          response, ctx, objectMapper);
+      
+    } else if(event.request().method() == HttpMethod.PUT) {
+      subscribe(
+          client.update().workflow(read(event, objectMapper, ImmutableWorkflowMutator.class)),
+          response, ctx, objectMapper);
+    } else if(event.request().method() == HttpMethod.DELETE) {
+            
+      final var workflowId = event.pathParam("id");
+      final var articleId = event.queryParam("articleId");
+      
+      if(articleId.isEmpty()) {
+        subscribe(
+            client.delete().workflow(workflowId),
+            response, ctx, objectMapper);
+        
+      } else {
+        subscribe(
+            client.delete().workflowArticlePage(ImmutableWorkflowArticlePage.builder()
+                .articleId(articleId.iterator().next())
+                .workflowId(workflowId)
+                .build()),
+            response, ctx, objectMapper);  
+      }
+
+    } else {
+      HandlerStatusCodes.catch404("unsupported workflow action", response);
+    }
+  }
+  
+  public void doPages(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) {
+    final var client = ctx.getClient();
+    
+    if (event.request().method() == HttpMethod.POST) {
+      subscribe(
+          client.create().page(read(event, objectMapper, ImmutableCreatePage.class)),
+          response, ctx, objectMapper);
+    } else if(event.request().method() == HttpMethod.PUT) {
+      
+      try {
+        List<PageMutator> pages = objectMapper.readValue(event.getBody().getBytes(), new TypeReference<List<PageMutator>>(){});
+        
+        subscribe(
+            client.update().pages(pages),
+            response, ctx, objectMapper);
+      } catch(IOException e) {
+        throw new RuntimeException(e.getMessage(), e);
+      }
+      
+    } else if(event.request().method() == HttpMethod.DELETE) {
+      subscribe(
+          client.delete().page(event.pathParam("id")),
+          response, ctx, objectMapper);
+
+    } else {
+      HandlerStatusCodes.catch404("unsupported page action", response);
+    }
+  }
+
+  public void doMigration(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) {
+    final var client = ctx.getClient();
+    if (event.request().method() == HttpMethod.POST) {
+      subscribe(
+          client.migration().importData(read(event, objectMapper, SitesBean.class)), 
+          response, ctx, objectMapper);
+    } else {
+      HandlerStatusCodes.catch404("unsupported migration action", response);
+    }
   }
   
   public <T> T read(RoutingContext event, ObjectMapper objectMapper, Class<T> type) {
