@@ -62,7 +62,11 @@ public class Serializers {
     ImmutableWorkflow.class,
     ImmutableWorkflowArticlePage.class,
     ImmutableWorkflowMutator.class,
+    ImmutableTemplate.class,
+    ImmutableCreateTemplate.class,
+    ImmutableTemplateMutator.class,
     
+    ImmutableTemplateReleaseItem.class,
     ImmutableLocaleReleaseItem.class,
     ImmutableArticleReleaseItem.class,
     ImmutableLinkReleaseItem.class,

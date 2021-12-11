@@ -38,6 +38,7 @@ import io.thestencil.client.api.StencilClient.LocaleLabel;
 import io.thestencil.client.api.StencilClient.Page;
 import io.thestencil.client.api.StencilClient.Release;
 import io.thestencil.client.api.StencilClient.SiteState;
+import io.thestencil.client.api.StencilClient.Template;
 import io.thestencil.client.api.StencilClient.Workflow;
 
 public interface CreateBuilder {
@@ -49,6 +50,8 @@ public interface CreateBuilder {
   Uni<Entity<Page>> page(CreatePage init);
   Uni<Entity<Link>> link(CreateLink init);
   Uni<Entity<Workflow>> workflow(CreateWorkflow init);  
+  Uni<Entity<Template>> template(CreateTemplate init);  
+
   
 
   @Value.Immutable
@@ -61,6 +64,17 @@ public interface CreateBuilder {
     @Nullable
     Integer getOrder(); 
   }
+  
+  @Value.Immutable
+  @JsonSerialize(as = ImmutableCreateTemplate.class)
+  @JsonDeserialize(as = ImmutableCreateTemplate.class)
+  interface CreateTemplate {
+	String getName();
+    String getDescription();
+	String getContent();
+	String getType();
+  }
+  
   
   @Value.Immutable
   @JsonSerialize(as = ImmutableCreateRelease.class)

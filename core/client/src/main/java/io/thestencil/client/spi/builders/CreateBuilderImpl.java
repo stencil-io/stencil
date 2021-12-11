@@ -35,6 +35,7 @@ import io.thestencil.client.api.ImmutableLocaleLabel;
 import io.thestencil.client.api.ImmutablePage;
 import io.thestencil.client.api.ImmutableRelease;
 import io.thestencil.client.api.ImmutableSiteState;
+import io.thestencil.client.api.ImmutableTemplate;
 import io.thestencil.client.api.ImmutableWorkflow;
 import io.thestencil.client.api.StencilClient.Article;
 import io.thestencil.client.api.StencilClient.Entity;
@@ -95,6 +96,50 @@ public class CreateBuilderImpl implements CreateBuilder {
       return config.getClient().commit().head()
         .head(config.getRepoName(), config.getHeadName())
         .message("creating-article")
+        .parentIsLatest()
+        .author(config.getAuthorProvider().getAuthor())
+        .append(gid, config.getSerializer().toString(entity))
+        .build().onItem().transform(commit -> {
+          if(commit.getStatus() == CommitStatus.OK) {
+            return entity;
+          }
+          throw new SaveException(entity, commit);
+        });
+    });
+  }
+  
+  @Override
+  public Uni<Entity<Template>> template(CreateTemplate init) {
+    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
+    
+    return query.onItem().transformToUni(state -> {
+    
+      final var gid = gid(EntityType.TEMPLATE);
+      final var article = ImmutableTemplate.builder()
+          .name(init.getName())
+          .description(init.getDescription())
+          .type(init.getType())
+          .content(init.getContent())
+          .created(Optional.ofNullable(init.getCreated()))
+          .build();
+      final Entity<Template> entity = ImmutableEntity.<Template>builder()
+          .id(gid)
+          .type(EntityType.Template)
+          .body(template)
+          .build();
+      
+      final var duplicate = state.getTemplates().values().stream()
+          .filter(p -> p.getBody().getName().equals(init.getName()))
+          .findFirst();
+      
+      if(duplicate.isPresent()) {
+        throw new ConstraintException(entity, "Template: '" + init.getName() + "' already exists!");
+      }
+
+
+      return config.getClient().commit().head()
+        .head(config.getRepoName(), config.getHeadName())
+        .message("creating-template")
         .parentIsLatest()
         .author(config.getAuthorProvider().getAuthor())
         .append(gid, config.getSerializer().toString(entity))

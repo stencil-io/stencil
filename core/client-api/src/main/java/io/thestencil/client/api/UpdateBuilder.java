@@ -36,6 +36,7 @@ import io.thestencil.client.api.StencilClient.Link;
 import io.thestencil.client.api.StencilClient.Locale;
 import io.thestencil.client.api.StencilClient.LocaleLabel;
 import io.thestencil.client.api.StencilClient.Page;
+import io.thestencil.client.api.StencilClient.Template;
 import io.thestencil.client.api.StencilClient.Workflow;
 
 public interface UpdateBuilder {
@@ -45,8 +46,21 @@ public interface UpdateBuilder {
   Uni<Entity<Page>> page(PageMutator changes);
   Uni<List<Entity<Page>>> pages(List<PageMutator> changes);
   Uni<Entity<Link>> link(LinkMutator changes);
+  Uni<Entity<Template>> template(TemplateMutator changes);
   Uni<Entity<Workflow>> workflow(WorkflowMutator changes);
 
+  
+  @Value.Immutable
+  @JsonSerialize(as = ImmutableTemplateMutator.class)
+  @JsonDeserialize(as = ImmutableTemplateMutator.class)
+  interface TemplateMutator {
+    String getTemplateId(); 
+	String getName();
+    String getDescription();
+	String getContent();
+	String getType();
+  }
+    
   @Value.Immutable
   @JsonSerialize(as = ImmutableLocaleMutator.class)
   @JsonDeserialize(as = ImmutableLocaleMutator.class)

@@ -62,6 +62,7 @@ public interface StencilClient {
     Map<String, Entity<Link>> getLinks();
     Map<String, Entity<Article>> getArticles();
     Map<String, Entity<Workflow>> getWorkflows();
+    Map<String, Entity<Template>> getTemplates();
   }
   
   enum SiteContentType {
@@ -78,7 +79,7 @@ public interface StencilClient {
   }
 
   enum EntityType {
-    LOCALE, LINK, ARTICLE, WORKFLOW, RELEASE, PAGE
+    LOCALE, LINK, ARTICLE, WORKFLOW, RELEASE, PAGE, TEMPLATE
   }
 
   interface EntityBody extends Serializable {
@@ -94,6 +95,15 @@ public interface StencilClient {
     Integer getOrder();
   }
   
+  @Value.Immutable
+  @JsonSerialize(as = ImmutableTemplate.class)
+  @JsonDeserialize(as = ImmutableTemplate.class)
+  interface Template extends EntityBody {
+    String getName();
+    String getDescription();
+    String getContent();
+    String getType();
+  }
   
   @Value.Immutable
   @JsonSerialize(as = ImmutableLocale.class)
@@ -155,6 +165,7 @@ public interface StencilClient {
     List<LinkReleaseItem> getLinks();
     List<WorkflowReleaseItem> getWorkflows();
     List<PageReleaseItem> getPages();
+    List<TemplateReleaseItem> getTemplates();
   }
   
   
@@ -199,6 +210,15 @@ public interface StencilClient {
   interface PageReleaseItem extends ReleaseItem {
     String getLocale();
     String getH1();
+  }
+  
+  @Value.Immutable
+  @JsonSerialize(as = ImmutableTemplateReleaseItem.class)
+  @JsonDeserialize(as = ImmutableTemplateReleaseItem.class)
+  interface TemplateReleaseItem extends ReleaseItem {
+    String getName();
+    String getContent();
+    String getType();
   }
   
   interface ReleaseItem extends Serializable {
