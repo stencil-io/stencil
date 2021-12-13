@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@the-stencil-io/composer@^1.0.26":
-  version "1.0.26"
-  resolved "https://registry.yarnpkg.com/@the-stencil-io/composer/-/composer-1.0.26.tgz#9ac00a67b06943af54b0bc0a1d29e2312bec9d4e"
-  integrity sha512-umMPl9zDK4Os62PTE2CdrZkpPPXG0ssAA7gLXgMEHSOUiLMXDJJE1mYElK6RuiM8a4pgalB9IMl8mJYM6gzCig==
+"@the-stencil-io/composer@^1.0.29":
+  version "1.0.29"
+  resolved "https://registry.yarnpkg.com/@the-stencil-io/composer/-/composer-1.0.29.tgz#2ab1dc27c4d372c79496db2cb846bf80d2710a1f"
+  integrity sha512-ZoiaHCnDnn0KDN//0bvg9NXJIJN176TGhOKCTXxvir2PyS8dDInfeN/rwYe6+pBJjPZKdAv8hLUX0BjSGzJmEw==
   dependencies:
     d3 "^7.1.1"
     js-file-download "^0.4.12"
