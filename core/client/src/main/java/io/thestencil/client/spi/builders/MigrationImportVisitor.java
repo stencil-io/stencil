@@ -75,7 +75,10 @@ public class MigrationImportVisitor {
       for(Topic topic : site.getTopics().values()) {
         
         Entity<Article> article = visitArticle(locale, topic, site);
-        visitPage(article, locale, site.getBlobs().get(topic.getBlob()));
+        final var blob = site.getBlobs().get(topic.getBlob());
+        if(blob != null) {
+          visitPage(article, locale, blob);
+        }
         
         for(String topicLinkId : topic.getLinks()) {
           TopicLink topicLink = site.getLinks().get(topicLinkId);
