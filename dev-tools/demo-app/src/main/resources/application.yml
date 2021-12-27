@@ -16,6 +16,11 @@ quarkus:
     repo:
       repo-name: test-assets
 
+  stencil-site-pg:
+    service-path: /q/portal/site
+    repo:
+      repo-name: test-assets
+
   datasource:
     db-kind: postgresql 
     username: spo_stencil
