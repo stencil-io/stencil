@@ -1,7 +1,6 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl'
 
-
 import { Toolbar } from './toolbar';
 import { Primary } from './primary';
 import { Secondary } from './secondary';
@@ -49,7 +48,7 @@ const RefApp: React.FC<{}> = (props) => {
   const service = React.useMemo(() => Portal.createService({ defaultLocale, dev: false, content: { url: "http://localhost:8080/q/portal/site" } }), [defaultLocale]);
 
   return (
-    <Portal.SiteProvider service={service} defaultLocale={defaultLocale}>
+    <Portal.SiteProvider service={service} defaultLocale={defaultLocale} >
       <PortalIntl />
     </Portal.SiteProvider>);
 }

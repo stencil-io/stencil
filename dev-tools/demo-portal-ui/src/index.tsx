@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { siteTheme } from './theme/siteTheme';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
-import Portal from '@the-stencil-io/portal';
 
 import {RefApp} from './RefApp';
 
 ReactDOM.render(
   <React.StrictMode>
     <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={Portal.defaultTheme}>
+      <ThemeProvider theme={siteTheme}>
         <RefApp />
       </ThemeProvider>
     </StyledEngineProvider>
