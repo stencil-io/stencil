@@ -10,16 +10,16 @@ const palette = {
   mode: 'light',
 
   primary: {
-    main: '#673AB7', // purple
-    light: '#D1C4E9', // light purple
-    dark: '#512DA8', // dark purple
-    contrastText: '#212121', // black
+    main: 'rgb(17, 24, 39)', // dark grey-black
+    light: 'rgb(31, 44, 71)', // prussian blue
+    dark: 'rgba(6, 9, 14)',
+    contrastText: '#ffffff',
   },
   secondary: {
-    main: '#8BC34A', // bright green
-    light: '',
-    dark: '', 
-    contrastText: '#757575' // medium gray
+    main: 'rgb(80, 72, 229)', // primary ui element, blue-purple (button fill, button text, text, checkboxes, etc.)
+    light: 'rgba(80, 72, 229, 0.04)', // transparent purple for hover backgrounds, secondary button fill
+    dark: '#e8eaed', // table header darker gray
+    contrastText: 'rgb(101, 116, 139)' // secondary content text, medium gray
   },
   background: {
     default: 'rgb(249, 250, 252)', // primary bg colour for behind content boxes, light gray
@@ -60,6 +60,54 @@ const palette = {
 const siteTheme = createTheme({
   palette: palette as PaletteOptions,
 
+  typography: {
+    fontFamily: "'IBM Plex Sans Arabic', sans-serif",
+    h1: {
+      fontSize: "2rem",
+      lineHeight: 2,
+      fontFamily: "'IBM Plex Sans Arabic', sans-serif",
+      fontWeight: 600,
+    },
+    h2: {
+      fontSize: "1.9rem",
+      lineHeight: 1,
+      fontFamily: "'IBM Plex Sans Arabic', sans-serif",
+      fontWeight: 400,
+      paddingTop: 15,
+      paddingBottom: 15,
+    },
+    h3: {
+      fontSize: "1.6rem",
+      lineHeight: 1,
+      fontFamily: "'IBM Plex Sans Arabic', sans-serif",
+      fontWeight: 400,
+      paddingTop: 15,
+      paddingBottom: 15,
+    },
+    h4: {
+      fontSize: "1.3rem",
+      lineHeight: 1,
+      fontFamily: "'IBM Plex Sans Arabic', sans-serif",
+      fontWeight: 400
+    },
+    h5: {
+      fontSize: "1.1rem",
+      fontFamily: "'IBM Plex Sans Arabic', sans-serif",
+      fontWeight: 400
+    },
+    h6: {
+      fontFamily: "'IBM Plex Sans Arabic', sans-serif",
+      fontWeight: 400
+    },
+    body1: {
+      fontFamily: "'IBM Plex Sans Arabic', sans-serif",
+      fontWeight: 400,
+    },
+    body2: {
+      fontFamily: "'IBM Plex Sans Arabic', sans-serif",
+      fontSize: "1rem",
+    }
+  },
 });
 
 export { siteTheme };
