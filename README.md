@@ -33,6 +33,9 @@ mvn clean compile quarkus:dev
 
 ## Creating Reference Implementation
 
+`core/dev-tools/demo-app`   
+`core/dev-tools/demo-portal-ui`  
+
 TODO
 
 ### STENCIL BACKEND: 
