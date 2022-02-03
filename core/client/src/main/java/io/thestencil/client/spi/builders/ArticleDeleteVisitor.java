@@ -71,7 +71,7 @@ public class ArticleDeleteVisitor {
   
     final var start = visitArticleId(state, articleId);
     final var updateCommand = config.getClient().commit().head();
-    final var message = new StringBuilder("batch delete type: '" + EntityType.ARTICLE + "', with id: '" + articleId + "'");
+    final var message = new StringBuilder("delete: " + articleId);
     
     for(TreeValue treeValue : state.getObjects().getTree().getValues().values()) {
       final var blob = state.getObjects().getBlobs().get(treeValue.getBlob());
@@ -84,22 +84,22 @@ public class ArticleDeleteVisitor {
       if(entity.getType() == EntityType.PAGE) {
         visitPage((Entity<Page>) entity).ifPresent(changeEntity -> {
           updateCommand.remove(changeEntity.getId());
-          message.append(System.lineSeparator()).append("deleting type: '" + changeEntity.getType() + "' with id:'" + changeEntity.getId() + "'");
+          //message.append(System.lineSeparator()).append("deleting type: '" + changeEntity.getType() + "' with id:'" + changeEntity.getId() + "'");
         });
       } else if(entity.getType() == EntityType.WORKFLOW) {
         visitWorkflow((Entity<Workflow>) entity).ifPresent(changeEntity -> {
           updateCommand.append(changeEntity.getId(), config.getSerializer().toString(changeEntity));
-          message.append(System.lineSeparator()).append("change type: '" + changeEntity.getType() + "' with id:'" + changeEntity.getId() + "'");
+          //message.append(System.lineSeparator()).append("change type: '" + changeEntity.getType() + "' with id:'" + changeEntity.getId() + "'");
         });
       } else if(entity.getType() == EntityType.LINK) {
         visitLink((Entity<Link>) entity).ifPresent(changeEntity -> {
           updateCommand.append(changeEntity.getId(), config.getSerializer().toString(changeEntity));
-          message.append(System.lineSeparator()).append("changes type: '" + changeEntity.getType() + "' with id:'" + changeEntity.getId() + "'");
+          //message.append(System.lineSeparator()).append("changes type: '" + changeEntity.getType() + "' with id:'" + changeEntity.getId() + "'");
         });
       } else if(entity.getType() == EntityType.ARTICLE) {
         visitArticle((Entity<Article>) entity).ifPresent(changeEntity -> {
           updateCommand.append(changeEntity.getId(), config.getSerializer().toString(changeEntity));
-          message.append(System.lineSeparator()).append("changes type: '" + changeEntity.getType() + "' with id:'" + changeEntity.getId() + "'");
+          //message.append(System.lineSeparator()).append("changes type: '" + changeEntity.getType() + "' with id:'" + changeEntity.getId() + "'");
         });
       }
     }

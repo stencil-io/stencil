@@ -46,9 +46,9 @@ Commits
   - id: 38
     tree: 39, parent: 36, message: delete type: 'TEMPLATE', with id: 'TEMPLATE-1'
   - id: 40
-    tree: 41, parent: 38, message: batch delete type: 'ARTICLE', with id: 'ARTICLE-2'
+    tree: 41, parent: 38, message: delete: ARTICLE-2
   - id: 42
-    tree: 43, parent: 40, message: batch delete type: 'ARTICLE', with id: 'ARTICLE-3'
+    tree: 43, parent: 40, message: delete: ARTICLE-3
   - id: 44
     tree: 45, parent: 42, message: delete type: 'LOCALE', with id: 'LOCALE-6'
   - id: 46
