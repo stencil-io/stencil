@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.thestencil</groupId>
   <artifactId>stencil-parent</artifactId>
-  <version>1.135</version>
+  <version>999-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>the-stencil-parent</name>
 
