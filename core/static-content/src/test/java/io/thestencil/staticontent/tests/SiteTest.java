@@ -1,5 +1,7 @@
 package io.thestencil.staticontent.tests;
 
+import java.time.LocalDateTime;
+
 /*-
  * #%L
  * stencil-static-content
@@ -48,5 +50,10 @@ public class SiteTest {
     String actual = TestUtils.prettyPrint(content);
     Assertions.assertEquals(expected, actual);
     
+  }
+  
+  @Test
+  public void printTimestamp() {
+    System.out.println(LocalDateTime.now());
   }
 }

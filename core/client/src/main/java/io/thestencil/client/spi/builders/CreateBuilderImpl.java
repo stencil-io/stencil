@@ -1,6 +1,6 @@
 package io.thestencil.client.spi.builders;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /*-
  * #%L
@@ -169,7 +169,7 @@ public class CreateBuilderImpl implements CreateBuilder {
           final var release = new CreateReleaseVisitor(state, config)
               .visit(ImmutableRelease.builder()
                 .name(init.getName())
-                .created(LocalDate.now())
+                .created(LocalDateTime.now())
                 .note(Optional.ofNullable(init.getNote()).orElse(""))
                 .parentCommit(state.getObjects().getRef().getCommit())
               ).build();
