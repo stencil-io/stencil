@@ -123,8 +123,8 @@ public class QueryBuilderImpl extends PersistenceCommands implements QueryBuilde
         builder.putWorkflows(id, (Entity<Workflow>) entity);
         break;
       case TEMPLATE:
-	    builder.putTemplates(id, (Entity<Template>) entity);
-	    break;
+        builder.putTemplates(id, (Entity<Template>) entity);
+        break;
       default: throw new RuntimeException("Don't know how to convert entity: " + entity.toString() + "!");
       }
     }
