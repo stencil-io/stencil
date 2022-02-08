@@ -21,6 +21,7 @@ package io.thestencil.client.api;
  */
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -159,6 +160,7 @@ public interface StencilClient {
     String getParentCommit();
     String getName();
     String getNote();
+    LocalDate getCreated();
     
     List<LocaleReleaseItem> getLocales();
     List<ArticleReleaseItem> getArticles();

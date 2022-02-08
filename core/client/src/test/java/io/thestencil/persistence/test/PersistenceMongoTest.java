@@ -21,6 +21,7 @@ package io.thestencil.persistence.test;
  */
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Assertions;

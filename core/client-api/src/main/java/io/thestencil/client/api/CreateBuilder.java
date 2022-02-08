@@ -1,5 +1,7 @@
 package io.thestencil.client.api;
 
+import java.time.LocalDate;
+
 /*-
  * #%L
  * stencil-persistence-api
@@ -69,10 +71,10 @@ public interface CreateBuilder {
   @JsonSerialize(as = ImmutableCreateTemplate.class)
   @JsonDeserialize(as = ImmutableCreateTemplate.class)
   interface CreateTemplate {
-	String getName();
+	  String getName();
     String getDescription();
-	String getContent();
-	String getType();
+	  String getContent();
+	  String getType();
   }
   
   

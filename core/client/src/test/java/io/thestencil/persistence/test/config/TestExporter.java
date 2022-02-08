@@ -2,6 +2,7 @@ package io.thestencil.persistence.test.config;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -32,9 +33,15 @@ import java.util.function.Function;
 
 import org.apache.commons.io.IOUtils;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
+
 import io.resys.thena.docdb.api.models.Objects.TreeValue;
 import io.resys.thena.docdb.api.models.Repo;
 import io.resys.thena.docdb.spi.ClientState;
+import io.thestencil.client.api.StencilClient.Entity;
+import io.thestencil.client.api.StencilClient.EntityType;
+import io.thestencil.client.spi.serializers.ZoeDeserializer;
 
 public class TestExporter {
   private final ClientState state;
@@ -163,11 +170,23 @@ public class TestExporter {
   }
   
   public static String replaceContent(String text, Map<String, String> replacements) {
-    String newText = text;
-    for(Map.Entry<String, String> entry : replacements.entrySet()) {
-      newText = newText.replaceAll(entry.getKey(), entry.getValue());
+    try {
+      ObjectNode entity = MongoDbConfig.objectMapper.readValue(text, ObjectNode.class);
+      
+      if(entity.get("type").textValue().equals(EntityType.RELEASE.toString())) {
+        ((ObjectNode) entity.get("body")).set("created", TextNode.valueOf(""));
+        text = entity.toString();
+      }
+      
+      String newText = text;
+      for(Map.Entry<String, String> entry : replacements.entrySet()) {
+        newText = newText.replaceAll(entry.getKey(), entry.getValue());
+      }
+      
+      return newText;
+    } catch(IOException e) {
+      throw new RuntimeException(e.getMessage(), e);
     }
-    return newText;
   }
   
 

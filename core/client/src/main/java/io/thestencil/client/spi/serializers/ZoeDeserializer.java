@@ -2,9 +2,9 @@ package io.thestencil.client.spi.serializers;
 
 /*-
  * #%L
- * stencil-persistence
+ * stencil-client
  * %%
- * Copyright (C) 2021 Copyright 2021 ReSys OÜ
+ * Copyright (C) 2021 - 2022 Copyright 2021 ReSys OÜ
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,10 +21,12 @@ package io.thestencil.client.spi.serializers;
  */
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 
 import io.thestencil.client.api.StencilClient.Article;
 import io.thestencil.client.api.StencilClient.Entity;
@@ -65,7 +67,12 @@ public class ZoeDeserializer implements PersistenceConfig.Deserializer {
           return (Entity<T>) objectMapper.readValue(value, new TypeReference<Entity<Page>>() {});  
         }
         case RELEASE: {
-          return (Entity<T>) objectMapper.readValue(value, new TypeReference<Entity<Release>>() {});  
+          try {
+            return (Entity<T>) objectMapper.readValue(value, new TypeReference<Entity<Release>>() {});
+          } catch(Exception e) {
+            // TODO:: remove
+            return (Entity<T>) fromString(value);
+          }
         }
         case WORKFLOW: {
           return (Entity<T>) objectMapper.readValue(value, new TypeReference<Entity<Workflow>>() {});  
@@ -84,7 +91,7 @@ public class ZoeDeserializer implements PersistenceConfig.Deserializer {
   @Override
   public Entity<?> fromString(String value) {
     try {
-      JsonNode node = objectMapper.readValue(value, JsonNode.class);
+      ObjectNode node = objectMapper.readValue(value, ObjectNode.class);
       final EntityType type = EntityType.valueOf(node.get("type").textValue());
 
       switch (type) {
@@ -101,6 +108,12 @@ public class ZoeDeserializer implements PersistenceConfig.Deserializer {
         return objectMapper.convertValue(node, new TypeReference<Entity<Page>>() {});
       }
       case RELEASE: {
+        // TODO: 
+        @Deprecated
+        final var created = node.get("body").has("created");
+        if(!created) {
+          ((ObjectNode) node.get("body")).set("created", TextNode.valueOf(LocalDate.now().toString()));
+        }
         return objectMapper.convertValue(node, new TypeReference<Entity<Release>>() {});
       }
       case WORKFLOW: {

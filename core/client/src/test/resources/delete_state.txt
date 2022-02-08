@@ -269,8 +269,8 @@ Blobs
   - 51: {"id":"TEMPLATE-1","type":"TEMPLATE","body":{"name":"Nice page template","description":"Generic page structure","content":"# Header 1","type":"Page"}}
   - 52: {"id":"ARTICLE-2","type":"ARTICLE","body":{"parentId":null,"name":"My first article","order":100}}
   - 53: {"id":"ARTICLE-3","type":"ARTICLE","body":{"parentId":null,"name":"My second article","order":100}}
-  - 54: {"id":"RELEASE-4","type":"RELEASE","body":{"parentCommit":"8","name":"v1.5","note":"test release","locales":[],"articles":[],"links":[],"workflows":[],"pages":[],"templates":[]}}
-  - 55: {"id":"RELEASE-5","type":"RELEASE","body":{"parentCommit":"10","name":"v2.4","note":"new content","locales":[],"articles":[],"links":[],"workflows":[],"pages":[],"templates":[]}}
+  - 54: {"id":"RELEASE-4","type":"RELEASE","body":{"parentCommit":"8","name":"v1.5","note":"test release","created":"","locales":[],"articles":[],"links":[],"workflows":[],"pages":[],"templates":[]}}
+  - 55: {"id":"RELEASE-5","type":"RELEASE","body":{"parentCommit":"10","name":"v2.4","note":"new content","created":"","locales":[],"articles":[],"links":[],"workflows":[],"pages":[],"templates":[]}}
   - 56: {"id":"LOCALE-6","type":"LOCALE","body":{"value":"en","enabled":true}}
   - 57: {"id":"LOCALE-7","type":"LOCALE","body":{"value":"fi","enabled":true}}
   - 58: {"id":"PAGE-8","type":"PAGE","body":{"article":"A1","locale":"LOCALE-6","content":"# English content"}}

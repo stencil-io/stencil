@@ -1,4 +1,4 @@
-package io.thestencil.persistence.test;
+package io.thestencil.persistence.test.config;
 
 /*-
  * #%L
@@ -28,13 +28,6 @@ import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
-import io.thestencil.client.api.StencilClient.Article;
-import io.thestencil.client.api.StencilClient.Entity;
-import io.thestencil.client.api.StencilClient.Link;
-import io.thestencil.client.api.StencilClient.Locale;
-import io.thestencil.client.api.StencilClient.Page;
-import io.thestencil.client.api.StencilClient.Template;
-import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.client.api.ImmutableArticleMutator;
 import io.thestencil.client.api.ImmutableCreateArticle;
 import io.thestencil.client.api.ImmutableCreateLink;
@@ -49,9 +42,13 @@ import io.thestencil.client.api.ImmutableLocaleMutator;
 import io.thestencil.client.api.ImmutablePageMutator;
 import io.thestencil.client.api.ImmutableTemplateMutator;
 import io.thestencil.client.api.ImmutableWorkflowMutator;
-import io.thestencil.persistence.test.config.PgProfile;
-import io.thestencil.persistence.test.config.PgTestTemplate;
-import io.thestencil.persistence.test.config.TestExporter;
+import io.thestencil.client.api.StencilClient.Article;
+import io.thestencil.client.api.StencilClient.Entity;
+import io.thestencil.client.api.StencilClient.Link;
+import io.thestencil.client.api.StencilClient.Locale;
+import io.thestencil.client.api.StencilClient.Page;
+import io.thestencil.client.api.StencilClient.Template;
+import io.thestencil.client.api.StencilClient.Workflow;
 
 @QuarkusTest
 @TestProfile(PgProfile.class)
@@ -74,14 +71,14 @@ public class PersistencePgTest extends PgTestTemplate {
         ImmutableCreateArticle.builder().name("My second article").order(100).build()
     )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
-    repo.create().release(
-        ImmutableCreateRelease.builder().name("v1.5").note("test release").build()
-     )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
-    
-    repo.create().release(
-        ImmutableCreateRelease.builder().name("v2.4").note("new content").build()
-     )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
-    
+   repo.create().release(
+       ImmutableCreateRelease.builder().name("v1.5").note("test release").build()
+    )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
+   
+   repo.create().release(
+       ImmutableCreateRelease.builder().name("v2.4").note("new content").build()
+    )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
+   
     Entity<Locale> locale1 = repo.create().locale(
         ImmutableCreateLocale.builder().locale("en").build()
       )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
