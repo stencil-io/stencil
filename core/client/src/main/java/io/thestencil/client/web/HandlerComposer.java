@@ -55,6 +55,7 @@ import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
+
 public class HandlerComposer extends HandlerTemplate {
 
   public HandlerComposer(CurrentIdentityAssociation currentIdentityAssociation, CurrentVertxRequest currentVertxRequest) {
@@ -294,10 +295,8 @@ public class HandlerComposer extends HandlerTemplate {
       Sites site = null;
       try {
         site = objectMapper.readValue(body, SitesBean.class);
-      } catch(IOException ex1) {
         
-        // release format
-        try {
+        if(site == null || site.getSites() == null  || site.getSites().isEmpty()) {
           final var md = StaticContentClientDefault
               .builder().build()
               .markdown().json(new String(body, StandardCharsets.UTF_8))
@@ -308,9 +307,9 @@ public class HandlerComposer extends HandlerTemplate {
               .sites().imagePath("/images").created(1l)
               .source(md)
               .build();
-        } catch(Exception ex2) {
-          throw new RuntimeException(ex1.getMessage(), ex1);
         }
+      } catch(IOException ex1) {
+        throw new RuntimeException(ex1.getMessage(), ex1);
       }
       
       subscribe(
