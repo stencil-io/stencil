@@ -21,6 +21,7 @@ package io.thestencil.client.web;
  */
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -43,8 +44,10 @@ import io.thestencil.client.api.ImmutableLocaleMutator;
 import io.thestencil.client.api.ImmutableTemplateMutator;
 import io.thestencil.client.api.ImmutableWorkflowArticlePage;
 import io.thestencil.client.api.ImmutableWorkflowMutator;
+import io.thestencil.client.api.MigrationBuilder.Sites;
 import io.thestencil.client.api.UpdateBuilder.PageMutator;
 import io.thestencil.client.api.beans.SitesBean;
+import io.thestencil.staticontent.spi.StaticContentClientDefault;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpMethod;
@@ -286,8 +289,32 @@ public class HandlerComposer extends HandlerTemplate {
   public void doMigration(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) {
     final var client = ctx.getClient();
     if (event.request().method() == HttpMethod.POST) {
+      byte[] body = event.getBody().getBytes();
+      
+      Sites site = null;
+      try {
+        site = objectMapper.readValue(body, SitesBean.class);
+      } catch(IOException ex1) {
+        
+        // release format
+        try {
+          final var md = StaticContentClientDefault
+              .builder().build()
+              .markdown().json(new String(body, StandardCharsets.UTF_8))
+              .build();
+
+          site = StaticContentClientDefault
+              .builder().build()
+              .sites().imagePath("/images").created(1l)
+              .source(md)
+              .build();
+        } catch(Exception ex2) {
+          throw new RuntimeException(ex1.getMessage(), ex1);
+        }
+      }
+      
       subscribe(
-          client.migration().importData(read(event, objectMapper, SitesBean.class)), 
+          client.migration().importData(site), 
           response, ctx, objectMapper);
     } else {
       HandlerStatusCodes.catch404("unsupported migration action", response);
