@@ -21,7 +21,7 @@ package io.thestencil.client.spi.serializers;
  */
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -112,7 +112,7 @@ public class ZoeDeserializer implements PersistenceConfig.Deserializer {
         @Deprecated
         final var created = node.get("body").has("created");
         if(!created) {
-          ((ObjectNode) node.get("body")).set("created", TextNode.valueOf(LocalDate.now().toString()));
+          ((ObjectNode) node.get("body")).set("created", TextNode.valueOf(LocalDateTime.now().toString()));
         }
         return objectMapper.convertValue(node, new TypeReference<Entity<Release>>() {});
       }
