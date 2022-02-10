@@ -40,9 +40,14 @@ public class IndexFactory {
     private String frontendPath;
     private String server;
     private String indexFileContent;
-
+    private Boolean locked;
+    
     public Builder frontend(String frontendPath) {
       this.frontendPath = frontendPath;
+      return this;
+    }
+    public Builder locked(Boolean locked) {
+      this.locked = locked;
       return this;
     }
     public Builder server(String backendPath) {
@@ -75,7 +80,7 @@ public class IndexFactory {
       StringBuilder newHref = new StringBuilder().append(newPath);
       StringBuilder newConfig = new StringBuilder()
           .append("const portalconfig={")
-          .append("server: { url: '" + server + "', buildTime: '" + LocalDateTime.now() + "' }, ")
+          .append("server: { url: '" + server + "', buildTime: '" + LocalDateTime.now() + "', locked: " + (Boolean.TRUE.equals(locked) ? true : "undefined") + "  }, ")
           .append("}");  
       
       return (indexFileContent

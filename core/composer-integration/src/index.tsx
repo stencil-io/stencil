@@ -10,7 +10,7 @@ const locale = "en";
 
 declare global {
   interface Window {
-    portalconfig?: { server: { url: string } },
+    portalconfig?: { server: { url: string, locked?: boolean }  },
   }
 }
 
@@ -20,7 +20,7 @@ ReactDOM.render(
   <IntlProvider locale={locale} messages={messages[locale]}>
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={siteTheme}>
-        <StencilComposer service={StencilClient.service({ url: portalconfig?.server.url ? portalconfig.server.url : "" })} />
+        <StencilComposer service={StencilClient.service({ url: portalconfig?.server.url ? portalconfig.server.url : "" })} locked={portalconfig?.server.locked}/>
       </ThemeProvider>
     </StyledEngineProvider>
   </IntlProvider>

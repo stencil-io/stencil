@@ -40,4 +40,11 @@ public class FrontendConfig {
   @ConfigItem
   @ConfigDocSection
   String serverPath;
+
+  /**
+   * Locks the IDE, edit/view disabled
+   */
+  @ConfigItem(defaultValue = "false")
+  Boolean locked;
+  
 }

@@ -131,12 +131,13 @@ public class FrontendProcessor {
       
       WebJarUtil.updateFile(index, IndexFactory.builder()
         .frontend(frontendPath)
+        .locked(config.locked)
         .server(httpRootPathBuildItem.resolvePath(config.serverPath))
         .index(index)
         .build());
       
       buildProducer.produce(new HdesUIBuildItem(tempPath.toAbsolutePath().toString(), frontendPath, hash));
-      displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(httpRootPathBuildItem.resolvePath(frontendPath + "/"), "Zoe IDE"));
+      displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(httpRootPathBuildItem.resolvePath(frontendPath + "/"), "Stencil Composer"));
 
       // Handle live reload of branding files
       if (liveReloadBuildItem.isLiveReload() && !liveReloadBuildItem.getChangedResources().isEmpty()) {
@@ -156,6 +157,7 @@ public class FrontendProcessor {
         if (fileName.endsWith("index.html")) {
           content = IndexFactory.builder()
               .frontend(frontendPath)
+              .locked(config.locked)
               .server(config.serverPath)
               .index(file.getValue())
               .build();
