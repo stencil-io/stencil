@@ -1,5 +1,7 @@
 package io.thestencil.quarkus.ide;
 
+import java.util.Optional;
+
 /*-
  * #%L
  * quarkus-stencil-ide-deployment
@@ -25,7 +27,7 @@ import io.quarkus.runtime.annotations.ConfigDocSection;
 import io.quarkus.runtime.annotations.ConfigItem;
 import io.quarkus.runtime.annotations.ConfigRoot;
 
-@ConfigRoot(name = FrontendProcessor.FEATURE_BUILD_ITEM)
+@ConfigRoot(name = FrontendRecorder.FEATURE_BUILD_ITEM)
 public class FrontendConfig {
   
   /**
@@ -46,5 +48,18 @@ public class FrontendConfig {
    */
   @ConfigItem(defaultValue = "false")
   Boolean locked;
+  
+  /**
+   * OIDC login path
+   * "/oauth2/authorization/oidcprovider"
+   */
+  @ConfigItem
+  Optional<String> oidcPath;
+  
+  /**
+   * OIDC status ping path 
+   */
+  @ConfigItem
+  Optional<String> statusPath; 
   
 }

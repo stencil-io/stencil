@@ -41,9 +41,19 @@ public class IndexFactory {
     private String server;
     private String indexFileContent;
     private Boolean locked;
+    private String oidc;
+    private String status;
     
     public Builder frontend(String frontendPath) {
       this.frontendPath = frontendPath;
+      return this;
+    }
+    public Builder oidc(String oidc) {
+      this.oidc = oidc;
+      return this;
+    }
+    public Builder status(String status) {
+      this.status = status;
       return this;
     }
     public Builder locked(Boolean locked) {
@@ -71,6 +81,12 @@ public class IndexFactory {
       this.indexFileContent = new String(indexFileContent, StandardCharsets.UTF_8);
       return this;
     }
+    private String formatConfig(String value) {
+      if(value == null) {
+        return "undefined";
+      }
+      return "'" + value + "'";
+    }
     public byte[] build() {
       PortalAssert.notEmpty(frontendPath, () -> "define frontendPath!");
       PortalAssert.notEmpty(server, () -> "define server!");
@@ -80,7 +96,13 @@ public class IndexFactory {
       StringBuilder newHref = new StringBuilder().append(newPath);
       StringBuilder newConfig = new StringBuilder()
           .append("const portalconfig={")
-          .append("server: { url: '" + server + "', buildTime: '" + LocalDateTime.now() + "', locked: " + (Boolean.TRUE.equals(locked) ? true : "undefined") + "  }, ")
+          .append("server: {")
+          .append("    url: " + formatConfig(server) + ",")
+          .append("    buildTime: " + formatConfig(LocalDateTime.now().toString()) + ",")
+          .append("    locked: " + (Boolean.TRUE.equals(locked) ? true : "undefined") + ",")
+          .append("    status: " + formatConfig(status) + ",")
+          .append("    oidc: " + formatConfig(oidc) + ",")
+          .append("  }, ")
           .append("}");  
       
       return (indexFileContent
@@ -90,6 +112,5 @@ public class IndexFactory {
           + "<!-- NEW - PATH: " + newPath + "-->")
           .getBytes(StandardCharsets.UTF_8);
     }
-    
   }
 }

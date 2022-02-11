@@ -32,6 +32,7 @@ import io.vertx.ext.web.RoutingContext;
 
 @Recorder
 public class FrontendRecorder {
+  public static final String FEATURE_BUILD_ITEM = "stencil-composer";
 
   public BeanContainerListener listener() {
     return beanContainer -> {

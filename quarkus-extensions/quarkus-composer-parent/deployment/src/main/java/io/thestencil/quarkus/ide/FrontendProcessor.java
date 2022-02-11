@@ -57,7 +57,7 @@ public class FrontendProcessor {
   private static final String WEBJAR_ARTIFACT_ID = "stencil-composer-integration";
   private static final String WEBJAR_PREFIX = "META-INF/resources/webjars/" + WEBJAR_ARTIFACT_ID + "/";
   private static final String FINAL_DESTINATION = "META-INF/portal-files";
-  public static final String FEATURE_BUILD_ITEM = "stencil-composer";
+
   
   @Inject
   private LaunchModeBuildItem launch;
@@ -66,7 +66,7 @@ public class FrontendProcessor {
   
   @BuildStep
   FeatureBuildItem feature() {
-    return new FeatureBuildItem(FEATURE_BUILD_ITEM);
+    return new FeatureBuildItem(FrontendRecorder.FEATURE_BUILD_ITEM);
   }
 
   @BuildStep
@@ -132,6 +132,8 @@ public class FrontendProcessor {
       WebJarUtil.updateFile(index, IndexFactory.builder()
         .frontend(frontendPath)
         .locked(config.locked)
+        .oidc(config.oidcPath.orElse(null))
+        .status(config.statusPath.orElse(null))
         .server(httpRootPathBuildItem.resolvePath(config.serverPath))
         .index(index)
         .build());
@@ -159,6 +161,8 @@ public class FrontendProcessor {
               .frontend(frontendPath)
               .locked(config.locked)
               .server(config.serverPath)
+              .oidc(config.oidcPath.orElse(null))
+              .status(config.statusPath.orElse(null))
               .index(file.getValue())
               .build();
           indexReplaced = true;
