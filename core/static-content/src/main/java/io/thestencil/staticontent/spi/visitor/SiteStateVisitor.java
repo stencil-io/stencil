@@ -71,6 +71,11 @@ public class SiteStateVisitor {
   private List<LinkResource> visitWorkflows(Entity<Workflow> link) {
     final List<LinkResource> result = new ArrayList<>();
     
+    if(Boolean.TRUE.equals(link.getBody().getDevMode())){
+      return result;
+    }
+    
+    
     final var usedLocales = link.getBody().getLabels().stream()
         .map(label -> label.getLocale())
         .collect(Collectors.toList());
