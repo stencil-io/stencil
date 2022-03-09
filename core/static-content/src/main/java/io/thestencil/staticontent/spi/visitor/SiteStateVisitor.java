@@ -48,7 +48,13 @@ public class SiteStateVisitor {
   private final List<Entity<Locale>> locales = new ArrayList<>();
   private final Map<String, Entity<Locale>> enablesLocales = new HashMap<>();
   private SiteState entity;
+  private final boolean dev;
   
+  public SiteStateVisitor(boolean dev) {
+    super();
+    this.dev = dev;
+  }
+
   public Markdowns visit(SiteState entity) {
     this.entity = entity;
     final var result = ImmutableMarkdowns.builder()
@@ -71,7 +77,7 @@ public class SiteStateVisitor {
   private List<LinkResource> visitWorkflows(Entity<Workflow> link) {
     final List<LinkResource> result = new ArrayList<>();
     
-    if(Boolean.TRUE.equals(link.getBody().getDevMode())){
+    if(!dev && Boolean.TRUE.equals(link.getBody().getDevMode())){
       return result;
     }
     

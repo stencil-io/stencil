@@ -62,6 +62,7 @@ public class StaticContentClientDefault implements StaticContentClient {
     return new MarkdownBuilder() {
       private Markdowns jsonOfSiteState;
       private ImmutableMarkdowns.Builder fromFiles;
+      private boolean dev;
       
       @Override
       public MarkdownBuilder md(String path, byte[] value) {
@@ -123,7 +124,7 @@ public class StaticContentClientDefault implements StaticContentClient {
       public MarkdownBuilder json(String jsonOfSiteState) {
         try {
           final var site = objectMapper.readValue(jsonOfSiteState, SiteState.class);
-          this.jsonOfSiteState = new SiteStateVisitor().visit(site);
+          this.jsonOfSiteState = new SiteStateVisitor(dev).visit(site);
         } catch (IOException e) {
           throw new RuntimeException(e.getMessage(), e);
         }
@@ -132,7 +133,7 @@ public class StaticContentClientDefault implements StaticContentClient {
       
       @Override
       public MarkdownBuilder json(SiteState jsonOfSiteState) {
-        this.jsonOfSiteState = new SiteStateVisitor().visit(jsonOfSiteState);
+        this.jsonOfSiteState = new SiteStateVisitor(dev).visit(jsonOfSiteState);
         return this;
       }
       
@@ -146,6 +147,12 @@ public class StaticContentClientDefault implements StaticContentClient {
         }
         return this.jsonOfSiteState;
       }
+
+      @Override
+      public MarkdownBuilder dev() {
+        this.dev = true;
+        return this;
+      }
     };
   }
   @Override
@@ -155,7 +162,6 @@ public class StaticContentClientDefault implements StaticContentClient {
       private String imageUrl;
       private Long created;
       private Markdowns markdowns;
-      
       @Override
       public SitesBuilder source(Markdowns markdowns) {
         this.markdowns = markdowns;

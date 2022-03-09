@@ -45,6 +45,7 @@ public interface StaticContentClient {
     MarkdownBuilder json(String jsonOfSiteState);
     MarkdownBuilder json(SiteState jsonOfSiteState);
     MarkdownBuilder md(String path, byte[] value);
+    MarkdownBuilder dev();
     Markdowns build();
   }
   
