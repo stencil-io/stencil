@@ -42,10 +42,9 @@ public interface StaticContentClient {
   }
   
   interface MarkdownBuilder {
-    MarkdownBuilder json(String jsonOfSiteState);
-    MarkdownBuilder json(SiteState jsonOfSiteState);
+    MarkdownBuilder json(String jsonOfSiteState, boolean dev);
+    MarkdownBuilder json(SiteState jsonOfSiteState, boolean dev);
     MarkdownBuilder md(String path, byte[] value);
-    MarkdownBuilder dev();
     Markdowns build();
   }
   

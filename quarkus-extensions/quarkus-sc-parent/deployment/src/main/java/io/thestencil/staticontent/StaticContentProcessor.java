@@ -268,7 +268,7 @@ public class StaticContentProcessor {
         throw new ConfigurationError("Failed to read file: '" + tempPath + "'!");
       }
       
-      final Markdowns md = StaticContentClientDefault.builder().build().markdown().json(site).build();
+      final Markdowns md = StaticContentClientDefault.builder().build().markdown().json(site, false).build();
       final String frontendPath = httpRootPathBuildItem.resolvePath(config.imagePath);
       buildProducer.produce(new StaticContentBuildItem(tempPath.toAbsolutePath().toString(), frontendPath, md));
       displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(httpRootPathBuildItem.resolvePath(frontendPath + "/"), "Zoe Static Content"));
@@ -289,7 +289,7 @@ public class StaticContentProcessor {
 
     String fileName = tempPath.toFile().getName().toString();
     fileName = FINAL_DESTINATION + "/" + fileName;
-    final Markdowns md = StaticContentClientDefault.builder().build().markdown().json(site).build();
+    final Markdowns md = StaticContentClientDefault.builder().build().markdown().json(site, false).build();
     buildProducer.produce(new StaticContentBuildItem(FINAL_DESTINATION, frontendPath, md));
   }
 }

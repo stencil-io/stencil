@@ -37,7 +37,7 @@ public class SiteTest {
 
     final var md = StaticContentClientDefault
         .builder().build()
-        .markdown().json(TestUtils.toString("site.json"))
+        .markdown().json(TestUtils.toString("site.json"), false)
         .build();
 
     final var content = StaticContentClientDefault

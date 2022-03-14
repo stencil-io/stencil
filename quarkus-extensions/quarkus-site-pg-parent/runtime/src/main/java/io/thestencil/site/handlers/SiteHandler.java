@@ -27,6 +27,8 @@ import io.quarkus.security.identity.CurrentIdentityAssociation;
 import io.quarkus.vertx.http.runtime.CurrentVertxRequest;
 import io.quarkus.vertx.web.Route.HttpMethod;
 import io.smallrye.mutiny.Uni;
+import io.thestencil.client.api.MigrationBuilder.LocalizedSite;
+import io.thestencil.client.api.beans.LocalizedSiteBean;
 import io.thestencil.client.web.HandlerStatusCodes;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpHeaders;
@@ -50,7 +52,7 @@ public class SiteHandler extends HdesResourceHandler {
       String locale = event.request().getParam("locale");
       
       client.query().head()
-      .onItem().transform(state -> ctx.getContent().markdown().dev().json(state).build())
+      .onItem().transform(state -> ctx.getContent().markdown().json(state, true).build())
       .onItem().transform(markdowns -> ctx.getContent().sites()
           .imagePath("images")
           .created(System.currentTimeMillis())
@@ -62,7 +64,8 @@ public class SiteHandler extends HdesResourceHandler {
           if(data == null) {
             return Buffer.buffer(ctx.getObjectMapper().writeValueAsBytes(Collections.emptyMap()));
           }
-          return Buffer.buffer(ctx.getObjectMapper().writeValueAsBytes(data));
+          final LocalizedSite result = LocalizedSiteBean.builder().from(data).id(data.getId() + "::dev").build();
+          return Buffer.buffer(ctx.getObjectMapper().writeValueAsBytes(result));
         } catch(IOException e) {
           throw new RuntimeException(e.getMessage(), e);
         }

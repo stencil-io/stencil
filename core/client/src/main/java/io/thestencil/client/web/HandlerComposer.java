@@ -299,7 +299,7 @@ public class HandlerComposer extends HandlerTemplate {
         if(site == null || site.getSites() == null  || site.getSites().isEmpty()) {
           final var md = StaticContentClientDefault
               .builder().build()
-              .markdown().json(new String(body, StandardCharsets.UTF_8))
+              .markdown().json(new String(body, StandardCharsets.UTF_8), true)
               .build();
 
           site = StaticContentClientDefault
