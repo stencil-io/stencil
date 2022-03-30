@@ -31,6 +31,7 @@ import io.thestencil.client.api.StencilClient.Entity;
 import io.thestencil.client.api.StencilClient.Link;
 import io.thestencil.client.api.StencilClient.Locale;
 import io.thestencil.client.api.StencilClient.Page;
+import io.thestencil.client.api.StencilClient.Release;
 import io.thestencil.client.api.StencilClient.Template;
 import io.thestencil.client.api.StencilClient.Workflow;
 
@@ -44,7 +45,7 @@ public interface DeleteBuilder {
   Uni<Entity<Template>> template(String templateId);
   Uni<Entity<Workflow>> workflow(String workflowId);
   Uni<Entity<Workflow>> workflowArticlePage(WorkflowArticlePage workflowArticlePage);
-
+  Uni<Entity<Release>> release(String releaseId);
 
   
   @Value.Immutable

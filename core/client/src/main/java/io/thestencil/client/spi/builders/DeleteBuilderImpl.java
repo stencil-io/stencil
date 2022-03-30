@@ -33,6 +33,7 @@ import io.thestencil.client.api.StencilClient.EntityType;
 import io.thestencil.client.api.StencilClient.Link;
 import io.thestencil.client.api.StencilClient.Locale;
 import io.thestencil.client.api.StencilClient.Page;
+import io.thestencil.client.api.StencilClient.Release;
 import io.thestencil.client.api.StencilClient.Template;
 import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.client.spi.PersistenceCommands;
@@ -148,5 +149,14 @@ public class DeleteBuilderImpl extends PersistenceCommands implements DeleteBuil
         .build();
       return save(end);
     });
+  }
+
+  @Override
+  public Uni<Entity<Release>> release(String releaseId) {
+    // Get the release
+    final Uni<EntityState<Release>> query = get(releaseId, EntityType.RELEASE);
+    
+    // Delete the release
+    return query.onItem().transformToUni(state -> delete(state.getEntity()));
   }
 }

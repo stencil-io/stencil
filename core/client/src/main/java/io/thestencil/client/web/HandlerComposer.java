@@ -198,6 +198,10 @@ public class HandlerComposer extends HandlerTemplate {
       subscribe(
           client.query().release(event.pathParam("id")), 
           response, ctx, objectMapper);        
+    } else if(event.request().method() == HttpMethod.DELETE) {
+      subscribe(
+          client.delete().release(event.pathParam("id")),
+          response, ctx, objectMapper);
     } else {
       HandlerStatusCodes.catch404("unsupported release action", response);
     }
