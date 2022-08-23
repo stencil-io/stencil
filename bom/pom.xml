@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>io.thestencil</groupId>
 		<artifactId>stencil-parent</artifactId>
-		<version>999-SNAPSHOT</version>
+		<version>1.148.3</version>
 	</parent>
 
 	<artifactId>stencil-bom</artifactId>
