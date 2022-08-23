@@ -83,10 +83,3 @@ DELETE /linkArticles
 
 1. Create an association between a link and a page
 2. Delete an association between a link and a page
-
-
-
-
-
-
-
