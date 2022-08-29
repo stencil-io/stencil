@@ -229,15 +229,25 @@ public class SiteStateVisitor {
   
   private String visitArticlePath(Entity<Article> src) {
 
+    final var visited = new ArrayList<String>();
     final StringBuilder path = new StringBuilder();
     Entity<Article> article = src;
     do {
+      
       if(path.length() > 0) {
         path.insert(0, "/");
       }
       path.insert(0, String.format("%03d", article.getBody().getOrder()) + "_" + article.getBody().getName());
       final var parentId = article.getBody().getParentId();
+      if(visited.contains(parentId)) {
+        LOGGER.error("Article broken, infinite loop near: '" + parentId + "'!");
+        break;
+      }
+      visited.add(parentId);
+      
       article = parentId == null ? null : entity.getArticles().get(parentId);
+      
+      
     } while(article != null);
 
     return path.toString();
