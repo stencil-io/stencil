@@ -72,11 +72,15 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
     Entity<Article> start = site.getArticles().get(changes.getArticleId());
     List<Entity<?>> additionalChanges = new ArrayList<>();
     
+    if(changes.getArticleId().equals(changes.getParentId())) {
+      throw new ConstraintException(start, "Article: '" + changes.getName() + "' parent can't be itself!");      
+    }
+    
     final var duplicate = site.getArticles().values().stream()
         .filter(p -> !p.getId().equals(changes.getArticleId()))
         .filter(p -> p.getBody().getName().equals(changes.getName()))
         .findFirst();
-    
+
     if(duplicate.isPresent()) {
       throw new ConstraintException(start, "Article: '" + changes.getName() + "' already exists!");
     }
