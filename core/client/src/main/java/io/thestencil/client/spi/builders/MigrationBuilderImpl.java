@@ -43,7 +43,34 @@ public class MigrationBuilderImpl implements MigrationBuilder {
     
     return query.onItem().transformToUni(site -> {
       
-      final var builder = new MigrationImportVisitor(config, site).visit(sites).head(config.getRepoName(), config.getHeadName());
+      final var builder = new MigrationImportVisitorForStaticContent(config, site).visit(sites).head(config.getRepoName(), config.getHeadName());
+      
+      if(site.getContentType() == SiteContentType.OK) {
+        builder.parent(site.getCommit());
+      } else {
+        builder.parentIsLatest();
+      }
+      
+      return builder 
+      .message("import-sites")
+      .author(config.getAuthorProvider().getAuthor())
+      .build().onItem().transformToUni(commit -> {
+        if(commit.getStatus() == CommitStatus.OK) {
+          return new QueryBuilderImpl(config).head();
+        }
+        throw new ImportException(sites, commit);
+      });
+    })
+    ;
+  }
+
+  @Override
+  public Uni<SiteState> importData(SiteState sites) {
+    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
+    
+    return query.onItem().transformToUni(site -> {
+      
+      final var builder = new MigrationImportVisitorForSiteState(config, site).visit(sites).head(config.getRepoName(), config.getHeadName());
       
       if(site.getContentType() == SiteContentType.OK) {
         builder.parent(site.getCommit());

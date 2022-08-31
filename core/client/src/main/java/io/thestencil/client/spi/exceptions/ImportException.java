@@ -22,11 +22,12 @@ package io.thestencil.client.spi.exceptions;
 
 import io.resys.thena.docdb.api.actions.CommitActions.CommitResult;
 import io.thestencil.client.api.MigrationBuilder.Sites;
+import io.thestencil.client.api.StencilClient.SiteState;
 
 public class ImportException extends RuntimeException {
   private static final long serialVersionUID = 7190168525508589141L;
   
-  private final Sites entity;
+  private final Object entity;
   private final CommitResult commit;
   
   public ImportException(Sites entity, CommitResult commit) {
@@ -34,15 +35,19 @@ public class ImportException extends RuntimeException {
     this.entity = entity;
     this.commit = commit;
   }
-  
-  public Sites getEntity() {
+  public ImportException(SiteState entity, CommitResult commit) {
+    super(msg(entity, commit));
+    this.entity = entity;
+    this.commit = commit;
+  }  
+  public Object getEntity() {
     return entity;
   }
   public CommitResult getCommit() {
     return commit;
   }
   
-  private static String msg(Sites entity, CommitResult commit) {
+  private static String msg(Object entity, CommitResult commit) {
     StringBuilder messages = new StringBuilder();
     for(var msg : commit.getMessages()) {
       messages

@@ -51,6 +51,21 @@ public class HandlerStatusCodes {
     response.setStatusCode(404);
     response.end( Json.encode(msg) );
   }
+
+  public static void catch422(String desc, HttpServerResponse response) {
+    // Log error
+    String log = desc;
+    String hash = exceptionHash(log);
+    LOGGER.error(hash + " - " + log);
+    
+    Map<String, String> msg = new HashMap<>();
+    msg.put("appcode", hash);
+    
+    response.headers().set(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
+    response.setStatusCode(422);
+    response.end( Json.encode(msg) );
+  }
+
   
   public static void catch422(Throwable e, HttpServerResponse response) {
     String stack = ExceptionUtils.getStackTrace(e);

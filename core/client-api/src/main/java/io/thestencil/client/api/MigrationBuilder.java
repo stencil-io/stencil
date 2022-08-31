@@ -39,8 +39,8 @@ import io.thestencil.client.api.beans.TopicLinkBean;
 public interface MigrationBuilder {
 
   Uni<SiteState> importData(Sites sites);
-
-
+  Uni<SiteState> importData(SiteState sites);  
+  
   interface Sites {
     Long getCreated();
     Map<String, LocalizedSite> getSites();

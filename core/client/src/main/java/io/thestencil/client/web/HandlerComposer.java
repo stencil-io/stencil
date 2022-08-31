@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -41,10 +44,12 @@ import io.thestencil.client.api.ImmutableCreateWorkflow;
 import io.thestencil.client.api.ImmutableLinkArticlePage;
 import io.thestencil.client.api.ImmutableLinkMutator;
 import io.thestencil.client.api.ImmutableLocaleMutator;
+import io.thestencil.client.api.ImmutableSiteState;
 import io.thestencil.client.api.ImmutableTemplateMutator;
 import io.thestencil.client.api.ImmutableWorkflowArticlePage;
 import io.thestencil.client.api.ImmutableWorkflowMutator;
 import io.thestencil.client.api.MigrationBuilder.Sites;
+import io.thestencil.client.api.StencilClient.SiteState;
 import io.thestencil.client.api.UpdateBuilder.PageMutator;
 import io.thestencil.client.api.beans.SitesBean;
 import io.thestencil.staticontent.spi.StaticContentClientDefault;
@@ -57,7 +62,7 @@ import io.vertx.ext.web.RoutingContext;
 
 
 public class HandlerComposer extends HandlerTemplate {
-
+  private static final Logger LOGGER = LoggerFactory.getLogger(HandlerComposer.class);
   public HandlerComposer(CurrentIdentityAssociation currentIdentityAssociation, CurrentVertxRequest currentVertxRequest) {
     super(currentIdentityAssociation, currentVertxRequest);
   }
@@ -296,32 +301,60 @@ public class HandlerComposer extends HandlerTemplate {
     if (event.request().method() == HttpMethod.POST) {
       byte[] body = event.getBody().getBytes();
       
-      Sites site = null;
-      try {
-        site = objectMapper.readValue(body, SitesBean.class);
-        
-        if(site == null || site.getSites() == null  || site.getSites().isEmpty()) {
-          final var md = StaticContentClientDefault
-              .builder().build()
-              .markdown().json(new String(body, StandardCharsets.UTF_8), true)
-              .build();
-
-          site = StaticContentClientDefault
-              .builder().build()
-              .sites().imagePath("/images").created(1l)
-              .source(md)
-              .build();
-        }
-      } catch(IOException ex1) {
-        throw new RuntimeException(ex1.getMessage(), ex1);
+      
+      final var sites = parseSites(body, objectMapper);
+      if(sites != null) {
+        subscribe(
+            client.migration().importData(sites), 
+            response, ctx, objectMapper);
+        return;
       }
       
-      subscribe(
-          client.migration().importData(site), 
-          response, ctx, objectMapper);
+      final var release = parseSiteState(body, objectMapper);
+      if(release != null) {
+        subscribe(
+            client.migration().importData(release), 
+            response, ctx, objectMapper);
+        return;
+      }
+      HandlerStatusCodes.catch422("No static content or release to parse", response);
     } else {
       HandlerStatusCodes.catch404("unsupported migration action", response);
     }
+  }
+  
+  private SiteState parseSiteState(byte[] body, ObjectMapper objectMapper) {
+    try {
+      return objectMapper.readValue(body, ImmutableSiteState.class);
+    } catch(IOException ex1) {
+      LOGGER.error("failed to parse site for migration, " + ex1.getMessage(), ex1);
+    }
+    return null;
+  }
+  
+  private Sites parseSites(byte[] body, ObjectMapper objectMapper) {
+    Sites site = null;
+    try {
+      site = objectMapper.readValue(body, SitesBean.class);
+      
+      if(site == null || site.getSites() == null  || site.getSites().isEmpty()) {
+        final var md = StaticContentClientDefault
+            .builder().build()
+            .markdown().json(new String(body, StandardCharsets.UTF_8), true)
+            .build();
+
+        site = StaticContentClientDefault
+            .builder().build()
+            .sites().imagePath("/images").created(1l)
+            .source(md)
+            .build();
+      }
+
+      return site;
+    } catch(IOException ex1) {
+      LOGGER.error("failed to parse site for migration, " + ex1.getMessage(), ex1);
+    }
+    return null;
   }
   
   public <T> T read(RoutingContext event, ObjectMapper objectMapper, Class<T> type) {
