@@ -43,6 +43,16 @@ public interface StencilClient {
   DeleteBuilder delete();
   QueryBuilder query();
   MigrationBuilder migration();
+  ClientRepoBuilder repo();
+  
+  interface ClientRepoBuilder {
+    ClientRepoBuilder repoName(String repoName);
+    ClientRepoBuilder headName(String headName);
+    Uni<StencilClient> create();
+    StencilClient build();
+  }
+  
+  
   
   interface QueryBuilder {
     Uni<SiteState> head();

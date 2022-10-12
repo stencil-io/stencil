@@ -67,6 +67,11 @@ public class StencilClientImpl implements StencilClient {
     return new MigrationBuilderImpl(config);
   }
   
+  @Override
+  public ClientRepoBuilder repo() {
+    return new ClientRepoBuilderImpl(config);
+  }
+  
   public static Builder builder() {
     return new Builder();
   }

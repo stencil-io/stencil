@@ -32,6 +32,8 @@ yarn-error.log*
 yalc.lock
 .yalc/
 bin/
+core/composer-integration/.yarn/
+core/composer-integration/.yarnrc.yml
 /coverage
 node_modules/
 target/
