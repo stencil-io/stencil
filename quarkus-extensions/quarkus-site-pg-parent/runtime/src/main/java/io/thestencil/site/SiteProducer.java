@@ -32,7 +32,8 @@ import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 
 import io.quarkus.jackson.ObjectMapperCustomizer;
-import io.resys.thena.docdb.spi.pgsql.DocDBFactory;
+import io.resys.thena.docdb.spi.pgsql.PgErrors;
+import io.resys.thena.docdb.sql.DocDBFactorySql;
 import io.thestencil.client.spi.StencilClientImpl;
 import io.thestencil.client.spi.serializers.ZoeDeserializer;
 import io.thestencil.site.handlers.SiteHandlerContext;
@@ -71,7 +72,7 @@ public class SiteProducer {
   public SiteHandlerContext stencilIdeServicesContext(Vertx vertx, ObjectMapper objectMapper, PgPool pgPool) {
     
     
-    final var docDb = DocDBFactory.create().client(pgPool).build();
+    final var docDb = DocDBFactorySql.create().client(pgPool).errorHandler(new PgErrors()).build();
     final var deserializer = new ZoeDeserializer(objectMapper);
     final var client = StencilClientImpl.builder()
         .config((builder) -> builder

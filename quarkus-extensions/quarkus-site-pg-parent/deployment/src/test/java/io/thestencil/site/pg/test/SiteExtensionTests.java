@@ -36,7 +36,8 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import io.quarkus.test.QuarkusUnitTest;
 import io.restassured.RestAssured;
 import io.resys.thena.docdb.api.DocDB;
-import io.resys.thena.docdb.spi.pgsql.DocDBFactory;
+import io.resys.thena.docdb.spi.pgsql.PgErrors;
+import io.resys.thena.docdb.sql.DocDBFactorySql;
 
 
 //-Djava.util.logging.manager=org.jboss.logmanager.LogManager
@@ -61,9 +62,10 @@ public class SiteExtensionTests {
     this.setUp();
   }
   private void setUp() {
-    this.client = DocDBFactory.create()
+    this.client = DocDBFactorySql.create()
         .db("junit")
         .client(pgPool)
+        .errorHandler(new PgErrors())
         .build();
   }
   
