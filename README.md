@@ -112,4 +112,3 @@ In Terminal:
   
 * Navigate to `the-stencil-parent/dev-tools/demo-portal-ui/`  
   * run: `yarn start`
-
