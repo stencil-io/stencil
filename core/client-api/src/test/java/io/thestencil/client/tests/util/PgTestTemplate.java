@@ -43,7 +43,9 @@ import io.resys.thena.docdb.spi.DocDBPrettyPrinter;
 import io.resys.thena.docdb.spi.pgsql.PgErrors;
 import io.resys.thena.docdb.sql.DocDBFactorySql;
 import io.thestencil.client.api.StencilComposer;
+import io.thestencil.client.spi.StencilClientImpl;
 import io.thestencil.client.spi.StencilComposerImpl;
+import io.thestencil.client.spi.StencilStoreImpl;
 import io.thestencil.client.spi.serializers.ZoeDeserializer;
 
 public class PgTestTemplate {
@@ -114,7 +116,7 @@ public class PgTestTemplate {
     
     ZoeDeserializer deserializer = new ZoeDeserializer(PgTestTemplate.objectMapper);
     
-    return StencilComposerImpl.builder()
+    final var store = StencilStoreImpl.builder()
         .config((builder) -> builder
             .client(client)
             .repoName(repoId)
@@ -133,6 +135,9 @@ public class PgTestTemplate {
             .authorProvider(() -> "junit-test"))
             
         .build();
+    
+    
+    return new StencilComposerImpl(new StencilClientImpl(store));
   }
   
 }

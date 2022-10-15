@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import io.resys.thena.docdb.api.actions.CommitActions.HeadCommitBuilder;
 import io.thestencil.client.api.ImmutableArticle;
+import io.thestencil.client.api.ImmutableBatchCommand;
 import io.thestencil.client.api.ImmutableEntity;
 import io.thestencil.client.api.ImmutableLink;
 import io.thestencil.client.api.ImmutableLocale;
@@ -40,6 +40,7 @@ import io.thestencil.client.api.MigrationBuilder.Sites;
 import io.thestencil.client.api.MigrationBuilder.Topic;
 import io.thestencil.client.api.MigrationBuilder.TopicBlob;
 import io.thestencil.client.api.MigrationBuilder.TopicLink;
+import io.thestencil.client.api.StencilClient;
 import io.thestencil.client.api.StencilComposer.Article;
 import io.thestencil.client.api.StencilComposer.Entity;
 import io.thestencil.client.api.StencilComposer.EntityType;
@@ -48,27 +49,29 @@ import io.thestencil.client.api.StencilComposer.Locale;
 import io.thestencil.client.api.StencilComposer.Page;
 import io.thestencil.client.api.StencilComposer.SiteState;
 import io.thestencil.client.api.StencilComposer.Workflow;
-import io.thestencil.client.spi.PersistenceConfig;
 
 public class MigrationImportVisitorForStaticContent {
-  private final PersistenceConfig config;
-  private final HeadCommitBuilder commit;
+
+  private final StencilClient client;
+  private final SiteState current;
+  private final ImmutableBatchCommand.Builder batch;
+  
   private final Map<String, Entity<Article>> articlesByTopicName = new LinkedHashMap<>();
   private final Map<String, Entity<Link>> links = new LinkedHashMap<>();
   private final Map<String, Entity<Workflow>> workflows = new LinkedHashMap<>();
   private final Map<String, Entity<Locale>> locales = new LinkedHashMap<>();
   private final Map<String, Entity<Page>> pages = new LinkedHashMap<>();
-  private final SiteState current;
+
   private final List<String> commitedIds = new ArrayList<>();
   
-  public MigrationImportVisitorForStaticContent(PersistenceConfig config, SiteState current) {
+  public MigrationImportVisitorForStaticContent(SiteState current, StencilClient client) {
     super();
-    this.config = config;
+    this.batch = ImmutableBatchCommand.builder();
     this.current = current;
-    this.commit = this.config.getClient().commit().head();
+    this.client = client;
   }
   
-  public HeadCommitBuilder visit(Sites sites) {
+  public ImmutableBatchCommand visit(Sites sites) {
     
     visitCurrentStateStart(current);
     
@@ -106,7 +109,7 @@ public class MigrationImportVisitorForStaticContent {
     
     visitCurrentStateEnd(current);
     
-    return commit;
+    return this.batch.build();
   }
   
   private void visitCurrentStateStart(SiteState current) {
@@ -140,19 +143,19 @@ public class MigrationImportVisitorForStaticContent {
   private void visitCurrentStateEnd(SiteState current) {
     current.getLocales().values().stream()
       .filter(e -> !commitedIds.contains(e.getId()))
-      .forEach(e -> commit.remove(e.getId()));
+      .forEach(e -> batch.addToBeDeleted(e));
     current.getPages().values().stream()
       .filter(e -> !commitedIds.contains(e.getId()))
-      .forEach(e -> commit.remove(e.getId()));
+      .forEach(e -> batch.addToBeDeleted(e));
     current.getLinks().values().stream()
       .filter(e -> !commitedIds.contains(e.getId()))
-      .forEach(e -> commit.remove(e.getId()));
+      .forEach(e -> batch.addToBeDeleted(e));
     current.getArticles().values().stream()
       .filter(e -> !commitedIds.contains(e.getId()))
-      .forEach(e -> commit.remove(e.getId()));
+      .forEach(e -> batch.addToBeDeleted(e));
     current.getWorkflows().values().stream()
       .filter(e -> !commitedIds.contains(e.getId()))
-      .forEach(e -> commit.remove(e.getId()));
+      .forEach(e -> batch.addToBeDeleted(e));
   }
   
   private void visitCommit(Entity<?> entity) {
@@ -160,7 +163,7 @@ public class MigrationImportVisitorForStaticContent {
       throw new IllegalArgumentException("id already in commit: " + entity.getId());
     }
     commitedIds.add(entity.getId());
-    commit.append(entity.getId(), config.getSerializer().toString(entity));
+    batch.addToBeCreated(entity);
   }
   
   private Entity<Workflow> visitWorkflow(TopicLink topicLink, Entity<Locale> locale, Entity<Article> article) {
@@ -415,7 +418,7 @@ public class MigrationImportVisitorForStaticContent {
   }
   
   private String gid(EntityType type) {
-    return config.getGidProvider().getNextId(type);
+    return client.getStore().gid(type);
   }
 
 }

@@ -1,6 +1,9 @@
 package io.thestencil.client.spi;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /*-
  * #%L
@@ -28,15 +31,16 @@ import io.smallrye.mutiny.Uni;
 import io.thestencil.client.api.StencilComposer.Entity;
 import io.thestencil.client.api.StencilComposer.EntityBody;
 import io.thestencil.client.api.StencilComposer.EntityType;
-import io.thestencil.client.spi.PersistenceConfig.EntityState;
+import io.thestencil.client.api.StencilStore.BatchCommand;
+import io.thestencil.client.spi.StencilStoreConfig.EntityState;
 import io.thestencil.client.spi.exceptions.DeleteException;
 import io.thestencil.client.spi.exceptions.QueryException;
 import io.thestencil.client.spi.exceptions.SaveException;
 
-public class PersistenceCommands implements PersistenceConfig.Commands {
-  protected final PersistenceConfig config;
+public abstract class PersistenceCommands implements StencilStoreConfig.Commands {
+  protected final StencilStoreConfig config;
 
-  public PersistenceCommands(PersistenceConfig config) {
+  public PersistenceCommands(StencilStoreConfig config) {
     super();
     this.config = config;
   }
@@ -94,9 +98,25 @@ public class PersistenceCommands implements PersistenceConfig.Commands {
         throw new SaveException(toBeSaved, commit);
       });
   }
+  
+  @Override
+  public <T extends EntityBody> Uni<Entity<T>> create(Entity<T> toBeSaved) {
+    return config.getClient().commit().head()
+      .head(config.getRepoName(), config.getHeadName())
+      .message("create type: '" + toBeSaved.getType() + "', with id: '" + toBeSaved.getId() + "'")
+      .parentIsLatest()
+      .author(config.getAuthorProvider().getAuthor())
+      .append(toBeSaved.getId(), config.getSerializer().toString(toBeSaved))
+      .build().onItem().transform(commit -> {
+        if(commit.getStatus() == CommitStatus.OK) {
+          return toBeSaved;
+        }
+        throw new SaveException(toBeSaved, commit);
+      });
+  }
 
   @Override
-  public Uni<Collection<Entity<?>>> save(Collection<Entity<?>> entities) {
+  public Uni<Collection<Entity<?>>> saveAll(Collection<Entity<?>> entities) {
     final var commitBuilder = config.getClient().commit().head().head(config.getRepoName(), config.getHeadName());
     final Entity<?> first = entities.iterator().next();
     
@@ -113,6 +133,43 @@ public class PersistenceCommands implements PersistenceConfig.Commands {
             return entities;
           }
           throw new SaveException(first, commit);
+        });
+  }
+  
+  @Override
+  public Uni<Collection<Entity<?>>> batch(BatchCommand batch) {
+    if(batch.getToBeDeleted().isEmpty() && batch.getToBeDeleted().isEmpty() && batch.getToBeCreated().isEmpty()) {
+      return Uni.createFrom().item(Collections.emptyList());
+    }
+    
+    final List<Entity<?>> all = new ArrayList<Entity<?>>();
+    final var commitBuilder = config.getClient().commit().head().head(config.getRepoName(), config.getHeadName());
+
+    for(final var target : batch.getToBeDeleted()) {
+      commitBuilder.remove(target.getId());
+      all.add((Entity<?>) target);
+    }
+    for(final var target : batch.getToBeSaved()) {
+      commitBuilder.append(target.getId(), config.getSerializer().toString(target));
+      all.add((Entity<?>) target);
+    }
+    
+    for(final var target : batch.getToBeCreated()) {
+      commitBuilder.append(target.getId(), config.getSerializer().toString(target));
+      all.add((Entity<?>) target);
+    }
+    return commitBuilder
+        .message("batch" + 
+            " created: '" + batch.getToBeCreated().size() + "',"+
+            " updated: '" + batch.getToBeSaved().size() + "',"+
+            " deleted: '" + batch.getToBeDeleted().size() + "'")
+        .parentIsLatest()
+        .author(config.getAuthorProvider().getAuthor())
+        .build().onItem().transform(commit -> {
+          if(commit.getStatus() == CommitStatus.OK) {
+            return Collections.unmodifiableList(all);
+          }
+          throw new SaveException(all, commit);
         });
   }
 }

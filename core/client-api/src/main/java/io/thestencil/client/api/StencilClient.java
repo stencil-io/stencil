@@ -1,10 +1,10 @@
-package io.thestencil.quarkus.ide.services;
+package io.thestencil.client.api;
 
 /*-
  * #%L
- * quarkus-stencil-ide-services
+ * stencil-client-api
  * %%
- * Copyright (C) 2021 Copyright 2021 ReSys OÜ
+ * Copyright (C) 2021 - 2022 Copyright 2021 ReSys OÜ
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,23 +20,23 @@ package io.thestencil.quarkus.ide.services;
  * #L%
  */
 
-import io.thestencil.persistence.api.ZoePersistence;
+import io.smallrye.mutiny.Uni;
 
-public class IDEServicesContext {
-  private final ZoePersistence client;
-  private final ServicesPathConfig paths;
+public interface StencilClient {
+
+  StencilTypesMapper mapper();
+  ClientRepoBuilder repo();
   
-  public IDEServicesContext(ZoePersistence client, ServicesPathConfig paths) {
-    super();
-    this.client = client;
-    this.paths = paths;
+  StencilStore getStore();
+  
+  interface StencilTypesMapper {
+    
   }
-
-  public ZoePersistence getClient() {
-    return client;
-  }
-
-  public ServicesPathConfig getPaths() {
-    return paths;
+  
+  interface ClientRepoBuilder {
+    ClientRepoBuilder repoName(String repoName);
+    ClientRepoBuilder headName(String headName);
+    Uni<StencilClient> create();
+    StencilClient build();
   }
 }

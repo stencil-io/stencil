@@ -2,9 +2,9 @@ package io.thestencil.client.spi;
 
 /*-
  * #%L
- * stencil-persistence
+ * stencil-client-api
  * %%
- * Copyright (C) 2021 Copyright 2021 ReSys OÜ
+ * Copyright (C) 2021 - 2022 Copyright 2021 ReSys OÜ
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,71 +20,41 @@ package io.thestencil.client.spi;
  * #L%
  */
 
-import java.util.function.Consumer;
-
 import io.thestencil.client.api.CreateBuilder;
 import io.thestencil.client.api.DeleteBuilder;
 import io.thestencil.client.api.MigrationBuilder;
+import io.thestencil.client.api.StencilClient;
 import io.thestencil.client.api.StencilComposer;
+import io.thestencil.client.api.StencilStore.QueryBuilder;
 import io.thestencil.client.api.UpdateBuilder;
 import io.thestencil.client.spi.builders.CreateBuilderImpl;
 import io.thestencil.client.spi.builders.DeleteBuilderImpl;
 import io.thestencil.client.spi.builders.MigrationBuilderImpl;
-import io.thestencil.client.spi.builders.QueryBuilderImpl;
 import io.thestencil.client.spi.builders.UpdateBuilderImpl;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class StencilComposerImpl implements StencilComposer {
-
-  private final PersistenceConfig config;
+  private final StencilClient client;
   
-  public StencilComposerImpl(PersistenceConfig config) {
-    super();
-    this.config = config;
-  }
-
   @Override
   public CreateBuilder create() {
-    return new CreateBuilderImpl(config);
+    return new CreateBuilderImpl(client);
   }
-
   @Override
   public UpdateBuilder update() {
-    return new UpdateBuilderImpl(config);
+    return new UpdateBuilderImpl(client);
   }
-
   @Override
   public DeleteBuilder delete() {
-    return new DeleteBuilderImpl(config);
+    return new DeleteBuilderImpl(client);
   }
-  
   @Override
   public QueryBuilder query() {
-    return new QueryBuilderImpl(config);
+    return client.getStore().query();
   }
-
   @Override
   public MigrationBuilder migration() {
-    return new MigrationBuilderImpl(config);
-  }
-  
-  @Override
-  public ClientRepoBuilder repo() {
-    return new ClientRepoBuilderImpl(config);
-  }
-  
-  public static Builder builder() {
-    return new Builder();
-  }
-  
-  public static class Builder {
-    private ImmutablePersistenceConfig.Builder config = ImmutablePersistenceConfig.builder();
-    
-    public Builder config(Consumer<ImmutablePersistenceConfig.Builder> config) {
-      config.accept(this.config);
-      return this;
-    }
-    public StencilComposerImpl build() {
-      return new StencilComposerImpl(config.build());
-    }
+    return new MigrationBuilderImpl(client);
   }
 }

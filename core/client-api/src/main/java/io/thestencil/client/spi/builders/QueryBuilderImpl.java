@@ -1,5 +1,7 @@
 package io.thestencil.client.spi.builders;
 
+import java.util.List;
+
 /*-
  * #%L
  * stencil-persistence
@@ -21,6 +23,7 @@ package io.thestencil.client.spi.builders;
  */
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import io.resys.thena.docdb.api.actions.ObjectsActions.ObjectsStatus;
 import io.resys.thena.docdb.api.models.Objects.Blob;
@@ -29,25 +32,26 @@ import io.smallrye.mutiny.Uni;
 import io.thestencil.client.api.ImmutableSiteState;
 import io.thestencil.client.api.StencilComposer.Article;
 import io.thestencil.client.api.StencilComposer.Entity;
+import io.thestencil.client.api.StencilComposer.EntityBody;
 import io.thestencil.client.api.StencilComposer.EntityType;
 import io.thestencil.client.api.StencilComposer.Link;
 import io.thestencil.client.api.StencilComposer.Locale;
 import io.thestencil.client.api.StencilComposer.Page;
-import io.thestencil.client.api.StencilComposer.QueryBuilder;
 import io.thestencil.client.api.StencilComposer.Release;
 import io.thestencil.client.api.StencilComposer.SiteContentType;
 import io.thestencil.client.api.StencilComposer.SiteState;
 import io.thestencil.client.api.StencilComposer.Template;
 import io.thestencil.client.api.StencilComposer.Workflow;
+import io.thestencil.client.api.StencilStore.QueryBuilder;
 import io.thestencil.client.spi.PersistenceCommands;
-import io.thestencil.client.spi.PersistenceConfig;
-import io.thestencil.client.spi.PersistenceConfig.EntityState;
+import io.thestencil.client.spi.StencilStoreConfig;
+import io.thestencil.client.spi.StencilStoreConfig.EntityState;
 import io.thestencil.client.spi.exceptions.QueryException;
 import io.thestencil.client.spi.exceptions.RefException;
 
 public class QueryBuilderImpl extends PersistenceCommands implements QueryBuilder {
   
-  public QueryBuilderImpl(PersistenceConfig config) {
+  public QueryBuilderImpl(StencilStoreConfig config) {
     super(config);
   }
 
@@ -96,7 +100,7 @@ public class QueryBuilderImpl extends PersistenceCommands implements QueryBuilde
   }
   
   @SuppressWarnings("unchecked")
-  public static ImmutableSiteState.Builder mapTree(Tree tree, Map<String, Blob> blobs, PersistenceConfig config) {
+  public static ImmutableSiteState.Builder mapTree(Tree tree, Map<String, Blob> blobs, StencilStoreConfig config) {
     final var builder = ImmutableSiteState.builder();
     for(final var treeValue : tree.getValues().values()) {
       final var blob = blobs.get(treeValue.getBlob());
@@ -154,6 +158,28 @@ public class QueryBuilderImpl extends PersistenceCommands implements QueryBuilde
       final var blobs = state.getObjects().getBlobs();
       final var builder = mapTree(tree, blobs, config).putReleases(release.getEntity().getId(), release.getEntity());
       return builder.name(config.getRepoName() + ":" + config.getHeadName() + ":" + release.getEntity().getBody().getName()).contentType(SiteContentType.RELEASE).build();
+    });
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public <T extends EntityBody> Uni<List<Entity<T>>> head(List<String> ids, EntityType type) {
+    return config.getClient()
+    .objects().blobState()
+    .repo(config.getRepoName())
+    .anyId(config.getHeadName())
+    .blobNames(ids)
+    .list().onItem()
+    .transform(state -> {
+      
+      if(state.getStatus() != ObjectsStatus.OK) {
+        throw new QueryException(String.join(",", ids), type, state);  
+      }
+      
+      return state.getObjects().getBlob().stream()
+        .map(blob -> (Entity<T>) config.getDeserializer().fromString(type, blob.getValue()))
+        .collect(Collectors.toList());
+      
     });
   }
 }

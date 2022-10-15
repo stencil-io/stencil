@@ -33,32 +33,17 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import io.smallrye.mutiny.Uni;
+import io.thestencil.client.api.StencilStore.QueryBuilder;
 
 
 public interface StencilComposer {
-
   CreateBuilder create();
   UpdateBuilder update();
   DeleteBuilder delete();
-  QueryBuilder query();
   MigrationBuilder migration();
-  ClientRepoBuilder repo();
+  QueryBuilder query();
   
-  interface ClientRepoBuilder {
-    ClientRepoBuilder repoName(String repoName);
-    ClientRepoBuilder headName(String headName);
-    Uni<StencilComposer> create();
-    StencilComposer build();
-  }
-  
-  
-  
-  interface QueryBuilder {
-    Uni<SiteState> head();
-    Uni<SiteState> release(String releaseId);
-  }
-  
+
   @Value.Immutable
   @JsonSerialize(as = ImmutableSiteState.class)
   @JsonDeserialize(as = ImmutableSiteState.class)

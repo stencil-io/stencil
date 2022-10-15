@@ -1,5 +1,7 @@
 package io.thestencil.client.spi.builders;
 
+import java.util.ArrayList;
+
 /*-
  * #%L
  * stencil-persistence
@@ -23,102 +25,71 @@ package io.thestencil.client.spi.builders;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import io.resys.thena.docdb.api.actions.CommitActions.CommitStatus;
-import io.resys.thena.docdb.api.actions.ObjectsActions.ObjectsResult;
-import io.resys.thena.docdb.api.actions.ObjectsActions.ObjectsStatus;
-import io.resys.thena.docdb.api.actions.ObjectsActions.RefObjects;
-import io.resys.thena.docdb.api.models.Objects.TreeValue;
 import io.smallrye.mutiny.Uni;
-import io.thestencil.client.api.StencilComposer.Article;
-import io.thestencil.client.api.StencilComposer.Entity;
-import io.thestencil.client.api.StencilComposer.EntityType;
-import io.thestencil.client.api.StencilComposer.Link;
-import io.thestencil.client.api.StencilComposer.Page;
-import io.thestencil.client.api.StencilComposer.Workflow;
-import io.thestencil.client.spi.PersistenceConfig;
-import io.thestencil.client.spi.exceptions.QueryException;
-import io.thestencil.client.spi.exceptions.SaveException;
 import io.thestencil.client.api.ImmutableArticle;
+import io.thestencil.client.api.ImmutableBatchCommand;
 import io.thestencil.client.api.ImmutableEntity;
 import io.thestencil.client.api.ImmutableLink;
 import io.thestencil.client.api.ImmutableWorkflow;
+import io.thestencil.client.api.StencilClient;
+import io.thestencil.client.api.StencilComposer.Article;
+import io.thestencil.client.api.StencilComposer.Entity;
+import io.thestencil.client.api.StencilComposer.Link;
+import io.thestencil.client.api.StencilComposer.Page;
+import io.thestencil.client.api.StencilComposer.SiteState;
+import io.thestencil.client.api.StencilComposer.Workflow;
+import io.thestencil.client.spi.StencilAssert;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class ArticleDeleteVisitor {
-  private final PersistenceConfig config;
+  private final StencilClient client;
   private final String articleId;
   
-  public ArticleDeleteVisitor(PersistenceConfig config, String articleId) {
-    super();
-    this.articleId = articleId;
-    this.config = config;
-  }
   
   public Uni<Entity<Article>> visit() {
-    return config.getClient()
-        .objects().refState()
-        .repo(config.getRepoName())
-        .ref(config.getHeadName())
-        .blobs()
-        .build().onItem()
+    return client.getStore().query().head().onItem()
         .transformToUni(state -> visitObjects(state));
   }
   
-  @SuppressWarnings("unchecked")
-  private Uni<Entity<Article>> visitObjects(ObjectsResult<RefObjects> state) {
-    if(state.getStatus() != ObjectsStatus.OK) {
-      throw new QueryException(articleId, EntityType.ARTICLE, state);
-    }
-  
+  private Uni<Entity<Article>> visitObjects(SiteState state) {
     final var start = visitArticleId(state, articleId);
-    final var updateCommand = config.getClient().commit().head();
-    final var message = new StringBuilder("delete: " + articleId);
-    
-    for(TreeValue treeValue : state.getObjects().getTree().getValues().values()) {
-      final var blob = state.getObjects().getBlobs().get(treeValue.getBlob());
-      final var entity = this.config.getDeserializer().fromString(blob.getValue());
+    final var updateCommand = ImmutableBatchCommand.builder();
 
-      if(entity.getId().equals(articleId)) {
+    for(final var page : state.getPages().values()) {
+      visitPage(page).ifPresent(changeEntity -> updateCommand.addToBeDeleted(changeEntity));
+    }
+    
+    for(final var wrkf : state.getWorkflows().values()) {
+      visitWorkflow(wrkf).ifPresent(changeEntity -> updateCommand.addToBeSaved(changeEntity));
+    }
+    
+    for(final var link : state.getLinks().values()) {
+      visitLink(link).ifPresent(changeEntity -> updateCommand.addToBeSaved(changeEntity));
+    }
+    
+    
+    updateCommand.addToBeDeleted(start);
+    
+    final var changedArticles = new ArrayList<Entity<Article>>();
+    for(final var article : state.getArticles().values()) {
+      if(article.getId().equals(articleId)) {
         continue;
       }
-
-      if(entity.getType() == EntityType.PAGE) {
-        visitPage((Entity<Page>) entity).ifPresent(changeEntity -> {
-          updateCommand.remove(changeEntity.getId());
-          //message.append(System.lineSeparator()).append("deleting type: '" + changeEntity.getType() + "' with id:'" + changeEntity.getId() + "'");
-        });
-      } else if(entity.getType() == EntityType.WORKFLOW) {
-        visitWorkflow((Entity<Workflow>) entity).ifPresent(changeEntity -> {
-          updateCommand.append(changeEntity.getId(), config.getSerializer().toString(changeEntity));
-          //message.append(System.lineSeparator()).append("change type: '" + changeEntity.getType() + "' with id:'" + changeEntity.getId() + "'");
-        });
-      } else if(entity.getType() == EntityType.LINK) {
-        visitLink((Entity<Link>) entity).ifPresent(changeEntity -> {
-          updateCommand.append(changeEntity.getId(), config.getSerializer().toString(changeEntity));
-          //message.append(System.lineSeparator()).append("changes type: '" + changeEntity.getType() + "' with id:'" + changeEntity.getId() + "'");
-        });
-      } else if(entity.getType() == EntityType.ARTICLE) {
-        visitArticle((Entity<Article>) entity).ifPresent(changeEntity -> {
-          updateCommand.append(changeEntity.getId(), config.getSerializer().toString(changeEntity));
-          //message.append(System.lineSeparator()).append("changes type: '" + changeEntity.getType() + "' with id:'" + changeEntity.getId() + "'");
-        });
-      }
+      visitArticle(article).ifPresent(changeEntity -> {
+        changedArticles.add(changeEntity);
+        updateCommand.addToBeSaved(changeEntity);
+      });
     }
     
-    return updateCommand
-      .head(config.getRepoName(), config.getHeadName())
-      .message(message.toString())
-      .parentIsLatest()
-      .remove(start.getId())
-      .author(config.getAuthorProvider().getAuthor())
-      .build().onItem().transform(commit -> {
-        if(commit.getStatus() == CommitStatus.OK) {
-          return start;
-        }
-        throw new SaveException(start, commit);
-      });
+    
+    
+    return client.getStore()
+        .batch(updateCommand.build())
+        .onItem().transform(updated -> start);
   }
   
-  public Optional<Entity<?>> visitArticle(Entity<Article> start) {
+  public Optional<Entity<Article>> visitArticle(Entity<Article> start) {
     
     if(start.getBody().getParentId() != null  && 
         start.getBody().getParentId().equals(articleId)) {
@@ -173,17 +144,9 @@ public class ArticleDeleteVisitor {
         .build());
   }
   
-  @SuppressWarnings("unchecked")
-  private Entity<Article> visitArticleId(ObjectsResult<RefObjects> state, String articleId) {
-    final Optional<TreeValue> treeValue = state.getObjects().getTree().getValues().values().stream().filter(b -> b.getName().equals(articleId)).findFirst();
-    if(treeValue.isEmpty()) {
-      throw new QueryException(articleId, EntityType.ARTICLE, state);
-    }
-    final var blob = state.getObjects().getBlobs().get(treeValue.get().getBlob());
-    final Entity<?> blobEntity = this.config.getDeserializer().fromString(blob.getValue());
-    if(blobEntity.getType() != EntityType.ARTICLE) {
-      throw new QueryException(articleId, EntityType.ARTICLE, state);
-    }
-    return (Entity<Article>) blobEntity;
+  private Entity<Article> visitArticleId(SiteState state, String articleId) {
+    final var article = state.getArticles().get(articleId);
+    StencilAssert.isTrue(article != null, () -> "Can't find article with id: '" + articleId + "'");
+    return article;
   }
 }

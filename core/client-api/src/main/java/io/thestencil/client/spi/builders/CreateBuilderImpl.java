@@ -24,9 +24,6 @@ import java.time.LocalDateTime;
 
 import java.util.Optional;
 
-import io.resys.thena.docdb.api.actions.CommitActions.CommitStatus;
-import io.resys.thena.docdb.api.actions.ObjectsActions.ObjectsStatus;
-import io.resys.thena.docdb.api.actions.RepoActions.RepoStatus;
 import io.smallrye.mutiny.Uni;
 import io.thestencil.client.api.CreateBuilder;
 import io.thestencil.client.api.ImmutableArticle;
@@ -36,9 +33,9 @@ import io.thestencil.client.api.ImmutableLocale;
 import io.thestencil.client.api.ImmutableLocaleLabel;
 import io.thestencil.client.api.ImmutablePage;
 import io.thestencil.client.api.ImmutableRelease;
-import io.thestencil.client.api.ImmutableSiteState;
 import io.thestencil.client.api.ImmutableTemplate;
 import io.thestencil.client.api.ImmutableWorkflow;
+import io.thestencil.client.api.StencilClient;
 import io.thestencil.client.api.StencilComposer.Article;
 import io.thestencil.client.api.StencilComposer.Entity;
 import io.thestencil.client.api.StencilComposer.EntityType;
@@ -50,26 +47,19 @@ import io.thestencil.client.api.StencilComposer.SiteContentType;
 import io.thestencil.client.api.StencilComposer.SiteState;
 import io.thestencil.client.api.StencilComposer.Template;
 import io.thestencil.client.api.StencilComposer.Workflow;
-import io.thestencil.client.spi.PersistenceConfig;
+import io.thestencil.client.spi.StencilAssert;
 import io.thestencil.client.spi.exceptions.ConstraintException;
-import io.thestencil.client.spi.exceptions.RefException;
-import io.thestencil.client.spi.exceptions.RepoException;
-import io.thestencil.client.spi.exceptions.SaveException;
+import lombok.RequiredArgsConstructor;
 
 
+@RequiredArgsConstructor
 public class CreateBuilderImpl implements CreateBuilder {
   
-  private final PersistenceConfig config;
-  
-  public CreateBuilderImpl(PersistenceConfig config) {
-    super();
-    this.config = config;
-  }
+  private final StencilClient client;
   
   @Override
   public Uni<Entity<Article>> article(CreateArticle init) {
-    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
-    
+    final Uni<SiteState> query = client.getStore().query().head();
     return query.onItem().transformToUni(state -> {
     
       final var gid = gid(EntityType.ARTICLE);
@@ -96,25 +86,13 @@ public class CreateBuilderImpl implements CreateBuilder {
         throw new ConstraintException(entity, "Article: '" + init.getName() + "', parent: '" + init.getParentId() + "' does not exist!");
       }
       
-      return config.getClient().commit().head()
-        .head(config.getRepoName(), config.getHeadName())
-        .message("creating-article")
-        .parentIsLatest()
-        .author(config.getAuthorProvider().getAuthor())
-        .append(gid, config.getSerializer().toString(entity))
-        .build().onItem().transform(commit -> {
-          if(commit.getStatus() == CommitStatus.OK) {
-            return entity;
-          }
-          throw new SaveException(entity, commit);
-        });
+      return client.getStore().create(entity);
     });
   }
   
   @Override
   public Uni<Entity<Template>> template(CreateTemplate init) {
-    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
-    
+    final Uni<SiteState> query = client.getStore().query().head();
     return query.onItem().transformToUni(state -> {
     
       final var gid = gid(EntityType.TEMPLATE);
@@ -137,70 +115,39 @@ public class CreateBuilderImpl implements CreateBuilder {
       if(duplicate.isPresent()) {
         throw new ConstraintException(entity, "Template: '" + init.getName() + "' already exists!");
       }
-
-
-      return config.getClient().commit().head()
-        .head(config.getRepoName(), config.getHeadName())
-        .message("creating-template")
-        .parentIsLatest()
-        .author(config.getAuthorProvider().getAuthor())
-        .append(gid, config.getSerializer().toString(entity))
-        .build().onItem().transform(commit -> {
-          if(commit.getStatus() == CommitStatus.OK) {
-            return entity;
-          }
-          throw new SaveException(entity, commit);
-        });
+      return client.getStore().create(entity);
     });
   }
 
   @Override
   public Uni<Entity<Release>> release(CreateRelease init) {
-  
-    
-    return config.getClient().objects().refState()
-      .repo(config.getRepoName())
-      .ref(config.getHeadName())
-      .blobs(true)
-      .build().onItem().transformToUni(state -> {
-        if(state.getStatus() == ObjectsStatus.OK) {
-          final var gid = gid(EntityType.RELEASE);
-          
-          final var release = new CreateReleaseVisitor(state, config)
-              .visit(ImmutableRelease.builder()
-                .name(init.getName())
-                .created(LocalDateTime.now())
-                .note(Optional.ofNullable(init.getNote()).orElse(""))
-                .parentCommit(state.getObjects().getRef().getCommit())
-              ).build();
-
-          final Entity<Release> entity = ImmutableEntity.<Release>builder()
-              .id(gid)
-              .type(EntityType.RELEASE)
-              .body(release)
-              .build();
-          return config.getClient().commit().head()
-            .head(config.getRepoName(), config.getHeadName())
-            .message("creating-release")
-            .parentIsLatest()
-            .author(config.getAuthorProvider().getAuthor())
-            .append(gid, config.getSerializer().toString(entity))
-            .build().onItem().transform(commit -> {
-              if(commit.getStatus() == CommitStatus.OK) {
-                return entity;
-              }
-              throw new SaveException(entity, commit);
-            });      
-        }
+    return client.getStore().query().head().onItem().transformToUni(state -> {
         
-        throw new RefException("Can't create release because ref state query failed!", state);
-      });
+      StencilAssert.isTrue(state.getContentType() != SiteContentType.NOT_CREATED, () -> "Can't create release because ref state query failed!");
+    
+      final var gid = gid(EntityType.RELEASE);
+      
+      final var release = new CreateReleaseVisitor(state)
+          .visit(ImmutableRelease.builder()
+            .name(init.getName())
+            .created(LocalDateTime.now())
+            .note(Optional.ofNullable(init.getNote()).orElse(""))
+            .parentCommit(state.getCommit())
+          ).build();
+
+      final Entity<Release> entity = ImmutableEntity.<Release>builder()
+          .id(gid)
+          .type(EntityType.RELEASE)
+          .body(release)
+          .build();
+      
+      return client.getStore().create(entity);
+    });
   }
 
   @Override
   public Uni<Entity<Locale>> locale(CreateLocale init) {
-    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
-    
+    final Uni<SiteState> query = client.getStore().query().head();
     return query.onItem().transformToUni(state -> {
       
       final var gid = gid(EntityType.LOCALE);
@@ -223,27 +170,14 @@ public class CreateBuilderImpl implements CreateBuilder {
         throw new ConstraintException(entity, "Locale: '" + init.getLocale() + "' already exists!");
       }
       
-      
-      return config.getClient().commit().head()
-          .head(config.getRepoName(), config.getHeadName())
-          .message("creating-locale")
-          .parentIsLatest()
-          .author(config.getAuthorProvider().getAuthor())
-          .append(gid, config.getSerializer().toString(entity))
-          .build().onItem().transform(commit -> {
-            if(commit.getStatus() == CommitStatus.OK) {
-              return entity;
-            }
-            throw new SaveException(entity, commit);
-          });
+      return client.getStore().create(entity);
       
     });
   }
 
   @Override
   public Uni<Entity<Page>> page(CreatePage init) {
-
-    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
+    final Uni<SiteState> query = client.getStore().query().head();
     return query.onItem().transformToUni(state -> {
       final var localeId = init.getLocale();
       final var gid = gid(EntityType.PAGE);
@@ -273,25 +207,13 @@ public class CreateBuilderImpl implements CreateBuilder {
         throw new ConstraintException(entity, "Page locale with id: '" + localeId + "' already exists!");
       }
       
-      return config.getClient().commit().head()
-          .head(config.getRepoName(), config.getHeadName())
-          .message("creating-page")
-          .parentIsLatest()
-          .author(config.getAuthorProvider().getAuthor())
-          .append(gid, config.getSerializer().toString(entity))
-          .build().onItem().transform(commit -> {
-            if(commit.getStatus() == CommitStatus.OK) {
-              return entity;
-            }
-            throw new SaveException(entity, commit);
-          });
+      return client.getStore().create(entity);
     });
   }
 
   @Override
   public Uni<Entity<Link>> link(CreateLink init) {
-    
-    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
+    final Uni<SiteState> query = client.getStore().query().head();
     return query.onItem().transformToUni(state -> {
       final var gid = gid(EntityType.LINK);
       final var link = ImmutableLink.builder()
@@ -314,25 +236,13 @@ public class CreateBuilderImpl implements CreateBuilder {
       
       final var entity = ImmutableEntity.<Link>builder().id(gid).type(EntityType.LINK).body(link.build()).build();
       
-      return config.getClient().commit().head()
-        .head(config.getRepoName(), config.getHeadName())
-        .message("creating-link")
-        .parentIsLatest()
-        .author(config.getAuthorProvider().getAuthor())
-        .append(gid, config.getSerializer().toString(entity))
-        .build().onItem().transform(commit -> {
-          if(commit.getStatus() == CommitStatus.OK) {
-            return entity;
-          }
-          throw new SaveException(entity, commit);
-        });
-      
+      return client.getStore().create(entity);
     });
   }
 
   @Override
   public Uni<Entity<Workflow>> workflow(CreateWorkflow init) {
-    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
+    final Uni<SiteState> query = client.getStore().query().head();
     return query.onItem().transformToUni(state -> {
       
       final var gid = gid(EntityType.WORKFLOW);
@@ -353,35 +263,16 @@ public class CreateBuilderImpl implements CreateBuilder {
 
       final var entity = ImmutableEntity.<Workflow>builder().id(gid).type(EntityType.WORKFLOW).body(workflow.build()).build();
       
-      return config.getClient().commit().head()
-          .head(config.getRepoName(), config.getHeadName())
-          .message("creating-workflow")
-          .parentIsLatest()
-          .author(config.getAuthorProvider().getAuthor())
-          .append(gid, config.getSerializer().toString(entity))
-          .build().onItem().transform(commit -> {
-            if(commit.getStatus() == CommitStatus.OK) {
-              return entity;
-            }
-            throw new SaveException(entity, commit);
-          });
+      return client.getStore().create(entity);
         
       });
   }
   
   private String gid(EntityType type) {
-    return config.getGidProvider().getNextId(type);
+    return client.getStore().gid(type);
   }
-
   @Override
   public Uni<SiteState> repo() {
-    return config.getClient().repo().create()
-        .name(config.getRepoName())
-        .build().onItem().transform(repoResult -> {
-          if(repoResult.getStatus() == RepoStatus.OK) {
-            return ImmutableSiteState.builder().contentType(SiteContentType.OK).name(repoResult.getRepo().getName()).build();
-          }
-          throw new RepoException("Can't create repository with name: '"  + config.getRepoName() + "'!", repoResult);
-        });
+    return client.getStore().repo().create().onItem().transformToUni(e -> e.query().head());
   }
 }

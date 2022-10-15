@@ -31,9 +31,10 @@ import io.smallrye.mutiny.Uni;
 import io.thestencil.client.api.StencilComposer.Entity;
 import io.thestencil.client.api.StencilComposer.EntityBody;
 import io.thestencil.client.api.StencilComposer.EntityType;
+import io.thestencil.client.api.StencilStore.BatchCommand;
 
 @Value.Immutable
-public interface PersistenceConfig {
+public interface StencilStoreConfig {
   DocDB getClient();
   String getRepoName();
   String getHeadName();
@@ -49,14 +50,16 @@ public interface PersistenceConfig {
     ObjectsResult<BlobObject> getSrc();
     Entity<T> getEntity();
   }
-  
+
   interface Commands {
     <T extends EntityBody> Uni<Entity<T>> delete(Entity<T> toBeDeleted);
     <T extends EntityBody> Uni<EntityState<T>> get(String blobId, EntityType type);
     <T extends EntityBody> Uni<Entity<T>> save(Entity<T> toBeSaved);
-    Uni<Collection<Entity<?>>> save(Collection<Entity<?>> toBeSaved);
+    <T extends EntityBody> Uni<Entity<T>> create(Entity<T> toBeSaved);
+    Uni<Collection<Entity<?>>> saveAll(Collection<Entity<?>> toBeSaved);
+    Uni<Collection<Entity<?>>> batch(BatchCommand batch);
   }  
-  
+    
   @FunctionalInterface
   interface GidProvider {
     String getNextId(EntityType entity);

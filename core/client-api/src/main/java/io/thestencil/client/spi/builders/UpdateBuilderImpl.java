@@ -26,8 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import io.resys.thena.docdb.api.actions.CommitActions.CommitStatus;
-import io.resys.thena.docdb.api.actions.ObjectsActions.ObjectsStatus;
 import io.smallrye.mutiny.Uni;
 import io.thestencil.client.api.ImmutableArticle;
 import io.thestencil.client.api.ImmutableEntity;
@@ -36,6 +34,7 @@ import io.thestencil.client.api.ImmutableLocale;
 import io.thestencil.client.api.ImmutablePage;
 import io.thestencil.client.api.ImmutableTemplate;
 import io.thestencil.client.api.ImmutableWorkflow;
+import io.thestencil.client.api.StencilClient;
 import io.thestencil.client.api.StencilComposer.Article;
 import io.thestencil.client.api.StencilComposer.Entity;
 import io.thestencil.client.api.StencilComposer.EntityType;
@@ -46,23 +45,21 @@ import io.thestencil.client.api.StencilComposer.SiteState;
 import io.thestencil.client.api.StencilComposer.Template;
 import io.thestencil.client.api.StencilComposer.Workflow;
 import io.thestencil.client.api.UpdateBuilder;
-import io.thestencil.client.spi.PersistenceCommands;
-import io.thestencil.client.spi.PersistenceConfig;
-import io.thestencil.client.spi.PersistenceConfig.EntityState;
+import io.thestencil.client.spi.StencilStoreConfig.EntityState;
 import io.thestencil.client.spi.exceptions.ConstraintException;
-import io.thestencil.client.spi.exceptions.QueryException;
-import io.thestencil.client.spi.exceptions.SaveException;
+import lombok.RequiredArgsConstructor;
 
-public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuilder {
 
-  public UpdateBuilderImpl(PersistenceConfig config) {
-    super(config);
-  }
+@RequiredArgsConstructor
+public class UpdateBuilderImpl implements UpdateBuilder {
+
+  private final StencilClient client;
+  
 
   @Override
   public Uni<Entity<Article>> article(ArticleMutator changes) {
     // Get the article
-    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
+    final Uni<SiteState> query = client.getStore().query().head();
     
     // Change the article
     return query.onItem().transformToUni(state -> changeArticle(state, changes));
@@ -179,15 +176,15 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
     allChanges.add(result);
     allChanges.addAll(additionalChanges);
     
-    return save(allChanges).onItem().transform(e -> result); 
+    return client.getStore().saveAll(allChanges).onItem().transform(e -> result); 
   }
   
   @Override
   public Uni<Entity<Locale>> locale(LocaleMutator changes) {
-    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
+    final Uni<SiteState> query = client.getStore().query().head();
   
     // Change the locale
-    return query.onItem().transformToUni(state -> save(changeLocale(state, changes)));
+    return query.onItem().transformToUni(state -> client.getStore().save(changeLocale(state, changes)));
   }
   
   private Entity<Locale> changeLocale(SiteState site, LocaleMutator changes) {
@@ -214,10 +211,10 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
 
   @Override
   public Uni<Entity<Template>> template(TemplateMutator changes) {
-    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
+    final Uni<SiteState> query = client.getStore().query().head();
   
     // Change the template
-    return query.onItem().transformToUni(state -> save(changeTemplate(state, changes)));
+    return query.onItem().transformToUni(state -> client.getStore().save(changeTemplate(state, changes)));
   }
   
   private Entity<Template> changeTemplate(SiteState site, TemplateMutator changes) {
@@ -247,10 +244,10 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
   @Override
   public Uni<Entity<Page>> page(PageMutator changes) {
     // Get the page
-    final Uni<EntityState<Page>> query = get(changes.getPageId(), EntityType.PAGE);
+    final Uni<EntityState<Page>> query = client.getStore().get(changes.getPageId(), EntityType.PAGE);
     
     // Change the page
-    return query.onItem().transformToUni(state -> save(changePage(state, changes)));
+    return query.onItem().transformToUni(state -> client.getStore().save(changePage(state, changes)));
   }
 
   @Override
@@ -263,21 +260,13 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
       changes.put(m.getPageId(), m);
       ids.add(m.getPageId());
     }
+    
+    final Uni<List<Entity<Page>>> query = client.getStore().query().head(ids, EntityType.PAGE);
 
-    return config.getClient()
-        .objects().blobState()
-        .repo(config.getRepoName())
-        .anyId(config.getHeadName())
-        .blobNames(ids)
-        .list().onItem()
-        .transformToUni(state -> {
-          if(state.getStatus() != ObjectsStatus.OK) {
-            throw new QueryException(String.join(",", ids), EntityType.PAGE, state);  
-          }
+    return query.onItem().transformToUni(state -> {
           
-          final List<Entity<Page>> toBeSaved = state.getObjects().getBlob().stream()
-          .map(blob -> {
-            final Entity<Page> start = config.getDeserializer().fromString(EntityType.PAGE, blob.getValue());
+          final List<Entity<Page>> toBeSaved = state.stream()
+          .map(start -> {
             final PageMutator mutator = changes.get(start.getId());
             final Entity<Page> end = ImmutableEntity.<Page>builder()
                 .from(start)
@@ -288,21 +277,10 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
                 .build();
             return end;
           }).collect(Collectors.toList());
-          
-          final var command = config.getClient().commit().head().head(config.getRepoName(), config.getHeadName());
-          toBeSaved.forEach(e -> command.append(e.getId(), config.getSerializer().toString(e)));
 
-          return command
-            .message("UPDATE: '" + EntityType.PAGE + "', count: '" + ids.size() + "'")
-            .parentIsLatest()
-            .author(config.getAuthorProvider().getAuthor())
-            .build().onItem().transform(commit -> {
-              if(commit.getStatus() == CommitStatus.OK) {
-                return toBeSaved;
-              }
-              throw new SaveException(new ArrayList<>(toBeSaved), commit);
-              
-            });
+          return client.getStore()
+              .saveAll(new ArrayList<>(toBeSaved))
+              .onItem().transform(e -> new ArrayList<>(toBeSaved));
         });
   }
   
@@ -321,10 +299,10 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
   public Uni<Entity<Link>> link(LinkMutator changes) {
     // Get the link
     
-    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
+    final Uni<SiteState> query = client.getStore().query().head();
     
     // Change the link
-    return query.onItem().transformToUni(state -> save(changeLink(state, changes)));
+    return query.onItem().transformToUni(state -> client.getStore().save(changeLink(state, changes)));
   }
   
   private Entity<Link> changeLink(SiteState site, LinkMutator changes) {
@@ -352,10 +330,10 @@ public class UpdateBuilderImpl extends PersistenceCommands implements UpdateBuil
   @Override
   public Uni<Entity<Workflow>> workflow(WorkflowMutator changes) {
     // Get the Workflow
-    final Uni<SiteState> query = new QueryBuilderImpl(config).head();
+    final Uni<SiteState> query = client.getStore().query().head();
     
     // Change the Workflow
-    return query.onItem().transformToUni(state -> save(changeWorkflow(state, changes)));
+    return query.onItem().transformToUni(state -> client.getStore().save(changeWorkflow(state, changes)));
   }
   
   private Entity<Workflow> changeWorkflow(SiteState site, WorkflowMutator changes) {

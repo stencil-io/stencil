@@ -26,8 +26,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import io.resys.thena.docdb.api.actions.ObjectsActions.ObjectsResult;
-import io.resys.thena.docdb.api.actions.ObjectsActions.RefObjects;
 import io.resys.thena.docdb.spi.commits.Sha2;
 import io.thestencil.client.api.ImmutableArticleReleaseItem;
 import io.thestencil.client.api.ImmutableLinkReleaseItem;
@@ -41,24 +39,16 @@ import io.thestencil.client.api.StencilComposer.LinkReleaseItem;
 import io.thestencil.client.api.StencilComposer.LocaleReleaseItem;
 import io.thestencil.client.api.StencilComposer.Page;
 import io.thestencil.client.api.StencilComposer.PageReleaseItem;
-import io.thestencil.client.api.StencilComposer.SiteContentType;
 import io.thestencil.client.api.StencilComposer.SiteState;
 import io.thestencil.client.api.StencilComposer.WorkflowReleaseItem;
-import io.thestencil.client.spi.PersistenceConfig;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class CreateReleaseVisitor {
 
   private final SiteState state;
   private final Set<String> enabledLocales = new HashSet<>();
   private final Set<String> enabledArticles = new HashSet<>();
-
-  public CreateReleaseVisitor(ObjectsResult<RefObjects> state, PersistenceConfig config) {
-    final var tree = state.getObjects().getTree();
-    final var blobs = state.getObjects().getBlobs();
-    final var builder = QueryBuilderImpl.mapTree(tree, blobs, config);
-    final var commit = state.getObjects().getCommit();
-    this.state = builder.commit(commit.getId()).name("release").contentType(SiteContentType.OK).build();
-  }
 
   public ImmutableRelease.Builder visit(ImmutableRelease.Builder releaseBuilder) {
     return releaseBuilder

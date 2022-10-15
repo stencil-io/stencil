@@ -38,9 +38,9 @@ import io.thestencil.client.api.StencilComposer.Page;
 import io.thestencil.client.api.StencilComposer.Release;
 import io.thestencil.client.api.StencilComposer.Template;
 import io.thestencil.client.api.StencilComposer.Workflow;
-import io.thestencil.client.spi.PersistenceConfig;
+import io.thestencil.client.spi.StencilStoreConfig;
 
-public class ZoeDeserializer implements PersistenceConfig.Deserializer {
+public class ZoeDeserializer implements StencilStoreConfig.Deserializer {
 
   private ObjectMapper objectMapper;
   

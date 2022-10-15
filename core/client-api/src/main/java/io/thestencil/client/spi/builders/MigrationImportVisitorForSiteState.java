@@ -29,8 +29,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import io.resys.thena.docdb.api.actions.CommitActions.HeadCommitBuilder;
 import io.thestencil.client.api.ImmutableArticle;
+import io.thestencil.client.api.ImmutableBatchCommand;
 import io.thestencil.client.api.ImmutableEntity;
 import io.thestencil.client.api.ImmutableLink;
 import io.thestencil.client.api.ImmutableLocale;
@@ -46,11 +46,12 @@ import io.thestencil.client.api.StencilComposer.LocaleLabel;
 import io.thestencil.client.api.StencilComposer.Page;
 import io.thestencil.client.api.StencilComposer.SiteState;
 import io.thestencil.client.api.StencilComposer.Workflow;
-import io.thestencil.client.spi.PersistenceConfig;
+import io.thestencil.client.api.StencilStore.BatchCommand;
 
 public class MigrationImportVisitorForSiteState {
-  private final PersistenceConfig config;
-  private final HeadCommitBuilder commit;
+  private final ImmutableBatchCommand.Builder batch;
+  private final SiteState current;
+  
   private final Map<String, Entity<Article>> articlesByTopicName = new LinkedHashMap<>();
   private final Map<String, Entity<Link>> links = new LinkedHashMap<>();
   private final Map<String, Entity<Workflow>> workflows = new LinkedHashMap<>();
@@ -58,17 +59,16 @@ public class MigrationImportVisitorForSiteState {
   private final Map<String, Entity<Page>> pages = new LinkedHashMap<>();
   // new to -> old id
   private final Map<String, String> idMap = new HashMap<>();
-  private final SiteState current;
   private final List<String> commitedIds = new ArrayList<>();
   
-  public MigrationImportVisitorForSiteState(PersistenceConfig config, SiteState current) {
+  
+  public MigrationImportVisitorForSiteState(SiteState current) {
     super();
-    this.config = config;
     this.current = current;
-    this.commit = this.config.getClient().commit().head();
+    this.batch = ImmutableBatchCommand.builder();
   }
   
-  public HeadCommitBuilder visit(SiteState sites) {
+  public BatchCommand visit(SiteState sites) {
     
     visitCurrentStateStart(current);
     
@@ -80,7 +80,7 @@ public class MigrationImportVisitorForSiteState {
 
     visitCurrentStateEnd(current);
     
-    return commit;
+    return this.batch.build();
   }
   
   private void visitCurrentStateStart(SiteState current) {
@@ -117,19 +117,19 @@ public class MigrationImportVisitorForSiteState {
   private void visitCurrentStateEnd(SiteState current) {
     current.getLocales().values().stream()
       .filter(e -> !commitedIds.contains(e.getId()))
-      .forEach(e -> commit.remove(e.getId()));
+      .forEach(e -> batch.addToBeDeleted(e));
     current.getPages().values().stream()
       .filter(e -> !commitedIds.contains(e.getId()))
-      .forEach(e -> commit.remove(e.getId()));
+      .forEach(e -> batch.addToBeDeleted(e));
     current.getLinks().values().stream()
       .filter(e -> !commitedIds.contains(e.getId()))
-      .forEach(e -> commit.remove(e.getId()));
+      .forEach(e -> batch.addToBeDeleted(e));
     current.getArticles().values().stream()
       .filter(e -> !commitedIds.contains(e.getId()))
-      .forEach(e -> commit.remove(e.getId()));
+      .forEach(e -> batch.addToBeDeleted(e));
     current.getWorkflows().values().stream()
       .filter(e -> !commitedIds.contains(e.getId()))
-      .forEach(e -> commit.remove(e.getId()));
+      .forEach(e -> batch.addToBeDeleted(e));
   }
   
   private void visitCommit(Entity<?> entity) {
@@ -137,7 +137,7 @@ public class MigrationImportVisitorForSiteState {
       throw new IllegalArgumentException("id already in commit: " + entity.getId());
     }
     commitedIds.add(entity.getId());
-    commit.append(entity.getId(), config.getSerializer().toString(entity));
+    batch.addToBeCreated(entity);
   }
   
   private Entity<Workflow> visitWorkflow(Entity<Workflow> input) {

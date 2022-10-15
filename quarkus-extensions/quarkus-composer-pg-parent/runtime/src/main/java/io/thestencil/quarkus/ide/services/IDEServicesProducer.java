@@ -33,7 +33,9 @@ import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import io.quarkus.jackson.ObjectMapperCustomizer;
 import io.resys.thena.docdb.spi.pgsql.PgErrors;
 import io.resys.thena.docdb.sql.DocDBFactorySql;
+import io.thestencil.client.spi.StencilClientImpl;
 import io.thestencil.client.spi.StencilComposerImpl;
+import io.thestencil.client.spi.StencilStoreImpl;
 import io.thestencil.client.spi.composer.ServicesPathConfig;
 import io.thestencil.client.spi.serializers.ZoeDeserializer;
 import io.vertx.mutiny.core.Vertx;
@@ -92,7 +94,7 @@ public class IDEServicesProducer {
     
     final var docDb = DocDBFactorySql.create().client(pgPool).errorHandler(new PgErrors()).build();
     final var deserializer = new ZoeDeserializer(objectMapper);
-    final var client = StencilComposerImpl.builder()
+    final var store = StencilStoreImpl.builder()
         .config((builder) -> builder
             .client(docDb)
             .repoName(runtimeConfig.repo.repoName)
@@ -111,7 +113,7 @@ public class IDEServicesProducer {
     
     
     // create repo if not present
-    return new HandlerContext(client, paths);
+    return new HandlerContext(new StencilComposerImpl(new StencilClientImpl(store)), paths);
   }
   
   public static String cleanPath(String value) {
