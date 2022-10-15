@@ -20,28 +20,13 @@
 			</dependency>
 			<dependency>
 				<groupId>io.thestencil</groupId>
-				<artifactId>stencil-client</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.thestencil</groupId>
 				<artifactId>stencil-client-api</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.thestencil</groupId>
-				<artifactId>stencil-static-content</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>io.thestencil</groupId>
 				<artifactId>quarkus-stencil-composer</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.thestencil</groupId>
-				<artifactId>quarkus-stencil-composer-mongo</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

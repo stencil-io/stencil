@@ -16,7 +16,7 @@
     </dependency>
     <dependency>
       <groupId>io.thestencil</groupId>
-      <artifactId>stencil-client</artifactId>
+      <artifactId>stencil-client-api</artifactId>
     </dependency>
 
     <dependency>

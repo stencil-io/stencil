@@ -16,6 +16,7 @@
     <maven.compiler.source>${jdk.version}</maven.compiler.source>
     <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
 
+
     <resource.plugin.version>3.1.0</resource.plugin.version>
     <compiler.plugin.version>3.8.1</compiler.plugin.version>
     <surefire.plugin.version>3.0.0-M5</surefire.plugin.version>
@@ -28,8 +29,6 @@
     <logback.version>1.2.3</logback.version>
     <junit5.version>5.6.0</junit5.version>
     <jsonassert.version>1.5.0</jsonassert.version>
-    <flapdoodle.version>3.0.0</flapdoodle.version>
-    <mongodb.version>3.12.7</mongodb.version>
 
     <commons-io.version>2.7</commons-io.version>
     <commons-csv.version>1.5</commons-csv.version>
@@ -117,6 +116,10 @@
           <artifactId>maven-resources-plugin</artifactId>
           <version>${resource.plugin.version}</version>
         </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${compiler.plugin.version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -144,7 +147,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>${compiler.plugin.version}</version>
         <configuration>
           <parameters>true</parameters>
           <annotationProcessorPaths>
@@ -187,6 +189,12 @@
       <version>${lombok.version}</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.immutables</groupId>
+      <artifactId>value</artifactId>
+      <version>${immutables.version}</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <dependencyManagement>
@@ -220,12 +228,6 @@
         <artifactId>logback-classic</artifactId>
         <version>${logback.version}</version>
         <scope>runtime</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.immutables</groupId>
-        <artifactId>value</artifactId>
-        <version>${immutables.version}</version>
-        <scope>provided</scope>
       </dependency>
 
       <dependency>
@@ -310,20 +312,7 @@
         <scope>import</scope>
       </dependency>
 
-      <!-- DB-s -->
-      <dependency>
-        <groupId>org.mongodb</groupId>
-        <artifactId>mongo-java-driver</artifactId>
-        <version>${mongodb.version}</version>
-      </dependency>
-
       <!-- Test dependencies -->
-      <dependency>
-        <groupId>de.flapdoodle.embed</groupId>
-        <artifactId>de.flapdoodle.embed.mongo</artifactId>
-        <scope>test</scope>
-        <version>${flapdoodle.version}</version>
-      </dependency>
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-api</artifactId>

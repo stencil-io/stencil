@@ -14,10 +14,6 @@
       <groupId>io.thestencil</groupId>
       <artifactId>quarkus-stencil-sc</artifactId>
     </dependency>
-    <dependency>
-      <groupId>io.thestencil</groupId>
-      <artifactId>stencil-static-content</artifactId>
-    </dependency>
 
     <dependency>
       <groupId>io.quarkus</groupId>

@@ -29,7 +29,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import io.smallrye.mutiny.Uni;
-import io.thestencil.client.api.StencilClient.SiteState;
+import io.thestencil.client.api.StencilComposer.SiteState;
 import io.thestencil.client.api.beans.LocalizedSiteBean;
 import io.thestencil.client.api.beans.TopicBean;
 import io.thestencil.client.api.beans.TopicBlobBean;

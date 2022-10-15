@@ -1,6 +1,6 @@
 package io.thestencil.client.api;
 
-import java.time.LocalDate;
+import java.io.Serializable;
 
 /*-
  * #%L
@@ -32,16 +32,16 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import io.smallrye.mutiny.Uni;
-import io.thestencil.client.api.StencilClient.Article;
-import io.thestencil.client.api.StencilClient.Entity;
-import io.thestencil.client.api.StencilClient.Link;
-import io.thestencil.client.api.StencilClient.Locale;
-import io.thestencil.client.api.StencilClient.LocaleLabel;
-import io.thestencil.client.api.StencilClient.Page;
-import io.thestencil.client.api.StencilClient.Release;
-import io.thestencil.client.api.StencilClient.SiteState;
-import io.thestencil.client.api.StencilClient.Template;
-import io.thestencil.client.api.StencilClient.Workflow;
+import io.thestencil.client.api.StencilComposer.Article;
+import io.thestencil.client.api.StencilComposer.Entity;
+import io.thestencil.client.api.StencilComposer.Link;
+import io.thestencil.client.api.StencilComposer.Locale;
+import io.thestencil.client.api.StencilComposer.LocaleLabel;
+import io.thestencil.client.api.StencilComposer.Page;
+import io.thestencil.client.api.StencilComposer.Release;
+import io.thestencil.client.api.StencilComposer.SiteState;
+import io.thestencil.client.api.StencilComposer.Template;
+import io.thestencil.client.api.StencilComposer.Workflow;
 
 public interface CreateBuilder {
   
@@ -53,13 +53,13 @@ public interface CreateBuilder {
   Uni<Entity<Link>> link(CreateLink init);
   Uni<Entity<Workflow>> workflow(CreateWorkflow init);  
   Uni<Entity<Template>> template(CreateTemplate init);  
-
   
+  interface Command extends Serializable {}
 
   @Value.Immutable
   @JsonSerialize(as = ImmutableCreateArticle.class)
   @JsonDeserialize(as = ImmutableCreateArticle.class)
-  interface CreateArticle {
+  interface CreateArticle extends Command {
     @Nullable
     String getParentId();
     String getName();
@@ -70,7 +70,7 @@ public interface CreateBuilder {
   @Value.Immutable
   @JsonSerialize(as = ImmutableCreateTemplate.class)
   @JsonDeserialize(as = ImmutableCreateTemplate.class)
-  interface CreateTemplate {
+  interface CreateTemplate extends Command {
 	  String getName();
     String getDescription();
 	  String getContent();
@@ -81,7 +81,7 @@ public interface CreateBuilder {
   @Value.Immutable
   @JsonSerialize(as = ImmutableCreateRelease.class)
   @JsonDeserialize(as = ImmutableCreateRelease.class)
-  interface CreateRelease {
+  interface CreateRelease extends Command {
     String getName();
     @Nullable
     String getNote();
@@ -90,14 +90,14 @@ public interface CreateBuilder {
   @Value.Immutable
   @JsonSerialize(as = ImmutableCreateLocale.class)
   @JsonDeserialize(as = ImmutableCreateLocale.class)
-  interface CreateLocale {
+  interface CreateLocale extends Command {
     String getLocale();
   }
   
   @Value.Immutable
   @JsonSerialize(as = ImmutableCreatePage.class)
   @JsonDeserialize(as = ImmutableCreatePage.class)
-  interface CreatePage {
+  interface CreatePage extends Command {
     String getArticleId();
     String getLocale();
     @Nullable
@@ -107,7 +107,7 @@ public interface CreateBuilder {
   @Value.Immutable
   @JsonSerialize(as = ImmutableCreateLink.class)
   @JsonDeserialize(as = ImmutableCreateLink.class)
-  interface CreateLink {
+  interface CreateLink extends Command {
     String getValue(); 
     String getType();
     List<String> getArticles();
@@ -117,7 +117,7 @@ public interface CreateBuilder {
   @Value.Immutable
   @JsonSerialize(as = ImmutableCreateWorkflow.class)
   @JsonDeserialize(as = ImmutableCreateWorkflow.class)
-  interface CreateWorkflow {
+  interface CreateWorkflow extends Command {
     String getValue();
     List<String> getArticles();
     List<LocaleLabel> getLabels();

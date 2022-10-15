@@ -54,8 +54,8 @@ import io.quarkus.vertx.http.deployment.HttpRootPathBuildItem;
 import io.quarkus.vertx.http.deployment.NonApplicationRootPathBuildItem;
 import io.quarkus.vertx.http.deployment.RouteBuildItem;
 import io.quarkus.vertx.http.deployment.devmode.NotFoundPageDisplayableEndpointBuildItem;
-import io.thestencil.staticontent.api.StaticContentClient.Markdowns;
-import io.thestencil.staticontent.spi.StaticContentClientDefault;
+import io.thestencil.client.api.StaticContentClient.Markdowns;
+import io.thestencil.client.spi.StaticContentClientDefault;
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
 

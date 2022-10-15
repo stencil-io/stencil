@@ -2,6 +2,8 @@ package io.thestencil.site.handlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.thestencil.client.api.StaticContentClient;
+
 /*-
  * #%L
  * stencil-client
@@ -22,16 +24,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * #L%
  */
 
-import io.thestencil.client.api.StencilClient;
-import io.thestencil.staticontent.api.StaticContentClient;
+import io.thestencil.client.api.StencilComposer;
 
 public class SiteHandlerContext {
-  private final StencilClient client;
+  private final StencilComposer client;
   private final StaticContentClient content;
   private final String servicePath;
   private final ObjectMapper objectMapper;
   
-  public SiteHandlerContext(StencilClient client, StaticContentClient content, ObjectMapper objectMapper, String servicePath) {
+  public SiteHandlerContext(StencilComposer client, StaticContentClient content, ObjectMapper objectMapper, String servicePath) {
     super();
     this.client = client;
     this.content = content;
@@ -47,7 +48,7 @@ public class SiteHandlerContext {
     return objectMapper;
   }
 
-  public StencilClient getClient() {
+  public StencilComposer getClient() {
     return client;
   }
 

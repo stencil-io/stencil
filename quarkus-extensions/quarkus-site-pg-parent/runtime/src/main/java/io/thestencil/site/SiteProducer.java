@@ -34,10 +34,10 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import io.quarkus.jackson.ObjectMapperCustomizer;
 import io.resys.thena.docdb.spi.pgsql.PgErrors;
 import io.resys.thena.docdb.sql.DocDBFactorySql;
-import io.thestencil.client.spi.StencilClientImpl;
+import io.thestencil.client.spi.StaticContentClientDefault;
+import io.thestencil.client.spi.StencilComposerImpl;
 import io.thestencil.client.spi.serializers.ZoeDeserializer;
 import io.thestencil.site.handlers.SiteHandlerContext;
-import io.thestencil.staticontent.spi.StaticContentClientDefault;
 import io.vertx.mutiny.core.Vertx;
 import io.vertx.mutiny.pgclient.PgPool;
 
@@ -74,7 +74,7 @@ public class SiteProducer {
     
     final var docDb = DocDBFactorySql.create().client(pgPool).errorHandler(new PgErrors()).build();
     final var deserializer = new ZoeDeserializer(objectMapper);
-    final var client = StencilClientImpl.builder()
+    final var client = StencilComposerImpl.builder()
         .config((builder) -> builder
             .client(docDb)
             .repoName(runtimeConfig.repo.repoName)

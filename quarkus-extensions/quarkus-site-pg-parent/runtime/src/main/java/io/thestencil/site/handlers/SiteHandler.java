@@ -29,7 +29,7 @@ import io.quarkus.vertx.web.Route.HttpMethod;
 import io.smallrye.mutiny.Uni;
 import io.thestencil.client.api.MigrationBuilder.LocalizedSite;
 import io.thestencil.client.api.beans.LocalizedSiteBean;
-import io.thestencil.client.web.HandlerStatusCodes;
+import io.thestencil.client.spi.composer.HandlerStatusCodes;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerResponse;

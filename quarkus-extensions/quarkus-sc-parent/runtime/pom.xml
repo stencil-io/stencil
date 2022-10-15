@@ -12,7 +12,7 @@
   <dependencies>
     <dependency>
       <groupId>io.thestencil</groupId>
-      <artifactId>stencil-static-content</artifactId>
+      <artifactId>stencil-client-api</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>

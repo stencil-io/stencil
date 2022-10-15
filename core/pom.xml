@@ -14,9 +14,7 @@
 
   <modules>
     <module>composer-integration</module>
-    <module>client</module>
     <module>client-api</module>
-    <module>static-content</module>
   </modules>
 
 </project>
