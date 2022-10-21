@@ -51,8 +51,7 @@ import io.thestencil.client.api.ImmutableWorkflowMutator;
 import io.thestencil.client.api.MigrationBuilder.Sites;
 import io.thestencil.client.api.StencilComposer.SiteState;
 import io.thestencil.client.api.UpdateBuilder.PageMutator;
-import io.thestencil.client.api.beans.SitesBean;
-import io.thestencil.client.spi.StaticContentClientDefault;
+import io.thestencil.client.spi.beans.SitesBean;
 import io.thestencil.client.spi.composer.HandlerStatusCodes;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpHeaders;
@@ -303,7 +302,7 @@ public class HandlerComposer extends HandlerTemplate {
       byte[] body = event.getBody().getBytes();
       
       
-      final var sites = parseSites(body, objectMapper);
+      final var sites = parseSites(ctx, body, objectMapper);
       if(sites != null) {
         subscribe(
             client.migration().importData(sites), 
@@ -333,19 +332,18 @@ public class HandlerComposer extends HandlerTemplate {
     return null;
   }
   
-  private Sites parseSites(byte[] body, ObjectMapper objectMapper) {
+  private Sites parseSites(HandlerContext ctx, byte[] body, ObjectMapper objectMapper) {
+    final var client = ctx.getClient();    
     Sites site = null;
     try {
       site = objectMapper.readValue(body, SitesBean.class);
       
       if(site == null || site.getSites() == null  || site.getSites().isEmpty()) {
-        final var md = StaticContentClientDefault
-            .builder().build()
+        final var md = client
             .markdown().json(new String(body, StandardCharsets.UTF_8), true)
             .build();
 
-        site = StaticContentClientDefault
-            .builder().build()
+        site = client
             .sites().imagePath("/images").created(1l)
             .source(md)
             .build();

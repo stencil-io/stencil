@@ -21,7 +21,7 @@ package io.thestencil.staticontent;
  */
 
 import io.quarkus.builder.item.SimpleBuildItem;
-import io.thestencil.client.api.StaticContentClient.Markdowns;
+import io.thestencil.client.api.Markdowns;
 
 public final class StaticContentBuildItem extends SimpleBuildItem {
   private final String projectsUiFinalDestination;

@@ -28,19 +28,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 
-import io.thestencil.client.api.StencilComposer.Article;
-import io.thestencil.client.api.StencilComposer.Entity;
-import io.thestencil.client.api.StencilComposer.EntityBody;
-import io.thestencil.client.api.StencilComposer.EntityType;
-import io.thestencil.client.api.StencilComposer.Link;
-import io.thestencil.client.api.StencilComposer.Locale;
-import io.thestencil.client.api.StencilComposer.Page;
-import io.thestencil.client.api.StencilComposer.Release;
-import io.thestencil.client.api.StencilComposer.Template;
-import io.thestencil.client.api.StencilComposer.Workflow;
-import io.thestencil.client.spi.StencilStoreConfig;
+import io.thestencil.client.api.StencilConfig;
+import io.thestencil.client.api.StencilClient.Article;
+import io.thestencil.client.api.StencilClient.Entity;
+import io.thestencil.client.api.StencilClient.EntityBody;
+import io.thestencil.client.api.StencilClient.EntityType;
+import io.thestencil.client.api.StencilClient.Link;
+import io.thestencil.client.api.StencilClient.Locale;
+import io.thestencil.client.api.StencilClient.Page;
+import io.thestencil.client.api.StencilClient.Release;
+import io.thestencil.client.api.StencilClient.Template;
+import io.thestencil.client.api.StencilClient.Workflow;
 
-public class ZoeDeserializer implements StencilStoreConfig.Deserializer {
+public class ZoeDeserializer implements StencilConfig.Deserializer {
 
   private ObjectMapper objectMapper;
   

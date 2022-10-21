@@ -42,13 +42,13 @@ import io.thestencil.client.api.ImmutableLocaleMutator;
 import io.thestencil.client.api.ImmutablePageMutator;
 import io.thestencil.client.api.ImmutableTemplateMutator;
 import io.thestencil.client.api.ImmutableWorkflowMutator;
-import io.thestencil.client.api.StencilComposer.Article;
-import io.thestencil.client.api.StencilComposer.Entity;
-import io.thestencil.client.api.StencilComposer.Link;
-import io.thestencil.client.api.StencilComposer.Locale;
-import io.thestencil.client.api.StencilComposer.Page;
-import io.thestencil.client.api.StencilComposer.Template;
-import io.thestencil.client.api.StencilComposer.Workflow;
+import io.thestencil.client.api.StencilClient.Article;
+import io.thestencil.client.api.StencilClient.Entity;
+import io.thestencil.client.api.StencilClient.Link;
+import io.thestencil.client.api.StencilClient.Locale;
+import io.thestencil.client.api.StencilClient.Page;
+import io.thestencil.client.api.StencilClient.Template;
+import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.client.tests.util.PgProfile;
 import io.thestencil.client.tests.util.PgTestTemplate;
 import io.thestencil.client.tests.util.TestExporter;
@@ -91,11 +91,11 @@ public class PersistencePgTest extends PgTestTemplate {
       ).await().atMost(Duration.ofMinutes(1));
     
     Entity<Page> page1 = repo.create().page(
-        ImmutableCreatePage.builder().articleId("A1").locale(locale1.getId()).content("# English content").build()
+        ImmutableCreatePage.builder().articleId(article1.getId()).locale(locale1.getId()).content("# English content").build()
       )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     repo.create().page(
-        ImmutableCreatePage.builder().articleId("A1").locale(locale2.getId()).content("# Finnish content").build()
+        ImmutableCreatePage.builder().articleId(article1.getId()).locale(locale2.getId()).content("# Finnish content").build()
       )      .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     Entity<Link> link1 = repo.create().link(
@@ -135,7 +135,7 @@ public class PersistencePgTest extends PgTestTemplate {
           .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     repo.update().link(ImmutableLinkMutator.builder()
-          .linkId(link1.getId()).articles(Arrays.asList("A1"))
+          .linkId(link1.getId()).articles(Arrays.asList(article1.getId()))
           .value("www.wikipedia.com").type("external")
           .addLabels(ImmutableLocaleLabel.builder()
               .labelValue("Don't click me").locale(locale2.getId())
@@ -163,6 +163,10 @@ public class PersistencePgTest extends PgTestTemplate {
     repo.delete().template(template1.getId())
     	  .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
 
+    repo.delete().page(page1.getId())
+        .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
+
+    
     repo.delete().article(article1.getId())
           .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
@@ -170,9 +174,6 @@ public class PersistencePgTest extends PgTestTemplate {
           .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     repo.delete().locale(locale1.getId())
-          .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
-    
-    repo.delete().page(page1.getId())
           .onFailure().invoke(e -> e.printStackTrace()).onFailure().recoverWithNull().await().atMost(Duration.ofMinutes(1));
     
     repo.delete().link(link1.getId())

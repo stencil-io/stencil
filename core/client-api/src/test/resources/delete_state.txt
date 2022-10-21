@@ -46,13 +46,13 @@ Commits
   - id: 38
     tree: 39, parent: 36, message: delete type: 'TEMPLATE', with id: 'TEMPLATE-1'
   - id: 40
-    tree: 41, parent: 38, message: batch created: '0', updated: '0', deleted: '1'
+    tree: 41, parent: 38, message: delete type: 'PAGE', with id: 'PAGE-8'
   - id: 42
-    tree: 43, parent: 40, message: batch created: '0', updated: '0', deleted: '1'
+    tree: 43, parent: 40, message: batch created: '0', updated: '1', deleted: '2'
   - id: 44
-    tree: 45, parent: 42, message: delete type: 'LOCALE', with id: 'LOCALE-6'
+    tree: 45, parent: 42, message: batch created: '0', updated: '0', deleted: '1'
   - id: 46
-    tree: 47, parent: 44, message: delete type: 'PAGE', with id: 'PAGE-8'
+    tree: 47, parent: 44, message: delete type: 'LOCALE', with id: 'LOCALE-6'
   - id: 48
     tree: 49, parent: 46, message: delete type: 'LINK', with id: 'LINK-10'
   - id: 3
@@ -220,48 +220,43 @@ Trees
     55: RELEASE-5
     67: WORKFLOW-11
   - id: 41
+    63: ARTICLE-2
     53: ARTICLE-3
     66: LINK-10
     64: LOCALE-6
     57: LOCALE-7
-    65: PAGE-8
     59: PAGE-9
     54: RELEASE-4
     55: RELEASE-5
     67: WORKFLOW-11
   - id: 43
-    66: LINK-10
+    53: ARTICLE-3
+    68: LINK-10
     64: LOCALE-6
     57: LOCALE-7
-    65: PAGE-8
-    59: PAGE-9
     54: RELEASE-4
     55: RELEASE-5
     67: WORKFLOW-11
   - id: 45
-    66: LINK-10
+    68: LINK-10
+    64: LOCALE-6
     57: LOCALE-7
-    65: PAGE-8
-    59: PAGE-9
     54: RELEASE-4
     55: RELEASE-5
     67: WORKFLOW-11
   - id: 47
-    66: LINK-10
+    68: LINK-10
     57: LOCALE-7
-    59: PAGE-9
     54: RELEASE-4
     55: RELEASE-5
     67: WORKFLOW-11
   - id: 49
     57: LOCALE-7
-    59: PAGE-9
     54: RELEASE-4
     55: RELEASE-5
     67: WORKFLOW-11
   - id: 50
     57: LOCALE-7
-    59: PAGE-9
     54: RELEASE-4
     55: RELEASE-5
 
@@ -273,13 +268,14 @@ Blobs
   - 55: {"id":"RELEASE-5","type":"RELEASE","body":{"parentCommit":"10","name":"v2.4","note":"new content","created":"","locales":[],"articles":[],"links":[],"workflows":[],"pages":[],"templates":[]}}
   - 56: {"id":"LOCALE-6","type":"LOCALE","body":{"value":"en","enabled":true}}
   - 57: {"id":"LOCALE-7","type":"LOCALE","body":{"value":"fi","enabled":true}}
-  - 58: {"id":"PAGE-8","type":"PAGE","body":{"article":"A1","locale":"LOCALE-6","content":"# English content"}}
-  - 59: {"id":"PAGE-9","type":"PAGE","body":{"article":"A1","locale":"LOCALE-7","content":"# Finnish content"}}
+  - 58: {"id":"PAGE-8","type":"PAGE","body":{"article":"ARTICLE-2","locale":"LOCALE-6","content":"# English content"}}
+  - 59: {"id":"PAGE-9","type":"PAGE","body":{"article":"ARTICLE-2","locale":"LOCALE-7","content":"# Finnish content"}}
   - 60: {"id":"LINK-10","type":"LINK","body":{"value":"www.example.com","contentType":"internal","articles":[],"labels":[{"locale":"LOCALE-6","labelValue":"click me"}]}}
   - 61: {"id":"WORKFLOW-11","type":"WORKFLOW","body":{"value":"Form1","articles":[],"labels":[{"locale":"LOCALE-6","labelValue":"firstForm"}]}}
   - 62: {"id":"TEMPLATE-1","type":"TEMPLATE","body":{"name":"new name","description":"description","content":"cool content","type":"PAGE"}}
   - 63: {"id":"ARTICLE-2","type":"ARTICLE","body":{"parentId":null,"name":"Revised Article1","order":300}}
   - 64: {"id":"LOCALE-6","type":"LOCALE","body":{"value":"gb","enabled":false}}
-  - 65: {"id":"PAGE-8","type":"PAGE","body":{"article":"A1","locale":"LOCALE-6","content":"new content for page1"}}
-  - 66: {"id":"LINK-10","type":"LINK","body":{"value":"www.wikipedia.com","contentType":"external","articles":["A1"],"labels":[{"locale":"LOCALE-7","labelValue":"Don't click me"}]}}
+  - 65: {"id":"PAGE-8","type":"PAGE","body":{"article":"ARTICLE-2","locale":"LOCALE-6","content":"new content for page1"}}
+  - 66: {"id":"LINK-10","type":"LINK","body":{"value":"www.wikipedia.com","contentType":"external","articles":["ARTICLE-2"],"labels":[{"locale":"LOCALE-7","labelValue":"Don't click me"}]}}
   - 67: {"id":"WORKFLOW-11","type":"WORKFLOW","body":{"value":"revision of firstForm","articles":[],"labels":[{"locale":"LOCALE-7","labelValue":"First form part 2"}]}}
+  - 68: {"id":"LINK-10","type":"LINK","body":{"value":"www.wikipedia.com","contentType":"external","articles":[],"labels":[{"locale":"LOCALE-7","labelValue":"Don't click me"}]}}

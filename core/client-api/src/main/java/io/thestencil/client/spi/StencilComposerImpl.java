@@ -24,6 +24,8 @@ import io.thestencil.client.api.CreateBuilder;
 import io.thestencil.client.api.DeleteBuilder;
 import io.thestencil.client.api.MigrationBuilder;
 import io.thestencil.client.api.StencilClient;
+import io.thestencil.client.api.StencilClient.MarkdownBuilder;
+import io.thestencil.client.api.StencilClient.SitesBuilder;
 import io.thestencil.client.api.StencilComposer;
 import io.thestencil.client.api.StencilStore.QueryBuilder;
 import io.thestencil.client.api.UpdateBuilder;
@@ -56,5 +58,13 @@ public class StencilComposerImpl implements StencilComposer {
   @Override
   public MigrationBuilder migration() {
     return new MigrationBuilderImpl(client);
+  }
+  @Override
+  public MarkdownBuilder markdown() {
+    return client.markdown();
+  }
+  @Override
+  public SitesBuilder sites() {
+    return client.sites();
   }
 }

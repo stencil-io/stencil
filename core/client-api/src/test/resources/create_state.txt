@@ -119,7 +119,7 @@ Blobs
   - 29: {"id":"RELEASE-5","type":"RELEASE","body":{"parentCommit":"10","name":"v2.4","note":"new content","created":"","locales":[],"articles":[],"links":[],"workflows":[],"pages":[],"templates":[]}}
   - 30: {"id":"LOCALE-6","type":"LOCALE","body":{"value":"en","enabled":true}}
   - 31: {"id":"LOCALE-7","type":"LOCALE","body":{"value":"fi","enabled":true}}
-  - 32: {"id":"PAGE-8","type":"PAGE","body":{"article":"A1","locale":"LOCALE-6","content":"# English content"}}
-  - 33: {"id":"PAGE-9","type":"PAGE","body":{"article":"A1","locale":"LOCALE-7","content":"# Finnish content"}}
+  - 32: {"id":"PAGE-8","type":"PAGE","body":{"article":"ARTICLE-2","locale":"LOCALE-6","content":"# English content"}}
+  - 33: {"id":"PAGE-9","type":"PAGE","body":{"article":"ARTICLE-2","locale":"LOCALE-7","content":"# Finnish content"}}
   - 34: {"id":"LINK-10","type":"LINK","body":{"value":"www.example.com","contentType":"internal","articles":[],"labels":[{"locale":"LOCALE-6","labelValue":"click me"}]}}
   - 35: {"id":"WORKFLOW-11","type":"WORKFLOW","body":{"value":"Form1","articles":[],"labels":[{"locale":"LOCALE-6","labelValue":"firstForm"}]}}

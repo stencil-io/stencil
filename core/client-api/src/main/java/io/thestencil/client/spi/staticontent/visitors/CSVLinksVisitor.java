@@ -35,7 +35,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 import io.thestencil.client.api.ImmutableLinkResource;
-import io.thestencil.client.api.StaticContentClient.LinkResource;
+import io.thestencil.client.api.Markdowns.LinkResource;
 
 public class CSVLinksVisitor {
   private String file;

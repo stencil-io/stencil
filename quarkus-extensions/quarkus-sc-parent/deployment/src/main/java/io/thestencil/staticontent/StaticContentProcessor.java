@@ -54,8 +54,8 @@ import io.quarkus.vertx.http.deployment.HttpRootPathBuildItem;
 import io.quarkus.vertx.http.deployment.NonApplicationRootPathBuildItem;
 import io.quarkus.vertx.http.deployment.RouteBuildItem;
 import io.quarkus.vertx.http.deployment.devmode.NotFoundPageDisplayableEndpointBuildItem;
-import io.thestencil.client.api.StaticContentClient.Markdowns;
-import io.thestencil.client.spi.StaticContentClientDefault;
+import io.thestencil.client.api.Markdowns;
+import io.thestencil.client.spi.StencilClientImpl;
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
 
@@ -94,7 +94,7 @@ public class StaticContentProcessor {
     }
     
     
-    final var client = StaticContentClientDefault.builder().build()
+    final var client = StencilClientImpl.builder().defaultObjectMapper().inmemory().build()
         .sites().source(buildItem.getContent())
         .imagePath(buildItem.getUiPath())
         .created(System.currentTimeMillis());
@@ -192,7 +192,7 @@ public class StaticContentProcessor {
           .copyResourcesForDevOrTest(liveReloadBuildItem, curateOutcomeBuildItem, launch, artifact, webjarPrefix + artifact.getVersion(), false);
       String tempAbsolutePath = tempPath.toAbsolutePath().toString();
       
-      final var builder = StaticContentClientDefault.builder().build().markdown();
+      final var builder = StencilClientImpl.builder().defaultObjectMapper().inmemory().build().markdown();
       Files.walk(tempPath).filter(Files::isRegularFile).forEach(file -> {
         try {
           String absolutePath = file.toAbsolutePath().toString();
@@ -221,7 +221,7 @@ public class StaticContentProcessor {
     // native image
     final String frontendPath = httpRootPathBuildItem.resolvePath(config.imagePath);
     final Map<String, byte[]> files = WebJarUtil.copyResourcesForProduction(curateOutcomeBuildItem, artifact, webjarPrefix + artifact.getVersion());
-    final var builder = StaticContentClientDefault.builder().build().markdown();
+    final var builder = StencilClientImpl.builder().defaultObjectMapper().inmemory().build().markdown();
     
     for (Map.Entry<String, byte[]> file : files.entrySet()) {
       String fileName = file.getKey();
@@ -268,7 +268,7 @@ public class StaticContentProcessor {
         throw new ConfigurationError("Failed to read file: '" + tempPath + "'!");
       }
       
-      final Markdowns md = StaticContentClientDefault.builder().build().markdown().json(site, false).build();
+      final Markdowns md = StencilClientImpl.builder().defaultObjectMapper().inmemory().build().markdown().json(site, false).build();
       final String frontendPath = httpRootPathBuildItem.resolvePath(config.imagePath);
       buildProducer.produce(new StaticContentBuildItem(tempPath.toAbsolutePath().toString(), frontendPath, md));
       displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(httpRootPathBuildItem.resolvePath(frontendPath + "/"), "Zoe Static Content"));
@@ -289,7 +289,7 @@ public class StaticContentProcessor {
 
     String fileName = tempPath.toFile().getName().toString();
     fileName = FINAL_DESTINATION + "/" + fileName;
-    final Markdowns md = StaticContentClientDefault.builder().build().markdown().json(site, false).build();
+    final Markdowns md = StencilClientImpl.builder().defaultObjectMapper().inmemory().build().markdown().json(site, false).build();
     buildProducer.produce(new StaticContentBuildItem(FINAL_DESTINATION, frontendPath, md));
   }
 }

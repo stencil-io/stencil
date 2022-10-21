@@ -1,4 +1,4 @@
-package io.thestencil.client.api.beans;
+package io.thestencil.client.spi.beans;
 
 /*-
  * #%L

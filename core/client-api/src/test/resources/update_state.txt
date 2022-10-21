@@ -203,13 +203,13 @@ Blobs
   - 41: {"id":"RELEASE-5","type":"RELEASE","body":{"parentCommit":"10","name":"v2.4","note":"new content","created":"","locales":[],"articles":[],"links":[],"workflows":[],"pages":[],"templates":[]}}
   - 42: {"id":"LOCALE-6","type":"LOCALE","body":{"value":"en","enabled":true}}
   - 43: {"id":"LOCALE-7","type":"LOCALE","body":{"value":"fi","enabled":true}}
-  - 44: {"id":"PAGE-8","type":"PAGE","body":{"article":"A1","locale":"LOCALE-6","content":"# English content"}}
-  - 45: {"id":"PAGE-9","type":"PAGE","body":{"article":"A1","locale":"LOCALE-7","content":"# Finnish content"}}
+  - 44: {"id":"PAGE-8","type":"PAGE","body":{"article":"ARTICLE-2","locale":"LOCALE-6","content":"# English content"}}
+  - 45: {"id":"PAGE-9","type":"PAGE","body":{"article":"ARTICLE-2","locale":"LOCALE-7","content":"# Finnish content"}}
   - 46: {"id":"LINK-10","type":"LINK","body":{"value":"www.example.com","contentType":"internal","articles":[],"labels":[{"locale":"LOCALE-6","labelValue":"click me"}]}}
   - 47: {"id":"WORKFLOW-11","type":"WORKFLOW","body":{"value":"Form1","articles":[],"labels":[{"locale":"LOCALE-6","labelValue":"firstForm"}]}}
   - 48: {"id":"TEMPLATE-1","type":"TEMPLATE","body":{"name":"new name","description":"description","content":"cool content","type":"PAGE"}}
   - 49: {"id":"ARTICLE-2","type":"ARTICLE","body":{"parentId":null,"name":"Revised Article1","order":300}}
   - 50: {"id":"LOCALE-6","type":"LOCALE","body":{"value":"gb","enabled":false}}
-  - 51: {"id":"PAGE-8","type":"PAGE","body":{"article":"A1","locale":"LOCALE-6","content":"new content for page1"}}
-  - 52: {"id":"LINK-10","type":"LINK","body":{"value":"www.wikipedia.com","contentType":"external","articles":["A1"],"labels":[{"locale":"LOCALE-7","labelValue":"Don't click me"}]}}
+  - 51: {"id":"PAGE-8","type":"PAGE","body":{"article":"ARTICLE-2","locale":"LOCALE-6","content":"new content for page1"}}
+  - 52: {"id":"LINK-10","type":"LINK","body":{"value":"www.wikipedia.com","contentType":"external","articles":["ARTICLE-2"],"labels":[{"locale":"LOCALE-7","labelValue":"Don't click me"}]}}
   - 53: {"id":"WORKFLOW-11","type":"WORKFLOW","body":{"value":"revision of firstForm","articles":[],"labels":[{"locale":"LOCALE-7","labelValue":"First form part 2"}]}}

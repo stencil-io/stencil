@@ -28,7 +28,7 @@ import io.quarkus.vertx.http.runtime.CurrentVertxRequest;
 import io.quarkus.vertx.web.Route.HttpMethod;
 import io.smallrye.mutiny.Uni;
 import io.thestencil.client.api.MigrationBuilder.LocalizedSite;
-import io.thestencil.client.api.beans.LocalizedSiteBean;
+import io.thestencil.client.spi.beans.LocalizedSiteBean;
 import io.thestencil.client.spi.composer.HandlerStatusCodes;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpHeaders;

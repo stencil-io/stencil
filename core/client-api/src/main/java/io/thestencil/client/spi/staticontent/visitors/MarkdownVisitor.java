@@ -34,7 +34,7 @@ import com.vladsch.flexmark.util.data.MutableDataSet;
 
 import io.thestencil.client.api.ImmutableHeading;
 import io.thestencil.client.api.ImmutableImageTag;
-import io.thestencil.client.api.StaticContentClient;
+import io.thestencil.client.api.Markdowns;
 
 
 
@@ -42,12 +42,12 @@ public class MarkdownVisitor {
   
   @Value.Immutable
   public interface MarkdownAst {
-    List<StaticContentClient.ImageTag> getImages();
-    List<StaticContentClient.Heading> getHeadings();    
+    List<Markdowns.ImageTag> getImages();
+    List<Markdowns.Heading> getHeadings();    
   }
   
-  private final List<StaticContentClient.ImageTag> images = new ArrayList<>();
-  private final List<StaticContentClient.Heading> headings = new ArrayList<>();
+  private final List<Markdowns.ImageTag> images = new ArrayList<>();
+  private final List<Markdowns.Heading> headings = new ArrayList<>();
   
   public MarkdownAst visit(String content) {
     final MutableDataSet options = new MutableDataSet();

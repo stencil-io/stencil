@@ -27,9 +27,9 @@ import javax.annotation.Nullable;
 
 import org.immutables.value.Value;
 
+import io.thestencil.client.api.Markdowns.Heading;
+import io.thestencil.client.api.Markdowns.ImageTag;
 import io.thestencil.client.api.MigrationBuilder.LocalizedSite;
-import io.thestencil.client.api.StaticContentClient.Heading;
-import io.thestencil.client.api.StaticContentClient.ImageTag;
 
 public interface SiteVisitor {
   void visitTopicData(TopicData topic);

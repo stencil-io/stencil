@@ -1,7 +1,6 @@
 package io.thestencil.client.spi;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,19 +27,21 @@ import java.util.List;
 import io.resys.thena.docdb.api.actions.CommitActions.CommitStatus;
 import io.resys.thena.docdb.api.actions.ObjectsActions.ObjectsStatus;
 import io.smallrye.mutiny.Uni;
-import io.thestencil.client.api.StencilComposer.Entity;
-import io.thestencil.client.api.StencilComposer.EntityBody;
-import io.thestencil.client.api.StencilComposer.EntityType;
+import io.thestencil.client.api.ImmutableEntityState;
+import io.thestencil.client.api.StencilClient.Entity;
+import io.thestencil.client.api.StencilClient.EntityBody;
+import io.thestencil.client.api.StencilClient.EntityType;
+import io.thestencil.client.api.StencilConfig;
+import io.thestencil.client.api.StencilConfig.EntityState;
 import io.thestencil.client.api.StencilStore.BatchCommand;
-import io.thestencil.client.spi.StencilStoreConfig.EntityState;
 import io.thestencil.client.spi.exceptions.DeleteException;
 import io.thestencil.client.spi.exceptions.QueryException;
 import io.thestencil.client.spi.exceptions.SaveException;
 
-public abstract class PersistenceCommands implements StencilStoreConfig.Commands {
-  protected final StencilStoreConfig config;
+public abstract class PersistenceCommands implements StencilConfig.Commands {
+  protected final StencilConfig config;
 
-  public PersistenceCommands(StencilStoreConfig config) {
+  public PersistenceCommands(StencilConfig config) {
     super();
     this.config = config;
   }
@@ -116,7 +117,7 @@ public abstract class PersistenceCommands implements StencilStoreConfig.Commands
   }
 
   @Override
-  public Uni<Collection<Entity<?>>> saveAll(Collection<Entity<?>> entities) {
+  public Uni<List<Entity<?>>> saveAll(List<Entity<?>> entities) {
     final var commitBuilder = config.getClient().commit().head().head(config.getRepoName(), config.getHeadName());
     final Entity<?> first = entities.iterator().next();
     
@@ -137,7 +138,7 @@ public abstract class PersistenceCommands implements StencilStoreConfig.Commands
   }
   
   @Override
-  public Uni<Collection<Entity<?>>> batch(BatchCommand batch) {
+  public Uni<List<Entity<?>>> batch(BatchCommand batch) {
     if(batch.getToBeDeleted().isEmpty() && batch.getToBeDeleted().isEmpty() && batch.getToBeCreated().isEmpty()) {
       return Uni.createFrom().item(Collections.emptyList());
     }

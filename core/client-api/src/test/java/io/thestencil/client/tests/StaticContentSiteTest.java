@@ -1,7 +1,5 @@
 package io.thestencil.client.tests;
 
-import java.time.LocalDateTime;
-
 /*-
  * #%L
  * stencil-static-content
@@ -25,23 +23,21 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import io.thestencil.client.api.StaticContentClient;
-import io.thestencil.client.spi.StaticContentClientDefault;
+import io.thestencil.client.api.StencilClient;
+import io.thestencil.client.spi.StencilClientImpl;
+import io.thestencil.client.tests.util.PgTestTemplate;
 import io.thestencil.client.tests.util.TestUtils;
 
 public class StaticContentSiteTest {  
-  final StaticContentClient client = StaticContentClientDefault.builder().build();
+  final StencilClient client = StencilClientImpl.builder().config(c -> c.objectMapper(PgTestTemplate.objectMapper)).inmemory().build();
   
   @Test
   public void buildSite() {
 
-    final var md = StaticContentClientDefault
-        .builder().build()
-        .markdown().json(TestUtils.toString("site.json"), false)
+    final var md = client.markdown().json(TestUtils.toString("site.json"), false)
         .build();
 
-    final var content = StaticContentClientDefault
-        .builder().build()
+    final var content = client
         .sites().imagePath("/images").created(1l)
         .source(md)
         .build();
@@ -50,10 +46,5 @@ public class StaticContentSiteTest {
     String actual = TestUtils.prettyPrint(content);
     Assertions.assertEquals(expected, actual);
     
-  }
-  
-  @Test
-  public void printTimestamp() {
-    System.out.println(LocalDateTime.now());
   }
 }

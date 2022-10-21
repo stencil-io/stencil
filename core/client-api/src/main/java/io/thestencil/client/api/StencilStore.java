@@ -20,28 +20,25 @@ package io.thestencil.client.api;
  * #L%
  */
 
-import java.util.Collection;
 import java.util.List;
 
 import org.immutables.value.Value;
 
 import io.smallrye.mutiny.Uni;
-import io.thestencil.client.api.StencilComposer.Entity;
-import io.thestencil.client.api.StencilComposer.EntityBody;
-import io.thestencil.client.api.StencilComposer.EntityType;
+import io.thestencil.client.api.StencilClient.Entity;
+import io.thestencil.client.api.StencilClient.EntityBody;
+import io.thestencil.client.api.StencilClient.EntityType;
 import io.thestencil.client.api.StencilComposer.SiteState;
-import io.thestencil.client.spi.StencilStoreConfig.EntityState;
+import io.thestencil.client.api.StencilConfig.EntityState;
 
 public interface StencilStore {
   <T extends EntityBody> Uni<Entity<T>> delete(Entity<T> toBeDeleted);
   <T extends EntityBody> Uni<EntityState<T>> get(String blobId, EntityType type);
   <T extends EntityBody> Uni<Entity<T>> save(Entity<T> toBeSaved);
   <T extends EntityBody> Uni<Entity<T>> create(Entity<T> toBeSaved);
-  Uni<Collection<Entity<?>>> saveAll(Collection<Entity<?>> toBeSaved);
-  
-  
-  Uni<Collection<Entity<?>>> batch(BatchCommand batch);
-  
+  Uni<List<Entity<?>>> saveAll(List<Entity<?>> toBeSaved);
+  Uni<List<Entity<?>>> batch(BatchCommand batch);
+  StencilConfig getConfig();
   
   @Value.Immutable
   @SuppressWarnings("rawtypes")

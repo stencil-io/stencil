@@ -33,14 +33,14 @@ import io.thestencil.client.api.ImmutableLocaleReleaseItem;
 import io.thestencil.client.api.ImmutablePageReleaseItem;
 import io.thestencil.client.api.ImmutableRelease;
 import io.thestencil.client.api.ImmutableWorkflowReleaseItem;
-import io.thestencil.client.api.StencilComposer.ArticleReleaseItem;
-import io.thestencil.client.api.StencilComposer.Entity;
-import io.thestencil.client.api.StencilComposer.LinkReleaseItem;
-import io.thestencil.client.api.StencilComposer.LocaleReleaseItem;
-import io.thestencil.client.api.StencilComposer.Page;
-import io.thestencil.client.api.StencilComposer.PageReleaseItem;
+import io.thestencil.client.api.StencilClient.ArticleReleaseItem;
+import io.thestencil.client.api.StencilClient.Entity;
+import io.thestencil.client.api.StencilClient.LinkReleaseItem;
+import io.thestencil.client.api.StencilClient.LocaleReleaseItem;
+import io.thestencil.client.api.StencilClient.Page;
+import io.thestencil.client.api.StencilClient.PageReleaseItem;
+import io.thestencil.client.api.StencilClient.WorkflowReleaseItem;
 import io.thestencil.client.api.StencilComposer.SiteState;
-import io.thestencil.client.api.StencilComposer.WorkflowReleaseItem;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

@@ -31,7 +31,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
 import io.thestencil.client.api.StencilComposer.SiteState;
-import io.thestencil.client.api.beans.SitesBean;
+import io.thestencil.client.spi.beans.SitesBean;
 import io.thestencil.client.tests.util.PgProfile;
 import io.thestencil.client.tests.util.PgTestTemplate;
 import io.thestencil.client.tests.util.TestExporter;

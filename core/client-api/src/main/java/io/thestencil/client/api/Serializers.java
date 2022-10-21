@@ -23,12 +23,12 @@ package io.thestencil.client.api;
 import java.util.Arrays;
 import java.util.List;
 
-import io.thestencil.client.api.beans.LocalizedSiteBean;
-import io.thestencil.client.api.beans.SitesBean;
-import io.thestencil.client.api.beans.TopicBean;
-import io.thestencil.client.api.beans.TopicBlobBean;
-import io.thestencil.client.api.beans.TopicHeadingBean;
-import io.thestencil.client.api.beans.TopicLinkBean;
+import io.thestencil.client.spi.beans.LocalizedSiteBean;
+import io.thestencil.client.spi.beans.SitesBean;
+import io.thestencil.client.spi.beans.TopicBean;
+import io.thestencil.client.spi.beans.TopicBlobBean;
+import io.thestencil.client.spi.beans.TopicHeadingBean;
+import io.thestencil.client.spi.beans.TopicLinkBean;
 
 public class Serializers {
 

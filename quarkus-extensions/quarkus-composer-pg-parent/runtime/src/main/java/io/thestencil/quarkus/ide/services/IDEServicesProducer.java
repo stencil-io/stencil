@@ -97,6 +97,7 @@ public class IDEServicesProducer {
     final var store = StencilStoreImpl.builder()
         .config((builder) -> builder
             .client(docDb)
+            .objectMapper(objectMapper)
             .repoName(runtimeConfig.repo.repoName)
             .headName(runtimeConfig.repo.headName)
             .deserializer(deserializer)

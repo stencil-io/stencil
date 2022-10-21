@@ -41,14 +41,14 @@ import io.thestencil.client.api.MigrationBuilder.Topic;
 import io.thestencil.client.api.MigrationBuilder.TopicBlob;
 import io.thestencil.client.api.MigrationBuilder.TopicLink;
 import io.thestencil.client.api.StencilClient;
-import io.thestencil.client.api.StencilComposer.Article;
-import io.thestencil.client.api.StencilComposer.Entity;
-import io.thestencil.client.api.StencilComposer.EntityType;
-import io.thestencil.client.api.StencilComposer.Link;
-import io.thestencil.client.api.StencilComposer.Locale;
-import io.thestencil.client.api.StencilComposer.Page;
+import io.thestencil.client.api.StencilClient.Article;
+import io.thestencil.client.api.StencilClient.Entity;
+import io.thestencil.client.api.StencilClient.EntityType;
+import io.thestencil.client.api.StencilClient.Link;
+import io.thestencil.client.api.StencilClient.Locale;
+import io.thestencil.client.api.StencilClient.Page;
+import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.client.api.StencilComposer.SiteState;
-import io.thestencil.client.api.StencilComposer.Workflow;
 
 public class MigrationImportVisitorForStaticContent {
 

@@ -1,6 +1,6 @@
-package io.thestencil.client.spi;
+package io.thestencil.client.api;
 
-import java.util.Collection;
+import java.util.List;
 
 /*-
  * #%L
@@ -24,21 +24,25 @@ import java.util.Collection;
 
 import org.immutables.value.Value;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.resys.thena.docdb.api.DocDB;
 import io.resys.thena.docdb.api.actions.ObjectsActions.BlobObject;
 import io.resys.thena.docdb.api.actions.ObjectsActions.ObjectsResult;
 import io.smallrye.mutiny.Uni;
-import io.thestencil.client.api.StencilComposer.Entity;
-import io.thestencil.client.api.StencilComposer.EntityBody;
-import io.thestencil.client.api.StencilComposer.EntityType;
+import io.thestencil.client.api.StencilClient.Entity;
+import io.thestencil.client.api.StencilClient.EntityBody;
+import io.thestencil.client.api.StencilClient.EntityType;
 import io.thestencil.client.api.StencilStore.BatchCommand;
 
 @Value.Immutable
-public interface StencilStoreConfig {
+public interface StencilConfig {
   DocDB getClient();
   String getRepoName();
   String getHeadName();
   AuthorProvider getAuthorProvider();
+  
+  ObjectMapper getObjectMapper();
   
   Serializer getSerializer();
   Deserializer getDeserializer();
@@ -56,8 +60,8 @@ public interface StencilStoreConfig {
     <T extends EntityBody> Uni<EntityState<T>> get(String blobId, EntityType type);
     <T extends EntityBody> Uni<Entity<T>> save(Entity<T> toBeSaved);
     <T extends EntityBody> Uni<Entity<T>> create(Entity<T> toBeSaved);
-    Uni<Collection<Entity<?>>> saveAll(Collection<Entity<?>> toBeSaved);
-    Uni<Collection<Entity<?>>> batch(BatchCommand batch);
+    Uni<List<Entity<?>>> saveAll(List<Entity<?>> toBeSaved);
+    Uni<List<Entity<?>>> batch(BatchCommand batch);
   }  
     
   @FunctionalInterface

@@ -24,7 +24,9 @@ import java.util.function.Consumer;
 
 import io.resys.thena.docdb.api.actions.RepoActions.RepoStatus;
 import io.smallrye.mutiny.Uni;
-import io.thestencil.client.api.StencilComposer.EntityType;
+import io.thestencil.client.api.ImmutableStencilConfig;
+import io.thestencil.client.api.StencilClient.EntityType;
+import io.thestencil.client.api.StencilConfig;
 import io.thestencil.client.api.StencilStore;
 import io.thestencil.client.spi.builders.QueryBuilderImpl;
 import io.thestencil.client.spi.exceptions.RepoException;
@@ -32,8 +34,13 @@ import io.thestencil.client.spi.exceptions.RepoException;
 
 public class StencilStoreImpl extends PersistenceCommands implements StencilStore {
   
-  public StencilStoreImpl(StencilStoreConfig config) {
+  public StencilStoreImpl(StencilConfig config) {
     super(config);
+  }
+
+  @Override
+  public StencilConfig getConfig() {
+    return super.config;
   }
   
   @Override
@@ -71,7 +78,7 @@ public class StencilStoreImpl extends PersistenceCommands implements StencilStor
       @Override
       public StencilStore build() {
         StencilAssert.notNull(repoName, () -> "repoName must be defined!");
-        return createWithNewConfig(ImmutableStencilStoreConfig.builder()
+        return createWithNewConfig(ImmutableStencilConfig.builder()
             .from(config)
             .repoName(repoName)
             .headName(headName == null ? config.getHeadName() : headName)
@@ -103,7 +110,7 @@ public class StencilStoreImpl extends PersistenceCommands implements StencilStor
   public String getHeadName() {
     return config.getHeadName();
   }
-  protected StencilStoreImpl createWithNewConfig(StencilStoreConfig config) {
+  protected StencilStoreImpl createWithNewConfig(StencilConfig config) {
     return new StencilStoreImpl(config);
   }
   
@@ -112,9 +119,9 @@ public class StencilStoreImpl extends PersistenceCommands implements StencilStor
   }
   
   public static class Builder {
-    private ImmutableStencilStoreConfig.Builder config = ImmutableStencilStoreConfig.builder();
+    private ImmutableStencilConfig.Builder config = ImmutableStencilConfig.builder();
     
-    public Builder config(Consumer<ImmutableStencilStoreConfig.Builder> config) {
+    public Builder config(Consumer<ImmutableStencilConfig.Builder> config) {
       config.accept(this.config);
       return this;
     }

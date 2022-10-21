@@ -32,12 +32,12 @@ import io.thestencil.client.api.ImmutableEntity;
 import io.thestencil.client.api.ImmutableLink;
 import io.thestencil.client.api.ImmutableWorkflow;
 import io.thestencil.client.api.StencilClient;
-import io.thestencil.client.api.StencilComposer.Article;
-import io.thestencil.client.api.StencilComposer.Entity;
-import io.thestencil.client.api.StencilComposer.Link;
-import io.thestencil.client.api.StencilComposer.Page;
+import io.thestencil.client.api.StencilClient.Article;
+import io.thestencil.client.api.StencilClient.Entity;
+import io.thestencil.client.api.StencilClient.Link;
+import io.thestencil.client.api.StencilClient.Page;
+import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.client.api.StencilComposer.SiteState;
-import io.thestencil.client.api.StencilComposer.Workflow;
 import io.thestencil.client.spi.StencilAssert;
 import lombok.RequiredArgsConstructor;
 

@@ -28,16 +28,16 @@ import io.thestencil.client.api.ImmutableEntity;
 import io.thestencil.client.api.ImmutableLink;
 import io.thestencil.client.api.ImmutableWorkflow;
 import io.thestencil.client.api.StencilClient;
-import io.thestencil.client.api.StencilComposer.Article;
-import io.thestencil.client.api.StencilComposer.Entity;
-import io.thestencil.client.api.StencilComposer.EntityType;
-import io.thestencil.client.api.StencilComposer.Link;
-import io.thestencil.client.api.StencilComposer.Locale;
-import io.thestencil.client.api.StencilComposer.Page;
-import io.thestencil.client.api.StencilComposer.Release;
-import io.thestencil.client.api.StencilComposer.Template;
-import io.thestencil.client.api.StencilComposer.Workflow;
-import io.thestencil.client.spi.StencilStoreConfig.EntityState;
+import io.thestencil.client.api.StencilClient.Article;
+import io.thestencil.client.api.StencilClient.Entity;
+import io.thestencil.client.api.StencilClient.EntityType;
+import io.thestencil.client.api.StencilClient.Link;
+import io.thestencil.client.api.StencilClient.Locale;
+import io.thestencil.client.api.StencilClient.Page;
+import io.thestencil.client.api.StencilClient.Release;
+import io.thestencil.client.api.StencilClient.Template;
+import io.thestencil.client.api.StencilClient.Workflow;
+import io.thestencil.client.api.StencilConfig.EntityState;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

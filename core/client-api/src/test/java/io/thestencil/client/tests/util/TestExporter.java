@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.node.TextNode;
 import io.resys.thena.docdb.api.models.Objects.TreeValue;
 import io.resys.thena.docdb.api.models.Repo;
 import io.resys.thena.docdb.spi.ClientState;
-import io.thestencil.client.api.StencilComposer.EntityType;
+import io.thestencil.client.api.StencilClient.EntityType;
 
 public class TestExporter {
   private final ClientState state;

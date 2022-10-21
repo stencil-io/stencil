@@ -34,11 +34,11 @@ import io.thestencil.client.api.MigrationBuilder.Topic;
 import io.thestencil.client.api.MigrationBuilder.TopicBlob;
 import io.thestencil.client.api.MigrationBuilder.TopicHeading;
 import io.thestencil.client.api.MigrationBuilder.TopicLink;
-import io.thestencil.client.api.beans.LocalizedSiteBean;
-import io.thestencil.client.api.beans.TopicBean;
-import io.thestencil.client.api.beans.TopicBlobBean;
-import io.thestencil.client.api.beans.TopicHeadingBean;
-import io.thestencil.client.api.beans.TopicLinkBean;
+import io.thestencil.client.spi.beans.LocalizedSiteBean;
+import io.thestencil.client.spi.beans.TopicBean;
+import io.thestencil.client.spi.beans.TopicBlobBean;
+import io.thestencil.client.spi.beans.TopicHeadingBean;
+import io.thestencil.client.spi.beans.TopicLinkBean;
 import io.thestencil.client.spi.staticontent.support.ParserAssert;
 import io.thestencil.client.spi.staticontent.support.Sha2;
 

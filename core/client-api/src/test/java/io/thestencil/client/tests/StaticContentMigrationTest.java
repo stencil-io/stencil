@@ -29,18 +29,19 @@ import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import io.thestencil.client.api.StaticContentClient;
-import io.thestencil.client.spi.StaticContentClientDefault;
+import io.thestencil.client.api.StencilClient;
+import io.thestencil.client.spi.StencilClientImpl;
+import io.thestencil.client.tests.util.PgTestTemplate;
 import io.thestencil.client.tests.util.TestUtils;
 
 public class StaticContentMigrationTest {  
-  final StaticContentClient client = StaticContentClientDefault.builder().build();
+  final StencilClient client = StencilClientImpl.builder().config(c -> c.objectMapper(PgTestTemplate.objectMapper)).inmemory().build();
   
   @Test
   public void buildSite() throws IOException {
     final var src = new File("src/test/resources/migration").toPath();
     final var absPath = src.toAbsolutePath().toString();
-    final var builder = StaticContentClientDefault.builder().build().markdown();
+    final var builder = client.markdown();
     Files.walk(src).filter(Files::isRegularFile).sorted((p1, p2) -> p1.getFileName().toString().compareTo(p2.getFileName().toString())).forEach(file -> {
       try {
         String absolutePath = file.toAbsolutePath().toString();
@@ -52,7 +53,7 @@ public class StaticContentMigrationTest {
       }
     });
     final var md = builder.build();
-    final var sites = StaticContentClientDefault.builder().build().sites().created(1l).source(md)
+    final var sites = client.sites().created(1l).source(md)
         .imagePath("/")
         .build();
     
@@ -65,7 +66,7 @@ public class StaticContentMigrationTest {
   public void migration() throws IOException {
     final var src = new File("src/test/resources/migration-1").toPath();
     final var absPath = src.toAbsolutePath().toString();
-    final var builder = StaticContentClientDefault.builder().build().markdown();
+    final var builder = client.markdown();
     Files.walk(src).filter(Files::isRegularFile).forEach(file -> {
       try {
         String absolutePath = file.toAbsolutePath().toString();
@@ -77,7 +78,7 @@ public class StaticContentMigrationTest {
       }
     });
     final var md = builder.build();
-    final var sites = StaticContentClientDefault.builder().build().sites().created(1l).source(md)
+    final var sites = client.sites().created(1l).source(md)
         .imagePath("/")
         .build();
     

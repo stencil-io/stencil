@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import io.resys.thena.docdb.api.actions.CommitActions.CommitResult;
-import io.thestencil.client.api.StencilComposer.Entity;
+import io.thestencil.client.api.StencilClient.Entity;
 
 public class SaveException extends RuntimeException {
   private static final long serialVersionUID = 7190168525508589141L;

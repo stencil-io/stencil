@@ -24,7 +24,7 @@ import java.util.List;
 
 import io.resys.thena.docdb.api.actions.ObjectsActions.ObjectsResult;
 import io.resys.thena.docdb.api.models.Message;
-import io.thestencil.client.api.StencilComposer.EntityType;
+import io.thestencil.client.api.StencilClient.EntityType;
 
 public class QueryException extends RuntimeException {
   private static final long serialVersionUID = 7190168525508589141L;

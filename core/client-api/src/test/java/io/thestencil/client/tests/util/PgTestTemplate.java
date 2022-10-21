@@ -122,6 +122,7 @@ public class PgTestTemplate {
             .repoName(repoId)
             .headName("stencil-main")
             .deserializer(deserializer)
+            .objectMapper(PgTestTemplate.objectMapper)
             .serializer((entity) -> {
               try {
                 return PgTestTemplate.objectMapper.writeValueAsString(entity);

@@ -30,28 +30,28 @@ import io.resys.thena.docdb.api.models.Objects.Blob;
 import io.resys.thena.docdb.api.models.Objects.Tree;
 import io.smallrye.mutiny.Uni;
 import io.thestencil.client.api.ImmutableSiteState;
-import io.thestencil.client.api.StencilComposer.Article;
-import io.thestencil.client.api.StencilComposer.Entity;
-import io.thestencil.client.api.StencilComposer.EntityBody;
-import io.thestencil.client.api.StencilComposer.EntityType;
-import io.thestencil.client.api.StencilComposer.Link;
-import io.thestencil.client.api.StencilComposer.Locale;
-import io.thestencil.client.api.StencilComposer.Page;
-import io.thestencil.client.api.StencilComposer.Release;
+import io.thestencil.client.api.StencilConfig;
+import io.thestencil.client.api.StencilClient.Article;
+import io.thestencil.client.api.StencilClient.Entity;
+import io.thestencil.client.api.StencilClient.EntityBody;
+import io.thestencil.client.api.StencilClient.EntityType;
+import io.thestencil.client.api.StencilClient.Link;
+import io.thestencil.client.api.StencilClient.Locale;
+import io.thestencil.client.api.StencilClient.Page;
+import io.thestencil.client.api.StencilClient.Release;
+import io.thestencil.client.api.StencilClient.Template;
+import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.client.api.StencilComposer.SiteContentType;
 import io.thestencil.client.api.StencilComposer.SiteState;
-import io.thestencil.client.api.StencilComposer.Template;
-import io.thestencil.client.api.StencilComposer.Workflow;
 import io.thestencil.client.api.StencilStore.QueryBuilder;
+import io.thestencil.client.api.StencilConfig.EntityState;
 import io.thestencil.client.spi.PersistenceCommands;
-import io.thestencil.client.spi.StencilStoreConfig;
-import io.thestencil.client.spi.StencilStoreConfig.EntityState;
 import io.thestencil.client.spi.exceptions.QueryException;
 import io.thestencil.client.spi.exceptions.RefException;
 
 public class QueryBuilderImpl extends PersistenceCommands implements QueryBuilder {
   
-  public QueryBuilderImpl(StencilStoreConfig config) {
+  public QueryBuilderImpl(StencilConfig config) {
     super(config);
   }
 
@@ -100,7 +100,7 @@ public class QueryBuilderImpl extends PersistenceCommands implements QueryBuilde
   }
   
   @SuppressWarnings("unchecked")
-  public static ImmutableSiteState.Builder mapTree(Tree tree, Map<String, Blob> blobs, StencilStoreConfig config) {
+  public static ImmutableSiteState.Builder mapTree(Tree tree, Map<String, Blob> blobs, StencilConfig config) {
     final var builder = ImmutableSiteState.builder();
     for(final var treeValue : tree.getValues().values()) {
       final var blob = blobs.get(treeValue.getBlob());

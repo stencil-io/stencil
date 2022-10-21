@@ -1,6 +1,8 @@
 package io.thestencil.client.spi.builders;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /*-
  * #%L
@@ -36,17 +38,17 @@ import io.thestencil.client.api.ImmutableRelease;
 import io.thestencil.client.api.ImmutableTemplate;
 import io.thestencil.client.api.ImmutableWorkflow;
 import io.thestencil.client.api.StencilClient;
-import io.thestencil.client.api.StencilComposer.Article;
-import io.thestencil.client.api.StencilComposer.Entity;
-import io.thestencil.client.api.StencilComposer.EntityType;
-import io.thestencil.client.api.StencilComposer.Link;
-import io.thestencil.client.api.StencilComposer.Locale;
-import io.thestencil.client.api.StencilComposer.Page;
-import io.thestencil.client.api.StencilComposer.Release;
+import io.thestencil.client.api.StencilClient.Article;
+import io.thestencil.client.api.StencilClient.Entity;
+import io.thestencil.client.api.StencilClient.EntityType;
+import io.thestencil.client.api.StencilClient.Link;
+import io.thestencil.client.api.StencilClient.Locale;
+import io.thestencil.client.api.StencilClient.Page;
+import io.thestencil.client.api.StencilClient.Release;
+import io.thestencil.client.api.StencilClient.Template;
+import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.client.api.StencilComposer.SiteContentType;
 import io.thestencil.client.api.StencilComposer.SiteState;
-import io.thestencil.client.api.StencilComposer.Template;
-import io.thestencil.client.api.StencilComposer.Workflow;
 import io.thestencil.client.spi.StencilAssert;
 import io.thestencil.client.spi.exceptions.ConstraintException;
 import lombok.RequiredArgsConstructor;
@@ -54,223 +56,269 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class CreateBuilderImpl implements CreateBuilder {
-  
   private final StencilClient client;
-  
+
+  @Override
+  public Uni<List<Entity<?>>> batch(BatchSite batch) {
+    final Uni<SiteState> query = client.getStore().query().head();
+    return query.onItem().transformToUni(state -> client.getStore().batch(new BatchSiteCommandVisitor(state, client).visit(batch)));
+  }
   @Override
   public Uni<Entity<Article>> article(CreateArticle init) {
     final Uni<SiteState> query = client.getStore().query().head();
-    return query.onItem().transformToUni(state -> {
-    
-      final var gid = gid(EntityType.ARTICLE);
-      final var article = ImmutableArticle.builder()
-          .name(init.getName())
-          .parentId(init.getParentId())
-          .order(Optional.ofNullable(init.getOrder()).orElse(0))
-          .build();
-      final Entity<Article> entity = ImmutableEntity.<Article>builder()
-          .id(gid)
-          .type(EntityType.ARTICLE)
-          .body(article)
-          .build();
-      
-      final var duplicate = state.getArticles().values().stream()
-          .filter(p -> p.getBody().getName().equals(init.getName()))
-          .findFirst();
-      
-      if(duplicate.isPresent()) {
-        throw new ConstraintException(entity, "Article: '" + init.getName() + "' already exists!");
-      }
-
-      if(init.getParentId() != null && !state.getArticles().containsKey(init.getParentId())) {
-        throw new ConstraintException(entity, "Article: '" + init.getName() + "', parent: '" + init.getParentId() + "' does not exist!");
-      }
-      
-      return client.getStore().create(entity);
-    });
+    return query.onItem().transformToUni(state -> client.getStore().create(article(init, state, client)));
   }
-  
   @Override
   public Uni<Entity<Template>> template(CreateTemplate init) {
     final Uni<SiteState> query = client.getStore().query().head();
-    return query.onItem().transformToUni(state -> {
-    
-      final var gid = gid(EntityType.TEMPLATE);
-      final var template = ImmutableTemplate.builder()
-          .name(init.getName())
-          .description(init.getDescription())
-          .type(init.getType())
-          .content(init.getContent())
-          .build();
-      final Entity<Template> entity = ImmutableEntity.<Template>builder()
-          .id(gid)
-          .type(EntityType.TEMPLATE)
-          .body(template)
-          .build();
-      
-      final var duplicate = state.getTemplates().values().stream()
-          .filter(p -> p.getBody().getName().equals(init.getName()))
-          .findFirst();
-      
-      if(duplicate.isPresent()) {
-        throw new ConstraintException(entity, "Template: '" + init.getName() + "' already exists!");
-      }
-      return client.getStore().create(entity);
-    });
+    return query.onItem().transformToUni(state -> client.getStore().create(template(init, state, client)));
   }
-
   @Override
   public Uni<Entity<Release>> release(CreateRelease init) {
-    return client.getStore().query().head().onItem().transformToUni(state -> {
-        
-      StencilAssert.isTrue(state.getContentType() != SiteContentType.NOT_CREATED, () -> "Can't create release because ref state query failed!");
-    
-      final var gid = gid(EntityType.RELEASE);
-      
-      final var release = new CreateReleaseVisitor(state)
-          .visit(ImmutableRelease.builder()
-            .name(init.getName())
-            .created(LocalDateTime.now())
-            .note(Optional.ofNullable(init.getNote()).orElse(""))
-            .parentCommit(state.getCommit())
-          ).build();
-
-      final Entity<Release> entity = ImmutableEntity.<Release>builder()
-          .id(gid)
-          .type(EntityType.RELEASE)
-          .body(release)
-          .build();
-      
-      return client.getStore().create(entity);
-    });
+    final Uni<SiteState> query = client.getStore().query().head();
+    return query.onItem().transformToUni(state -> client.getStore().create(release(init, state, client)));
   }
-
   @Override
   public Uni<Entity<Locale>> locale(CreateLocale init) {
     final Uni<SiteState> query = client.getStore().query().head();
-    return query.onItem().transformToUni(state -> {
-      
-      final var gid = gid(EntityType.LOCALE);
-      final var locale = ImmutableLocale.builder()
-          .value(init.getLocale())
-          .enabled(true)
-          .build();
-      
-      final Entity<Locale> entity = ImmutableEntity.<Locale>builder()
-          .id(gid)
-          .type(EntityType.LOCALE)
-          .body(locale)
-          .build();
-      
-      final var duplicate = state.getLocales().values().stream()
-          .filter(p -> p.getBody().getValue().equals(init.getLocale()))
-          .findFirst();
-      
-      if(duplicate.isPresent()) {
-        throw new ConstraintException(entity, "Locale: '" + init.getLocale() + "' already exists!");
-      }
-      
-      return client.getStore().create(entity);
-      
-    });
+    return query.onItem().transformToUni(state -> client.getStore().create(locale(init, state, client)));
   }
-
   @Override
   public Uni<Entity<Page>> page(CreatePage init) {
     final Uni<SiteState> query = client.getStore().query().head();
-    return query.onItem().transformToUni(state -> {
-      final var localeId = init.getLocale();
-      final var gid = gid(EntityType.PAGE);
-      final var page = ImmutablePage.builder()
-          .article(init.getArticleId())
-          .locale(localeId)
-          .content(Optional.ofNullable(init.getContent()).orElse(""))
-          .build();
-      
-      final Entity<Page> entity = ImmutableEntity.<Page>builder()
-          .id(gid)
-          .type(EntityType.PAGE)
-          .body(page)
-          .build();
-      
-
-      if(!state.getLocales().containsKey(localeId)) {
-        throw new ConstraintException(entity, "Locale with id: '" + localeId + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
-      }
-      
-      final var duplicate = state.getPages().values().stream()
-          .filter(p -> p.getBody().getArticle().equals(init.getArticleId()))
-          .filter(p -> p.getBody().getLocale().equals(init.getLocale()))
-          .findFirst();
-      
-      if(duplicate.isPresent()) {
-        throw new ConstraintException(entity, "Page locale with id: '" + localeId + "' already exists!");
-      }
-      
-      return client.getStore().create(entity);
-    });
+    return query.onItem().transformToUni(state -> client.getStore().create(page(init, state, client)));
   }
-
   @Override
   public Uni<Entity<Link>> link(CreateLink init) {
     final Uni<SiteState> query = client.getStore().query().head();
-    return query.onItem().transformToUni(state -> {
-      final var gid = gid(EntityType.LINK);
-      final var link = ImmutableLink.builder()
-        .contentType(init.getType())
-        .value(init.getValue())
-        .articles(init.getArticles());
-      
-      for(final var label : init.getLabels()) {
-        link.addLabels(ImmutableLocaleLabel.builder()
-            .locale(label.getLocale())
-            .labelValue(label.getLabelValue())
-            .build());
-        
-        if(!state.getLocales().containsKey(label.getLocale())) {
-          throw new ConstraintException(
-              ImmutableEntity.<Link>builder().id(gid).type(EntityType.LINK).body(link.build()).build(), 
-              "Locale with id: '" + label.getLocale() + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
-        }
-      }
-      
-      final var entity = ImmutableEntity.<Link>builder().id(gid).type(EntityType.LINK).body(link.build()).build();
-      
-      return client.getStore().create(entity);
-    });
+    return query.onItem().transformToUni(state -> client.getStore().create(link(init, state, client)));
   }
-
   @Override
   public Uni<Entity<Workflow>> workflow(CreateWorkflow init) {
     final Uni<SiteState> query = client.getStore().query().head();
-    return query.onItem().transformToUni(state -> {
-      
-      final var gid = gid(EntityType.WORKFLOW);
-      final var workflow = ImmutableWorkflow.builder().devMode(init.getDevMode()).value(init.getValue()).articles(init.getArticles());
-            
-      for(final var label : init.getLabels()) {        
-        workflow.addLabels(ImmutableLocaleLabel.builder()
-            .locale(label.getLocale())
-            .labelValue(label.getLabelValue())
-            .build());
+    return query.onItem().transformToUni(state -> client.getStore().create(workflow(init, state, client)));
+  }
 
-        if(!state.getLocales().containsKey(label.getLocale())) {
-          throw new ConstraintException(
-              ImmutableEntity.<Workflow>builder().id(gid).type(EntityType.WORKFLOW).body(workflow.build()).build(), 
-              "Locale with id: '" + label.getLocale() + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
-        }
-      }
-
-      final var entity = ImmutableEntity.<Workflow>builder().id(gid).type(EntityType.WORKFLOW).body(workflow.build()).build();
-      
-      return client.getStore().create(entity);
-        
-      });
+  public static Entity<Release> release(CreateRelease init, SiteState state, StencilClient client) {
+    StencilAssert.isTrue(state.getContentType() != SiteContentType.NOT_CREATED, () -> "Can't create release because ref state query failed!");
+    final var gid = client.getStore().gid(EntityType.RELEASE);
+    final var release = new CreateReleaseVisitor(state)
+        .visit(ImmutableRelease.builder()
+          .name(init.getName())
+          .created(LocalDateTime.now())
+          .note(Optional.ofNullable(init.getNote()).orElse(""))
+          .parentCommit(state.getCommit())
+        ).build();
+  
+    final Entity<Release> entity = ImmutableEntity.<Release>builder()
+        .id(gid)
+        .type(EntityType.RELEASE)
+        .body(release)
+        .build();
+    return entity;
   }
   
-  private String gid(EntityType type) {
-    return client.getStore().gid(type);
+  public static Entity<Template> template(CreateTemplate init, SiteState state, StencilClient client) {
+    final var gid = client.getStore().gid(EntityType.TEMPLATE);
+    final var template = ImmutableTemplate.builder()
+        .name(init.getName())
+        .description(init.getDescription())
+        .type(init.getType())
+        .content(init.getContent())
+        .build();
+    final Entity<Template> entity = ImmutableEntity.<Template>builder()
+        .id(gid)
+        .type(EntityType.TEMPLATE)
+        .body(template)
+        .build();
+    
+    final var duplicate = state.getTemplates().values().stream()
+        .filter(p -> p.getBody().getName().equals(init.getName()))
+        .findFirst();
+    
+    if(duplicate.isPresent()) {
+      throw new ConstraintException(entity, "Template: '" + init.getName() + "' already exists!");
+    }
+    return entity;
   }
+  
+  public static Entity<Article> article(CreateArticle init, SiteState state, StencilClient client) {
+    final var gid = client.getStore().gid(EntityType.ARTICLE);
+    final var article = ImmutableArticle.builder()
+        .name(init.getName())
+        .parentId(init.getParentId())
+        .order(Optional.ofNullable(init.getOrder()).orElse(0))
+        .build();
+    final Entity<Article> entity = ImmutableEntity.<Article>builder()
+        .id(gid)
+        .type(EntityType.ARTICLE)
+        .body(article)
+        .build();
+    
+    final var duplicate = state.getArticles().values().stream()
+        .filter(p -> p.getBody().getName().equals(init.getName()))
+        .findFirst();
+    
+    if(duplicate.isPresent()) {
+      throw new ConstraintException(entity, "Article: '" + init.getName() + "' already exists!");
+    }
+
+    if(init.getParentId() != null && !state.getArticles().containsKey(init.getParentId())) {
+      throw new ConstraintException(entity, "Article: '" + init.getName() + "', parent: '" + init.getParentId() + "' does not exist!");
+    }
+    return entity;
+  }
+  
+  public static Entity<Locale> locale(CreateLocale init, SiteState state, StencilClient client) {
+    final var gid = client.getStore().gid(EntityType.LOCALE);
+    final var locale = ImmutableLocale.builder()
+        .value(init.getLocale())
+        .enabled(true)
+        .build();
+    
+    final Entity<Locale> entity = ImmutableEntity.<Locale>builder()
+        .id(gid)
+        .type(EntityType.LOCALE)
+        .body(locale)
+        .build();
+    
+    final var duplicate = state.getLocales().values().stream()
+        .filter(p -> p.getBody().getValue().equals(init.getLocale()))
+        .findFirst();
+    
+    if(duplicate.isPresent()) {
+      throw new ConstraintException(entity, "Locale: '" + init.getLocale() + "' already exists!");
+    }
+    return entity;
+  }
+  
+  public static Entity<Page> page(CreatePage init, SiteState state, StencilClient client) {
+    final var gid = client.getStore().gid(EntityType.PAGE);
+    final var localeRef = init.getLocale();
+    final var locale = resolveLocale(localeRef, state);
+    
+    final var articleRef = init.getArticleId();
+    final var article = state.getArticles().containsKey(articleRef) ? 
+        Optional.of(state.getArticles().get(articleRef)) : 
+        state.getArticles().values().stream().filter(l -> l.getBody().getName().equalsIgnoreCase(articleRef)).findFirst();
+
+    final var page = ImmutablePage.builder()
+        .article(article.map(e -> e.getId()).orElse(articleRef))
+        .locale(locale.map(e -> e.getId()).orElse(localeRef))
+        .content(Optional.ofNullable(init.getContent()).orElse(""))
+        .build();
+    
+    final Entity<Page> entity = ImmutableEntity.<Page>builder()
+        .id(gid)
+        .type(EntityType.PAGE)
+        .body(page)
+        .build();
+
+    if(locale.isEmpty()) {
+      throw new ConstraintException(entity, "Locale with id: '" + localeRef + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
+    }
+    if(article.isEmpty()) {
+      throw new ConstraintException(entity, "Article with id: '" + articleRef + "' does not exist in: '" + String.join(",", state.getArticles().keySet()) + "'!");          
+    }
+
+    final var duplicate = state.getPages().values().stream()
+        .filter(p -> p.getBody().getArticle().equals(init.getArticleId()))
+        .filter(p -> p.getBody().getLocale().equals(init.getLocale()))
+        .findFirst();
+    
+    if(duplicate.isPresent()) {
+      throw new ConstraintException(entity, "Page locale with id: '" + locale.get().getId() + "' already exists!");
+    }
+    return entity;
+  }
+  
+  public static Entity<Link> link(CreateLink init, SiteState state, StencilClient client) {
+    final var gid = client.getStore().gid(EntityType.LINK);
+    final var link = ImmutableLink.builder()
+      .contentType(init.getType())
+      .value(init.getValue());
+    
+    final var articles = new ArrayList<String>();
+    for(final var articleRef : init.getArticles()) {
+      final var article = state.getArticles().containsKey(articleRef) ? 
+          Optional.of(state.getArticles().get(articleRef)) : 
+          state.getArticles().values().stream().filter(l -> l.getBody().getName().equalsIgnoreCase(articleRef)).findFirst();
+
+      if(article.isEmpty()) {
+        throw new ConstraintException(
+            ImmutableEntity.<Link>builder().id(gid).type(EntityType.LINK).body(link.articles(init.getArticles()).build()).build(), 
+            "Article with id: '" + articleRef + "' does not exist in: '" + String.join(",", state.getArticles().keySet()) + "'!");          
+      }
+      articles.add(article.get().getId());
+    }
+    link.articles(articles);
+    
+    for(final var label : init.getLabels()) {
+      
+      final var localeRef = label.getLocale();
+      final var locale = resolveLocale(localeRef, state);
+      
+      link.addLabels(ImmutableLocaleLabel.builder()
+          .locale(locale.map(e -> e.getId()).orElse(localeRef))
+          .labelValue(label.getLabelValue())
+          .build());
+      
+      if(locale.isEmpty()) {
+        throw new ConstraintException(
+            ImmutableEntity.<Link>builder().id(gid).type(EntityType.LINK).body(link.build()).build(), 
+            "Locale with id: '" + label.getLocale() + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
+      }
+    }
+    return ImmutableEntity.<Link>builder().id(gid).type(EntityType.LINK).body(link.build()).build();
+  }
+  
+  public static Entity<Workflow> workflow(CreateWorkflow init, SiteState state, StencilClient client) {
+    final var gid = client.getStore().gid(EntityType.WORKFLOW);
+    final var workflow = ImmutableWorkflow.builder().devMode(init.getDevMode())
+        .value(init.getValue());
+
+    final var articles = new ArrayList<String>();
+    for(final var articleRef : init.getArticles()) {
+      final var article = state.getArticles().containsKey(articleRef) ? 
+          Optional.of(state.getArticles().get(articleRef)) : 
+          state.getArticles().values().stream().filter(l -> l.getBody().getName().equalsIgnoreCase(articleRef)).findFirst();
+
+      if(article.isEmpty()) {
+        throw new ConstraintException(
+            ImmutableEntity.<Workflow>builder().id(gid).type(EntityType.WORKFLOW).body(workflow.articles(init.getArticles()).build()).build(), 
+            "Article with id: '" + articleRef + "' does not exist in: '" + String.join(",", state.getArticles().keySet()) + "'!");          
+      }
+      articles.add(article.get().getId());
+    }
+    workflow.articles(articles);
+    
+    for(final var label : init.getLabels()) {        
+
+      final var localeRef = label.getLocale();
+      final var locale = resolveLocale(localeRef, state);
+          
+      workflow.addLabels(ImmutableLocaleLabel.builder()
+          .locale(locale.map(e -> e.getId()).orElse(localeRef))
+          .labelValue(label.getLabelValue())
+          .build());
+
+      if(locale.isEmpty()) {
+        throw new ConstraintException(
+            ImmutableEntity.<Workflow>builder().id(gid).type(EntityType.WORKFLOW).body(workflow.build()).build(), 
+            "Locale with id: '" + label.getLocale() + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
+      }
+    }
+    return ImmutableEntity.<Workflow>builder().id(gid).type(EntityType.WORKFLOW).body(workflow.build()).build();
+  }
+  
+  public static Optional<Entity<Locale>> resolveLocale(String idOrValue, SiteState state) {
+    final var localeRef = idOrValue;
+    final var locale = state.getLocales().containsKey(localeRef) ? 
+        Optional.of(state.getLocales().get(localeRef)) : 
+        state.getLocales().values().stream().filter(l -> l.getBody().getValue().equalsIgnoreCase(localeRef)).findFirst();
+     return locale;
+  }
+  
   @Override
   public Uni<SiteState> repo() {
     return client.getStore().repo().create().onItem().transformToUni(e -> e.query().head());

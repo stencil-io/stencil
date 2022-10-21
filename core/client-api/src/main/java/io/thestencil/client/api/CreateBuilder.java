@@ -32,16 +32,16 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import io.smallrye.mutiny.Uni;
-import io.thestencil.client.api.StencilComposer.Article;
-import io.thestencil.client.api.StencilComposer.Entity;
-import io.thestencil.client.api.StencilComposer.Link;
-import io.thestencil.client.api.StencilComposer.Locale;
-import io.thestencil.client.api.StencilComposer.LocaleLabel;
-import io.thestencil.client.api.StencilComposer.Page;
-import io.thestencil.client.api.StencilComposer.Release;
+import io.thestencil.client.api.StencilClient.Article;
+import io.thestencil.client.api.StencilClient.Entity;
+import io.thestencil.client.api.StencilClient.Link;
+import io.thestencil.client.api.StencilClient.Locale;
+import io.thestencil.client.api.StencilClient.LocaleLabel;
+import io.thestencil.client.api.StencilClient.Page;
+import io.thestencil.client.api.StencilClient.Release;
+import io.thestencil.client.api.StencilClient.Template;
+import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.client.api.StencilComposer.SiteState;
-import io.thestencil.client.api.StencilComposer.Template;
-import io.thestencil.client.api.StencilComposer.Workflow;
 
 public interface CreateBuilder {
   
@@ -53,9 +53,21 @@ public interface CreateBuilder {
   Uni<Entity<Link>> link(CreateLink init);
   Uni<Entity<Workflow>> workflow(CreateWorkflow init);  
   Uni<Entity<Template>> template(CreateTemplate init);  
+  Uni<List<Entity<?>>> batch(BatchSite batch);
   
   interface Command extends Serializable {}
 
+  @Value.Immutable
+  @JsonSerialize(as = ImmutableBatchSite.class)
+  @JsonDeserialize(as = ImmutableBatchSite.class)
+  interface BatchSite extends Command {
+    List<CreateLocale> getLocales();
+    List<CreatePage> getPages();
+    List<CreateArticle> getArticles();
+    List<CreateWorkflow> getWorkflows();
+    List<CreateLink> getLinks();
+  }
+  
   @Value.Immutable
   @JsonSerialize(as = ImmutableCreateArticle.class)
   @JsonDeserialize(as = ImmutableCreateArticle.class)

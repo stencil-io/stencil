@@ -32,15 +32,15 @@ import org.slf4j.LoggerFactory;
 import io.thestencil.client.api.ImmutableLinkResource;
 import io.thestencil.client.api.ImmutableMarkdown;
 import io.thestencil.client.api.ImmutableMarkdowns;
-import io.thestencil.client.api.StaticContentClient.LinkResource;
-import io.thestencil.client.api.StaticContentClient.Markdown;
-import io.thestencil.client.api.StaticContentClient.Markdowns;
-import io.thestencil.client.api.StencilComposer.Article;
-import io.thestencil.client.api.StencilComposer.Entity;
-import io.thestencil.client.api.StencilComposer.Link;
-import io.thestencil.client.api.StencilComposer.Locale;
+import io.thestencil.client.api.Markdowns;
+import io.thestencil.client.api.Markdowns.LinkResource;
+import io.thestencil.client.api.Markdowns.Markdown;
+import io.thestencil.client.api.StencilClient.Article;
+import io.thestencil.client.api.StencilClient.Entity;
+import io.thestencil.client.api.StencilClient.Link;
+import io.thestencil.client.api.StencilClient.Locale;
+import io.thestencil.client.api.StencilClient.Workflow;
 import io.thestencil.client.api.StencilComposer.SiteState;
-import io.thestencil.client.api.StencilComposer.Workflow;
 
 public class SiteStateVisitor {
   private static final Logger LOGGER = LoggerFactory.getLogger(SiteStateVisitor.class);
