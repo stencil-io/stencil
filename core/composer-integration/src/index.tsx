@@ -4,7 +4,8 @@ import ReactDOM from 'react-dom';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import { IntlProvider } from 'react-intl'
 
-import { StencilComposer, StencilClient, messages, siteTheme } from '@the-stencil-io/composer';
+import { siteTheme } from '@the-wrench-io/react-burger';
+import { StencilComposer, StencilClient, messages } from '@the-stencil-io/composer';
 
 const locale = "en";
 
