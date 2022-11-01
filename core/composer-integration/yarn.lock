@@ -1926,20 +1926,22 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
-"@the-stencil-io/composer@^1.0.99":
-  version "1.0.99"
-  resolved "https://registry.yarnpkg.com/@the-stencil-io/composer/-/composer-1.0.99.tgz#0487bfb15339a234eba5f161f9edb023b82c9b57"
-  integrity sha512-eGLc6LlSBGoQOseVIxgZ+YtNpAm6lNKscAwxgL3/vygRtAb92N/m2Un0ZaZQBfzJzbY+n05HS1qdlum7xxkFqg==
+"@the-stencil-io/composer@^1.0.102":
+  version "1.0.102"
+  resolved "https://registry.yarnpkg.com/@the-stencil-io/composer/-/composer-1.0.102.tgz#bcef35783e0979f48470e739e756173e1d6c66ec"
+  integrity sha512-b/F5S2K8vpQuSOgoUPFWsgkxWuqulwB/vC5uMpi8x0b1RrOVK//ZMhad/C0VViDcCXM5h9RTQxwpuHymEV4B/g==
   dependencies:
-    "@the-wrench-io/react-burger" "^1.0.37"
+    "@the-wrench-io/react-burger" "^1.0.40"
     d3 "^7.1.1"
     js-file-download "^0.4.12"
     notistack "^2.0.3"
 
-"@the-wrench-io/react-burger@^1.0.37":
-  version "1.0.37"
-  resolved "https://registry.yarnpkg.com/@the-wrench-io/react-burger/-/react-burger-1.0.37.tgz#f7ecc882332a72a7cff64aa56e21acbe061075b1"
-  integrity sha512-zAqIrsyhN29cBGBuPPlpD7XzaMLl0IaMtPnAJkH6z9FX0UnFZ+GH0XXZNe1wWUCwf2vzJl7xvrw3NSSw4bk6EA==
+"@the-wrench-io/react-burger@^1.0.40":
+  version "1.0.40"
+  resolved "https://registry.yarnpkg.com/@the-wrench-io/react-burger/-/react-burger-1.0.40.tgz#3d290b2c77fce17ba6e399568bbd6c37ae63055a"
+  integrity sha512-j1mujRJdCqH8CCQaykwLHV9LfvKSiX/P1aYbiqUDjjwMlWyVqtp4H4uUN18AXvTM9MpYVArFcfP03fbHfGTrXQ==
+  dependencies:
+    moment "^2.29.4"
 
 "@tootallnate/once@1":
   version "1.1.2"
@@ -8743,6 +8745,11 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
+
+moment@^2.29.4:
+  version "2.29.4"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
+  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
