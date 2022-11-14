@@ -32,11 +32,11 @@ quarkus:
 
   datasource:
     db-kind: postgresql 
-    username: spo_stencil
+    username: my_stencil
     password: joo4XooHllK2thei
     reactive:
       max-size: 3
-      url: postgresql://localhost:5432/spo_stencil
+      url: postgresql://localhost:5432/my_stencil
     
 ```
 
