@@ -30,6 +30,9 @@ NEW_MINOR_VERSION=`expr ${MINOR_VERSION} + 1`
 RELEASE_VERSION=${MAJOR_VERSION}${NEW_MINOR_VERSION}
 
 echo ${RELEASE_VERSION} > build-parent/release.version
+NEWLINE=$'\n'
+DATE=$(date +"%d/%m/%Y")
+echo "version=${RELEASE_VERSION}${NEWLINE}timestamp=${DATE}" > core/client-api/src/main/resources/version.txt
 
 PROJECT_VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
 
