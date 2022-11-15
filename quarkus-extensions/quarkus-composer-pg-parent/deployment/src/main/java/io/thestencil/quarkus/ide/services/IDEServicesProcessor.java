@@ -71,7 +71,8 @@ public class IDEServicesProcessor {
         buildItem.getLinksPath(), 
         buildItem.getReleasesPath(), 
         buildItem.getLocalePath(),
-        buildItem.getTemplatesPath())));
+        buildItem.getTemplatesPath(),
+        buildItem.getVersionPath())));
   }
 
   
@@ -129,6 +130,7 @@ public class IDEServicesProcessor {
     addRoute.accept(buildItem.getReleasesPath());
     addRoute.accept(buildItem.getTemplatesPath());
     addRoute.accept(buildItem.getWorkflowsPath());
+    addRoute.accept(buildItem.getVersionPath());
 
     routes.produce(httpRoot.routeBuilder()
         .routeFunction(buildItem.getReleasesPath() + "/:id", recorder.idRouteFunctionGet(bodyHandler))
@@ -183,6 +185,7 @@ public class IDEServicesProcessor {
         .releasesPath("releases")
         .migrationPath("migrations")
         .templatesPath("templates")
+        .versionPath("version")
         .build();
     
     displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(httpRootPathBuildItem.resolvePath(servicePath), "Stencil Actions"));

@@ -48,7 +48,8 @@ public class IDEServicesRecorder {
       String linksPath,
       String releasesPath,
       String localePath,
-      String templatesPath) {
+      String templatesPath,
+      String versionPath) {
     
     return beanContainer -> {
       IDEServicesProducer producer = beanContainer.instance(IDEServicesProducer.class);
@@ -61,7 +62,8 @@ public class IDEServicesRecorder {
         .setReleasesPath(releasesPath)
         .setServicePath(servicePath)
         .setWorkflowsPath(workflowsPath)
-        .setTemplatesPath(templatesPath);
+        .setTemplatesPath(templatesPath)
+        .setVersionPath(versionPath);
     };
   }
   

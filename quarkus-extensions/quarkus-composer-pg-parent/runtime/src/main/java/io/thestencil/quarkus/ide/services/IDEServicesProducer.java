@@ -54,6 +54,7 @@ public class IDEServicesProducer {
   private String localePath;
   private String migrationPath;
   private String templatesPath;
+  private String versionPath;
 
 
   public IDEServicesProducer setRuntimeConfig(RuntimeConfig runtimeConfig) {
@@ -89,6 +90,7 @@ public class IDEServicesProducer {
       .localePath(localePath)
       .releasesPath(releasesPath)
       .templatesPath(templatesPath)
+      .versionPath(versionPath)
       .build();
     
     
@@ -162,6 +164,10 @@ public class IDEServicesProducer {
   }
   public IDEServicesProducer setTemplatesPath(String templatesPath) {
     this.templatesPath = templatesPath;
+    return this;
+  }
+  public IDEServicesProducer setVersionPath(String versionPath) {
+    this.versionPath = versionPath;
     return this;
   }
 

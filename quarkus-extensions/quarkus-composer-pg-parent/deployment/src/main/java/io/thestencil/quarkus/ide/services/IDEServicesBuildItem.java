@@ -33,6 +33,7 @@ public final class IDEServicesBuildItem extends SimpleBuildItem {
   private final String localePath;
   private final String migrationPath;
   private final String templatesPath;
+  private final String versionPath;
   
   public IDEServicesBuildItem(
       String servicePath, 
@@ -43,7 +44,8 @@ public final class IDEServicesBuildItem extends SimpleBuildItem {
       String linksPath, 
       String releasesPath,
       String localePath,
-      String templatesPath) {
+      String templatesPath,
+      String versionPath) {
     super();
     this.servicePath = servicePath;
     this.articlesPath = articlesPath;
@@ -54,6 +56,7 @@ public final class IDEServicesBuildItem extends SimpleBuildItem {
     this.localePath = localePath;
     this.migrationPath = migrationPath;
     this.templatesPath = templatesPath;
+    this.versionPath = versionPath;
   }
 
   public String getMigrationPath() {
@@ -82,7 +85,10 @@ public final class IDEServicesBuildItem extends SimpleBuildItem {
   }
   public String getTemplatesPath() {
     return templatesPath;
-  }  
+  }
+  public String getVersionPath() {
+    return versionPath;
+  }
   
   
   public static Builder builder(String servicePath) {
@@ -99,6 +105,7 @@ public final class IDEServicesBuildItem extends SimpleBuildItem {
     private String localePath;
     private String migrationPath;
     private String templatesPath;
+    private String versionPath;
 
     public Builder(String servicePath) {
       super();
@@ -135,9 +142,13 @@ public final class IDEServicesBuildItem extends SimpleBuildItem {
     public Builder templatesPath(String templatesPath) {
       this.templatesPath = servicePath + "/" + templatesPath;
       return this;
-    }    
+    }
+    public Builder versionPath(String versionPath) {
+      this.versionPath = servicePath + "/" + versionPath;
+      return this;
+    }
     public IDEServicesBuildItem build() {
-      return new IDEServicesBuildItem(servicePath, migrationPath, articlesPath, pagesPath, workflowsPath, linksPath, releasesPath, localePath, templatesPath);
+      return new IDEServicesBuildItem(servicePath, migrationPath, articlesPath, pagesPath, workflowsPath, linksPath, releasesPath, localePath, templatesPath, versionPath);
     }
   }
 }

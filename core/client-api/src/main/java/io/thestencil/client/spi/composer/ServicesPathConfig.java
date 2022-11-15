@@ -36,4 +36,5 @@ public class ServicesPathConfig {
   private final String releasesPath;
   private final String localePath;
   private final String templatesPath;
+  private final String versionPath;
 }
