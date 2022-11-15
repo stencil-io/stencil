@@ -50,6 +50,7 @@ public interface StencilComposer {
   QueryBuilder query();
   MarkdownBuilder markdown();
   SitesBuilder sites();
+  VersionBuilder version();
   
 
   @Value.Immutable
