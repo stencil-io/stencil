@@ -35,6 +35,8 @@ import io.vertx.core.Handler;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
 
+import java.io.IOException;
+
 
 public abstract class HandlerTemplate implements Handler<RoutingContext> {
   private final CurrentIdentityAssociation currentIdentityAssociation;
@@ -48,7 +50,7 @@ public abstract class HandlerTemplate implements Handler<RoutingContext> {
     this.currentVertxRequest = currentVertxRequest;
   }
   
-  protected abstract void handleResource(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper);
+  protected abstract void handleResource(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) throws IOException;
   
   protected void handleSecurity(RoutingContext event) {
     if (currentIdentityAssociation != null) {

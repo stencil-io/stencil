@@ -68,7 +68,7 @@ public class HandlerComposer extends HandlerTemplate {
   }
 
   @Override
-  protected void handleResource(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) {
+  protected void handleResource(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) throws IOException {
     response.headers().set(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
     final var path = getPath(event);
     
@@ -90,6 +90,8 @@ public class HandlerComposer extends HandlerTemplate {
       doWorkflows(event, response, ctx, objectMapper);
     } else if(path.startsWith(ctx.getPaths().getPagesPath())) {
       doPages(event, response, ctx, objectMapper);
+    } else if(path.startsWith(ctx.getPaths().getVersionPath())) {
+      doVersion(event, response, ctx, objectMapper);
     } else {
       HandlerStatusCodes.catch404("unsupported action", response);
     }
@@ -320,6 +322,18 @@ public class HandlerComposer extends HandlerTemplate {
       HandlerStatusCodes.catch422("No static content or release to parse", response);
     } else {
       HandlerStatusCodes.catch404("unsupported migration action", response);
+    }
+  }
+
+  public void doVersion(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) throws IOException {
+    final var client = ctx.getClient();
+    if (event.request().method() == HttpMethod.GET) {
+          subscribe(
+              client.version().version(),
+              response, ctx, objectMapper);
+          return;
+    } else {
+      HandlerStatusCodes.catch404("unsupported version action", response);
     }
   }
   
