@@ -166,6 +166,7 @@ public class UpdateBuilderImpl implements UpdateBuilder {
         .from(start)
         .body(ImmutableArticle.builder()
             .from(start.getBody())
+            .devMode(changes.getDevMode())
             .name(changes.getName())
             .order(changes.getOrder())
             .parentId(changes.getParentId())
@@ -273,6 +274,7 @@ public class UpdateBuilderImpl implements UpdateBuilder {
                 .body(ImmutablePage.builder().from(start.getBody())
                     .content(mutator.getContent())
                     .locale(mutator.getLocale())
+                    .devMode(mutator.getDevMode())
                     .build())
                 .build();
             return end;
@@ -290,6 +292,7 @@ public class UpdateBuilderImpl implements UpdateBuilder {
         .from(start)
         .body(ImmutablePage.builder().from(start.getBody())
             .content(changes.getContent())
+            .devMode(changes.getDevMode())
             .locale(changes.getLocale())
             .build())
         .build();
@@ -320,6 +323,7 @@ public class UpdateBuilderImpl implements UpdateBuilder {
         .from(start)
         .body(ImmutableLink.builder().from(start.getBody())
             .value(changes.getValue())
+            .devMode(changes.getDevMode())
             .labels(changes.getLabels() == null ? start.getBody().getLabels() : changes.getLabels())
             .contentType(changes.getType())
             .articles(changes.getArticles() == null ? start.getBody().getArticles() : changes.getArticles())

@@ -76,7 +76,9 @@ public interface CreateBuilder {
     String getParentId();
     String getName();
     @Nullable
-    Integer getOrder(); 
+    Integer getOrder();
+    @Nullable
+    Boolean getDevMode();
   }
   
   @Value.Immutable
@@ -114,6 +116,8 @@ public interface CreateBuilder {
     String getLocale();
     @Nullable
     String getContent();
+    @Nullable
+    Boolean getDevMode();
   }
   
   @Value.Immutable
@@ -124,6 +128,8 @@ public interface CreateBuilder {
     String getType();
     List<String> getArticles();
     List<LocaleLabel> getLabels();
+    @Nullable
+    Boolean getDevMode();
   }
   
   @Value.Immutable
