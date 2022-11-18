@@ -46,6 +46,8 @@ import io.thestencil.client.api.ImmutableWorkflowMutator;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 //-Djava.util.logging.manager=org.jboss.logmanager.LogManager
 public class IdeServicesTests extends PgSqlDbConfig {
@@ -58,6 +60,20 @@ public class IdeServicesTests extends PgSqlDbConfig {
           ), "application.properties")
     );
 
+  @Test
+  public void releaseVersionAndDateTest() {
+    Response response = RestAssured.given()
+      .when().get("/stencil-ide-services/version")
+      .then()
+      .statusCode(200)
+      .extract().response();
+    String version = response.getBody().asString();
+    String versionWithoutQuotes = version.substring(1, version.length() - 1);
+    String expectedVersion = "1.148.13";
+    String expectedDate = "17/11/2022";
+    assertEquals(expectedVersion, versionWithoutQuotes.split(";")[0]);
+    assertEquals(expectedDate, versionWithoutQuotes.split(";")[1]);
+  }
   
   @Test
   public void postArticles() {
