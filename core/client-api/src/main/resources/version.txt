@@ -1,2 +1,0 @@
-version=1.148.14
-timestamp=15/11/2022
