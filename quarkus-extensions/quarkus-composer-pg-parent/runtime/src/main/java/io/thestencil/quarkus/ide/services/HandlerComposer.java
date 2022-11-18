@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import io.thestencil.client.spi.builders.VersionBuilderImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -328,10 +329,8 @@ public class HandlerComposer extends HandlerTemplate {
   public void doVersion(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) throws IOException {
     final var client = ctx.getClient();
     if (event.request().method() == HttpMethod.GET) {
-          subscribe(
-              client.version().version(),
-              response, ctx, objectMapper);
-          return;
+      VersionBuilderImpl.VersionEntity version = client.version().version();
+      response.end(objectMapper.writeValueAsString(version));
     } else {
       HandlerStatusCodes.catch404("unsupported version action", response);
     }
