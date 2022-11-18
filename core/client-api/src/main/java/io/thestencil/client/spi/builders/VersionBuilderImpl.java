@@ -20,38 +20,29 @@ package io.thestencil.client.spi.builders;
  * #L%
  */
 
-import io.smallrye.mutiny.Uni;
 import io.thestencil.client.api.VersionBuilder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import lombok.RequiredArgsConstructor;
 
 @NoArgsConstructor
 public class VersionBuilderImpl implements VersionBuilder {
 
-    @Override
-    public Uni<String> version() {
-      final String[] version = {"unknown"};
-      final String[] timestamp = {"unknown"};
-      ClassLoader classLoader = getClass().getClassLoader();
-      File file = new File(classLoader.getResource("version.txt").getFile());
-      try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-        br.lines().forEach(line -> {
-          if (line.startsWith("version=")) {
-            version[0] = line.substring(8);
-          }
-          if (line.startsWith("timestamp=")) {
-            timestamp[0] = line.substring(10);
-          }
-        });
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-      String finalVersion = version[0];
-      String finalTimestamp = timestamp[0];
-      return Uni.createFrom().item(() -> finalVersion.concat(";").concat(finalTimestamp));
-    }
+  private static final String VERSION = "1.148.13";
+  private static final String DATE = "17/11/2022";
+
+  @Override
+  public VersionEntity version() {
+    return new VersionEntity(VERSION, DATE);
+  }
+
+  @Data
+  @RequiredArgsConstructor
+  public class VersionEntity {
+    private final String version;
+    private final String built;
+  }
+
 }
+
+

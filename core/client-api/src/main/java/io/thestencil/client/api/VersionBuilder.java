@@ -20,11 +20,10 @@ package io.thestencil.client.api;
  * #L%
  */
 
-import io.smallrye.mutiny.Uni;
+import io.thestencil.client.spi.builders.VersionBuilderImpl;
 
 import java.io.IOException;
 
 public interface VersionBuilder {
-
-  Uni<String> version() throws IOException;
+  VersionBuilderImpl.VersionEntity version() throws IOException;
 }
