@@ -22,6 +22,7 @@ package io.thestencil.quarkus.ide.services.tests;
 
 import java.util.Arrays;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -46,7 +47,7 @@ import io.thestencil.client.api.ImmutableWorkflowMutator;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.Matchers.matchesPattern;
 
 
 //-Djava.util.logging.manager=org.jboss.logmanager.LogManager
@@ -61,18 +62,15 @@ public class IdeServicesTests extends PgSqlDbConfig {
     );
 
   @Test
-  public void releaseVersionAndDateTest() {
-    Response response = RestAssured.given()
-      .when().get("/stencil-ide-services/version")
+  public void releaseVersionAndDateTest() throws JsonProcessingException {
+    RestAssured.given()
+      .when()
+        .get("/stencil-ide-services/version")
       .then()
-      .statusCode(200)
-      .extract().response();
-    String version = response.getBody().asString();
-    String versionWithoutQuotes = version.substring(1, version.length() - 1);
-    String expectedVersion = "1.148.13";
-    String expectedDate = "17/11/2022";
-    assertEquals(expectedVersion, versionWithoutQuotes.split(";")[0]);
-    assertEquals(expectedDate, versionWithoutQuotes.split(";")[1]);
+            .contentType("application/json")
+            .statusCode(200)
+            .assertThat().body("version", matchesPattern("\\d+\\.\\d+\\.\\d+"))
+            .assertThat().body("date", matchesPattern("\\d{2}/\\d{2}/\\d{4}"));
   }
   
   @Test

@@ -39,9 +39,6 @@ echo ${RELEASE_DATE} > build-parent/release.date
 sed -i "s/"${LAST_RELEASE_VERSION}"/"${RELEASE_VERSION}"/g" core/client-api/src/main/java/io/thestencil/client/spi/builders/VersionBuilderImpl.java
 sed -i "s/"${LAST_RELEASE_DATE_ESCAPED}"/"${RELEASE_DATE_ESCAPED}"/g" core/client-api/src/main/java/io/thestencil/client/spi/builders/VersionBuilderImpl.java
 
-sed -i "s/"${LAST_RELEASE_VERSION}"/"${RELEASE_VERSION}"/g" quarkus-extensions/quarkus-composer-pg-parent/deployment/src/test/java/io/thestencil/quarkus/ide/services/tests/IdeServicesTests.java
-sed -i "s/"${LAST_RELEASE_DATE_ESCAPED}"/"${RELEASE_DATE_ESCAPED}"/g" quarkus-extensions/quarkus-composer-pg-parent/deployment/src/test/java/io/thestencil/quarkus/ide/services/tests/IdeServicesTests.java
-
 PROJECT_VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
 
 echo "Git checkout refname: '${refname}' branch: '${branch}' commit: '${GITHUB_SHA}'"
