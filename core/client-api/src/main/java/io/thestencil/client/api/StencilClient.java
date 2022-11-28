@@ -222,4 +222,12 @@ public interface StencilClient {
     String getId();
     String getHash();
   }
+
+  @Value.Immutable
+  @JsonSerialize(as = ImmutableVersionInfo.class)
+  @JsonDeserialize(as = ImmutableVersionInfo.class)
+  interface VersionInfo {
+    String getVersion();
+    String getDate();
+  }
 }

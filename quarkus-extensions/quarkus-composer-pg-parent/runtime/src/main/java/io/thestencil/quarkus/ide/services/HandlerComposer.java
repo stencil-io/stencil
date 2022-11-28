@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import io.thestencil.client.spi.builders.VersionBuilderImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,6 +50,7 @@ import io.thestencil.client.api.ImmutableWorkflowArticlePage;
 import io.thestencil.client.api.ImmutableWorkflowMutator;
 import io.thestencil.client.api.MigrationBuilder.Sites;
 import io.thestencil.client.api.StencilComposer.SiteState;
+import io.thestencil.client.api.StencilClient.VersionInfo;
 import io.thestencil.client.api.UpdateBuilder.PageMutator;
 import io.thestencil.client.spi.beans.SitesBean;
 import io.thestencil.client.spi.composer.HandlerStatusCodes;
@@ -125,7 +125,7 @@ public class HandlerComposer extends HandlerTemplate {
     final var client = ctx.getClient();    
     if (event.request().method() == HttpMethod.POST) {
       subscribe(
-          client.create().article(read(event, objectMapper, ImmutableCreateArticle.class)), 
+          client.create().article(read(event, objectMapper, ImmutableCreateArticle.class)),
           response, ctx, objectMapper);
       
     } else if(event.request().method() == HttpMethod.PUT) {
@@ -146,7 +146,7 @@ public class HandlerComposer extends HandlerTemplate {
     final var client = ctx.getClient();
     if (event.request().method() == HttpMethod.POST) {
       subscribe(
-          client.create().link(read(event, objectMapper, ImmutableCreateLink.class)), 
+          client.create().link(read(event, objectMapper, ImmutableCreateLink.class)),
           response, ctx, objectMapper);
       
     } else if(event.request().method() == HttpMethod.PUT) {
@@ -179,7 +179,7 @@ public class HandlerComposer extends HandlerTemplate {
     final var client = ctx.getClient();    
     if (event.request().method() == HttpMethod.POST) {
       subscribe(
-          client.create().template(read(event, objectMapper, ImmutableCreateTemplate.class)), 
+          client.create().template(read(event, objectMapper, ImmutableCreateTemplate.class)),
           response, ctx, objectMapper);
       
     } else if(event.request().method() == HttpMethod.PUT) {
@@ -329,7 +329,7 @@ public class HandlerComposer extends HandlerTemplate {
   public void doVersion(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) throws IOException {
     final var client = ctx.getClient();
     if (event.request().method() == HttpMethod.GET) {
-      VersionBuilderImpl.VersionEntity version = client.version().version();
+      VersionInfo version = client.version().version();
       response.end(objectMapper.writeValueAsString(version));
     } else {
       HandlerStatusCodes.catch404("unsupported version action", response);

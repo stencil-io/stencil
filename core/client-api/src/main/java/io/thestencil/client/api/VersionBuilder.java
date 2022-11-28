@@ -20,10 +20,8 @@ package io.thestencil.client.api;
  * #L%
  */
 
-import io.thestencil.client.spi.builders.VersionBuilderImpl;
-
-import java.io.IOException;
+import io.thestencil.client.api.StencilClient.VersionInfo;
 
 public interface VersionBuilder {
-  VersionBuilderImpl.VersionEntity version() throws IOException;
+  VersionInfo version();
 }

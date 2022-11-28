@@ -20,10 +20,10 @@ package io.thestencil.client.spi.builders;
  * #L%
  */
 
+import io.thestencil.client.api.ImmutableVersionInfo;
 import io.thestencil.client.api.VersionBuilder;
-import lombok.Data;
+import io.thestencil.client.api.StencilClient.VersionInfo;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @NoArgsConstructor
 public class VersionBuilderImpl implements VersionBuilder {
@@ -32,15 +32,11 @@ public class VersionBuilderImpl implements VersionBuilder {
   private static final String DATE = "17/11/2022";
 
   @Override
-  public VersionEntity version() {
-    return new VersionEntity(VERSION, DATE);
-  }
-
-  @Data
-  @RequiredArgsConstructor
-  public class VersionEntity {
-    private final String version;
-    private final String built;
+  public VersionInfo version() {
+    return ImmutableVersionInfo.builder()
+        .version(VERSION)
+        .date(DATE)
+        .build();
   }
 
 }
