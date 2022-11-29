@@ -32,8 +32,7 @@ public class StaticContentSiteTest {
   final StencilClient client = StencilClientImpl.builder().config(c -> c.objectMapper(PgTestTemplate.objectMapper)).inmemory().build();
   
   @Test
-  public void buildSite() {
-
+  public void buildSiteForProd() {
     final var md = client.markdown().json(TestUtils.toString("site.json"), false)
         .build();
 
@@ -44,7 +43,22 @@ public class StaticContentSiteTest {
     
     String expected = TestUtils.toString("content.json");
     String actual = TestUtils.prettyPrint(content);
-    Assertions.assertEquals(expected, actual);
-    
+    Assertions.assertEquals(expected, actual); 
   }
+  @Test
+  public void buildSiteForDev() {
+    final var md = client.markdown().json(TestUtils.toString("site.json"), true)
+        .build();
+
+    final var content = client
+        .sites().imagePath("/images").created(1l)
+        .source(md)
+        .build();
+    
+    String expected = TestUtils.toString("contentDevMode.json");
+    String actual = TestUtils.prettyPrint(content);
+    Assertions.assertEquals(expected, actual); 
+  }
+  
+
 }

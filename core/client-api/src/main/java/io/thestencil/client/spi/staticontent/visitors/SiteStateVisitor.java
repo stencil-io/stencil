@@ -217,6 +217,9 @@ public class SiteStateVisitor {
       if(locale.isEmpty()) {
         continue;
       }
+      if(!dev && Boolean.TRUE.equals(page.getBody().getDevMode())){
+        continue;
+      }
       
       final var content = page.getBody().getContent();
       final var ast = new MarkdownVisitor().visit(content);
