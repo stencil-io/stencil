@@ -87,6 +87,9 @@ public interface StencilClient {
   interface Article extends EntityBody {
     @Nullable
     String getParentId();
+    @Nullable
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    Boolean getDevMode();
     String getName();
     Integer getOrder();
   }
@@ -114,6 +117,9 @@ public interface StencilClient {
   @JsonDeserialize(as = ImmutablePage.class)
   interface Page extends EntityBody {
     String getArticle();
+    @Nullable
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    Boolean getDevMode();
     String getLocale();
     String getContent();
   }
@@ -135,6 +141,9 @@ public interface StencilClient {
   @JsonDeserialize(as = ImmutableLink.class)
   interface Link extends EntityBody {
     String getValue();
+    @Nullable
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    Boolean getDevMode();
     String getContentType();
     List<String> getArticles();
     List<LocaleLabel> getLabels();

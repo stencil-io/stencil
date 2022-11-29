@@ -84,6 +84,8 @@ public interface UpdateBuilder {
     List<String> getLinks();
     @Nullable
     List<String> getWorkflows();
+    @Nullable
+    Boolean getDevMode();
   }
   @Value.Immutable
   @JsonSerialize(as = ImmutablePageMutator.class)
@@ -92,6 +94,8 @@ public interface UpdateBuilder {
     String getPageId();
     String getContent();
     String getLocale();
+    @Nullable
+    Boolean getDevMode();
   }
   @Value.Immutable
   @JsonSerialize(as = ImmutableLinkMutator.class)
@@ -104,6 +108,8 @@ public interface UpdateBuilder {
     List<LocaleLabel> getLabels();
     @Nullable
     List<String> getArticles();
+    @Nullable
+    Boolean getDevMode();
   }
   @Value.Immutable
   @JsonSerialize(as = ImmutableWorkflowMutator.class)

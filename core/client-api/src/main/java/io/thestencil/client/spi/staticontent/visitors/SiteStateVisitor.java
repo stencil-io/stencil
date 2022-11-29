@@ -140,6 +140,10 @@ public class SiteStateVisitor {
   
   private List<LinkResource> visitLinks(Entity<Link> link) {
     final List<LinkResource> result = new ArrayList<>();
+
+    if(!dev && Boolean.TRUE.equals(link.getBody().getDevMode())){
+      return result;
+    }
     
     final var usedLocales = link.getBody().getLabels().stream()
         .map(label -> label.getLocale())
@@ -200,12 +204,20 @@ public class SiteStateVisitor {
   private List<Markdown> visitArticle(Entity<Article> article) {
     final String path = visitArticlePath(article);
     final List<Markdown> result = new ArrayList<>();
+
+    if(!dev && Boolean.TRUE.equals(article.getBody().getDevMode())){
+      return result;
+    }
+
     for(final var page : entity.getPages().values()) {
       if(!page.getBody().getArticle().equals(article.getId())) {
         continue;
       }
       final var locale = locales.stream().filter(l -> page.getBody().getLocale().equals(l.getId())).findFirst();
       if(locale.isEmpty()) {
+        continue;
+      }
+      if(!dev && Boolean.TRUE.equals(page.getBody().getDevMode())){
         continue;
       }
       

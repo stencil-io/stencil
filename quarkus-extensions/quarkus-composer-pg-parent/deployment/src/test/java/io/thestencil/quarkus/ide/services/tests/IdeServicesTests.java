@@ -22,14 +22,17 @@ package io.thestencil.quarkus.ide.services.tests;
 
 import java.util.Arrays;
 
+import org.hamcrest.Matchers;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
 import io.quarkus.test.QuarkusUnitTest;
 import io.restassured.RestAssured;
+import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.Response;
 import io.thestencil.client.api.ImmutableArticleMutator;
 import io.thestencil.client.api.ImmutableCreateArticle;
@@ -43,6 +46,8 @@ import io.thestencil.client.api.ImmutableLocaleLabel;
 import io.thestencil.client.api.ImmutableLocaleMutator;
 import io.thestencil.client.api.ImmutablePageMutator;
 import io.thestencil.client.api.ImmutableWorkflowMutator;
+import io.thestencil.client.api.StencilClient.Article;
+import io.thestencil.client.api.StencilClient.Entity;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -86,19 +91,21 @@ public class IdeServicesTests extends PgSqlDbConfig {
                 .path("id");
         
     
-   String articleId = RestAssured.given()
-      .body(
-          JsonObject.mapFrom(
-            ImmutableCreateArticle.builder()
-            .name("test-article")
-            .build()
-          ).toString())
-      .when().post("/stencil-ide-services/articles")
-      .then().statusCode(200)
-      .extract()
-        .response()
-        .body()
-        .path("id");
+    final var createdArticle = RestAssured.given()
+    .body(
+        JsonObject.mapFrom(
+          ImmutableCreateArticle.builder()
+          .name("test-article")
+          .build()
+        ).toString())
+    .when().post("/stencil-ide-services/articles")
+    .then().statusCode(200)
+    .extract()
+      .response()
+      .body().as(new TypeRef<Entity<Article>>() {});
+    
+   String articleId = createdArticle.getId();
+   Assertions.assertEquals(null, createdArticle.getBody().getDevMode());
   
    
     
@@ -186,10 +193,28 @@ public class IdeServicesTests extends PgSqlDbConfig {
             .articleId(articleId)
             .name("new name")
             .order(300)
+            .devMode(true)
             .build()
             ).toString())
           .when().put("/stencil-ide-services/articles/")
-          .then().statusCode(200);
+          .then()
+          .statusCode(200)
+          .assertThat().body("body.devMode", Matchers.equalTo(true));
+    RestAssured.given()
+    .body(
+        JsonObject.mapFrom(
+            ImmutableArticleMutator.builder()
+            .articleId(articleId)
+            .name("new name")
+            .order(300)
+            .devMode(null)
+            .build()
+            ).toString())
+          .when().put("/stencil-ide-services/articles/")
+          .then()
+          .statusCode(200)
+          .assertThat().body("body.devMode", Matchers.equalTo(null));
+    
     
     RestAssured.given()
     .body(
@@ -201,12 +226,38 @@ public class IdeServicesTests extends PgSqlDbConfig {
           .when().put("/stencil-ide-services/pages")
           .then().statusCode(200);
     
+    RestAssured.given()
+    .body(
+         new JsonArray(Arrays.asList(ImmutablePageMutator.builder()
+             .pageId(pageId)
+             .content("# new content")
+             .locale(localeId)
+             .devMode(true)
+             .build())).toString())
+          .when().put("/stencil-ide-services/pages")
+          .then().statusCode(200)
+          .assertThat().body("body.devMode[0]", Matchers.equalTo(true));
+    
+    RestAssured.given()
+    .body(
+         new JsonArray(Arrays.asList(ImmutablePageMutator.builder()
+             .pageId(pageId)
+             .content("# new content")
+             .locale(localeId)
+             .devMode(null)
+             .build())).toString())
+          .when().put("/stencil-ide-services/pages")
+          .then().statusCode(200)
+          .assertThat().body("body.devMode[0]", Matchers.equalTo(null));
+    
+    
     
     RestAssured.given()
     .body(
          JsonObject.mapFrom(
             ImmutableLinkMutator.builder()
             .linkId(linkId)
+            .devMode(true)
             .addLabels(ImmutableLocaleLabel.builder()
                 .labelValue("# new content")
                 .locale(localeId)
@@ -216,7 +267,26 @@ public class IdeServicesTests extends PgSqlDbConfig {
             .build()
             ).toString())
           .when().put("/stencil-ide-services/links")
-          .then().statusCode(200);
+          .then().statusCode(200)
+          .assertThat().body("body.devMode", Matchers.equalTo(true));
+    RestAssured.given()
+    .body(
+         JsonObject.mapFrom(
+            ImmutableLinkMutator.builder()
+            .linkId(linkId)
+            .devMode(null)
+            .addLabels(ImmutableLocaleLabel.builder()
+                .labelValue("# new content")
+                .locale(localeId)
+                .build())
+            .type("internal")
+            .value("super duper")
+            .build()
+            ).toString())
+          .when().put("/stencil-ide-services/links")
+          .then().statusCode(200)
+          .assertThat().body("body.devMode", Matchers.equalTo(null));
+    
     
     RestAssured.given()
     .body(

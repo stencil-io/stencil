@@ -145,6 +145,7 @@ public class CreateBuilderImpl implements CreateBuilder {
   public static Entity<Article> article(CreateArticle init, SiteState state, StencilClient client) {
     final var gid = client.getStore().gid(EntityType.ARTICLE);
     final var article = ImmutableArticle.builder()
+        .devMode(init.getDevMode())
         .name(init.getName())
         .parentId(init.getParentId())
         .order(Optional.ofNullable(init.getOrder()).orElse(0))
@@ -203,6 +204,7 @@ public class CreateBuilderImpl implements CreateBuilder {
         state.getArticles().values().stream().filter(l -> l.getBody().getName().equalsIgnoreCase(articleRef)).findFirst();
 
     final var page = ImmutablePage.builder()
+        .devMode(init.getDevMode())
         .article(article.map(e -> e.getId()).orElse(articleRef))
         .locale(locale.map(e -> e.getId()).orElse(localeRef))
         .content(Optional.ofNullable(init.getContent()).orElse(""))
@@ -235,6 +237,7 @@ public class CreateBuilderImpl implements CreateBuilder {
   public static Entity<Link> link(CreateLink init, SiteState state, StencilClient client) {
     final var gid = client.getStore().gid(EntityType.LINK);
     final var link = ImmutableLink.builder()
+      .devMode(init.getDevMode())
       .contentType(init.getType())
       .value(init.getValue());
     
