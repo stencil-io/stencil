@@ -1,4 +1,4 @@
-package io.thestencil.client.spi.composer;
+package io.thestencil.client.api;
 
 /*-
  * #%L
@@ -20,21 +20,8 @@ package io.thestencil.client.spi.composer;
  * #L%
  */
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import io.thestencil.client.api.StencilClient.VersionInfo;
 
-@RequiredArgsConstructor
-@Data @Builder
-public class ServicesPathConfig {
-  private final String servicePath;
-  private final String migrationPath;
-  private final String articlesPath;
-  private final String pagesPath;
-  private final String workflowsPath;
-  private final String linksPath;
-  private final String releasesPath;
-  private final String localePath;
-  private final String templatesPath;
-  private final String versionPath;
+public interface VersionBuilder {
+  VersionInfo version();
 }

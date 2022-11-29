@@ -22,7 +22,10 @@ package io.thestencil.quarkus.ide.services.tests;
 
 import java.util.Arrays;
 
+
 import org.hamcrest.Matchers;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -51,6 +54,8 @@ import io.thestencil.client.api.StencilClient.Entity;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import static org.hamcrest.Matchers.matchesPattern;
+
 
 //-Djava.util.logging.manager=org.jboss.logmanager.LogManager
 public class IdeServicesTests extends PgSqlDbConfig {
@@ -63,6 +68,17 @@ public class IdeServicesTests extends PgSqlDbConfig {
           ), "application.properties")
     );
 
+  @Test
+  public void releaseVersionAndDateTest() throws JsonProcessingException {
+    RestAssured.given()
+      .when()
+        .get("/stencil-ide-services/version")
+      .then()
+            .contentType("application/json")
+            .statusCode(200)
+            .assertThat().body("version", matchesPattern("\\d+\\.\\d+\\.\\d+"))
+            .assertThat().body("date", matchesPattern("\\d{2}/\\d{2}/\\d{4}"));
+  }
   
   @Test
   public void postArticles() {

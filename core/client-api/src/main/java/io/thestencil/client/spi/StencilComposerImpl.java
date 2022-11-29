@@ -20,19 +20,11 @@ package io.thestencil.client.spi;
  * #L%
  */
 
-import io.thestencil.client.api.CreateBuilder;
-import io.thestencil.client.api.DeleteBuilder;
-import io.thestencil.client.api.MigrationBuilder;
-import io.thestencil.client.api.StencilClient;
+import io.thestencil.client.api.*;
 import io.thestencil.client.api.StencilClient.MarkdownBuilder;
 import io.thestencil.client.api.StencilClient.SitesBuilder;
-import io.thestencil.client.api.StencilComposer;
 import io.thestencil.client.api.StencilStore.QueryBuilder;
-import io.thestencil.client.api.UpdateBuilder;
-import io.thestencil.client.spi.builders.CreateBuilderImpl;
-import io.thestencil.client.spi.builders.DeleteBuilderImpl;
-import io.thestencil.client.spi.builders.MigrationBuilderImpl;
-import io.thestencil.client.spi.builders.UpdateBuilderImpl;
+import io.thestencil.client.spi.builders.*;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -58,6 +50,10 @@ public class StencilComposerImpl implements StencilComposer {
   @Override
   public MigrationBuilder migration() {
     return new MigrationBuilderImpl(client);
+  }
+  @Override
+  public VersionBuilder version() {
+    return new VersionBuilderImpl();
   }
   @Override
   public MarkdownBuilder markdown() {

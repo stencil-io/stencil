@@ -50,6 +50,7 @@ import io.thestencil.client.api.ImmutableWorkflowArticlePage;
 import io.thestencil.client.api.ImmutableWorkflowMutator;
 import io.thestencil.client.api.MigrationBuilder.Sites;
 import io.thestencil.client.api.StencilComposer.SiteState;
+import io.thestencil.client.api.StencilClient.VersionInfo;
 import io.thestencil.client.api.UpdateBuilder.PageMutator;
 import io.thestencil.client.spi.beans.SitesBean;
 import io.thestencil.client.spi.composer.HandlerStatusCodes;
@@ -68,7 +69,7 @@ public class HandlerComposer extends HandlerTemplate {
   }
 
   @Override
-  protected void handleResource(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) {
+  protected void handleResource(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) throws IOException {
     response.headers().set(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
     final var path = getPath(event);
     
@@ -90,6 +91,8 @@ public class HandlerComposer extends HandlerTemplate {
       doWorkflows(event, response, ctx, objectMapper);
     } else if(path.startsWith(ctx.getPaths().getPagesPath())) {
       doPages(event, response, ctx, objectMapper);
+    } else if(path.startsWith(ctx.getPaths().getVersionPath())) {
+      doVersion(event, response, ctx, objectMapper);
     } else {
       HandlerStatusCodes.catch404("unsupported action", response);
     }
@@ -122,7 +125,7 @@ public class HandlerComposer extends HandlerTemplate {
     final var client = ctx.getClient();    
     if (event.request().method() == HttpMethod.POST) {
       subscribe(
-          client.create().article(read(event, objectMapper, ImmutableCreateArticle.class)), 
+          client.create().article(read(event, objectMapper, ImmutableCreateArticle.class)),
           response, ctx, objectMapper);
       
     } else if(event.request().method() == HttpMethod.PUT) {
@@ -143,7 +146,7 @@ public class HandlerComposer extends HandlerTemplate {
     final var client = ctx.getClient();
     if (event.request().method() == HttpMethod.POST) {
       subscribe(
-          client.create().link(read(event, objectMapper, ImmutableCreateLink.class)), 
+          client.create().link(read(event, objectMapper, ImmutableCreateLink.class)),
           response, ctx, objectMapper);
       
     } else if(event.request().method() == HttpMethod.PUT) {
@@ -176,7 +179,7 @@ public class HandlerComposer extends HandlerTemplate {
     final var client = ctx.getClient();    
     if (event.request().method() == HttpMethod.POST) {
       subscribe(
-          client.create().template(read(event, objectMapper, ImmutableCreateTemplate.class)), 
+          client.create().template(read(event, objectMapper, ImmutableCreateTemplate.class)),
           response, ctx, objectMapper);
       
     } else if(event.request().method() == HttpMethod.PUT) {
@@ -320,6 +323,16 @@ public class HandlerComposer extends HandlerTemplate {
       HandlerStatusCodes.catch422("No static content or release to parse", response);
     } else {
       HandlerStatusCodes.catch404("unsupported migration action", response);
+    }
+  }
+
+  public void doVersion(RoutingContext event, HttpServerResponse response, HandlerContext ctx, ObjectMapper objectMapper) throws IOException {
+    final var client = ctx.getClient();
+    if (event.request().method() == HttpMethod.GET) {
+      VersionInfo version = client.version().version();
+      response.end(objectMapper.writeValueAsString(version));
+    } else {
+      HandlerStatusCodes.catch404("unsupported version action", response);
     }
   }
   
