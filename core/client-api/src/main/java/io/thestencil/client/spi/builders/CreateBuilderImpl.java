@@ -40,6 +40,7 @@ import io.thestencil.client.api.ImmutableWorkflow;
 import io.thestencil.client.api.StencilClient;
 import io.thestencil.client.api.StencilClient.Article;
 import io.thestencil.client.api.StencilClient.Entity;
+import io.thestencil.client.api.StencilClient.EntityBody;
 import io.thestencil.client.api.StencilClient.EntityType;
 import io.thestencil.client.api.StencilClient.Link;
 import io.thestencil.client.api.StencilClient.Locale;
@@ -115,7 +116,7 @@ public class CreateBuilderImpl implements CreateBuilder {
         .type(EntityType.RELEASE)
         .body(release)
         .build();
-    return entity;
+    return assertUniqueId(entity, state);
   }
   
   public static Entity<Template> template(CreateTemplate init, SiteState state, StencilClient client) {
@@ -139,7 +140,7 @@ public class CreateBuilderImpl implements CreateBuilder {
     if(duplicate.isPresent()) {
       throw new ConstraintException(entity, "Template: '" + init.getName() + "' already exists!");
     }
-    return entity;
+    return assertUniqueId(entity, state);
   }
   
   public static Entity<Article> article(CreateArticle init, SiteState state, StencilClient client) {
@@ -167,7 +168,7 @@ public class CreateBuilderImpl implements CreateBuilder {
     if(init.getParentId() != null && !state.getArticles().containsKey(init.getParentId())) {
       throw new ConstraintException(entity, "Article: '" + init.getName() + "', parent: '" + init.getParentId() + "' does not exist!");
     }
-    return entity;
+    return assertUniqueId(entity, state);
   }
   
   public static Entity<Locale> locale(CreateLocale init, SiteState state, StencilClient client) {
@@ -190,7 +191,7 @@ public class CreateBuilderImpl implements CreateBuilder {
     if(duplicate.isPresent()) {
       throw new ConstraintException(entity, "Locale: '" + init.getLocale() + "' already exists!");
     }
-    return entity;
+    return assertUniqueId(entity, state);
   }
   
   public static Entity<Page> page(CreatePage init, SiteState state, StencilClient client) {
@@ -231,7 +232,7 @@ public class CreateBuilderImpl implements CreateBuilder {
     if(duplicate.isPresent()) {
       throw new ConstraintException(entity, "Page locale with id: '" + locale.get().getId() + "' already exists!");
     }
-    return entity;
+    return assertUniqueId(entity, state);
   }
   
   public static Entity<Link> link(CreateLink init, SiteState state, StencilClient client) {
@@ -272,7 +273,7 @@ public class CreateBuilderImpl implements CreateBuilder {
             "Locale with id: '" + label.getLocale() + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
       }
     }
-    return ImmutableEntity.<Link>builder().id(gid).type(EntityType.LINK).body(link.build()).build();
+    return assertUniqueId(ImmutableEntity.<Link>builder().id(gid).type(EntityType.LINK).body(link.build()).build(), state);
   }
   
   public static Entity<Workflow> workflow(CreateWorkflow init, SiteState state, StencilClient client) {
@@ -311,7 +312,7 @@ public class CreateBuilderImpl implements CreateBuilder {
             "Locale with id: '" + label.getLocale() + "' does not exist in: '" + String.join(",", state.getLocales().keySet()) + "'!");          
       }
     }
-    return ImmutableEntity.<Workflow>builder().id(gid).type(EntityType.WORKFLOW).body(workflow.build()).build();
+    return assertUniqueId(ImmutableEntity.<Workflow>builder().id(gid).type(EntityType.WORKFLOW).body(workflow.build()).build(), state);
   }
   
   public static Optional<Entity<Locale>> resolveLocale(String idOrValue, SiteState state) {
@@ -325,5 +326,20 @@ public class CreateBuilderImpl implements CreateBuilder {
   @Override
   public Uni<SiteState> repo() {
     return client.getStore().repo().create().onItem().transformToUni(e -> e.query().head());
+  }
+  
+  private static <T extends EntityBody> Entity<T> assertUniqueId(Entity<T> entity, SiteState state) {
+    if( state.getReleases().containsKey(entity.getId()) ||
+        state.getLocales().containsKey(entity.getId()) ||
+        state.getPages().containsKey(entity.getId()) ||
+        state.getLinks().containsKey(entity.getId()) ||
+        state.getArticles().containsKey(entity.getId()) ||
+        state.getWorkflows().containsKey(entity.getId()) ||
+        state.getTemplates().containsKey(entity.getId())) {
+      
+      throw new ConstraintException(entity, "Entity with id: '" + entity.getId() + "' already exist!");  
+    }
+    
+    return entity;
   }
 }

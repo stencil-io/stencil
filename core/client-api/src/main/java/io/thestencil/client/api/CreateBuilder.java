@@ -73,6 +73,8 @@ public interface CreateBuilder {
   @JsonDeserialize(as = ImmutableCreateArticle.class)
   interface CreateArticle extends Command {
     @Nullable
+    String getId();
+    @Nullable
     String getParentId();
     String getName();
     @Nullable
@@ -85,6 +87,8 @@ public interface CreateBuilder {
   @JsonSerialize(as = ImmutableCreateTemplate.class)
   @JsonDeserialize(as = ImmutableCreateTemplate.class)
   interface CreateTemplate extends Command {
+    @Nullable
+    String getId();
 	  String getName();
     String getDescription();
 	  String getContent();
@@ -96,6 +100,8 @@ public interface CreateBuilder {
   @JsonSerialize(as = ImmutableCreateRelease.class)
   @JsonDeserialize(as = ImmutableCreateRelease.class)
   interface CreateRelease extends Command {
+    @Nullable
+    String getId();
     String getName();
     @Nullable
     String getNote();
@@ -105,6 +111,8 @@ public interface CreateBuilder {
   @JsonSerialize(as = ImmutableCreateLocale.class)
   @JsonDeserialize(as = ImmutableCreateLocale.class)
   interface CreateLocale extends Command {
+    @Nullable
+    String getId();
     String getLocale();
   }
   
@@ -112,6 +120,8 @@ public interface CreateBuilder {
   @JsonSerialize(as = ImmutableCreatePage.class)
   @JsonDeserialize(as = ImmutableCreatePage.class)
   interface CreatePage extends Command {
+    @Nullable
+    String getId();
     String getArticleId();
     String getLocale();
     @Nullable
@@ -124,6 +134,8 @@ public interface CreateBuilder {
   @JsonSerialize(as = ImmutableCreateLink.class)
   @JsonDeserialize(as = ImmutableCreateLink.class)
   interface CreateLink extends Command {
+    @Nullable
+    String getId();
     String getValue(); 
     String getType();
     List<String> getArticles();
@@ -136,6 +148,8 @@ public interface CreateBuilder {
   @JsonSerialize(as = ImmutableCreateWorkflow.class)
   @JsonDeserialize(as = ImmutableCreateWorkflow.class)
   interface CreateWorkflow extends Command {
+    @Nullable
+    String getId();
     String getValue();
     List<String> getArticles();
     List<LocaleLabel> getLabels();
