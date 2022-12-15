@@ -55,7 +55,7 @@
           {
             "id": "4e95f837-8284-47c5-86c3-83bea7e2d6fb",
             "hash": "10c6cb7d203c5b55ccd8d60769712241",
-            "name": "business-sipoo",
+            "name": "business-good-municipality",
             "parentId": null
           },
           {
@@ -115,7 +115,7 @@
           {
             "id": "a11ed068-ca59-47c4-94b5-b7095f21b5b2",
             "hash": "745dc45c6a98c93856c859a8eb12f72e",
-            "name": "sipoo-water",
+            "name": "good-municipality-water",
             "parentId": null
           },
           {
@@ -151,7 +151,7 @@
           {
             "id": "de949b69-7456-49fb-872d-30fd7ad53bd7",
             "hash": "c61b25015d5a1b63e431df3d567ba795",
-            "name": "sipoo-institute",
+            "name": "good-municipality-institute",
             "parentId": null
           }
         ],
@@ -159,7 +159,7 @@
           {
             "id": "7eff7a3e-2146-49b5-92f3-2c61cb791cd6",
             "hash": "8e352b7a5ff4b8740bce25051a8be302",
-            "value": "https://www.sipoo.fi/palvelu/yritysneuvonta/",
+            "value": "https://www.good-municipality.fi/palvelu/yritysneuvonta/",
             "contentType": "internal",
             "articles": [
               "4e95f837-8284-47c5-86c3-83bea7e2d6fb"
@@ -174,7 +174,7 @@
           {
             "id": "8ea2df05-be12-4c63-af4d-91d024239325",
             "hash": "3d725b491d3fb7b3e333606ae6253618",
-            "value": "https://www.sipoo.fi/sv/kontaktuppgifter/",
+            "value": "https://www.good-municipality.fi/sv/kontaktuppgifter/",
             "contentType": "internal",
             "articles": [
               "5e43cc7c-8101-4eb5-a800-f48def86e675"
@@ -189,7 +189,7 @@
           {
             "id": "089a047d-28b2-4cdc-a7d4-686539b29a4f",
             "hash": "1023539943e142722fa7788942ee395a",
-            "value": "https://www.sipoo.fi/yhteystiedot/",
+            "value": "https://www.good-municipality.fi/yhteystiedot/",
             "contentType": "internal",
             "articles": [
               "5e43cc7c-8101-4eb5-a800-f48def86e675"
@@ -204,7 +204,7 @@
           {
             "id": "4d5761ab-7306-4859-accd-0a799492cbdc",
             "hash": "cb562ec1bdf35727e49804361073f95d",
-            "value": "https://www.sipoo.fi/en/environment-and-animals/",
+            "value": "https://www.good-municipality.fi/en/environment-and-animals/",
             "contentType": "internal",
             "articles": [
               "537ca692-0bdc-4660-87c3-6d22efd8834e"
@@ -212,14 +212,14 @@
             "labels": [
               {
                 "locale": "31a318c7-1e36-4820-b08d-08afb8ca13d2",
-                "labelValue": "Environment and animals in sipoo.fi"
+                "labelValue": "Environment and animals in good-municipality.fi"
               }
             ]
           },
           {
             "id": "06f82f9e-d159-4c0b-a9f1-3b4cfbd719c5",
             "hash": "1910daf554b3a116f6c24cf85cb966d3",
-            "value": "https://www.sipoo.fi/sipoon-opisto/",
+            "value": "https://www.good-municipality.fi/good-municipalityn-opisto/",
             "contentType": "internal",
             "articles": [
               "de949b69-7456-49fb-872d-30fd7ad53bd7"
@@ -227,14 +227,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Sipoon opisto sipoo.fi:ssä"
+                "labelValue": "Sipoon opisto good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "a610d5bc-bf6b-46df-abdc-6db0897e9683",
             "hash": "8eab82dce86586c76ffbb318c96eba7c",
-            "value": "https://www.sipoo.fi/sv/halsovardstjanster/",
+            "value": "https://www.good-municipality.fi/sv/halsovardstjanster/",
             "contentType": "internal",
             "articles": [
               "03ed5957-a64d-4c80-ab9f-e5229093db4c"
@@ -249,7 +249,7 @@
           {
             "id": "65bdf389-298a-4be5-9500-0ddfc6312b4e",
             "hash": "63e6999f112fb263faf8798d33dcc3a5",
-            "value": "https://www.sipoo.fi/asuminen/",
+            "value": "https://www.good-municipality.fi/asuminen/",
             "contentType": "internal",
             "articles": [
               "cd260588-bcdf-4dc4-b6fe-46ae083cbdb6"
@@ -257,14 +257,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Asuminen sipoo.fi:ssä"
+                "labelValue": "Asuminen good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "50d11b3d-0c1f-4ab3-be58-89cb62e01d95",
             "hash": "aa576cb273726ac553f2aae71d45a8b8",
-            "value": "https://www.sipoo.fi/wp-content/uploads/2020/12/faran_lurar_i_schaktgropen.pdf",
+            "value": "https://www.good-municipality.fi/wp-content/uploads/2020/12/faran_lurar_i_schaktgropen.pdf",
             "contentType": "internal",
             "articles": [
               "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -279,7 +279,7 @@
           {
             "id": "f7793108-c23b-4c0c-8bc3-31de7d1da705",
             "hash": "2bd732f7ef7bd961cb63c3edf2838572",
-            "value": "https://www.sipoo.fi/ymparisto-ja-elaimet/ymparistovalvonta-ja-ymparistonsuojelu/ymparistovalvonta-yhteystiedot/",
+            "value": "https://www.good-municipality.fi/ymparisto-ja-elaimet/ymparistovalvonta-ja-ymparistonsuojelu/ymparistovalvonta-yhteystiedot/",
             "contentType": "internal",
             "articles": [
               "537ca692-0bdc-4660-87c3-6d22efd8834e"
@@ -294,7 +294,7 @@
           {
             "id": "b1582dec-5443-4053-abbf-d236d1fee20e",
             "hash": "d4c22ff92d4d23b971f816931426351a",
-            "value": "https://www.sipoo.fi/sv/miljo-och-djur/",
+            "value": "https://www.good-municipality.fi/sv/miljo-och-djur/",
             "contentType": "internal",
             "articles": [
               "537ca692-0bdc-4660-87c3-6d22efd8834e"
@@ -309,7 +309,7 @@
           {
             "id": "ae780c04-ab26-4447-b089-f0fd9ce01059",
             "hash": "0f85f709affc44b41f1486e25989f1ff",
-            "value": "https://www.sipoo.fi/sv/byggande/byggnadstillsynen-kontaktuppgifter/",
+            "value": "https://www.good-municipality.fi/sv/byggande/byggnadstillsynen-kontaktuppgifter/",
             "contentType": "internal",
             "articles": [
               "e25e7b87-7e8f-448c-9074-d24954bea098"
@@ -324,7 +324,7 @@
           {
             "id": "29cd4029-ee08-4308-b861-66ff9a835ab5",
             "hash": "d8e532d25c6d9ed0baf4329f53833d6f",
-            "value": "https://www.sipoo.fi/kadut-ja-viheralueet/",
+            "value": "https://www.good-municipality.fi/kadut-ja-viheralueet/",
             "contentType": "internal",
             "articles": [
               "c448404a-8ff0-4203-975d-cea2d0bb60c9"
@@ -332,14 +332,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Katu- ja viheralueet sipoo.fi:ssä"
+                "labelValue": "Katu- ja viheralueet good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "5777f6e6-367c-412a-8e68-08ee736b0119",
             "hash": "69cf015da9d8d83a37c76f937df9e60f",
-            "value": "https://www.sipoo.fi/en/leisure-time-and-youth/",
+            "value": "https://www.good-municipality.fi/en/leisure-time-and-youth/",
             "contentType": "internal",
             "articles": [
               "66a02d3a-b2cb-49ad-9e24-4f816bbec5d4"
@@ -347,14 +347,14 @@
             "labels": [
               {
                 "locale": "31a318c7-1e36-4820-b08d-08afb8ca13d2",
-                "labelValue": "Leasure time and youth in sipoo.fi"
+                "labelValue": "Leasure time and youth in good-municipality.fi"
               }
             ]
           },
           {
             "id": "d21b965f-33fe-4a94-8d19-973a5562f29b",
             "hash": "ee956c4abde7bf1fe03c7bf53486478e",
-            "value": "https://www.sipoo.fi/business-sipoo/",
+            "value": "https://www.good-municipality.fi/business-good-municipality/",
             "contentType": "internal",
             "articles": [
               "4e95f837-8284-47c5-86c3-83bea7e2d6fb",
@@ -363,14 +363,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Business Sipoo sipoo.fi:ssä"
+                "labelValue": "Business Sipoo good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "23c5ff2a-6e2b-436d-8df3-b2a757cdc23f",
             "hash": "3c7cc96b516e18ba44d2e3b8e7c0eec3",
-            "value": "https://www.sipoo.fi/sipoon-opisto/yhteystiedot/",
+            "value": "https://www.good-municipality.fi/good-municipalityn-opisto/yhteystiedot/",
             "contentType": "internal",
             "articles": [
               "de949b69-7456-49fb-872d-30fd7ad53bd7"
@@ -400,7 +400,7 @@
           {
             "id": "0490e68a-fcb1-4376-a767-133b5f24ef52",
             "hash": "76cd375828dfbe9222ca711ad0218cff",
-            "value": "https://www.sipoo.fi/sv/boende/",
+            "value": "https://www.good-municipality.fi/sv/boende/",
             "contentType": "internal",
             "articles": [
               "cd260588-bcdf-4dc4-b6fe-46ae083cbdb6"
@@ -415,7 +415,7 @@
           {
             "id": "7f20ff6d-de00-480e-9218-3de4ff0e1f31",
             "hash": "c2326e506f7e0a6ac1577947793bd53b",
-            "value": "https://www.sipoo.fi/sv/tjanst/vattentjanster/",
+            "value": "https://www.good-municipality.fi/sv/tjanst/vattentjanster/",
             "contentType": "internal",
             "articles": [
               "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -430,7 +430,7 @@
           {
             "id": "b605508e-18bd-4d24-b505-e8856a5a21d3",
             "hash": "67fd777482532348f20bce5785e103d5",
-            "value": "https://www.sipoo.fi/sv/coronavirus/",
+            "value": "https://www.good-municipality.fi/sv/coronavirus/",
             "contentType": "internal",
             "articles": [
               "03ed5957-a64d-4c80-ab9f-e5229093db4c"
@@ -445,7 +445,7 @@
           {
             "id": "77a512b3-44ad-4a18-b0aa-a53b7812fe3e",
             "hash": "e6ce77c67576d6349e6a78aec48cc134",
-            "value": "https://www.sipoo.fi/sv/fritid-och-unga/",
+            "value": "https://www.good-municipality.fi/sv/fritid-och-unga/",
             "contentType": "internal",
             "articles": [
               "66a02d3a-b2cb-49ad-9e24-4f816bbec5d4"
@@ -460,7 +460,7 @@
           {
             "id": "e9e21def-1bc6-4465-86dd-3c46db439ea6",
             "hash": "e18c4fe74ae65e9d7f8190a586db0721",
-            "value": "https://www.sipoo.fi/sv/fullmaktiges-kontaktuppgifter/",
+            "value": "https://www.good-municipality.fi/sv/fullmaktiges-kontaktuppgifter/",
             "contentType": "internal",
             "articles": [
               "8488ebf7-812d-4367-bb08-0cd6d9fd3cbd"
@@ -475,7 +475,7 @@
           {
             "id": "da613eb2-0918-4d44-beef-2aa5abe041f4",
             "hash": "19db7c5903dad77ecd7d6a1430f742d6",
-            "value": "https://www.sipoo.fi/sv/byggande/",
+            "value": "https://www.good-municipality.fi/sv/byggande/",
             "contentType": "internal",
             "articles": [
               "e25e7b87-7e8f-448c-9074-d24954bea098"
@@ -490,7 +490,7 @@
           {
             "id": "06eed98f-ce25-4bc9-84d9-7f47c6d118ad",
             "hash": "bb6974ffb21d9a5eb8315bd39c743410",
-            "value": "https://www.sipoo.fi/rakentaminen/",
+            "value": "https://www.good-municipality.fi/rakentaminen/",
             "contentType": "internal",
             "articles": [
               "e25e7b87-7e8f-448c-9074-d24954bea098"
@@ -498,14 +498,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Rakentaminen sipoo.fi:ssä"
+                "labelValue": "Rakentaminen good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "dfb858ad-14e4-47a3-8ea2-6d168e7fae04",
             "hash": "b9ba5edec32abceddcd2b240d779ccbd",
-            "value": "https://www.sipoo.fi/sv/boende/sibbo-vatten/",
+            "value": "https://www.good-municipality.fi/sv/boende/sibbo-vatten/",
             "contentType": "internal",
             "articles": [
               "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -520,7 +520,7 @@
           {
             "id": "6ecb2bd3-4ade-4d02-887a-f6b60fd703ed",
             "hash": "bab15460813a3ae3eaabbae3fa34be9e",
-            "value": "https://www.sipoo.fi/sv/business-sipoo/",
+            "value": "https://www.good-municipality.fi/sv/business-good-municipality/",
             "contentType": "internal",
             "articles": [
               "4e95f837-8284-47c5-86c3-83bea7e2d6fb"
@@ -535,7 +535,7 @@
           {
             "id": "6f22a79b-5705-49d1-a492-7755c539afc5",
             "hash": "a21c672cec2dafd2e9f300292763376f",
-            "value": "https://www.sipoo.fi/sv/planlaggning-och-utveckling/",
+            "value": "https://www.good-municipality.fi/sv/planlaggning-och-utveckling/",
             "contentType": "internal",
             "articles": [
               "592394da-7766-4cf3-bafd-f9264b3a1f5e"
@@ -550,7 +550,7 @@
           {
             "id": "3244cc4a-2747-4023-b5ab-23c87f36f4ea",
             "hash": "af5759cdd1ff50faba2e39f5f54dfaf4",
-            "value": "https://www.sipoo.fi/wp-content/uploads/2020/12/Opas-kaivannon-turalliseen-toteuttamiseen.pdf",
+            "value": "https://www.good-municipality.fi/wp-content/uploads/2020/12/Opas-kaivannon-turalliseen-toteuttamiseen.pdf",
             "contentType": "internal",
             "articles": [
               "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -565,7 +565,7 @@
           {
             "id": "a60f3398-41ff-4e42-b18d-f4b1cce3a491",
             "hash": "d69bcd2a98451782287c2c24518fa3a9",
-            "value": "https://www.sipoo.fi/demokratia/valtuuston-yhteystiedot/",
+            "value": "https://www.good-municipality.fi/demokratia/valtuuston-yhteystiedot/",
             "contentType": "internal",
             "articles": [
               "8488ebf7-812d-4367-bb08-0cd6d9fd3cbd"
@@ -623,7 +623,7 @@
           {
             "id": "1cf5b3b9-9b81-415c-a5e0-cc6a7b0fd25d",
             "hash": "e9af4c1c00a8fade443984630c821f51",
-            "value": "https://www.sipoo.fi/sv/sibbo-institut/",
+            "value": "https://www.good-municipality.fi/sv/sibbo-institut/",
             "contentType": "internal",
             "articles": [
               "de949b69-7456-49fb-872d-30fd7ad53bd7"
@@ -638,7 +638,7 @@
           {
             "id": "e8a79efb-6911-45e2-bee0-8dcdba26116e",
             "hash": "7b288d4f88e5dc7d10fa409e30a82b5a",
-            "value": "https://www.sipoo.fi/terveyspalvelut/nikkilan-sosiaali-ja-terveysasema-puhelinasiointi-ja-palveluajat/",
+            "value": "https://www.good-municipality.fi/terveyspalvelut/nikkilan-sosiaali-ja-terveysasema-puhelinasiointi-ja-palveluajat/",
             "contentType": "internal",
             "articles": [
               "03ed5957-a64d-4c80-ab9f-e5229093db4c"
@@ -653,7 +653,7 @@
           {
             "id": "190ba124-fbce-4999-86cd-852ea4cd20d0",
             "hash": "999891ab6bdab2d9887b5a98ab8272cc",
-            "value": "https://www.sipoo.fi/koronavirus/",
+            "value": "https://www.good-municipality.fi/koronavirus/",
             "contentType": "internal",
             "articles": [
               "03ed5957-a64d-4c80-ab9f-e5229093db4c"
@@ -668,7 +668,7 @@
           {
             "id": "328aafe9-3015-48b8-a049-90ff8e5d2a79",
             "hash": "e974def44490db536696e301430a667d",
-            "value": "https://www.sipoo.fi/sv/tjanst/foretagsradgivning/",
+            "value": "https://www.good-municipality.fi/sv/tjanst/foretagsradgivning/",
             "contentType": "internal",
             "articles": [
               "4e95f837-8284-47c5-86c3-83bea7e2d6fb"
@@ -683,7 +683,7 @@
           {
             "id": "ff01145c-916e-4a72-9783-b242987bdd1a",
             "hash": "97d1d80ceeea0ebd20d4010d6ae65420",
-            "value": "https://www.sipoo.fi/kaavoitus-ja-kehittaminen/kehitys-ja-kaavoituskeskus-yhteystiedot/",
+            "value": "https://www.good-municipality.fi/kaavoitus-ja-kehittaminen/kehitys-ja-kaavoituskeskus-yhteystiedot/",
             "contentType": "internal",
             "articles": [
               "cd260588-bcdf-4dc4-b6fe-46ae083cbdb6"
@@ -698,7 +698,7 @@
           {
             "id": "83ab514a-0246-452c-b83e-0f5c947e766a",
             "hash": "a3cd01a315c4a1f98384e39effa1e3f8",
-            "value": "https://www.sipoo.fi/sv/organisation/",
+            "value": "https://www.good-municipality.fi/sv/organisation/",
             "contentType": "internal",
             "articles": [
               "a5399d8c-e89e-4064-975b-1431577ec16e"
@@ -713,7 +713,7 @@
           {
             "id": "8f29055f-07d1-4d54-bae2-7dc2ec0d6a04",
             "hash": "08b530fac653b41af0e80110643358b7",
-            "value": "https://www.sipoo.fi/sv/kartor-och-geodata/",
+            "value": "https://www.good-municipality.fi/sv/kartor-och-geodata/",
             "contentType": "internal",
             "articles": [
               "c1c30d6d-a1f0-4d7a-9b34-d553a9b0a7a8"
@@ -728,7 +728,7 @@
           {
             "id": "43a68fe6-a846-44c6-b71c-f88063858039",
             "hash": "91853a5d29de5da447f9582f4aaf178b",
-            "value": "https://www.sipoo.fi/kartat-ja-paikkatieto/",
+            "value": "https://www.good-municipality.fi/kartat-ja-paikkatieto/",
             "contentType": "internal",
             "articles": [
               "c1c30d6d-a1f0-4d7a-9b34-d553a9b0a7a8"
@@ -736,14 +736,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Kartat ja paikkatieto sipoo.fi:ssä"
+                "labelValue": "Kartat ja paikkatieto good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "f0c94915-7e17-46e1-8272-e62d1d7bec6a",
             "hash": "9e48a45f4e0932ba67f9a4f888c49908",
-            "value": "https://www.sipoo.fi/terveyspalvelut/hallinnon-yhteystiedot/",
+            "value": "https://www.good-municipality.fi/terveyspalvelut/hallinnon-yhteystiedot/",
             "contentType": "internal",
             "articles": [
               "b52df641-94f3-4bc8-a554-031e9e392561"
@@ -758,7 +758,7 @@
           {
             "id": "a0534cb1-56ed-4dea-95ce-444e6780651a",
             "hash": "bb5f0e5313aa5cf84c4e6a5a3972ca34",
-            "value": "https://www.sipoo.fi/tyo/",
+            "value": "https://www.good-municipality.fi/tyo/",
             "contentType": "internal",
             "articles": [
               "5091cbdb-39b0-4f59-8647-0b5af5b6da2b"
@@ -766,14 +766,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Avoimet työpaikat ja työllisyyspalvelut sipoo.fi:ssä"
+                "labelValue": "Avoimet työpaikat ja työllisyyspalvelut good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "be3237cb-08d0-4bcd-a5d6-c1c76193183b",
             "hash": "464fff3c31b6a933961ae7eadb5ffdde",
-            "value": "https://www.sipoo.fi/asuminen/sipoon-vesi/",
+            "value": "https://www.good-municipality.fi/asuminen/good-municipalityn-vesi/",
             "contentType": "internal",
             "articles": [
               "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -781,14 +781,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Sipoon Vesi sipoo.fi:ssä"
+                "labelValue": "Sipoon Vesi good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "6c8f2b67-08cc-4bf6-9a3a-0c3fc6b6800d",
             "hash": "c0cdb3714c85b2879efa71ee45707aa8",
-            "value": "https://www.sipoo.fi/sv/arbete/",
+            "value": "https://www.good-municipality.fi/sv/arbete/",
             "contentType": "internal",
             "articles": [
               "5091cbdb-39b0-4f59-8647-0b5af5b6da2b"
@@ -803,7 +803,7 @@
           {
             "id": "bf750270-8aee-49a2-9cac-859b670ed8a8",
             "hash": "704bdd3cd303a82a905e6aa905eb6692",
-            "value": "https://www.sipoo.fi/sv/halsovardstjanster/administrations-kontaktuppgifter/",
+            "value": "https://www.good-municipality.fi/sv/halsovardstjanster/administrations-kontaktuppgifter/",
             "contentType": "internal",
             "articles": [
               "b52df641-94f3-4bc8-a554-031e9e392561"
@@ -818,7 +818,7 @@
           {
             "id": "3a528ab6-6ec2-4489-a7ea-a55ee1562ebf",
             "hash": "cb362093eeb6462cb5caa7e7886878ae",
-            "value": "https://www.sipoo.fi/en/business-sipoo/",
+            "value": "https://www.good-municipality.fi/en/business-good-municipality/",
             "contentType": "internal",
             "articles": [
               "4e95f837-8284-47c5-86c3-83bea7e2d6fb"
@@ -826,14 +826,14 @@
             "labels": [
               {
                 "locale": "31a318c7-1e36-4820-b08d-08afb8ca13d2",
-                "labelValue": "Business Sipoo in sipoo.fi"
+                "labelValue": "Business Sipoo in good-municipality.fi"
               }
             ]
           },
           {
             "id": "546f133c-8db4-4697-8d37-d3ff6d638bb9",
             "hash": "1e5658e3b0681f507fdd1d9a782c341e",
-            "value": "https://www.sipoo.fi/palvelu/kodin-ja-koulun-valinen-viestinta-wilma/",
+            "value": "https://www.good-municipality.fi/palvelu/kodin-ja-koulun-valinen-viestinta-wilma/",
             "contentType": "internal",
             "articles": [
               "7dbdd0cc-d6ad-49ed-935c-342b2a3dda9b"
@@ -848,7 +848,7 @@
           {
             "id": "6727c5e2-b2b1-43e7-b809-b9ebcc2ccdfb",
             "hash": "9c63f12dac00266a1afc6bfce7327228",
-            "value": "https://www.sipoo.fi/wp-content/uploads/2020/12/kapeat_kaivannot.pdf",
+            "value": "https://www.good-municipality.fi/wp-content/uploads/2020/12/kapeat_kaivannot.pdf",
             "contentType": "internal",
             "articles": [
               "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -867,7 +867,7 @@
           {
             "id": "970a25a1-a79a-4774-912a-8d7fc0055309",
             "hash": "b44360bf9c2c15c7bc7c69afa2ece2f6",
-            "value": "https://www.sipoo.fi/sv/sibbo-institut/kontaktuppgifter/",
+            "value": "https://www.good-municipality.fi/sv/sibbo-institut/kontaktuppgifter/",
             "contentType": "internal",
             "articles": [
               "de949b69-7456-49fb-872d-30fd7ad53bd7"
@@ -882,7 +882,7 @@
           {
             "id": "36c2bd6f-77be-43a1-94e2-c637fd3aabdd",
             "hash": "9c799ff557cc18ba52cb4ee3af490d53",
-            "value": "https://www.sipoo.fi/organisaatio/",
+            "value": "https://www.good-municipality.fi/organisaatio/",
             "contentType": "internal",
             "articles": [
               "a5399d8c-e89e-4064-975b-1431577ec16e"
@@ -890,14 +890,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Organisaatio sipoo.fi:ssä"
+                "labelValue": "Organisaatio good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "d39a441c-004f-44f2-98e9-832c7a032d18",
             "hash": "2a02b8afd3d5098c955ddca7f8a206cb",
-            "value": "https://www.sipoo.fi/sv/demokrati/",
+            "value": "https://www.good-municipality.fi/sv/demokrati/",
             "contentType": "internal",
             "articles": [
               "8488ebf7-812d-4367-bb08-0cd6d9fd3cbd"
@@ -912,7 +912,7 @@
           {
             "id": "9ff73e49-203b-40b7-bdff-2c53a5b456c0",
             "hash": "134e35ab0a0f094df9a996652da6514f",
-            "value": "https://www.sipoo.fi/sv/planlaggning-och-utveckling/utvecklings-och-planlaggningscentralen-kontaktuppgifter/",
+            "value": "https://www.good-municipality.fi/sv/planlaggning-och-utveckling/utvecklings-och-planlaggningscentralen-kontaktuppgifter/",
             "contentType": "internal",
             "articles": [
               "cd260588-bcdf-4dc4-b6fe-46ae083cbdb6"
@@ -927,7 +927,7 @@
           {
             "id": "18796ae1-2532-47f6-a496-ae80a8444517",
             "hash": "8d2c47cba3c4b7b2bc9066233aa6bd7b",
-            "value": "https://www.sipoo.fi/sv/utbildning/",
+            "value": "https://www.good-municipality.fi/sv/utbildning/",
             "contentType": "internal",
             "articles": [
               "7dbdd0cc-d6ad-49ed-935c-342b2a3dda9b"
@@ -942,7 +942,7 @@
           {
             "id": "2efd19a4-e7f0-4e5d-8bc1-1af84b4e79b8",
             "hash": "c2bd5a54fce3fec3bdbc2e7b7d28f142",
-            "value": "https://www.sipoo.fi/palvelu/vesihuoltopalvelut/",
+            "value": "https://www.good-municipality.fi/palvelu/vesihuoltopalvelut/",
             "contentType": "internal",
             "articles": [
               "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -957,7 +957,7 @@
           {
             "id": "5f9a6872-157d-429a-9fa8-5759ccfc150f",
             "hash": "7d227ce925373be074d9d81ee93c717d",
-            "value": "https://www.sipoo.fi/organisaatio/johtoryhma-yhteystiedot/",
+            "value": "https://www.good-municipality.fi/organisaatio/johtoryhma-yhteystiedot/",
             "contentType": "internal",
             "articles": [
               "a5399d8c-e89e-4064-975b-1431577ec16e"
@@ -972,7 +972,7 @@
           {
             "id": "75bc9813-62a9-4e41-969f-14fdfec7284b",
             "hash": "9ed5e76df9f668e180a3a51367de3772",
-            "value": "https://www.sipoo.fi/en/education/",
+            "value": "https://www.good-municipality.fi/en/education/",
             "contentType": "internal",
             "articles": [
               "7dbdd0cc-d6ad-49ed-935c-342b2a3dda9b"
@@ -980,14 +980,14 @@
             "labels": [
               {
                 "locale": "31a318c7-1e36-4820-b08d-08afb8ca13d2",
-                "labelValue": "Education in sipoo.fi"
+                "labelValue": "Education in good-municipality.fi"
               }
             ]
           },
           {
             "id": "edffd89d-2fda-4b7e-8cb4-12040e56b600",
             "hash": "ec330356011e93a137f6ae0eafeedfb8",
-            "value": "https://www.sipoo.fi/ymparisto-ja-elaimet/",
+            "value": "https://www.good-municipality.fi/ymparisto-ja-elaimet/",
             "contentType": "internal",
             "articles": [
               "537ca692-0bdc-4660-87c3-6d22efd8834e"
@@ -995,14 +995,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Ympäristö ja eläimet sipoo.fi:ssä"
+                "labelValue": "Ympäristö ja eläimet good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "d1cf80f5-fa30-4f67-96c9-e3121b632f37",
             "hash": "ca1a38ef1817be38f52a311b8e24becf",
-            "value": "https://www.sipoo.fi/vapaa-aika-ja-nuoret/",
+            "value": "https://www.good-municipality.fi/vapaa-aika-ja-nuoret/",
             "contentType": "internal",
             "articles": [
               "66a02d3a-b2cb-49ad-9e24-4f816bbec5d4"
@@ -1010,14 +1010,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Vapaa-aika ja nuoret sipoo.fi:ssä"
+                "labelValue": "Vapaa-aika ja nuoret good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "879db573-d0d3-4651-9889-5f0594df731c",
             "hash": "7ff2253fb28a598a1f4538474b8dc2ec",
-            "value": "https://www.sipoo.fi/rakentaminen/rakennusvalvonta-yhteystiedot/",
+            "value": "https://www.good-municipality.fi/rakentaminen/rakennusvalvonta-yhteystiedot/",
             "contentType": "internal",
             "articles": [
               "e25e7b87-7e8f-448c-9074-d24954bea098"
@@ -1032,7 +1032,7 @@
           {
             "id": "5c1996f5-f899-4efb-9604-049ca888ee55",
             "hash": "b7ed6ac7a6b63a9e81495829d22be579",
-            "value": "https://www.sipoo.fi/sv/tjanst/kommunikationen-mellan-hem-och-skola-wilma/",
+            "value": "https://www.good-municipality.fi/sv/tjanst/kommunikationen-mellan-hem-och-skola-wilma/",
             "contentType": "internal",
             "articles": [
               "7dbdd0cc-d6ad-49ed-935c-342b2a3dda9b"
@@ -1047,7 +1047,7 @@
           {
             "id": "dcd5cee5-8657-4477-bae6-4d920fd2d66b",
             "hash": "9145e82293e09cf0d70c11f3258fa014",
-            "value": "https://www.sipoo.fi/kaavoitus-ja-kehittaminen/",
+            "value": "https://www.good-municipality.fi/kaavoitus-ja-kehittaminen/",
             "contentType": "internal",
             "articles": [
               "592394da-7766-4cf3-bafd-f9264b3a1f5e"
@@ -1055,14 +1055,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Kaavoitus ja kehittäminen sipoo.fi:ssä"
+                "labelValue": "Kaavoitus ja kehittäminen good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "95d2a620-0122-4d61-940a-709fe3da5ef5",
             "hash": "38c02c74cf60f0867489156041a06de5",
-            "value": "https://www.sipoo.fi/demokratia/",
+            "value": "https://www.good-municipality.fi/demokratia/",
             "contentType": "internal",
             "articles": [
               "8488ebf7-812d-4367-bb08-0cd6d9fd3cbd"
@@ -1070,14 +1070,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Demokratia sipoo.fi:ssä"
+                "labelValue": "Demokratia good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "cba2e2f1-9fce-4d1e-b9b5-3ad4a5a1891d",
             "hash": "c8983842e09815e86243935003e954a0",
-            "value": "https://www.sipoo.fi/sv/halsovardstjanster/nickby-social-och-halsostation-telefonservice-och-betjaningstider/",
+            "value": "https://www.good-municipality.fi/sv/halsovardstjanster/nickby-social-och-halsostation-telefonservice-och-betjaningstider/",
             "contentType": "internal",
             "articles": [
               "03ed5957-a64d-4c80-ab9f-e5229093db4c"
@@ -1092,7 +1092,7 @@
           {
             "id": "c4a5d7ca-c650-4894-bfa1-318a95955375",
             "hash": "95e8beba85d1002d87899c159b56b091",
-            "value": "https://www.sipoo.fi/sv/socialservice/",
+            "value": "https://www.good-municipality.fi/sv/socialservice/",
             "contentType": "internal",
             "articles": [
               "b52df641-94f3-4bc8-a554-031e9e392561"
@@ -1107,7 +1107,7 @@
           {
             "id": "5fc1235f-5170-43a7-8ed0-4e60785d4df8",
             "hash": "10ef6856d71e5d62a5462d3376377a39",
-            "value": "https://www.sipoo.fi/sosiaalipalvelut/",
+            "value": "https://www.good-municipality.fi/sosiaalipalvelut/",
             "contentType": "internal",
             "articles": [
               "b52df641-94f3-4bc8-a554-031e9e392561"
@@ -1115,14 +1115,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Sosiaalipalvelut sipoo.fi:ssä"
+                "labelValue": "Sosiaalipalvelut good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "ff793698-fb82-4e97-b63d-8a569dc67050",
             "hash": "d4bcb925235890cb1fda3b015a205b1f",
-            "value": "https://www.sipoo.fi/koulutus/",
+            "value": "https://www.good-municipality.fi/koulutus/",
             "contentType": "internal",
             "articles": [
               "7dbdd0cc-d6ad-49ed-935c-342b2a3dda9b"
@@ -1137,7 +1137,7 @@
           {
             "id": "8f653117-314b-4826-bbfc-cddb3f984f27",
             "hash": "464efaf7e905bad80fccb3ab9e02ce75",
-            "value": "https://www.sipoo.fi/kadut-ja-viheralueet/kadut-ja-viheralueet-yhteystiedot/",
+            "value": "https://www.good-municipality.fi/kadut-ja-viheralueet/kadut-ja-viheralueet-yhteystiedot/",
             "contentType": "internal",
             "articles": [
               "c448404a-8ff0-4203-975d-cea2d0bb60c9"
@@ -1152,7 +1152,7 @@
           {
             "id": "1c8205de-5800-4e58-9cc0-35ce2057bae3",
             "hash": "63cd8173b999217e976fd26209d6c5df",
-            "value": "https://www.sipoo.fi/terveyspalvelut/",
+            "value": "https://www.good-municipality.fi/terveyspalvelut/",
             "contentType": "internal",
             "articles": [
               "03ed5957-a64d-4c80-ab9f-e5229093db4c"
@@ -1160,14 +1160,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Terveyspalvelut sipoo.fi:ssä"
+                "labelValue": "Terveyspalvelut good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "14918746-bdbb-4a1a-8645-689e6484a201",
             "hash": "b09b01a05ee34830a76f127af373b907",
-            "value": "https://www.sipoo.fi/sv/miljo-och-djur/miljoovervakningen-och-miljoskydd/miljoovervakningen-kontaktuppgifter/",
+            "value": "https://www.good-municipality.fi/sv/miljo-och-djur/miljoovervakningen-och-miljoskydd/miljoovervakningen-kontaktuppgifter/",
             "contentType": "internal",
             "articles": [
               "537ca692-0bdc-4660-87c3-6d22efd8834e"
@@ -1182,7 +1182,7 @@
           {
             "id": "93eb36e5-6a99-47f5-aea7-c8540c3c0088",
             "hash": "025780dccf882942ce5b22be4f6ea0e0",
-            "value": "https://www.sipoo.fi/sv/organisation/ledningsgruppen-kontaktuppgifter/",
+            "value": "https://www.good-municipality.fi/sv/organisation/ledningsgruppen-kontaktuppgifter/",
             "contentType": "internal",
             "articles": [
               "a5399d8c-e89e-4064-975b-1431577ec16e"
@@ -2505,7 +2505,7 @@
           {
             "id": "4e95f837-8284-47c5-86c3-83bea7e2d6fb",
             "hash": "10c6cb7d203c5b55ccd8d60769712241",
-            "name": "business-sipoo",
+            "name": "business-good-municipality",
             "parentId": null
           },
           {
@@ -2559,7 +2559,7 @@
           {
             "id": "a11ed068-ca59-47c4-94b5-b7095f21b5b2",
             "hash": "745dc45c6a98c93856c859a8eb12f72e",
-            "name": "sipoo-water",
+            "name": "good-municipality-water",
             "parentId": null
           },
           {
@@ -2595,7 +2595,7 @@
           {
             "id": "de949b69-7456-49fb-872d-30fd7ad53bd7",
             "hash": "c61b25015d5a1b63e431df3d567ba795",
-            "name": "sipoo-institute",
+            "name": "good-municipality-institute",
             "parentId": null
           },
           {
@@ -2615,7 +2615,7 @@
           {
             "id": "0490e68a-fcb1-4376-a767-133b5f24ef52",
             "hash": "76cd375828dfbe9222ca711ad0218cff",
-            "value": "https://www.sipoo.fi/sv/boende/",
+            "value": "https://www.good-municipality.fi/sv/boende/",
             "contentType": "internal",
             "articles": [
               "cd260588-bcdf-4dc4-b6fe-46ae083cbdb6"
@@ -2630,7 +2630,7 @@
           {
             "id": "06eed98f-ce25-4bc9-84d9-7f47c6d118ad",
             "hash": "bb6974ffb21d9a5eb8315bd39c743410",
-            "value": "https://www.sipoo.fi/rakentaminen/",
+            "value": "https://www.good-municipality.fi/rakentaminen/",
             "contentType": "internal",
             "articles": [
               "e25e7b87-7e8f-448c-9074-d24954bea098"
@@ -2638,14 +2638,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Rakentaminen sipoo.fi:ssä"
+                "labelValue": "Rakentaminen good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "06f82f9e-d159-4c0b-a9f1-3b4cfbd719c5",
             "hash": "1910daf554b3a116f6c24cf85cb966d3",
-            "value": "https://www.sipoo.fi/sipoon-opisto/",
+            "value": "https://www.good-municipality.fi/good-municipalityn-opisto/",
             "contentType": "internal",
             "articles": [
               "de949b69-7456-49fb-872d-30fd7ad53bd7"
@@ -2653,14 +2653,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Sipoon opisto sipoo.fi:ssä"
+                "labelValue": "Sipoon opisto good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "089a047d-28b2-4cdc-a7d4-686539b29a4f",
             "hash": "1023539943e142722fa7788942ee395a",
-            "value": "https://www.sipoo.fi/yhteystiedot/",
+            "value": "https://www.good-municipality.fi/yhteystiedot/",
             "contentType": "internal",
             "articles": [
               "5e43cc7c-8101-4eb5-a800-f48def86e675"
@@ -2675,7 +2675,7 @@
           {
             "id": "14918746-bdbb-4a1a-8645-689e6484a201",
             "hash": "b09b01a05ee34830a76f127af373b907",
-            "value": "https://www.sipoo.fi/sv/miljo-och-djur/miljoovervakningen-och-miljoskydd/miljoovervakningen-kontaktuppgifter/",
+            "value": "https://www.good-municipality.fi/sv/miljo-och-djur/miljoovervakningen-och-miljoskydd/miljoovervakningen-kontaktuppgifter/",
             "contentType": "internal",
             "articles": [
               "537ca692-0bdc-4660-87c3-6d22efd8834e"
@@ -2690,7 +2690,7 @@
           {
             "id": "18796ae1-2532-47f6-a496-ae80a8444517",
             "hash": "8d2c47cba3c4b7b2bc9066233aa6bd7b",
-            "value": "https://www.sipoo.fi/sv/utbildning/",
+            "value": "https://www.good-municipality.fi/sv/utbildning/",
             "contentType": "internal",
             "articles": [
               "7dbdd0cc-d6ad-49ed-935c-342b2a3dda9b"
@@ -2705,7 +2705,7 @@
           {
             "id": "190ba124-fbce-4999-86cd-852ea4cd20d0",
             "hash": "999891ab6bdab2d9887b5a98ab8272cc",
-            "value": "https://www.sipoo.fi/koronavirus/",
+            "value": "https://www.good-municipality.fi/koronavirus/",
             "contentType": "internal",
             "articles": [
               "03ed5957-a64d-4c80-ab9f-e5229093db4c"
@@ -2720,7 +2720,7 @@
           {
             "id": "1c8205de-5800-4e58-9cc0-35ce2057bae3",
             "hash": "63cd8173b999217e976fd26209d6c5df",
-            "value": "https://www.sipoo.fi/terveyspalvelut/",
+            "value": "https://www.good-municipality.fi/terveyspalvelut/",
             "contentType": "internal",
             "articles": [
               "03ed5957-a64d-4c80-ab9f-e5229093db4c"
@@ -2728,14 +2728,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Terveyspalvelut sipoo.fi:ssä"
+                "labelValue": "Terveyspalvelut good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "1cf5b3b9-9b81-415c-a5e0-cc6a7b0fd25d",
             "hash": "e9af4c1c00a8fade443984630c821f51",
-            "value": "https://www.sipoo.fi/sv/sibbo-institut/",
+            "value": "https://www.good-municipality.fi/sv/sibbo-institut/",
             "contentType": "internal",
             "articles": [
               "de949b69-7456-49fb-872d-30fd7ad53bd7"
@@ -2793,7 +2793,7 @@
           {
             "id": "23c5ff2a-6e2b-436d-8df3-b2a757cdc23f",
             "hash": "3c7cc96b516e18ba44d2e3b8e7c0eec3",
-            "value": "https://www.sipoo.fi/sipoon-opisto/yhteystiedot/",
+            "value": "https://www.good-municipality.fi/good-municipalityn-opisto/yhteystiedot/",
             "contentType": "internal",
             "articles": [
               "de949b69-7456-49fb-872d-30fd7ad53bd7"
@@ -2808,7 +2808,7 @@
           {
             "id": "29cd4029-ee08-4308-b861-66ff9a835ab5",
             "hash": "d8e532d25c6d9ed0baf4329f53833d6f",
-            "value": "https://www.sipoo.fi/kadut-ja-viheralueet/",
+            "value": "https://www.good-municipality.fi/kadut-ja-viheralueet/",
             "contentType": "internal",
             "articles": [
               "c448404a-8ff0-4203-975d-cea2d0bb60c9"
@@ -2816,14 +2816,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Katu- ja viheralueet sipoo.fi:ssä"
+                "labelValue": "Katu- ja viheralueet good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "2efd19a4-e7f0-4e5d-8bc1-1af84b4e79b8",
             "hash": "c2bd5a54fce3fec3bdbc2e7b7d28f142",
-            "value": "https://www.sipoo.fi/palvelu/vesihuoltopalvelut/",
+            "value": "https://www.good-municipality.fi/palvelu/vesihuoltopalvelut/",
             "contentType": "internal",
             "articles": [
               "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -2838,7 +2838,7 @@
           {
             "id": "3244cc4a-2747-4023-b5ab-23c87f36f4ea",
             "hash": "af5759cdd1ff50faba2e39f5f54dfaf4",
-            "value": "https://www.sipoo.fi/wp-content/uploads/2020/12/Opas-kaivannon-turalliseen-toteuttamiseen.pdf",
+            "value": "https://www.good-municipality.fi/wp-content/uploads/2020/12/Opas-kaivannon-turalliseen-toteuttamiseen.pdf",
             "contentType": "internal",
             "articles": [
               "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -2853,7 +2853,7 @@
           {
             "id": "328aafe9-3015-48b8-a049-90ff8e5d2a79",
             "hash": "e974def44490db536696e301430a667d",
-            "value": "https://www.sipoo.fi/sv/tjanst/foretagsradgivning/",
+            "value": "https://www.good-municipality.fi/sv/tjanst/foretagsradgivning/",
             "contentType": "internal",
             "articles": [
               "4e95f837-8284-47c5-86c3-83bea7e2d6fb"
@@ -2868,7 +2868,7 @@
           {
             "id": "36c2bd6f-77be-43a1-94e2-c637fd3aabdd",
             "hash": "9c799ff557cc18ba52cb4ee3af490d53",
-            "value": "https://www.sipoo.fi/organisaatio/",
+            "value": "https://www.good-municipality.fi/organisaatio/",
             "contentType": "internal",
             "articles": [
               "a5399d8c-e89e-4064-975b-1431577ec16e"
@@ -2876,14 +2876,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Organisaatio sipoo.fi:ssä"
+                "labelValue": "Organisaatio good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "3a528ab6-6ec2-4489-a7ea-a55ee1562ebf",
             "hash": "cb362093eeb6462cb5caa7e7886878ae",
-            "value": "https://www.sipoo.fi/en/business-sipoo/",
+            "value": "https://www.good-municipality.fi/en/business-good-municipality/",
             "contentType": "internal",
             "articles": [
               "4e95f837-8284-47c5-86c3-83bea7e2d6fb"
@@ -2891,14 +2891,14 @@
             "labels": [
               {
                 "locale": "31a318c7-1e36-4820-b08d-08afb8ca13d2",
-                "labelValue": "Business Sipoo in sipoo.fi"
+                "labelValue": "Business Sipoo in good-municipality.fi"
               }
             ]
           },
           {
             "id": "43a68fe6-a846-44c6-b71c-f88063858039",
             "hash": "91853a5d29de5da447f9582f4aaf178b",
-            "value": "https://www.sipoo.fi/kartat-ja-paikkatieto/",
+            "value": "https://www.good-municipality.fi/kartat-ja-paikkatieto/",
             "contentType": "internal",
             "articles": [
               "c1c30d6d-a1f0-4d7a-9b34-d553a9b0a7a8"
@@ -2906,14 +2906,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Kartat ja paikkatieto sipoo.fi:ssä"
+                "labelValue": "Kartat ja paikkatieto good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "4d5761ab-7306-4859-accd-0a799492cbdc",
             "hash": "cb562ec1bdf35727e49804361073f95d",
-            "value": "https://www.sipoo.fi/en/environment-and-animals/",
+            "value": "https://www.good-municipality.fi/en/environment-and-animals/",
             "contentType": "internal",
             "articles": [
               "537ca692-0bdc-4660-87c3-6d22efd8834e"
@@ -2921,14 +2921,14 @@
             "labels": [
               {
                 "locale": "31a318c7-1e36-4820-b08d-08afb8ca13d2",
-                "labelValue": "Environment and animals in sipoo.fi"
+                "labelValue": "Environment and animals in good-municipality.fi"
               }
             ]
           },
           {
             "id": "50d11b3d-0c1f-4ab3-be58-89cb62e01d95",
             "hash": "aa576cb273726ac553f2aae71d45a8b8",
-            "value": "https://www.sipoo.fi/wp-content/uploads/2020/12/faran_lurar_i_schaktgropen.pdf",
+            "value": "https://www.good-municipality.fi/wp-content/uploads/2020/12/faran_lurar_i_schaktgropen.pdf",
             "contentType": "internal",
             "articles": [
               "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -2943,7 +2943,7 @@
           {
             "id": "546f133c-8db4-4697-8d37-d3ff6d638bb9",
             "hash": "1e5658e3b0681f507fdd1d9a782c341e",
-            "value": "https://www.sipoo.fi/palvelu/kodin-ja-koulun-valinen-viestinta-wilma/",
+            "value": "https://www.good-municipality.fi/palvelu/kodin-ja-koulun-valinen-viestinta-wilma/",
             "contentType": "internal",
             "articles": [
               "7dbdd0cc-d6ad-49ed-935c-342b2a3dda9b"
@@ -2958,7 +2958,7 @@
           {
             "id": "5777f6e6-367c-412a-8e68-08ee736b0119",
             "hash": "69cf015da9d8d83a37c76f937df9e60f",
-            "value": "https://www.sipoo.fi/en/leisure-time-and-youth/",
+            "value": "https://www.good-municipality.fi/en/leisure-time-and-youth/",
             "contentType": "internal",
             "articles": [
               "66a02d3a-b2cb-49ad-9e24-4f816bbec5d4"
@@ -2966,14 +2966,14 @@
             "labels": [
               {
                 "locale": "31a318c7-1e36-4820-b08d-08afb8ca13d2",
-                "labelValue": "Leasure time and youth in sipoo.fi"
+                "labelValue": "Leasure time and youth in good-municipality.fi"
               }
             ]
           },
           {
             "id": "5c1996f5-f899-4efb-9604-049ca888ee55",
             "hash": "b7ed6ac7a6b63a9e81495829d22be579",
-            "value": "https://www.sipoo.fi/sv/tjanst/kommunikationen-mellan-hem-och-skola-wilma/",
+            "value": "https://www.good-municipality.fi/sv/tjanst/kommunikationen-mellan-hem-och-skola-wilma/",
             "contentType": "internal",
             "articles": [
               "7dbdd0cc-d6ad-49ed-935c-342b2a3dda9b"
@@ -2988,7 +2988,7 @@
           {
             "id": "5f9a6872-157d-429a-9fa8-5759ccfc150f",
             "hash": "7d227ce925373be074d9d81ee93c717d",
-            "value": "https://www.sipoo.fi/organisaatio/johtoryhma-yhteystiedot/",
+            "value": "https://www.good-municipality.fi/organisaatio/johtoryhma-yhteystiedot/",
             "contentType": "internal",
             "articles": [
               "a5399d8c-e89e-4064-975b-1431577ec16e"
@@ -3003,7 +3003,7 @@
           {
             "id": "5fc1235f-5170-43a7-8ed0-4e60785d4df8",
             "hash": "10ef6856d71e5d62a5462d3376377a39",
-            "value": "https://www.sipoo.fi/sosiaalipalvelut/",
+            "value": "https://www.good-municipality.fi/sosiaalipalvelut/",
             "contentType": "internal",
             "articles": [
               "b52df641-94f3-4bc8-a554-031e9e392561"
@@ -3011,14 +3011,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Sosiaalipalvelut sipoo.fi:ssä"
+                "labelValue": "Sosiaalipalvelut good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "65bdf389-298a-4be5-9500-0ddfc6312b4e",
             "hash": "63e6999f112fb263faf8798d33dcc3a5",
-            "value": "https://www.sipoo.fi/asuminen/",
+            "value": "https://www.good-municipality.fi/asuminen/",
             "contentType": "internal",
             "articles": [
               "cd260588-bcdf-4dc4-b6fe-46ae083cbdb6"
@@ -3026,14 +3026,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Asuminen sipoo.fi:ssä"
+                "labelValue": "Asuminen good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "6727c5e2-b2b1-43e7-b809-b9ebcc2ccdfb",
             "hash": "9c63f12dac00266a1afc6bfce7327228",
-            "value": "https://www.sipoo.fi/wp-content/uploads/2020/12/kapeat_kaivannot.pdf",
+            "value": "https://www.good-municipality.fi/wp-content/uploads/2020/12/kapeat_kaivannot.pdf",
             "contentType": "internal",
             "articles": [
               "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -3052,7 +3052,7 @@
           {
             "id": "6c8f2b67-08cc-4bf6-9a3a-0c3fc6b6800d",
             "hash": "c0cdb3714c85b2879efa71ee45707aa8",
-            "value": "https://www.sipoo.fi/sv/arbete/",
+            "value": "https://www.good-municipality.fi/sv/arbete/",
             "contentType": "internal",
             "articles": [
               "5091cbdb-39b0-4f59-8647-0b5af5b6da2b"
@@ -3067,7 +3067,7 @@
           {
             "id": "6ecb2bd3-4ade-4d02-887a-f6b60fd703ed",
             "hash": "bab15460813a3ae3eaabbae3fa34be9e",
-            "value": "https://www.sipoo.fi/sv/business-sipoo/",
+            "value": "https://www.good-municipality.fi/sv/business-good-municipality/",
             "contentType": "internal",
             "articles": [
               "4e95f837-8284-47c5-86c3-83bea7e2d6fb"
@@ -3082,7 +3082,7 @@
           {
             "id": "6f22a79b-5705-49d1-a492-7755c539afc5",
             "hash": "a21c672cec2dafd2e9f300292763376f",
-            "value": "https://www.sipoo.fi/sv/planlaggning-och-utveckling/",
+            "value": "https://www.good-municipality.fi/sv/planlaggning-och-utveckling/",
             "contentType": "internal",
             "articles": [
               "592394da-7766-4cf3-bafd-f9264b3a1f5e"
@@ -3097,7 +3097,7 @@
           {
             "id": "75bc9813-62a9-4e41-969f-14fdfec7284b",
             "hash": "9ed5e76df9f668e180a3a51367de3772",
-            "value": "https://www.sipoo.fi/en/education/",
+            "value": "https://www.good-municipality.fi/en/education/",
             "contentType": "internal",
             "articles": [
               "7dbdd0cc-d6ad-49ed-935c-342b2a3dda9b"
@@ -3105,14 +3105,14 @@
             "labels": [
               {
                 "locale": "31a318c7-1e36-4820-b08d-08afb8ca13d2",
-                "labelValue": "Education in sipoo.fi"
+                "labelValue": "Education in good-municipality.fi"
               }
             ]
           },
           {
             "id": "77a512b3-44ad-4a18-b0aa-a53b7812fe3e",
             "hash": "e6ce77c67576d6349e6a78aec48cc134",
-            "value": "https://www.sipoo.fi/sv/fritid-och-unga/",
+            "value": "https://www.good-municipality.fi/sv/fritid-och-unga/",
             "contentType": "internal",
             "articles": [
               "66a02d3a-b2cb-49ad-9e24-4f816bbec5d4"
@@ -3127,7 +3127,7 @@
           {
             "id": "7eff7a3e-2146-49b5-92f3-2c61cb791cd6",
             "hash": "8e352b7a5ff4b8740bce25051a8be302",
-            "value": "https://www.sipoo.fi/palvelu/yritysneuvonta/",
+            "value": "https://www.good-municipality.fi/palvelu/yritysneuvonta/",
             "contentType": "internal",
             "articles": [
               "4e95f837-8284-47c5-86c3-83bea7e2d6fb"
@@ -3142,7 +3142,7 @@
           {
             "id": "7f20ff6d-de00-480e-9218-3de4ff0e1f31",
             "hash": "c2326e506f7e0a6ac1577947793bd53b",
-            "value": "https://www.sipoo.fi/sv/tjanst/vattentjanster/",
+            "value": "https://www.good-municipality.fi/sv/tjanst/vattentjanster/",
             "contentType": "internal",
             "articles": [
               "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -3157,7 +3157,7 @@
           {
             "id": "83ab514a-0246-452c-b83e-0f5c947e766a",
             "hash": "a3cd01a315c4a1f98384e39effa1e3f8",
-            "value": "https://www.sipoo.fi/sv/organisation/",
+            "value": "https://www.good-municipality.fi/sv/organisation/",
             "contentType": "internal",
             "articles": [
               "a5399d8c-e89e-4064-975b-1431577ec16e"
@@ -3172,7 +3172,7 @@
           {
             "id": "879db573-d0d3-4651-9889-5f0594df731c",
             "hash": "7ff2253fb28a598a1f4538474b8dc2ec",
-            "value": "https://www.sipoo.fi/rakentaminen/rakennusvalvonta-yhteystiedot/",
+            "value": "https://www.good-municipality.fi/rakentaminen/rakennusvalvonta-yhteystiedot/",
             "contentType": "internal",
             "articles": [
               "e25e7b87-7e8f-448c-9074-d24954bea098"
@@ -3187,7 +3187,7 @@
           {
             "id": "8ea2df05-be12-4c63-af4d-91d024239325",
             "hash": "3d725b491d3fb7b3e333606ae6253618",
-            "value": "https://www.sipoo.fi/sv/kontaktuppgifter/",
+            "value": "https://www.good-municipality.fi/sv/kontaktuppgifter/",
             "contentType": "internal",
             "articles": [
               "5e43cc7c-8101-4eb5-a800-f48def86e675"
@@ -3202,7 +3202,7 @@
           {
             "id": "8f29055f-07d1-4d54-bae2-7dc2ec0d6a04",
             "hash": "08b530fac653b41af0e80110643358b7",
-            "value": "https://www.sipoo.fi/sv/kartor-och-geodata/",
+            "value": "https://www.good-municipality.fi/sv/kartor-och-geodata/",
             "contentType": "internal",
             "articles": [
               "c1c30d6d-a1f0-4d7a-9b34-d553a9b0a7a8"
@@ -3217,7 +3217,7 @@
           {
             "id": "8f653117-314b-4826-bbfc-cddb3f984f27",
             "hash": "464efaf7e905bad80fccb3ab9e02ce75",
-            "value": "https://www.sipoo.fi/kadut-ja-viheralueet/kadut-ja-viheralueet-yhteystiedot/",
+            "value": "https://www.good-municipality.fi/kadut-ja-viheralueet/kadut-ja-viheralueet-yhteystiedot/",
             "contentType": "internal",
             "articles": [
               "c448404a-8ff0-4203-975d-cea2d0bb60c9"
@@ -3232,7 +3232,7 @@
           {
             "id": "93eb36e5-6a99-47f5-aea7-c8540c3c0088",
             "hash": "025780dccf882942ce5b22be4f6ea0e0",
-            "value": "https://www.sipoo.fi/sv/organisation/ledningsgruppen-kontaktuppgifter/",
+            "value": "https://www.good-municipality.fi/sv/organisation/ledningsgruppen-kontaktuppgifter/",
             "contentType": "internal",
             "articles": [
               "a5399d8c-e89e-4064-975b-1431577ec16e"
@@ -3247,7 +3247,7 @@
           {
             "id": "95d2a620-0122-4d61-940a-709fe3da5ef5",
             "hash": "38c02c74cf60f0867489156041a06de5",
-            "value": "https://www.sipoo.fi/demokratia/",
+            "value": "https://www.good-municipality.fi/demokratia/",
             "contentType": "internal",
             "articles": [
               "8488ebf7-812d-4367-bb08-0cd6d9fd3cbd"
@@ -3255,14 +3255,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Demokratia sipoo.fi:ssä"
+                "labelValue": "Demokratia good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "970a25a1-a79a-4774-912a-8d7fc0055309",
             "hash": "b44360bf9c2c15c7bc7c69afa2ece2f6",
-            "value": "https://www.sipoo.fi/sv/sibbo-institut/kontaktuppgifter/",
+            "value": "https://www.good-municipality.fi/sv/sibbo-institut/kontaktuppgifter/",
             "contentType": "internal",
             "articles": [
               "de949b69-7456-49fb-872d-30fd7ad53bd7"
@@ -3292,7 +3292,7 @@
           {
             "id": "9ff73e49-203b-40b7-bdff-2c53a5b456c0",
             "hash": "134e35ab0a0f094df9a996652da6514f",
-            "value": "https://www.sipoo.fi/sv/planlaggning-och-utveckling/utvecklings-och-planlaggningscentralen-kontaktuppgifter/",
+            "value": "https://www.good-municipality.fi/sv/planlaggning-och-utveckling/utvecklings-och-planlaggningscentralen-kontaktuppgifter/",
             "contentType": "internal",
             "articles": [
               "cd260588-bcdf-4dc4-b6fe-46ae083cbdb6"
@@ -3307,7 +3307,7 @@
           {
             "id": "a0534cb1-56ed-4dea-95ce-444e6780651a",
             "hash": "bb5f0e5313aa5cf84c4e6a5a3972ca34",
-            "value": "https://www.sipoo.fi/tyo/",
+            "value": "https://www.good-municipality.fi/tyo/",
             "contentType": "internal",
             "articles": [
               "5091cbdb-39b0-4f59-8647-0b5af5b6da2b"
@@ -3315,14 +3315,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Avoimet työpaikat ja työllisyyspalvelut sipoo.fi:ssä"
+                "labelValue": "Avoimet työpaikat ja työllisyyspalvelut good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "a60f3398-41ff-4e42-b18d-f4b1cce3a491",
             "hash": "d69bcd2a98451782287c2c24518fa3a9",
-            "value": "https://www.sipoo.fi/demokratia/valtuuston-yhteystiedot/",
+            "value": "https://www.good-municipality.fi/demokratia/valtuuston-yhteystiedot/",
             "contentType": "internal",
             "articles": [
               "8488ebf7-812d-4367-bb08-0cd6d9fd3cbd"
@@ -3337,7 +3337,7 @@
           {
             "id": "a610d5bc-bf6b-46df-abdc-6db0897e9683",
             "hash": "8eab82dce86586c76ffbb318c96eba7c",
-            "value": "https://www.sipoo.fi/sv/halsovardstjanster/",
+            "value": "https://www.good-municipality.fi/sv/halsovardstjanster/",
             "contentType": "internal",
             "articles": [
               "03ed5957-a64d-4c80-ab9f-e5229093db4c"
@@ -3352,7 +3352,7 @@
           {
             "id": "ae780c04-ab26-4447-b089-f0fd9ce01059",
             "hash": "0f85f709affc44b41f1486e25989f1ff",
-            "value": "https://www.sipoo.fi/sv/byggande/byggnadstillsynen-kontaktuppgifter/",
+            "value": "https://www.good-municipality.fi/sv/byggande/byggnadstillsynen-kontaktuppgifter/",
             "contentType": "internal",
             "articles": [
               "e25e7b87-7e8f-448c-9074-d24954bea098"
@@ -3367,7 +3367,7 @@
           {
             "id": "b1582dec-5443-4053-abbf-d236d1fee20e",
             "hash": "d4c22ff92d4d23b971f816931426351a",
-            "value": "https://www.sipoo.fi/sv/miljo-och-djur/",
+            "value": "https://www.good-municipality.fi/sv/miljo-och-djur/",
             "contentType": "internal",
             "articles": [
               "537ca692-0bdc-4660-87c3-6d22efd8834e"
@@ -3382,7 +3382,7 @@
           {
             "id": "b605508e-18bd-4d24-b505-e8856a5a21d3",
             "hash": "67fd777482532348f20bce5785e103d5",
-            "value": "https://www.sipoo.fi/sv/coronavirus/",
+            "value": "https://www.good-municipality.fi/sv/coronavirus/",
             "contentType": "internal",
             "articles": [
               "03ed5957-a64d-4c80-ab9f-e5229093db4c"
@@ -3397,7 +3397,7 @@
           {
             "id": "be3237cb-08d0-4bcd-a5d6-c1c76193183b",
             "hash": "464fff3c31b6a933961ae7eadb5ffdde",
-            "value": "https://www.sipoo.fi/asuminen/sipoon-vesi/",
+            "value": "https://www.good-municipality.fi/asuminen/good-municipalityn-vesi/",
             "contentType": "internal",
             "articles": [
               "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -3405,14 +3405,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Sipoon Vesi sipoo.fi:ssä"
+                "labelValue": "Sipoon Vesi good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "bf750270-8aee-49a2-9cac-859b670ed8a8",
             "hash": "704bdd3cd303a82a905e6aa905eb6692",
-            "value": "https://www.sipoo.fi/sv/halsovardstjanster/administrations-kontaktuppgifter/",
+            "value": "https://www.good-municipality.fi/sv/halsovardstjanster/administrations-kontaktuppgifter/",
             "contentType": "internal",
             "articles": [
               "b52df641-94f3-4bc8-a554-031e9e392561"
@@ -3427,7 +3427,7 @@
           {
             "id": "c4a5d7ca-c650-4894-bfa1-318a95955375",
             "hash": "95e8beba85d1002d87899c159b56b091",
-            "value": "https://www.sipoo.fi/sv/socialservice/",
+            "value": "https://www.good-municipality.fi/sv/socialservice/",
             "contentType": "internal",
             "articles": [
               "b52df641-94f3-4bc8-a554-031e9e392561"
@@ -3442,7 +3442,7 @@
           {
             "id": "cba2e2f1-9fce-4d1e-b9b5-3ad4a5a1891d",
             "hash": "c8983842e09815e86243935003e954a0",
-            "value": "https://www.sipoo.fi/sv/halsovardstjanster/nickby-social-och-halsostation-telefonservice-och-betjaningstider/",
+            "value": "https://www.good-municipality.fi/sv/halsovardstjanster/nickby-social-och-halsostation-telefonservice-och-betjaningstider/",
             "contentType": "internal",
             "articles": [
               "03ed5957-a64d-4c80-ab9f-e5229093db4c"
@@ -3457,7 +3457,7 @@
           {
             "id": "d1cf80f5-fa30-4f67-96c9-e3121b632f37",
             "hash": "ca1a38ef1817be38f52a311b8e24becf",
-            "value": "https://www.sipoo.fi/vapaa-aika-ja-nuoret/",
+            "value": "https://www.good-municipality.fi/vapaa-aika-ja-nuoret/",
             "contentType": "internal",
             "articles": [
               "66a02d3a-b2cb-49ad-9e24-4f816bbec5d4"
@@ -3465,14 +3465,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Vapaa-aika ja nuoret sipoo.fi:ssä"
+                "labelValue": "Vapaa-aika ja nuoret good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "d21b965f-33fe-4a94-8d19-973a5562f29b",
             "hash": "ee956c4abde7bf1fe03c7bf53486478e",
-            "value": "https://www.sipoo.fi/business-sipoo/",
+            "value": "https://www.good-municipality.fi/business-good-municipality/",
             "contentType": "internal",
             "articles": [
               "4e95f837-8284-47c5-86c3-83bea7e2d6fb",
@@ -3481,14 +3481,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Business Sipoo sipoo.fi:ssä"
+                "labelValue": "Business Sipoo good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "d39a441c-004f-44f2-98e9-832c7a032d18",
             "hash": "2a02b8afd3d5098c955ddca7f8a206cb",
-            "value": "https://www.sipoo.fi/sv/demokrati/",
+            "value": "https://www.good-municipality.fi/sv/demokrati/",
             "contentType": "internal",
             "articles": [
               "8488ebf7-812d-4367-bb08-0cd6d9fd3cbd"
@@ -3503,7 +3503,7 @@
           {
             "id": "da613eb2-0918-4d44-beef-2aa5abe041f4",
             "hash": "19db7c5903dad77ecd7d6a1430f742d6",
-            "value": "https://www.sipoo.fi/sv/byggande/",
+            "value": "https://www.good-municipality.fi/sv/byggande/",
             "contentType": "internal",
             "articles": [
               "e25e7b87-7e8f-448c-9074-d24954bea098"
@@ -3518,7 +3518,7 @@
           {
             "id": "dcd5cee5-8657-4477-bae6-4d920fd2d66b",
             "hash": "9145e82293e09cf0d70c11f3258fa014",
-            "value": "https://www.sipoo.fi/kaavoitus-ja-kehittaminen/",
+            "value": "https://www.good-municipality.fi/kaavoitus-ja-kehittaminen/",
             "contentType": "internal",
             "articles": [
               "592394da-7766-4cf3-bafd-f9264b3a1f5e"
@@ -3526,14 +3526,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Kaavoitus ja kehittäminen sipoo.fi:ssä"
+                "labelValue": "Kaavoitus ja kehittäminen good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "dfb858ad-14e4-47a3-8ea2-6d168e7fae04",
             "hash": "b9ba5edec32abceddcd2b240d779ccbd",
-            "value": "https://www.sipoo.fi/sv/boende/sibbo-vatten/",
+            "value": "https://www.good-municipality.fi/sv/boende/sibbo-vatten/",
             "contentType": "internal",
             "articles": [
               "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -3548,7 +3548,7 @@
           {
             "id": "e8a79efb-6911-45e2-bee0-8dcdba26116e",
             "hash": "7b288d4f88e5dc7d10fa409e30a82b5a",
-            "value": "https://www.sipoo.fi/terveyspalvelut/nikkilan-sosiaali-ja-terveysasema-puhelinasiointi-ja-palveluajat/",
+            "value": "https://www.good-municipality.fi/terveyspalvelut/nikkilan-sosiaali-ja-terveysasema-puhelinasiointi-ja-palveluajat/",
             "contentType": "internal",
             "articles": [
               "03ed5957-a64d-4c80-ab9f-e5229093db4c"
@@ -3563,7 +3563,7 @@
           {
             "id": "e9e21def-1bc6-4465-86dd-3c46db439ea6",
             "hash": "e18c4fe74ae65e9d7f8190a586db0721",
-            "value": "https://www.sipoo.fi/sv/fullmaktiges-kontaktuppgifter/",
+            "value": "https://www.good-municipality.fi/sv/fullmaktiges-kontaktuppgifter/",
             "contentType": "internal",
             "articles": [
               "8488ebf7-812d-4367-bb08-0cd6d9fd3cbd"
@@ -3578,7 +3578,7 @@
           {
             "id": "edffd89d-2fda-4b7e-8cb4-12040e56b600",
             "hash": "ec330356011e93a137f6ae0eafeedfb8",
-            "value": "https://www.sipoo.fi/ymparisto-ja-elaimet/",
+            "value": "https://www.good-municipality.fi/ymparisto-ja-elaimet/",
             "contentType": "internal",
             "articles": [
               "537ca692-0bdc-4660-87c3-6d22efd8834e"
@@ -3586,14 +3586,14 @@
             "labels": [
               {
                 "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-                "labelValue": "Ympäristö ja eläimet sipoo.fi:ssä"
+                "labelValue": "Ympäristö ja eläimet good-municipality.fi:ssä"
               }
             ]
           },
           {
             "id": "f0c94915-7e17-46e1-8272-e62d1d7bec6a",
             "hash": "9e48a45f4e0932ba67f9a4f888c49908",
-            "value": "https://www.sipoo.fi/terveyspalvelut/hallinnon-yhteystiedot/",
+            "value": "https://www.good-municipality.fi/terveyspalvelut/hallinnon-yhteystiedot/",
             "contentType": "internal",
             "articles": [
               "b52df641-94f3-4bc8-a554-031e9e392561"
@@ -3608,7 +3608,7 @@
           {
             "id": "f7793108-c23b-4c0c-8bc3-31de7d1da705",
             "hash": "2bd732f7ef7bd961cb63c3edf2838572",
-            "value": "https://www.sipoo.fi/ymparisto-ja-elaimet/ymparistovalvonta-ja-ymparistonsuojelu/ymparistovalvonta-yhteystiedot/",
+            "value": "https://www.good-municipality.fi/ymparisto-ja-elaimet/ymparistovalvonta-ja-ymparistonsuojelu/ymparistovalvonta-yhteystiedot/",
             "contentType": "internal",
             "articles": [
               "537ca692-0bdc-4660-87c3-6d22efd8834e"
@@ -3623,7 +3623,7 @@
           {
             "id": "ff01145c-916e-4a72-9783-b242987bdd1a",
             "hash": "97d1d80ceeea0ebd20d4010d6ae65420",
-            "value": "https://www.sipoo.fi/kaavoitus-ja-kehittaminen/kehitys-ja-kaavoituskeskus-yhteystiedot/",
+            "value": "https://www.good-municipality.fi/kaavoitus-ja-kehittaminen/kehitys-ja-kaavoituskeskus-yhteystiedot/",
             "contentType": "internal",
             "articles": [
               "cd260588-bcdf-4dc4-b6fe-46ae083cbdb6"
@@ -3638,7 +3638,7 @@
           {
             "id": "ff793698-fb82-4e97-b63d-8a569dc67050",
             "hash": "d4bcb925235890cb1fda3b015a205b1f",
-            "value": "https://www.sipoo.fi/koulutus/",
+            "value": "https://www.good-municipality.fi/koulutus/",
             "contentType": "internal",
             "articles": [
               "7dbdd0cc-d6ad-49ed-935c-342b2a3dda9b"
@@ -5090,7 +5090,7 @@
       "body": {
         "article": "20971971-91c3-4057-b0d4-0c36d78808c3",
         "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-        "content": "# Tietosuoja ja palvelun käyttöehdot\n\n## Tietosuoja ja tietoturva\nOma asiointi -palvelun käyttäminen on turvallista. Kukaan ulkopuolinen ei näe asiointitietojasi, eikä viestejä, jotka lähetät Omassa asioinnissa. Huomaathan, että Sipoon kunta ei koskaan kysy käyttäjiltä pankkitunnuksia, salasanoja, luottokortin numeroa tai muita tunnisteita puhelimitse, sähköpostitse, kirjeitse tai muulla tavalla.\n\nJos käytät tietokonetta, joka on muidenkin käytössä (esimerkiksi SipooInfossa), poistu kaikista ohjelmista ja palveluista, ennen kuin lähdet pois koneelta. Tyhjennä myös selaimen välimuisti. Välimuisti tyhjennetään poistamalla koneelta väliaikaiset internet-tiedostot ja sivuhistoria. Ohjeet välimuistin ja sivuhistorian tyhjentämiseen löydät parhaiten käyttämäsi selaimen käyttöohjeista tai kirjoittamalla selaimen hakukenttään esimerkiksi ”selaushistorian tyhjennys”.\n\nKun olet asiakkaana Sipoon kunnan palveluissa tai muutoin asioit kunnan kanssa, keräämme henkilötietojasi vain siinä määrin kuin se on tarpeellista asiasi hoitamiseksi. Henkilötietojen käsittelylle meillä on aina oikeusperuste. Tietojasi ei luovuteta eteenpäin muihin kuin lakisääteisiin velvoitteisiin perustuen. Sinulla on oikeus tietää, käsitelläänkö sinun henkilötietojasi vai ei, ja mitä henkilötietoja sinusta on tallennettu sekä vaatia tietojesi oikaisemista.\n\n### Tietojen tarkistus sekä oikaisuvaatimus\nOma asiointi palvelun Organisaatio -osiosta löydät palvelut rekisteritietojen tarkistukseen sekä oikaisuvaatimusta varten. Huomioithan, että sinun tulee tunnistautua Oma asiointi -palveluun käyttääksesi näitä lomakkeita. Mikäli tunnistautuminen ei ole mahdollista, voit asioida myös kunnan palvelupisteissä. \n\n**Palvelupaikat:**  \n\n**SipooInfo Nikkilä (asiakaspalvelupiste Nikkilän kirjaston yhteydessä)**  \nPohjoinen Koulutie 2  \n04130 Sipoo  \n\n**SipooInfo Söderkulla (asiakaspalvelupiste Söderkullan kirjaston yhteydessä)**  \nAmiraalintie 2  \n01150 Söderkulla    \n\n## Palvelun käyttöehdot\n### 1 Yleistä\nNäitä käyttöehtoja (”Käyttöehdot”) sovelletaan Sipoon kunnan, Y-tunnus 0203533-8 asiakkailleen tarjoamiin internet-pohjaisiin verkkopalveluihin sipoo.fi-verkkopalvelussa (”Palvelu”). Palvelu tarjoaa käyttäjille (”Käyttäjä”) mahdollisuuden tallentaa Palveluun itseään koskevia tietoja ja aineistoja sekä tarkastella Sipoon kunnan ja sen yhteistyökumppanien ja muiden kolmansien osapuolten Palveluun tallentamia tietoja ja aineistoja.\n\nSipoon kunnalla on oikeus muuttaa näitä Käyttöehtoja ilmoittamalla tästä Käyttäjälle. Jatkamalla Palvelun käyttöä tällaisen ilmoituksen vastaanottamisen jälkeen, Käyttäjä hyväksyy muutetut käyttöehdot.\n\n### 2 Pääsy Palveluun\nKäyttäjän hyväksyttyä nämä Käyttöehdot, Sipoon kunta antaa Käyttäjälle rajoitetun oikeuden käyttää Palvelua henkilökohtaiseen, ei-kaupalliseen tarkoitukseen.\n\nPalvelun käytön edellyttämät päätelaitteet ja yhteydet (kuten yhteys matkaviestinverkkoon tai internetiin) eivät kuulu Sipoon kunnan palveluun. Käyttäjä vastaa tällaisten laitteiden tai yhteyksien hankkimisesta, ylläpidosta ja päivittämisestä ja niistä aiheutuvista kustannuksista. Käyttäjä vastaa käyttämiensä laitteiden, ohjelmistojen ja tietoliikenneyhteyksien tietoturvallisuudesta.\n\n### 3 Tunnistautuminen\nPalvelun käyttö edellyttää tunnistautumista pankkitunnuksilla, varmennekortilla tai mobiilivarmenteella. Käyttäjä vastaa pankkitunnustensa tai mobiilivarmenteensa säilytyksestä ja siitä, että kukaan muu kuin Käyttäjä ei voi kirjautua Palveluun Käyttäjän pankkitunnuksia tai mobiilivarmennetta käyttäen.\n\nAsiakas sitoutuu aina kirjautumaan ulos Palvelusta, jossa hän asioi tunnistautuneena.\n\n### 4 Hinnat\nPalvelun käyttö on Käyttäjälle maksutonta.\n\n### 5 Palveluun syötettävät tiedot\nPalvelun tietyt osiot mahdollistavat tietojen syöttämisen Palveluun. Käyttäjä vastaa siitä, että hänen Palveluun syöttämänsä tiedot ovat virheettömiä ja asianmukaisia.\n\nPalvelu voi sisältää yhteyksiä tai linkkejä Sipoon kunnan yhteistyökumppanien tai muiden kolmansien osapuolten omistamille tai operoimille sivuille ja sähköisiin palveluihin. Palvelu voi myös sisältää kolmansien osapuolten sisältöjä, tuotteita ja palveluita. Sipoon kunta ei ole vastuussa kolmansien osapuolten sisällöstä, linkeistä, tuotteista tai palveluista tai linkkien toimivuudesta.\n\n### 6 Tietosuoja ja henkilötiedot\nSipoon kunta kerää Käyttäjältä hänen Palveluun syöttämiään henkilötietoja ja Palvelun käyttöä koskevia tietoja henkilörekisteriin (Sipoon kunnan asiakasrekisteri). Tietojen käsittelyyn, yksityisyyden sekä henkilötietojen suojaan sovelletaan Sipoon kunnan tietosuojaselostetta. Hyväksymällä nämä Käyttöehdot Käyttäjä vahvistaa, että on lukenut ja hyväksynyt käyttöehdot ja tietosuojaselosteen.\n\n### 7 Immateriaalioikeudet\nImmateriaalioikeudet Palveluun ja kaikkeen Palvelussa olevaan materiaaliin kuuluvat Sipoon kunnalle tai kolmannelle osapuolelle.\n\nKäyttäjälle ei synny tai siirry mitään immateriaalioikeuksia Palvelun käytön kautta tai toimittamalla materiaalia Palveluun. Käyttäjän käyttöoikeus Palveluun rajoittuu henkilökohtaiseen käyttöön.\n\nKäyttäjä vastaa näiden ehtojen, lainsäädännön, viranomaismääräysten tai hyvän tavan vastaisesta palvelun ja sen sisältämän aineiston käytöstä palveluntuottajille tai kolmannelle osapuolelle aiheutuneesta vahingosta. Tekijänoikeudellisesta korvausvelvollisuudesta säädetään tekijänoikeuslain 7 luvussa ja rikosoikeudellisesta rangaistuvastuusta tekijänoikeuslain 7 luvussa sekä rikoslain (39/1889) 49 luvussa.\n\n### 8 Palvelun tuottaminen\nPalvelu on Käyttäjän käytettävissä lähtökohtaisesti 24 tuntia vuorokaudessa.  Sipoon kunnalla on oikeus tuottaa Palvelu parhaaksi katsomallaan tavalla. Sipoon kunnalla on oikeus muuttaa Palvelua milloin vain ja mistä tahansa syystä ilman ennakkoilmoitusta. Sipoon kunta pyrkii kuitenkin ilmoittamaan olennaisista, Palvelun käyttöön merkittävästi vaikuttavista muutoksista kohtuullisessa ajassa etukäteen. Muutoksista ilmoittamiseksi katsotaan niistä ilmoittaminen Palvelun etusivulla.\n\nSipoon kunnalla on oikeus keskeyttää Palvelun käyttö osittain, kokonaan tai tietyn Käyttäjän osalta. Sipoon kunta pyrkii varmistamaan, että keskeytys on mahdollisimman lyhyt. Mikäli mahdollista, Sipoon kunta pyrkii ilmoittamaan kohtuullisessa ajassa etukäteen Palvelun käyttökatkoksista tai keskeytyksestä.\n\n### 9 Sipoon kunnan vastuu\nSipoon kunta ylläpitää Palvelua ja tuottaa osittain Palvelun sisällön. Palvelu sisältää ja sen kautta on saavutettavissa myös Sipoon kunnan yhteistyökumppaneiden ja muiden kolmansien osapuolten tuottamaa sisältöä ja palveluita, joista vastaa kukin yhteistyökumppani tai muu kolmas osapuoli.\n\nSipoon kunta ei takaa, että Palvelu toimii ilman keskeytyksiä tai virheettä. Sipoon kunta ei ole vastuussa Palvelussa olevan tiedon tai muun materiaalin oikeellisuudesta, täsmällisyydestä, kattavuudesta tai luotettavuudesta eikä Palvelussa olevasta tai sen kautta toimitetusta sisällöstä tai muista tuotteiden tai palveluiden ominaisuuksista.\n\nSipoon kunta ei vastaa Palvelun käytöstä aiheutuvista välittömistä tai välillisistä vahingoista tai Palveluun toimitetun informaation muutoksista tai katoamisesta eikä Palvelun käytön keskeytyksistä tai häiriöistä.\n\n### 10 Sovellettava laki ja riitojen ratkaisu\nNäihin käyttöehtoihin sovelletaan Suomen lakia. Näistä käyttöehdoista aiheutuvat erimielisyydet pyritään ensisijaisesti ratkaisemaan sovinnollisesti. Mikäli sopimukseen ei päästä, asian ratkaisee ensimmäisenä oikeusasteena Itä-Uudenmaan käräjäoikeus muissa kuin tekijänoikeutta koskevissa asioissa. Tekijänoikeusasioissa asian ratkaisee ensimmäisenä oikeusasteena markkinaoikeus.\n\n### 11 Ota yhteyttä\nMikäli sinulla on kysyttävää näihin käyttöehtoihin liittyen, voit lähettää viestin käyttäen Lähetä viesti -painiketta. Vaihtoehtoisesti voit myös lähettää sähköpostia info@sipoo.fi -osoitteeseen.\n"
+        "content": "# Tietosuoja ja palvelun käyttöehdot\n\n## Tietosuoja ja tietoturva\nOma asiointi -palvelun käyttäminen on turvallista. Kukaan ulkopuolinen ei näe asiointitietojasi, eikä viestejä, jotka lähetät Omassa asioinnissa. Huomaathan, että Sipoon kunta ei koskaan kysy käyttäjiltä pankkitunnuksia, salasanoja, luottokortin numeroa tai muita tunnisteita puhelimitse, sähköpostitse, kirjeitse tai muulla tavalla.\n\nJos käytät tietokonetta, joka on muidenkin käytössä (esimerkiksi SipooInfossa), poistu kaikista ohjelmista ja palveluista, ennen kuin lähdet pois koneelta. Tyhjennä myös selaimen välimuisti. Välimuisti tyhjennetään poistamalla koneelta väliaikaiset internet-tiedostot ja sivuhistoria. Ohjeet välimuistin ja sivuhistorian tyhjentämiseen löydät parhaiten käyttämäsi selaimen käyttöohjeista tai kirjoittamalla selaimen hakukenttään esimerkiksi ”selaushistorian tyhjennys”.\n\nKun olet asiakkaana Sipoon kunnan palveluissa tai muutoin asioit kunnan kanssa, keräämme henkilötietojasi vain siinä määrin kuin se on tarpeellista asiasi hoitamiseksi. Henkilötietojen käsittelylle meillä on aina oikeusperuste. Tietojasi ei luovuteta eteenpäin muihin kuin lakisääteisiin velvoitteisiin perustuen. Sinulla on oikeus tietää, käsitelläänkö sinun henkilötietojasi vai ei, ja mitä henkilötietoja sinusta on tallennettu sekä vaatia tietojesi oikaisemista.\n\n### Tietojen tarkistus sekä oikaisuvaatimus\nOma asiointi palvelun Organisaatio -osiosta löydät palvelut rekisteritietojen tarkistukseen sekä oikaisuvaatimusta varten. Huomioithan, että sinun tulee tunnistautua Oma asiointi -palveluun käyttääksesi näitä lomakkeita. Mikäli tunnistautuminen ei ole mahdollista, voit asioida myös kunnan palvelupisteissä. \n\n**Palvelupaikat:**  \n\n**SipooInfo Nikkilä (asiakaspalvelupiste Nikkilän kirjaston yhteydessä)**  \nPohjoinen Koulutie 2  \n04130 Sipoo  \n\n**SipooInfo Söderkulla (asiakaspalvelupiste Söderkullan kirjaston yhteydessä)**  \nAmiraalintie 2  \n01150 Söderkulla    \n\n## Palvelun käyttöehdot\n### 1 Yleistä\nNäitä käyttöehtoja (”Käyttöehdot”) sovelletaan Sipoon kunnan, Y-tunnus 0203533-8 asiakkailleen tarjoamiin internet-pohjaisiin verkkopalveluihin good-municipality.fi-verkkopalvelussa (”Palvelu”). Palvelu tarjoaa käyttäjille (”Käyttäjä”) mahdollisuuden tallentaa Palveluun itseään koskevia tietoja ja aineistoja sekä tarkastella Sipoon kunnan ja sen yhteistyökumppanien ja muiden kolmansien osapuolten Palveluun tallentamia tietoja ja aineistoja.\n\nSipoon kunnalla on oikeus muuttaa näitä Käyttöehtoja ilmoittamalla tästä Käyttäjälle. Jatkamalla Palvelun käyttöä tällaisen ilmoituksen vastaanottamisen jälkeen, Käyttäjä hyväksyy muutetut käyttöehdot.\n\n### 2 Pääsy Palveluun\nKäyttäjän hyväksyttyä nämä Käyttöehdot, Sipoon kunta antaa Käyttäjälle rajoitetun oikeuden käyttää Palvelua henkilökohtaiseen, ei-kaupalliseen tarkoitukseen.\n\nPalvelun käytön edellyttämät päätelaitteet ja yhteydet (kuten yhteys matkaviestinverkkoon tai internetiin) eivät kuulu Sipoon kunnan palveluun. Käyttäjä vastaa tällaisten laitteiden tai yhteyksien hankkimisesta, ylläpidosta ja päivittämisestä ja niistä aiheutuvista kustannuksista. Käyttäjä vastaa käyttämiensä laitteiden, ohjelmistojen ja tietoliikenneyhteyksien tietoturvallisuudesta.\n\n### 3 Tunnistautuminen\nPalvelun käyttö edellyttää tunnistautumista pankkitunnuksilla, varmennekortilla tai mobiilivarmenteella. Käyttäjä vastaa pankkitunnustensa tai mobiilivarmenteensa säilytyksestä ja siitä, että kukaan muu kuin Käyttäjä ei voi kirjautua Palveluun Käyttäjän pankkitunnuksia tai mobiilivarmennetta käyttäen.\n\nAsiakas sitoutuu aina kirjautumaan ulos Palvelusta, jossa hän asioi tunnistautuneena.\n\n### 4 Hinnat\nPalvelun käyttö on Käyttäjälle maksutonta.\n\n### 5 Palveluun syötettävät tiedot\nPalvelun tietyt osiot mahdollistavat tietojen syöttämisen Palveluun. Käyttäjä vastaa siitä, että hänen Palveluun syöttämänsä tiedot ovat virheettömiä ja asianmukaisia.\n\nPalvelu voi sisältää yhteyksiä tai linkkejä Sipoon kunnan yhteistyökumppanien tai muiden kolmansien osapuolten omistamille tai operoimille sivuille ja sähköisiin palveluihin. Palvelu voi myös sisältää kolmansien osapuolten sisältöjä, tuotteita ja palveluita. Sipoon kunta ei ole vastuussa kolmansien osapuolten sisällöstä, linkeistä, tuotteista tai palveluista tai linkkien toimivuudesta.\n\n### 6 Tietosuoja ja henkilötiedot\nSipoon kunta kerää Käyttäjältä hänen Palveluun syöttämiään henkilötietoja ja Palvelun käyttöä koskevia tietoja henkilörekisteriin (Sipoon kunnan asiakasrekisteri). Tietojen käsittelyyn, yksityisyyden sekä henkilötietojen suojaan sovelletaan Sipoon kunnan tietosuojaselostetta. Hyväksymällä nämä Käyttöehdot Käyttäjä vahvistaa, että on lukenut ja hyväksynyt käyttöehdot ja tietosuojaselosteen.\n\n### 7 Immateriaalioikeudet\nImmateriaalioikeudet Palveluun ja kaikkeen Palvelussa olevaan materiaaliin kuuluvat Sipoon kunnalle tai kolmannelle osapuolelle.\n\nKäyttäjälle ei synny tai siirry mitään immateriaalioikeuksia Palvelun käytön kautta tai toimittamalla materiaalia Palveluun. Käyttäjän käyttöoikeus Palveluun rajoittuu henkilökohtaiseen käyttöön.\n\nKäyttäjä vastaa näiden ehtojen, lainsäädännön, viranomaismääräysten tai hyvän tavan vastaisesta palvelun ja sen sisältämän aineiston käytöstä palveluntuottajille tai kolmannelle osapuolelle aiheutuneesta vahingosta. Tekijänoikeudellisesta korvausvelvollisuudesta säädetään tekijänoikeuslain 7 luvussa ja rikosoikeudellisesta rangaistuvastuusta tekijänoikeuslain 7 luvussa sekä rikoslain (39/1889) 49 luvussa.\n\n### 8 Palvelun tuottaminen\nPalvelu on Käyttäjän käytettävissä lähtökohtaisesti 24 tuntia vuorokaudessa.  Sipoon kunnalla on oikeus tuottaa Palvelu parhaaksi katsomallaan tavalla. Sipoon kunnalla on oikeus muuttaa Palvelua milloin vain ja mistä tahansa syystä ilman ennakkoilmoitusta. Sipoon kunta pyrkii kuitenkin ilmoittamaan olennaisista, Palvelun käyttöön merkittävästi vaikuttavista muutoksista kohtuullisessa ajassa etukäteen. Muutoksista ilmoittamiseksi katsotaan niistä ilmoittaminen Palvelun etusivulla.\n\nSipoon kunnalla on oikeus keskeyttää Palvelun käyttö osittain, kokonaan tai tietyn Käyttäjän osalta. Sipoon kunta pyrkii varmistamaan, että keskeytys on mahdollisimman lyhyt. Mikäli mahdollista, Sipoon kunta pyrkii ilmoittamaan kohtuullisessa ajassa etukäteen Palvelun käyttökatkoksista tai keskeytyksestä.\n\n### 9 Sipoon kunnan vastuu\nSipoon kunta ylläpitää Palvelua ja tuottaa osittain Palvelun sisällön. Palvelu sisältää ja sen kautta on saavutettavissa myös Sipoon kunnan yhteistyökumppaneiden ja muiden kolmansien osapuolten tuottamaa sisältöä ja palveluita, joista vastaa kukin yhteistyökumppani tai muu kolmas osapuoli.\n\nSipoon kunta ei takaa, että Palvelu toimii ilman keskeytyksiä tai virheettä. Sipoon kunta ei ole vastuussa Palvelussa olevan tiedon tai muun materiaalin oikeellisuudesta, täsmällisyydestä, kattavuudesta tai luotettavuudesta eikä Palvelussa olevasta tai sen kautta toimitetusta sisällöstä tai muista tuotteiden tai palveluiden ominaisuuksista.\n\nSipoon kunta ei vastaa Palvelun käytöstä aiheutuvista välittömistä tai välillisistä vahingoista tai Palveluun toimitetun informaation muutoksista tai katoamisesta eikä Palvelun käytön keskeytyksistä tai häiriöistä.\n\n### 10 Sovellettava laki ja riitojen ratkaisu\nNäihin käyttöehtoihin sovelletaan Suomen lakia. Näistä käyttöehdoista aiheutuvat erimielisyydet pyritään ensisijaisesti ratkaisemaan sovinnollisesti. Mikäli sopimukseen ei päästä, asian ratkaisee ensimmäisenä oikeusasteena Itä-Uudenmaan käräjäoikeus muissa kuin tekijänoikeutta koskevissa asioissa. Tekijänoikeusasioissa asian ratkaisee ensimmäisenä oikeusasteena markkinaoikeus.\n\n### 11 Ota yhteyttä\nMikäli sinulla on kysyttävää näihin käyttöehtoihin liittyen, voit lähettää viestin käyttäen Lähetä viesti -painiketta. Vaihtoehtoisesti voit myös lähettää sähköpostia info@good-municipality.fi -osoitteeseen.\n"
       }
     },
     "c07ff5da-ef0a-47e2-8432-5bf46d1ff7ff": {
@@ -5531,7 +5531,7 @@
       "id": "7eff7a3e-2146-49b5-92f3-2c61cb791cd6",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/palvelu/yritysneuvonta/",
+        "value": "https://www.good-municipality.fi/palvelu/yritysneuvonta/",
         "contentType": "internal",
         "articles": [
           "4e95f837-8284-47c5-86c3-83bea7e2d6fb"
@@ -5548,7 +5548,7 @@
       "id": "8ea2df05-be12-4c63-af4d-91d024239325",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/kontaktuppgifter/",
+        "value": "https://www.good-municipality.fi/sv/kontaktuppgifter/",
         "contentType": "internal",
         "articles": [
           "5e43cc7c-8101-4eb5-a800-f48def86e675"
@@ -5565,7 +5565,7 @@
       "id": "089a047d-28b2-4cdc-a7d4-686539b29a4f",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/yhteystiedot/",
+        "value": "https://www.good-municipality.fi/yhteystiedot/",
         "contentType": "internal",
         "articles": [
           "5e43cc7c-8101-4eb5-a800-f48def86e675"
@@ -5582,7 +5582,7 @@
       "id": "4d5761ab-7306-4859-accd-0a799492cbdc",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/en/environment-and-animals/",
+        "value": "https://www.good-municipality.fi/en/environment-and-animals/",
         "contentType": "internal",
         "articles": [
           "537ca692-0bdc-4660-87c3-6d22efd8834e"
@@ -5590,7 +5590,7 @@
         "labels": [
           {
             "locale": "31a318c7-1e36-4820-b08d-08afb8ca13d2",
-            "labelValue": "Environment and animals in sipoo.fi"
+            "labelValue": "Environment and animals in good-municipality.fi"
           }
         ]
       }
@@ -5599,7 +5599,7 @@
       "id": "06f82f9e-d159-4c0b-a9f1-3b4cfbd719c5",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sipoon-opisto/",
+        "value": "https://www.good-municipality.fi/good-municipalityn-opisto/",
         "contentType": "internal",
         "articles": [
           "de949b69-7456-49fb-872d-30fd7ad53bd7"
@@ -5607,7 +5607,7 @@
         "labels": [
           {
             "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-            "labelValue": "Sipoon opisto sipoo.fi:ssä"
+            "labelValue": "Sipoon opisto good-municipality.fi:ssä"
           }
         ]
       }
@@ -5616,7 +5616,7 @@
       "id": "a610d5bc-bf6b-46df-abdc-6db0897e9683",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/halsovardstjanster/",
+        "value": "https://www.good-municipality.fi/sv/halsovardstjanster/",
         "contentType": "internal",
         "articles": [
           "03ed5957-a64d-4c80-ab9f-e5229093db4c"
@@ -5633,7 +5633,7 @@
       "id": "65bdf389-298a-4be5-9500-0ddfc6312b4e",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/asuminen/",
+        "value": "https://www.good-municipality.fi/asuminen/",
         "contentType": "internal",
         "articles": [
           "cd260588-bcdf-4dc4-b6fe-46ae083cbdb6"
@@ -5641,7 +5641,7 @@
         "labels": [
           {
             "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-            "labelValue": "Asuminen sipoo.fi:ssä"
+            "labelValue": "Asuminen good-municipality.fi:ssä"
           }
         ]
       }
@@ -5650,7 +5650,7 @@
       "id": "50d11b3d-0c1f-4ab3-be58-89cb62e01d95",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/wp-content/uploads/2020/12/faran_lurar_i_schaktgropen.pdf",
+        "value": "https://www.good-municipality.fi/wp-content/uploads/2020/12/faran_lurar_i_schaktgropen.pdf",
         "contentType": "internal",
         "articles": [
           "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -5667,7 +5667,7 @@
       "id": "f7793108-c23b-4c0c-8bc3-31de7d1da705",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/ymparisto-ja-elaimet/ymparistovalvonta-ja-ymparistonsuojelu/ymparistovalvonta-yhteystiedot/",
+        "value": "https://www.good-municipality.fi/ymparisto-ja-elaimet/ymparistovalvonta-ja-ymparistonsuojelu/ymparistovalvonta-yhteystiedot/",
         "contentType": "internal",
         "articles": [
           "537ca692-0bdc-4660-87c3-6d22efd8834e"
@@ -5684,7 +5684,7 @@
       "id": "b1582dec-5443-4053-abbf-d236d1fee20e",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/miljo-och-djur/",
+        "value": "https://www.good-municipality.fi/sv/miljo-och-djur/",
         "contentType": "internal",
         "articles": [
           "537ca692-0bdc-4660-87c3-6d22efd8834e"
@@ -5701,7 +5701,7 @@
       "id": "ae780c04-ab26-4447-b089-f0fd9ce01059",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/byggande/byggnadstillsynen-kontaktuppgifter/",
+        "value": "https://www.good-municipality.fi/sv/byggande/byggnadstillsynen-kontaktuppgifter/",
         "contentType": "internal",
         "articles": [
           "e25e7b87-7e8f-448c-9074-d24954bea098"
@@ -5718,7 +5718,7 @@
       "id": "29cd4029-ee08-4308-b861-66ff9a835ab5",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/kadut-ja-viheralueet/",
+        "value": "https://www.good-municipality.fi/kadut-ja-viheralueet/",
         "contentType": "internal",
         "articles": [
           "c448404a-8ff0-4203-975d-cea2d0bb60c9"
@@ -5726,7 +5726,7 @@
         "labels": [
           {
             "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-            "labelValue": "Katu- ja viheralueet sipoo.fi:ssä"
+            "labelValue": "Katu- ja viheralueet good-municipality.fi:ssä"
           }
         ]
       }
@@ -5735,7 +5735,7 @@
       "id": "5777f6e6-367c-412a-8e68-08ee736b0119",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/en/leisure-time-and-youth/",
+        "value": "https://www.good-municipality.fi/en/leisure-time-and-youth/",
         "contentType": "internal",
         "articles": [
           "66a02d3a-b2cb-49ad-9e24-4f816bbec5d4"
@@ -5743,7 +5743,7 @@
         "labels": [
           {
             "locale": "31a318c7-1e36-4820-b08d-08afb8ca13d2",
-            "labelValue": "Leasure time and youth in sipoo.fi"
+            "labelValue": "Leasure time and youth in good-municipality.fi"
           }
         ]
       }
@@ -5775,7 +5775,7 @@
       "id": "d21b965f-33fe-4a94-8d19-973a5562f29b",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/business-sipoo/",
+        "value": "https://www.good-municipality.fi/business-good-municipality/",
         "contentType": "internal",
         "articles": [
           "4e95f837-8284-47c5-86c3-83bea7e2d6fb",
@@ -5784,7 +5784,7 @@
         "labels": [
           {
             "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-            "labelValue": "Business Sipoo sipoo.fi:ssä"
+            "labelValue": "Business Sipoo good-municipality.fi:ssä"
           }
         ]
       }
@@ -5793,7 +5793,7 @@
       "id": "23c5ff2a-6e2b-436d-8df3-b2a757cdc23f",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sipoon-opisto/yhteystiedot/",
+        "value": "https://www.good-municipality.fi/good-municipalityn-opisto/yhteystiedot/",
         "contentType": "internal",
         "articles": [
           "de949b69-7456-49fb-872d-30fd7ad53bd7"
@@ -5827,7 +5827,7 @@
       "id": "0490e68a-fcb1-4376-a767-133b5f24ef52",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/boende/",
+        "value": "https://www.good-municipality.fi/sv/boende/",
         "contentType": "internal",
         "articles": [
           "cd260588-bcdf-4dc4-b6fe-46ae083cbdb6"
@@ -5844,7 +5844,7 @@
       "id": "7f20ff6d-de00-480e-9218-3de4ff0e1f31",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/tjanst/vattentjanster/",
+        "value": "https://www.good-municipality.fi/sv/tjanst/vattentjanster/",
         "contentType": "internal",
         "articles": [
           "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -5861,7 +5861,7 @@
       "id": "b605508e-18bd-4d24-b505-e8856a5a21d3",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/coronavirus/",
+        "value": "https://www.good-municipality.fi/sv/coronavirus/",
         "contentType": "internal",
         "articles": [
           "03ed5957-a64d-4c80-ab9f-e5229093db4c"
@@ -5878,7 +5878,7 @@
       "id": "77a512b3-44ad-4a18-b0aa-a53b7812fe3e",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/fritid-och-unga/",
+        "value": "https://www.good-municipality.fi/sv/fritid-och-unga/",
         "contentType": "internal",
         "articles": [
           "66a02d3a-b2cb-49ad-9e24-4f816bbec5d4"
@@ -5895,7 +5895,7 @@
       "id": "e9e21def-1bc6-4465-86dd-3c46db439ea6",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/fullmaktiges-kontaktuppgifter/",
+        "value": "https://www.good-municipality.fi/sv/fullmaktiges-kontaktuppgifter/",
         "contentType": "internal",
         "articles": [
           "8488ebf7-812d-4367-bb08-0cd6d9fd3cbd"
@@ -5912,7 +5912,7 @@
       "id": "da613eb2-0918-4d44-beef-2aa5abe041f4",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/byggande/",
+        "value": "https://www.good-municipality.fi/sv/byggande/",
         "contentType": "internal",
         "articles": [
           "e25e7b87-7e8f-448c-9074-d24954bea098"
@@ -5929,7 +5929,7 @@
       "id": "06eed98f-ce25-4bc9-84d9-7f47c6d118ad",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/rakentaminen/",
+        "value": "https://www.good-municipality.fi/rakentaminen/",
         "contentType": "internal",
         "articles": [
           "e25e7b87-7e8f-448c-9074-d24954bea098"
@@ -5937,7 +5937,7 @@
         "labels": [
           {
             "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-            "labelValue": "Rakentaminen sipoo.fi:ssä"
+            "labelValue": "Rakentaminen good-municipality.fi:ssä"
           }
         ]
       }
@@ -5946,7 +5946,7 @@
       "id": "dfb858ad-14e4-47a3-8ea2-6d168e7fae04",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/boende/sibbo-vatten/",
+        "value": "https://www.good-municipality.fi/sv/boende/sibbo-vatten/",
         "contentType": "internal",
         "articles": [
           "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -5963,7 +5963,7 @@
       "id": "6ecb2bd3-4ade-4d02-887a-f6b60fd703ed",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/business-sipoo/",
+        "value": "https://www.good-municipality.fi/sv/business-good-municipality/",
         "contentType": "internal",
         "articles": [
           "4e95f837-8284-47c5-86c3-83bea7e2d6fb"
@@ -5980,7 +5980,7 @@
       "id": "6f22a79b-5705-49d1-a492-7755c539afc5",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/planlaggning-och-utveckling/",
+        "value": "https://www.good-municipality.fi/sv/planlaggning-och-utveckling/",
         "contentType": "internal",
         "articles": [
           "592394da-7766-4cf3-bafd-f9264b3a1f5e"
@@ -5997,7 +5997,7 @@
       "id": "3244cc4a-2747-4023-b5ab-23c87f36f4ea",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/wp-content/uploads/2020/12/Opas-kaivannon-turalliseen-toteuttamiseen.pdf",
+        "value": "https://www.good-municipality.fi/wp-content/uploads/2020/12/Opas-kaivannon-turalliseen-toteuttamiseen.pdf",
         "contentType": "internal",
         "articles": [
           "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -6014,7 +6014,7 @@
       "id": "a60f3398-41ff-4e42-b18d-f4b1cce3a491",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/demokratia/valtuuston-yhteystiedot/",
+        "value": "https://www.good-municipality.fi/demokratia/valtuuston-yhteystiedot/",
         "contentType": "internal",
         "articles": [
           "8488ebf7-812d-4367-bb08-0cd6d9fd3cbd"
@@ -6076,7 +6076,7 @@
       "id": "1cf5b3b9-9b81-415c-a5e0-cc6a7b0fd25d",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/sibbo-institut/",
+        "value": "https://www.good-municipality.fi/sv/sibbo-institut/",
         "contentType": "internal",
         "articles": [
           "de949b69-7456-49fb-872d-30fd7ad53bd7"
@@ -6093,7 +6093,7 @@
       "id": "e8a79efb-6911-45e2-bee0-8dcdba26116e",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/terveyspalvelut/nikkilan-sosiaali-ja-terveysasema-puhelinasiointi-ja-palveluajat/",
+        "value": "https://www.good-municipality.fi/terveyspalvelut/nikkilan-sosiaali-ja-terveysasema-puhelinasiointi-ja-palveluajat/",
         "contentType": "internal",
         "articles": [
           "03ed5957-a64d-4c80-ab9f-e5229093db4c"
@@ -6110,7 +6110,7 @@
       "id": "190ba124-fbce-4999-86cd-852ea4cd20d0",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/koronavirus/",
+        "value": "https://www.good-municipality.fi/koronavirus/",
         "contentType": "internal",
         "articles": [
           "03ed5957-a64d-4c80-ab9f-e5229093db4c"
@@ -6127,7 +6127,7 @@
       "id": "328aafe9-3015-48b8-a049-90ff8e5d2a79",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/tjanst/foretagsradgivning/",
+        "value": "https://www.good-municipality.fi/sv/tjanst/foretagsradgivning/",
         "contentType": "internal",
         "articles": [
           "4e95f837-8284-47c5-86c3-83bea7e2d6fb"
@@ -6144,7 +6144,7 @@
       "id": "ff01145c-916e-4a72-9783-b242987bdd1a",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/kaavoitus-ja-kehittaminen/kehitys-ja-kaavoituskeskus-yhteystiedot/",
+        "value": "https://www.good-municipality.fi/kaavoitus-ja-kehittaminen/kehitys-ja-kaavoituskeskus-yhteystiedot/",
         "contentType": "internal",
         "articles": [
           "cd260588-bcdf-4dc4-b6fe-46ae083cbdb6"
@@ -6161,7 +6161,7 @@
       "id": "83ab514a-0246-452c-b83e-0f5c947e766a",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/organisation/",
+        "value": "https://www.good-municipality.fi/sv/organisation/",
         "contentType": "internal",
         "articles": [
           "a5399d8c-e89e-4064-975b-1431577ec16e"
@@ -6178,7 +6178,7 @@
       "id": "8f29055f-07d1-4d54-bae2-7dc2ec0d6a04",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/kartor-och-geodata/",
+        "value": "https://www.good-municipality.fi/sv/kartor-och-geodata/",
         "contentType": "internal",
         "articles": [
           "c1c30d6d-a1f0-4d7a-9b34-d553a9b0a7a8"
@@ -6195,7 +6195,7 @@
       "id": "43a68fe6-a846-44c6-b71c-f88063858039",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/kartat-ja-paikkatieto/",
+        "value": "https://www.good-municipality.fi/kartat-ja-paikkatieto/",
         "contentType": "internal",
         "articles": [
           "c1c30d6d-a1f0-4d7a-9b34-d553a9b0a7a8"
@@ -6203,7 +6203,7 @@
         "labels": [
           {
             "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-            "labelValue": "Kartat ja paikkatieto sipoo.fi:ssä"
+            "labelValue": "Kartat ja paikkatieto good-municipality.fi:ssä"
           }
         ]
       }
@@ -6212,7 +6212,7 @@
       "id": "f0c94915-7e17-46e1-8272-e62d1d7bec6a",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/terveyspalvelut/hallinnon-yhteystiedot/",
+        "value": "https://www.good-municipality.fi/terveyspalvelut/hallinnon-yhteystiedot/",
         "contentType": "internal",
         "articles": [
           "b52df641-94f3-4bc8-a554-031e9e392561"
@@ -6229,7 +6229,7 @@
       "id": "a0534cb1-56ed-4dea-95ce-444e6780651a",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/tyo/",
+        "value": "https://www.good-municipality.fi/tyo/",
         "contentType": "internal",
         "articles": [
           "5091cbdb-39b0-4f59-8647-0b5af5b6da2b"
@@ -6237,7 +6237,7 @@
         "labels": [
           {
             "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-            "labelValue": "Avoimet työpaikat ja työllisyyspalvelut sipoo.fi:ssä"
+            "labelValue": "Avoimet työpaikat ja työllisyyspalvelut good-municipality.fi:ssä"
           }
         ]
       }
@@ -6246,7 +6246,7 @@
       "id": "be3237cb-08d0-4bcd-a5d6-c1c76193183b",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/asuminen/sipoon-vesi/",
+        "value": "https://www.good-municipality.fi/asuminen/good-municipalityn-vesi/",
         "contentType": "internal",
         "articles": [
           "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -6254,7 +6254,7 @@
         "labels": [
           {
             "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-            "labelValue": "Sipoon Vesi sipoo.fi:ssä"
+            "labelValue": "Sipoon Vesi good-municipality.fi:ssä"
           }
         ]
       }
@@ -6263,7 +6263,7 @@
       "id": "6c8f2b67-08cc-4bf6-9a3a-0c3fc6b6800d",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/arbete/",
+        "value": "https://www.good-municipality.fi/sv/arbete/",
         "contentType": "internal",
         "articles": [
           "5091cbdb-39b0-4f59-8647-0b5af5b6da2b"
@@ -6280,7 +6280,7 @@
       "id": "bf750270-8aee-49a2-9cac-859b670ed8a8",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/halsovardstjanster/administrations-kontaktuppgifter/",
+        "value": "https://www.good-municipality.fi/sv/halsovardstjanster/administrations-kontaktuppgifter/",
         "contentType": "internal",
         "articles": [
           "b52df641-94f3-4bc8-a554-031e9e392561"
@@ -6297,7 +6297,7 @@
       "id": "3a528ab6-6ec2-4489-a7ea-a55ee1562ebf",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/en/business-sipoo/",
+        "value": "https://www.good-municipality.fi/en/business-good-municipality/",
         "contentType": "internal",
         "articles": [
           "4e95f837-8284-47c5-86c3-83bea7e2d6fb"
@@ -6305,7 +6305,7 @@
         "labels": [
           {
             "locale": "31a318c7-1e36-4820-b08d-08afb8ca13d2",
-            "labelValue": "Business Sipoo in sipoo.fi"
+            "labelValue": "Business Sipoo in good-municipality.fi"
           }
         ]
       }
@@ -6314,7 +6314,7 @@
       "id": "546f133c-8db4-4697-8d37-d3ff6d638bb9",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/palvelu/kodin-ja-koulun-valinen-viestinta-wilma/",
+        "value": "https://www.good-municipality.fi/palvelu/kodin-ja-koulun-valinen-viestinta-wilma/",
         "contentType": "internal",
         "articles": [
           "7dbdd0cc-d6ad-49ed-935c-342b2a3dda9b"
@@ -6331,7 +6331,7 @@
       "id": "6727c5e2-b2b1-43e7-b809-b9ebcc2ccdfb",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/wp-content/uploads/2020/12/kapeat_kaivannot.pdf",
+        "value": "https://www.good-municipality.fi/wp-content/uploads/2020/12/kapeat_kaivannot.pdf",
         "contentType": "internal",
         "articles": [
           "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -6352,7 +6352,7 @@
       "id": "970a25a1-a79a-4774-912a-8d7fc0055309",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/sibbo-institut/kontaktuppgifter/",
+        "value": "https://www.good-municipality.fi/sv/sibbo-institut/kontaktuppgifter/",
         "contentType": "internal",
         "articles": [
           "de949b69-7456-49fb-872d-30fd7ad53bd7"
@@ -6369,7 +6369,7 @@
       "id": "36c2bd6f-77be-43a1-94e2-c637fd3aabdd",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/organisaatio/",
+        "value": "https://www.good-municipality.fi/organisaatio/",
         "contentType": "internal",
         "articles": [
           "a5399d8c-e89e-4064-975b-1431577ec16e"
@@ -6377,7 +6377,7 @@
         "labels": [
           {
             "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-            "labelValue": "Organisaatio sipoo.fi:ssä"
+            "labelValue": "Organisaatio good-municipality.fi:ssä"
           }
         ]
       }
@@ -6386,7 +6386,7 @@
       "id": "d39a441c-004f-44f2-98e9-832c7a032d18",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/demokrati/",
+        "value": "https://www.good-municipality.fi/sv/demokrati/",
         "contentType": "internal",
         "articles": [
           "8488ebf7-812d-4367-bb08-0cd6d9fd3cbd"
@@ -6403,7 +6403,7 @@
       "id": "9ff73e49-203b-40b7-bdff-2c53a5b456c0",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/planlaggning-och-utveckling/utvecklings-och-planlaggningscentralen-kontaktuppgifter/",
+        "value": "https://www.good-municipality.fi/sv/planlaggning-och-utveckling/utvecklings-och-planlaggningscentralen-kontaktuppgifter/",
         "contentType": "internal",
         "articles": [
           "cd260588-bcdf-4dc4-b6fe-46ae083cbdb6"
@@ -6420,7 +6420,7 @@
       "id": "18796ae1-2532-47f6-a496-ae80a8444517",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/utbildning/",
+        "value": "https://www.good-municipality.fi/sv/utbildning/",
         "contentType": "internal",
         "articles": [
           "7dbdd0cc-d6ad-49ed-935c-342b2a3dda9b"
@@ -6437,7 +6437,7 @@
       "id": "2efd19a4-e7f0-4e5d-8bc1-1af84b4e79b8",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/palvelu/vesihuoltopalvelut/",
+        "value": "https://www.good-municipality.fi/palvelu/vesihuoltopalvelut/",
         "contentType": "internal",
         "articles": [
           "a11ed068-ca59-47c4-94b5-b7095f21b5b2"
@@ -6454,7 +6454,7 @@
       "id": "5f9a6872-157d-429a-9fa8-5759ccfc150f",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/organisaatio/johtoryhma-yhteystiedot/",
+        "value": "https://www.good-municipality.fi/organisaatio/johtoryhma-yhteystiedot/",
         "contentType": "internal",
         "articles": [
           "a5399d8c-e89e-4064-975b-1431577ec16e"
@@ -6471,7 +6471,7 @@
       "id": "75bc9813-62a9-4e41-969f-14fdfec7284b",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/en/education/",
+        "value": "https://www.good-municipality.fi/en/education/",
         "contentType": "internal",
         "articles": [
           "7dbdd0cc-d6ad-49ed-935c-342b2a3dda9b"
@@ -6479,7 +6479,7 @@
         "labels": [
           {
             "locale": "31a318c7-1e36-4820-b08d-08afb8ca13d2",
-            "labelValue": "Education in sipoo.fi"
+            "labelValue": "Education in good-municipality.fi"
           }
         ]
       }
@@ -6488,7 +6488,7 @@
       "id": "edffd89d-2fda-4b7e-8cb4-12040e56b600",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/ymparisto-ja-elaimet/",
+        "value": "https://www.good-municipality.fi/ymparisto-ja-elaimet/",
         "contentType": "internal",
         "articles": [
           "537ca692-0bdc-4660-87c3-6d22efd8834e"
@@ -6496,7 +6496,7 @@
         "labels": [
           {
             "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-            "labelValue": "Ympäristö ja eläimet sipoo.fi:ssä"
+            "labelValue": "Ympäristö ja eläimet good-municipality.fi:ssä"
           }
         ]
       }
@@ -6505,7 +6505,7 @@
       "id": "d1cf80f5-fa30-4f67-96c9-e3121b632f37",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/vapaa-aika-ja-nuoret/",
+        "value": "https://www.good-municipality.fi/vapaa-aika-ja-nuoret/",
         "contentType": "internal",
         "articles": [
           "66a02d3a-b2cb-49ad-9e24-4f816bbec5d4"
@@ -6513,7 +6513,7 @@
         "labels": [
           {
             "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-            "labelValue": "Vapaa-aika ja nuoret sipoo.fi:ssä"
+            "labelValue": "Vapaa-aika ja nuoret good-municipality.fi:ssä"
           }
         ]
       }
@@ -6522,7 +6522,7 @@
       "id": "879db573-d0d3-4651-9889-5f0594df731c",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/rakentaminen/rakennusvalvonta-yhteystiedot/",
+        "value": "https://www.good-municipality.fi/rakentaminen/rakennusvalvonta-yhteystiedot/",
         "contentType": "internal",
         "articles": [
           "e25e7b87-7e8f-448c-9074-d24954bea098"
@@ -6539,7 +6539,7 @@
       "id": "5c1996f5-f899-4efb-9604-049ca888ee55",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/tjanst/kommunikationen-mellan-hem-och-skola-wilma/",
+        "value": "https://www.good-municipality.fi/sv/tjanst/kommunikationen-mellan-hem-och-skola-wilma/",
         "contentType": "internal",
         "articles": [
           "7dbdd0cc-d6ad-49ed-935c-342b2a3dda9b"
@@ -6556,7 +6556,7 @@
       "id": "dcd5cee5-8657-4477-bae6-4d920fd2d66b",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/kaavoitus-ja-kehittaminen/",
+        "value": "https://www.good-municipality.fi/kaavoitus-ja-kehittaminen/",
         "contentType": "internal",
         "articles": [
           "592394da-7766-4cf3-bafd-f9264b3a1f5e"
@@ -6564,7 +6564,7 @@
         "labels": [
           {
             "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-            "labelValue": "Kaavoitus ja kehittäminen sipoo.fi:ssä"
+            "labelValue": "Kaavoitus ja kehittäminen good-municipality.fi:ssä"
           }
         ]
       }
@@ -6573,7 +6573,7 @@
       "id": "95d2a620-0122-4d61-940a-709fe3da5ef5",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/demokratia/",
+        "value": "https://www.good-municipality.fi/demokratia/",
         "contentType": "internal",
         "articles": [
           "8488ebf7-812d-4367-bb08-0cd6d9fd3cbd"
@@ -6581,7 +6581,7 @@
         "labels": [
           {
             "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-            "labelValue": "Demokratia sipoo.fi:ssä"
+            "labelValue": "Demokratia good-municipality.fi:ssä"
           }
         ]
       }
@@ -6590,7 +6590,7 @@
       "id": "cba2e2f1-9fce-4d1e-b9b5-3ad4a5a1891d",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/halsovardstjanster/nickby-social-och-halsostation-telefonservice-och-betjaningstider/",
+        "value": "https://www.good-municipality.fi/sv/halsovardstjanster/nickby-social-och-halsostation-telefonservice-och-betjaningstider/",
         "contentType": "internal",
         "articles": [
           "03ed5957-a64d-4c80-ab9f-e5229093db4c"
@@ -6607,7 +6607,7 @@
       "id": "c4a5d7ca-c650-4894-bfa1-318a95955375",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/socialservice/",
+        "value": "https://www.good-municipality.fi/sv/socialservice/",
         "contentType": "internal",
         "articles": [
           "b52df641-94f3-4bc8-a554-031e9e392561"
@@ -6624,7 +6624,7 @@
       "id": "5fc1235f-5170-43a7-8ed0-4e60785d4df8",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sosiaalipalvelut/",
+        "value": "https://www.good-municipality.fi/sosiaalipalvelut/",
         "contentType": "internal",
         "articles": [
           "b52df641-94f3-4bc8-a554-031e9e392561"
@@ -6632,7 +6632,7 @@
         "labels": [
           {
             "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-            "labelValue": "Sosiaalipalvelut sipoo.fi:ssä"
+            "labelValue": "Sosiaalipalvelut good-municipality.fi:ssä"
           }
         ]
       }
@@ -6641,7 +6641,7 @@
       "id": "ff793698-fb82-4e97-b63d-8a569dc67050",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/koulutus/",
+        "value": "https://www.good-municipality.fi/koulutus/",
         "contentType": "internal",
         "articles": [
           "7dbdd0cc-d6ad-49ed-935c-342b2a3dda9b"
@@ -6658,7 +6658,7 @@
       "id": "8f653117-314b-4826-bbfc-cddb3f984f27",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/kadut-ja-viheralueet/kadut-ja-viheralueet-yhteystiedot/",
+        "value": "https://www.good-municipality.fi/kadut-ja-viheralueet/kadut-ja-viheralueet-yhteystiedot/",
         "contentType": "internal",
         "articles": [
           "c448404a-8ff0-4203-975d-cea2d0bb60c9"
@@ -6675,7 +6675,7 @@
       "id": "1c8205de-5800-4e58-9cc0-35ce2057bae3",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/terveyspalvelut/",
+        "value": "https://www.good-municipality.fi/terveyspalvelut/",
         "contentType": "internal",
         "articles": [
           "03ed5957-a64d-4c80-ab9f-e5229093db4c"
@@ -6683,7 +6683,7 @@
         "labels": [
           {
             "locale": "8038e89d-1b76-4bd3-b8be-4b02797a4217",
-            "labelValue": "Terveyspalvelut sipoo.fi:ssä"
+            "labelValue": "Terveyspalvelut good-municipality.fi:ssä"
           }
         ]
       }
@@ -6692,7 +6692,7 @@
       "id": "14918746-bdbb-4a1a-8645-689e6484a201",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/miljo-och-djur/miljoovervakningen-och-miljoskydd/miljoovervakningen-kontaktuppgifter/",
+        "value": "https://www.good-municipality.fi/sv/miljo-och-djur/miljoovervakningen-och-miljoskydd/miljoovervakningen-kontaktuppgifter/",
         "contentType": "internal",
         "articles": [
           "537ca692-0bdc-4660-87c3-6d22efd8834e"
@@ -6709,7 +6709,7 @@
       "id": "93eb36e5-6a99-47f5-aea7-c8540c3c0088",
       "type": "LINK",
       "body": {
-        "value": "https://www.sipoo.fi/sv/organisation/ledningsgruppen-kontaktuppgifter/",
+        "value": "https://www.good-municipality.fi/sv/organisation/ledningsgruppen-kontaktuppgifter/",
         "contentType": "internal",
         "articles": [
           "a5399d8c-e89e-4064-975b-1431577ec16e"
@@ -6765,7 +6765,7 @@
       "type": "ARTICLE",
       "body": {
         "parentId": null,
-        "name": "business-sipoo",
+        "name": "business-good-municipality",
         "order": 150
       }
     },
@@ -6855,7 +6855,7 @@
       "type": "ARTICLE",
       "body": {
         "parentId": null,
-        "name": "sipoo-water",
+        "name": "good-municipality-water",
         "order": 520
       }
     },
@@ -6909,7 +6909,7 @@
       "type": "ARTICLE",
       "body": {
         "parentId": null,
-        "name": "sipoo-institute",
+        "name": "good-municipality-institute",
         "order": 517
       }
     }

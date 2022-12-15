@@ -15,6 +15,7 @@
   <modules>
     <module>composer-integration</module>
     <module>client-api</module>
+    <module>iam-api</module>
   </modules>
 
 </project>
