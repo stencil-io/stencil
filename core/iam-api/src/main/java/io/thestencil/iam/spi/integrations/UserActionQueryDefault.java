@@ -1,5 +1,8 @@
 package io.thestencil.iam.spi.integrations;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+
 /*-
  * #%L
  * iam-api
@@ -38,6 +41,7 @@ import io.thestencil.iam.api.UserActionsClient.AttachmentQuery;
 import io.thestencil.iam.api.UserActionsClient.ClientConfig;
 import io.thestencil.iam.api.UserActionsClient.UserAction;
 import io.thestencil.iam.api.UserActionsClient.UserActionQuery;
+import io.thestencil.iam.api.UserActionsClient.UserMessage;
 import io.thestencil.iam.spi.support.BuilderTemplate;
 import io.thestencil.iam.spi.support.PortalAssert;
 import io.vertx.core.http.RequestOptions;
@@ -186,15 +190,28 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
   private Uni<UserAction> createAction(UserAction action, List<String> unreadTasks) {
     if(action.getTaskId() != null) {
       return messages.get().getTask(action.getTaskId())
-          .onItem().transform(messages -> ImmutableUserAction.builder()
+          .onItem().transform(src -> {
+            
+            var lastUpdate = action.getUpdated();
+            final var userMessages = new ArrayList<UserMessage>();
+            for(final var msg : src) {
+              final var messageSender = msg.getUserName().equals(userName) ? userName : "";
+              final var userMsg = ImmutableUserMessage.builder().from(msg).userName(messageSender).build();
+              userMessages.add(userMsg);
+              
+              final var msgCreated = OffsetDateTime.parse(msg.getCreated()).toLocalDateTime();
+              if(lastUpdate.isBefore(msgCreated)) {
+                lastUpdate = msgCreated;
+              }
+            }
+            
+            return ImmutableUserAction.builder()
               .from(action)
-              .messages(messages.stream()
-                  .map(msg -> 
-                    ImmutableUserMessage.builder().from(msg).userName(
-                        msg.getUserName().equals(userName) ? userName : "" ).build()
-                  ).collect(Collectors.toList()))
-              .viewed(messages.isEmpty() || !unreadTasks.contains(action.getTaskId()))
-              .build());
+              .updated(lastUpdate)
+              .addAllMessages(userMessages)
+              .viewed(userMessages.isEmpty() || !unreadTasks.contains(action.getTaskId()))
+              .build();
+          });
     }
     return Uni.createFrom().item(action);    
   }
@@ -207,6 +224,8 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
     return ImmutableUserAction.builder()
         .id(entity.getLong("id") + "")
         .status(status)
+        .created(LocalDateTime.parse(entity.getString("created")))
+        .updated(LocalDateTime.parse(entity.getString("updated")))
         .name(workflow.getString("name"))
         .taskId(entity.getString("task"))
         .messagesUri(replyUri)

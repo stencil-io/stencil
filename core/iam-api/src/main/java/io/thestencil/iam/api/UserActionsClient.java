@@ -1,5 +1,7 @@
 package io.thestencil.iam.api;
 
+import java.time.LocalDateTime;
+
 /*-
  * #%L
  * iam-api
@@ -138,6 +140,9 @@ public interface UserActionsClient {
     String getMessagesUri();
     String getFormUri();
     String getFormId();
+    LocalDateTime getCreated();
+    LocalDateTime getUpdated();
+
     @Nullable
     String getTaskId();
     Boolean getViewed();
