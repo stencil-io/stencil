@@ -28,8 +28,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VersionBuilderImpl implements VersionBuilder {
 
-  private static final String VERSION = "1.148.16";
-  private static final String DATE = "15/12/2022";
+  private static final String VERSION = "1.148.17";
+  private static final String DATE = "27/12/2022";
 
   @Override
   public VersionInfo version() {
