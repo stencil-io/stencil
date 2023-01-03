@@ -26,6 +26,10 @@ import java.util.function.Function;
 
 import javax.enterprise.inject.spi.CDI;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.quarkus.arc.Arc;
+import io.quarkus.arc.ArcContainer;
 import io.quarkus.arc.runtime.BeanContainerListener;
 import io.quarkus.runtime.annotations.Recorder;
 import io.quarkus.security.identity.CurrentIdentityAssociation;
@@ -70,7 +74,11 @@ public class UserActionsRecorder {
       association = null;
     }
     CurrentVertxRequest currentVertxRequest = CDI.current().select(CurrentVertxRequest.class).get();
-    return new UserActionsHandler(association, currentVertxRequest);
+    ArcContainer container = Arc.container();
+    return new UserActionsHandler(
+        association, currentVertxRequest, 
+        container.instance(ObjectMapper.class).get()
+        );
   }
 
   public Consumer<Route> routeFunction(Handler<RoutingContext> bodyHandler) {

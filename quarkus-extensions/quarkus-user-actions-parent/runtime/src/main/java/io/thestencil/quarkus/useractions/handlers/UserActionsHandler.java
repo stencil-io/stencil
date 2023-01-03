@@ -23,6 +23,8 @@ package io.thestencil.quarkus.useractions.handlers;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.quarkus.security.identity.CurrentIdentityAssociation;
 import io.quarkus.vertx.http.runtime.CurrentVertxRequest;
 import io.thestencil.iam.api.IAMClient;
@@ -30,17 +32,22 @@ import io.thestencil.quarkus.useractions.UserActionsContext;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.EncodeException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.mutiny.core.buffer.Buffer;
 
 public class UserActionsHandler extends UserActionsTemplate {
 
+  private final ObjectMapper mapper;
+  
   public UserActionsHandler(
       CurrentIdentityAssociation currentIdentityAssociation,
-      CurrentVertxRequest currentVertxRequest) {
+      CurrentVertxRequest currentVertxRequest, 
+      ObjectMapper mapper) {
+  
     super(currentIdentityAssociation, currentVertxRequest);
+    this.mapper = mapper;
   }
   
   @Override
@@ -64,14 +71,14 @@ public class UserActionsHandler extends UserActionsTemplate {
             .userName(getUsername(client.getUser()))
             .replyToId(body.getString("replyToId"))
             .text(body.getString("text"))
-            .build().onItem().transform(data -> JsonObject.mapFrom(data).toBuffer());
+            .build().onItem().transform(data -> toBuffer(data));
         }
         
         return ctx.getClient().markUser()
           .processId(actionId)
           .userId(client.getUser().getSsn())
           .userName(getUsername(client.getUser()))
-          .build().onItem().transform(data -> new JsonArray(data).toBuffer());
+          .build().onItem().transform(data -> toBuffer(data));
       })
       .onFailure().invoke(e -> catch422(e, ctx, response))
       .subscribe().with(data -> response.end(data));
@@ -107,6 +114,8 @@ public class UserActionsHandler extends UserActionsTemplate {
   }
 
   private void handleUserActionAttachments(RoutingContext event, HttpServerResponse response, UserActionsContext ctx, IAMClient iam) {
+    
+    
     String actionId = event.request().getParam("actionId");
     String attachmentId = event.request().getParam("attachmentId");
 
@@ -124,7 +133,7 @@ public class UserActionsHandler extends UserActionsTemplate {
                 )))
         .build().collect().asList()
       )
-      .onItem().transform(data -> new JsonArray(data).toBuffer())
+      .onItem().transform(data -> toBuffer(data))
       .onFailure().invoke(e -> catch422(e, ctx, response))
       .subscribe().with(data -> response.end(data));    
     } else if(actionId != null && attachmentId != null && event.request().method() == HttpMethod.GET) {
@@ -138,7 +147,7 @@ public class UserActionsHandler extends UserActionsTemplate {
         .attachmentId(attachmentId)
         .build()
       )
-      .onItem().transform(data -> JsonObject.mapFrom(data).toBuffer())
+      .onItem().transform(data -> toBuffer(data))
       .onFailure().invoke(e -> catch422(e, ctx, response))
       .subscribe().with(data -> response.end(data));    
       
@@ -159,7 +168,7 @@ public class UserActionsHandler extends UserActionsTemplate {
         .userName(getUsername(client.getUser()))
         .list().collect().asList()
       )
-      .onItem().transform(data -> new JsonArray(data).toBuffer())
+      .onItem().transform(data -> toBuffer(data))
       .onFailure().invoke(e -> catch422(e, ctx, response))
       .subscribe().with(data -> response.end(data));    
     } else if(event.request().method() == HttpMethod.DELETE) {
@@ -171,7 +180,7 @@ public class UserActionsHandler extends UserActionsTemplate {
         .userName(getUsername(client.getUser()))
         .build()
       )
-      .onItem().transform(data -> JsonObject.mapFrom(data).toBuffer())
+      .onItem().transform(data -> toBuffer(data))
       .onFailure().invoke(e -> catch422(e, ctx, response))
       .subscribe().with(data -> response.end(data));
 
@@ -187,12 +196,20 @@ public class UserActionsHandler extends UserActionsTemplate {
         .userId(client.getUser().getSsn())
         .build()
       )
-      .onItem().transform(data -> JsonObject.mapFrom(data).toBuffer())
+      .onItem().transform(data -> toBuffer(data))
       .onFailure().invoke(e -> catch422(e, ctx, response))
       .subscribe().with(data -> response.end(data));
     } else {
       catch404("unknown user action", ctx, response);
+    }  
+  }
+  
+  public io.vertx.core.buffer.Buffer toBuffer(Object object) {
+
+    try {
+      return io.vertx.core.buffer.Buffer.buffer(mapper.writeValueAsBytes(object));
+    } catch (Exception e) {
+      throw new EncodeException("Failed to encode as JSON: " + e.getMessage());
     }
-     
   }
 }
