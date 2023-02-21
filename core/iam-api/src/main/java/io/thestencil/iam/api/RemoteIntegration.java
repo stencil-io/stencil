@@ -1,12 +1,10 @@
-package io.thestencil.quarkus.iam;
-
-import io.quarkus.runtime.annotations.ConfigItem;
+package io.thestencil.iam.api;
 
 /*-
  * #%L
- * quarkus-stencil-iam
+ * stencil-iam-api
  * %%
- * Copyright (C) 2021 - 2022 Copyright 2021 ReSys OÜ
+ * Copyright (C) 2021 - 2023 Copyright 2021 ReSys OÜ
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,16 +20,10 @@ import io.quarkus.runtime.annotations.ConfigItem;
  * #L%
  */
 
-import io.quarkus.runtime.annotations.ConfigPhase;
-import io.quarkus.runtime.annotations.ConfigRoot;
+import org.immutables.value.Value;
 
-@ConfigRoot(phase = ConfigPhase.RUN_TIME, name = IAMRecorder.FEATURE_BUILD_ITEM)
-public class RuntimeConfig {
-  
-  
-  /**
-   * Configuration for security proxy from where to get user roles
-   */
-  @ConfigItem
-  SecurityProxyConfig securityProxy;
+@Value.Immutable
+public interface RemoteIntegration {
+  String getHost();
+  String getPath();
 }

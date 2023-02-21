@@ -38,7 +38,7 @@ import io.thestencil.iam.api.ImmutableUserAction;
 import io.thestencil.iam.api.ImmutableUserMessage;
 import io.thestencil.iam.api.UserActionsClient.Attachment;
 import io.thestencil.iam.api.UserActionsClient.AttachmentQuery;
-import io.thestencil.iam.api.UserActionsClient.ClientConfig;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.UserAction;
 import io.thestencil.iam.api.UserActionsClient.UserActionQuery;
 import io.thestencil.iam.api.UserActionsClient.UserMessage;
@@ -52,7 +52,7 @@ import io.vertx.mutiny.ext.web.client.HttpResponse;
 
 public class UserActionQueryDefault extends BuilderTemplate implements UserActionQuery {
   private static final Logger LOGGER = LoggerFactory.getLogger(UserActionQueryDefault.class);
-  private final ClientConfig config;
+  private final UserActionsClientConfig config;
   private final Supplier<MessagesQueryBuilderDefault> messages;
   private final Supplier<AttachmentQuery> attachments;
   private String userId;
@@ -61,7 +61,7 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
   private String userName;
   
   public UserActionQueryDefault(
-      RequestOptions init, ClientConfig config, 
+      RequestOptions init, UserActionsClientConfig config, 
       Supplier<MessagesQueryBuilderDefault> messages,
       Supplier<AttachmentQuery> attachments) {
     super(config.getWebClient(), init);

@@ -52,7 +52,7 @@ public interface UserActionsClient {
   
   FillBuilder fill();
   ReviewBuilder review();
-  ClientConfig config();
+  UserActionsClientConfig config();
   
   interface AttachmentQuery {
     Uni<List<Attachment>> processId(String processId);
@@ -166,7 +166,7 @@ public interface UserActionsClient {
   }
   
   @Value.Immutable
-  interface ClientConfig {
+  interface UserActionsClientConfig {
     WebClient getWebClient();
     String getDefaultLanguage();
     
@@ -181,11 +181,6 @@ public interface UserActionsClient {
     RemoteIntegration getProcesses();
     RemoteIntegration getFill();
     RemoteIntegration getReview();
-  }
-  @Value.Immutable
-  interface RemoteIntegration {
-    String getHost();
-    String getPath();
   }
 
   @JsonSerialize(as = ImmutableAttachmentDownloadUrl.class)

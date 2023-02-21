@@ -22,7 +22,7 @@ package io.thestencil.iam.spi.integrations;
 
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.smallrye.mutiny.Uni;
-import io.thestencil.iam.api.UserActionsClient.ClientConfig;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.FillBuilder;
 import io.thestencil.iam.spi.support.BuilderTemplate;
 import io.thestencil.iam.spi.support.PortalAssert;
@@ -33,12 +33,12 @@ import io.vertx.mutiny.ext.web.client.HttpResponse;
 
 public class DefaultFillBuilder extends BuilderTemplate implements FillBuilder {
 
-  private final ClientConfig config;
+  private final UserActionsClientConfig config;
   private HttpMethod method;
   private Buffer body;
   private String path;
     
-  public DefaultFillBuilder(RequestOptions init, ClientConfig config) {
+  public DefaultFillBuilder(RequestOptions init, UserActionsClientConfig config) {
     super(config.getWebClient(), init);
     this.config = config;
   }

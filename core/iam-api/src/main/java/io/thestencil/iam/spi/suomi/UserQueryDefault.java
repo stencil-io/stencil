@@ -1,5 +1,7 @@
 package io.thestencil.iam.spi.suomi;
 
+import java.util.Map;
+
 /*-
  * #%L
  * iam-api
@@ -24,12 +26,14 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.IAMClient.Address;
+import io.thestencil.iam.api.IAMClient.RepresentedPerson;
 import io.thestencil.iam.api.IAMClient.ResultType;
 import io.thestencil.iam.api.IAMClient.User;
 import io.thestencil.iam.api.IAMClient.UserQuery;
 import io.thestencil.iam.api.IAMClient.UserQueryResult;
 import io.thestencil.iam.api.ImmutableAddress;
 import io.thestencil.iam.api.ImmutableContact;
+import io.thestencil.iam.api.ImmutableRepresentedPerson;
 import io.thestencil.iam.api.ImmutableUser;
 import io.thestencil.iam.api.ImmutableUserQueryResult;
 import lombok.RequiredArgsConstructor;
@@ -56,14 +60,17 @@ public class UserQueryDefault implements UserQuery {
     final var lastName = (String) idToken.getClaim("lastName");
     final var ssn = (String) idToken.getClaim("personalIdentityCode");
     final var email = (String) idToken.getClaim("email");
+    
     final var address = toAddress();
     final var protectionOrder = "true".equals(idToken.getClaim("protectionOrder"));
+    
     return ImmutableUser.builder()
         .firstName(orEmpty(firstName))
         .lastName(orEmpty(lastName))
         .ssn(orEmpty(ssn))
         .id(sub)
         .protectionOrder(protectionOrder)
+        .representedPerson(toRepresentedPerson())
         .contact(ImmutableContact.builder()
             .email(orEmpty(email))
             .address(address)
@@ -84,6 +91,19 @@ public class UserQueryDefault implements UserQuery {
         .locality(orEmpty(idToken.getClaim("locality")))
         .street(orEmpty(idToken.getClaim("streetAddress")))
         .country(orEmpty(idToken.getClaim("country")))
+        .build();
+  }
+  
+  @SuppressWarnings({ "unchecked" })
+  private RepresentedPerson toRepresentedPerson() {
+    final var value = (Map<String, String>) idToken.getClaim("representedPerson");
+    if(value == null) {
+      return null;
+    }
+    
+    return ImmutableRepresentedPerson.builder()
+        .name(value.get("name"))
+        .personId(value.get("personId"))
         .build();
   }
   

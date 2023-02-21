@@ -25,14 +25,25 @@ import io.quarkus.builder.item.SimpleBuildItem;
 
 public final class IAMBuildItem extends SimpleBuildItem {
 
+  private final String servicePath;
   private final String livenessPath;
-
-  public IAMBuildItem(String livenessPath) {
+  private final String rolesPath;
+  
+  public IAMBuildItem(String servicePath, String livenessPath, String rolesPath) {
     super();
+    this.servicePath = servicePath;
     this.livenessPath = livenessPath;
+    this.rolesPath = rolesPath;
   }
 
+  public String getServicePath() {
+    return servicePath;
+  }
   public String getLivenessPath() {
     return livenessPath;
   }
+  public String getRolesPath() {
+    return rolesPath;
+  }
+
 }

@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.ImmutableUserAction;
-import io.thestencil.iam.api.UserActionsClient.ClientConfig;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.UserAction;
 import io.thestencil.iam.api.UserActionsClient.UserActionBuilder;
 import io.thestencil.iam.spi.support.BuilderTemplate;
@@ -38,7 +38,7 @@ import io.vertx.mutiny.ext.web.client.HttpResponse;
 
 public class UserActionBuilderDefault extends BuilderTemplate implements UserActionBuilder {
   private static final Logger LOGGER = LoggerFactory.getLogger(UserActionBuilderDefault.class);
-  private final ClientConfig config;
+  private final UserActionsClientConfig config;
   private String actionName;
   private String firstName;
   private String lastName;
@@ -60,7 +60,7 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
     Boolean getProtectionOrder();
   }
   
-  public UserActionBuilderDefault(RequestOptions init, ClientConfig config) {
+  public UserActionBuilderDefault(RequestOptions init, UserActionsClientConfig config) {
     super(config.getWebClient(), init);
     this.config = config;
   }

@@ -33,13 +33,15 @@ import io.vertx.ext.web.RoutingContext;
 
 public class IAMHandler extends IAMTemplate {
 
-  private String liveness;
+  private final String liveness;
+  private final String roles;
   
   public IAMHandler(
       CurrentIdentityAssociation currentIdentityAssociation,
-      CurrentVertxRequest currentVertxRequest, String liveness) {
+      CurrentVertxRequest currentVertxRequest, String liveness, String roles) {
     super(currentIdentityAssociation, currentVertxRequest);
     this.liveness = liveness;
+    this.roles = roles;
   }
   
   @Override
@@ -55,6 +57,13 @@ public class IAMHandler extends IAMTemplate {
       .onItem().transform(data -> JsonObject.mapFrom(data).toBuffer())
       .onFailure().invoke(e -> catch422(e, ctx, response))
       .subscribe().with(data -> response.end(data));
+    } else if(path.startsWith(roles)) {
+      
+      ctx.userRolesQuery().get()
+      .onItem().transform(data -> JsonObject.mapFrom(data).toBuffer())
+      .onFailure().invoke(e -> catch422(e, ctx, response))
+      .subscribe().with(data -> response.end(data));
+    
     } else {
       ctx.userQuery().get()
       .onItem().transform(data -> JsonObject.mapFrom(data).toBuffer())

@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.ImmutableUserMessage;
-import io.thestencil.iam.api.UserActionsClient.ClientConfig;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.ReplyToBuilder;
 import io.thestencil.iam.api.UserActionsClient.UserActionQuery;
 import io.thestencil.iam.api.UserActionsClient.UserMessage;
@@ -42,7 +42,7 @@ import io.vertx.mutiny.ext.web.client.HttpResponse;
 
 public class ReplyToBuilderDefault extends BuilderTemplate implements ReplyToBuilder {
   private static final Logger LOGGER = LoggerFactory.getLogger(ReplyToBuilderDefault.class);
-  private final ClientConfig config;
+  private final UserActionsClientConfig config;
   private final Supplier<UserActionQuery> query;
   
   private String userName;
@@ -51,7 +51,7 @@ public class ReplyToBuilderDefault extends BuilderTemplate implements ReplyToBui
   private String text;
   private String processId;
   
-  public ReplyToBuilderDefault(RequestOptions init, ClientConfig config, Supplier<UserActionQuery> query) {
+  public ReplyToBuilderDefault(RequestOptions init, UserActionsClientConfig config, Supplier<UserActionQuery> query) {
     super(config.getWebClient(), init);
     this.config = config;
     this.query = query;

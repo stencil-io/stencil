@@ -34,7 +34,7 @@ import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.ImmutableAttachment;
 import io.thestencil.iam.api.UserActionsClient.Attachment;
 import io.thestencil.iam.api.UserActionsClient.AttachmentQuery;
-import io.thestencil.iam.api.UserActionsClient.ClientConfig;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.vertx.core.http.RequestOptions;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -44,7 +44,7 @@ public class AttachmentQueryDefault extends MessagesQueryBuilderDefault implemen
 
   private static final Logger LOGGER = LoggerFactory.getLogger(AttachmentQueryDefault.class);
   
-  public AttachmentQueryDefault(RequestOptions init, ClientConfig config) {
+  public AttachmentQueryDefault(RequestOptions init, UserActionsClientConfig config) {
     super(init, config);
   }
 

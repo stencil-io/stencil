@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.ImmutableUserMessage;
-import io.thestencil.iam.api.UserActionsClient.ClientConfig;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.UserMessage;
 import io.thestencil.iam.spi.support.BuilderTemplate;
 import io.thestencil.iam.spi.support.PortalAssert;
@@ -42,9 +42,9 @@ import io.vertx.mutiny.ext.web.client.HttpResponse;
 
 public class MessagesQueryBuilderDefault extends BuilderTemplate {
   private static final Logger LOGGER = LoggerFactory.getLogger(MessagesQueryBuilderDefault.class);
-  private final ClientConfig config;
+  private final UserActionsClientConfig config;
   
-  public MessagesQueryBuilderDefault(RequestOptions init, ClientConfig config) {
+  public MessagesQueryBuilderDefault(RequestOptions init, UserActionsClientConfig config) {
     super(config.getWebClient(), init);
     this.config = config;
   }

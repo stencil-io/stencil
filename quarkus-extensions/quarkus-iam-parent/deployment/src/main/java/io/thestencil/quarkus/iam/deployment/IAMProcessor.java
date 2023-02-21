@@ -64,7 +64,7 @@ public class IAMProcessor {
       BuildProducer<BeanContainerListenerBuildItem> beans) {
 
     buildItems.produce(AdditionalBeanBuildItem.builder().setUnremovable().addBeanClass(IAMBeanFactory.class).build());
-    beans.produce(new BeanContainerListenerBuildItem(recorder.buildtimeConfig()));
+    beans.produce(new BeanContainerListenerBuildItem(recorder.buildtimeConfig(buildItem.getServicePath())));
   }
   
   @BuildStep
@@ -89,7 +89,7 @@ public class IAMProcessor {
     BuildProducer<RouteBuildItem> routes,
     IAMConfig config) throws Exception {
     
-    Handler<RoutingContext> handler = recorder.iamHandler(buildItem.getLivenessPath());
+    Handler<RoutingContext> handler = recorder.iamHandler(buildItem.getLivenessPath(), buildItem.getRolesPath());
 
     routes.produce(httpRoot.routeBuilder()
         .route(config.servicePath)
@@ -119,10 +119,13 @@ public class IAMProcessor {
       HttpRootPathBuildItem httpRootPathBuildItem,
       BuildProducer<NotFoundPageDisplayableEndpointBuildItem> displayableEndpoints) throws Exception {
 
-    final String livenessPath = httpRootPathBuildItem.resolvePath(config.servicePath + "/liveness");
+    final var userPath = httpRootPathBuildItem.resolvePath(config.servicePath);
+    final var livenessPath = httpRootPathBuildItem.resolvePath(config.servicePath + "/liveness");
+    final var rolesPath = httpRootPathBuildItem.resolvePath(config.servicePath + "/roles");
     
-    displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(httpRootPathBuildItem.resolvePath(config.servicePath), "User IAM"));
+    displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(userPath, "User IAM"));
     displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(livenessPath, "User IAM Liveness"));
-    buildProducer.produce(new IAMBuildItem(livenessPath));
+    displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(rolesPath, "User IAM Roles"));
+    buildProducer.produce(new IAMBuildItem(config.servicePath, livenessPath, rolesPath));
   }
 }

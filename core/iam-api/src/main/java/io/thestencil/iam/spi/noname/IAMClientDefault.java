@@ -44,6 +44,18 @@ public class IAMClientDefault implements IAMClient {
     }
     return null;
   }
+
+  @Override
+  public IAMClientConfig getConfig() {
+    return null;
+  }
+  
+  @Override
+  public UserRolesQuery userRolesQuery() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  
   @Override
   public LivenessQuery livenessQuery() {
     return new LivenessQuery() {

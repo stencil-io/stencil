@@ -29,22 +29,42 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.IAMClient;
+import io.thestencil.iam.api.ImmutableIAMClientConfig;
 import io.thestencil.iam.api.ImmutableUserLiveness;
-import lombok.RequiredArgsConstructor;
+import io.thestencil.iam.api.RemoteIntegration;
+import io.vertx.core.http.RequestOptions;
+import io.vertx.mutiny.ext.web.client.WebClient;
 
-@RequiredArgsConstructor
-public class IAMClientTrivore implements IAMClient {
-  private final JsonWebToken idToken;
+public class IAMClientSuomi implements IAMClient {
+
+  private final IAMClientConfig config;
+  private final RequestOptions roles;
+  public IAMClientSuomi(IAMClientConfig config) {
+    super();
+    this.config = config;
+    this.roles = new RequestOptions()
+        .setURI(config.getSecurityProxy().getPath())
+        .setHost(config.getSecurityProxy().getHost());
+  }
 
   @Override
+  public UserRolesQuery userRolesQuery() {
+    return new UserRolesQueryImpl(config, roles);
+  }
+
+  @Override
+  public IAMClientConfig getConfig() {
+    return config;
+  }
+  
+  @Override
   public UserQuery userQuery() {
-    return new UserQueryDefault(idToken);
+    return new UserQueryDefault(config.getToken());
   }
   
   @Override
   public LivenessQuery livenessQuery() {
     return new LivenessQuery() {
-      
       @Override
       public Uni<UserLiveness> get() {
         return Uni.createFrom().item(() -> createUserLiveness());
@@ -53,6 +73,7 @@ public class IAMClientTrivore implements IAMClient {
   }
   
   private UserLiveness createUserLiveness() {
+    final var idToken = config.getToken();
     final var now = LocalDateTime.now();
     final var then = LocalDateTime.ofInstant(Instant.ofEpochSecond(idToken.getExpirationTime()), ZoneId.systemDefault());
     return ImmutableUserLiveness.builder()
@@ -67,13 +88,22 @@ public class IAMClientTrivore implements IAMClient {
   
   public static class Builder {
     private JsonWebToken idToken;
+    private WebClient webClient;
+    private String servicePath;
+    private RemoteIntegration securityProxy;
     
-    public Builder idToken(JsonWebToken idToken) {
-      this.idToken = idToken;
-      return this;
-    }
-    public IAMClientTrivore builder() {
-      return new IAMClientTrivore(idToken);
+    public Builder webClient(WebClient webClient) { this.webClient = webClient; return this; }
+    public Builder servicePath(String servicePath) { this.servicePath = servicePath; return this; }
+    public Builder securityProxy(RemoteIntegration securityProxy) { this.securityProxy = securityProxy; return this; }
+    public Builder idToken(JsonWebToken idToken) { this.idToken = idToken; return this; }
+    
+    public IAMClientSuomi builder() {
+      return new IAMClientSuomi(ImmutableIAMClientConfig.builder()
+          .token(idToken)
+          .servicePath(servicePath)
+          .securityProxy(securityProxy)
+          .webClient(webClient)
+          .build()); 
     }
   }
 }

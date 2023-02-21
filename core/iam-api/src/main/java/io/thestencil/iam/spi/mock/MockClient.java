@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.ImmutableUserAction;
-import io.thestencil.iam.api.UserActionsClient.ClientConfig;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.UserAction;
 import io.thestencil.iam.spi.support.BuilderTemplate;
 import io.vertx.core.http.HttpMethod;
@@ -41,10 +41,10 @@ import io.vertx.mutiny.ext.web.client.WebClient;
 
 public class MockClient extends BuilderTemplate {
   
-  private final ClientConfig config;
+  private final UserActionsClientConfig config;
   private final String formId;
   
-  public MockClient(WebClient client, ClientConfig config, String formId, String apiKey) {
+  public MockClient(WebClient client, UserActionsClientConfig config, String formId, String apiKey) {
     super(client, new RequestOptions()
         .setURI(config.getReview().getPath())
         .setHost(config.getReview().getHost())

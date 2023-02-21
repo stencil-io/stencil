@@ -21,7 +21,7 @@ package io.thestencil.iam.spi.integrations;
  */
 
 import io.smallrye.mutiny.Uni;
-import io.thestencil.iam.api.UserActionsClient.ClientConfig;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.ReviewBuilder;
 import io.thestencil.iam.spi.support.BuilderTemplate;
 import io.thestencil.iam.spi.support.PortalAssert;
@@ -32,10 +32,10 @@ import io.vertx.mutiny.ext.web.client.HttpResponse;
 
 public class DefaultReviewBuilder extends BuilderTemplate implements ReviewBuilder {
 
-  private final ClientConfig config;
+  private final UserActionsClientConfig config;
   private String path;
     
-  public DefaultReviewBuilder(RequestOptions init, ClientConfig config) {
+  public DefaultReviewBuilder(RequestOptions init, UserActionsClientConfig config) {
     super(config.getWebClient(), init);
     this.config = config;
   }

@@ -29,7 +29,7 @@ import io.netty.handler.codec.http.HttpHeaderNames;
 import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.ImmutableUserAction;
 import io.thestencil.iam.api.UserActionsClient.CancelUserActionBuilder;
-import io.thestencil.iam.api.UserActionsClient.ClientConfig;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.UserAction;
 import io.thestencil.iam.api.UserActionsClient.UserActionQuery;
 import io.thestencil.iam.spi.support.BuilderTemplate;
@@ -40,14 +40,14 @@ import io.vertx.mutiny.ext.web.client.HttpResponse;
 
 public class CancelUserActionBuilderDefault extends BuilderTemplate implements CancelUserActionBuilder {
   private static final Logger LOGGER = LoggerFactory.getLogger(CancelUserActionBuilderDefault.class);
-  private final ClientConfig config;
+  private final UserActionsClientConfig config;
   private final Supplier<UserActionQuery> query;
   private String userId;
   private String userName;
   private String processId;
   
 
-  public CancelUserActionBuilderDefault(RequestOptions init, ClientConfig config, Supplier<UserActionQuery> query) {
+  public CancelUserActionBuilderDefault(RequestOptions init, UserActionsClientConfig config, Supplier<UserActionQuery> query) {
     super(config.getWebClient(), init);
     this.config = config;
     this.query = query;

@@ -38,17 +38,20 @@ import io.vertx.ext.web.RoutingContext;
 public class IAMRecorder {
   public static final String FEATURE_BUILD_ITEM = "user-iam";
   
-  public BeanContainerListener buildtimeConfig() {
-    return beanContainer -> {
-      beanContainer.instance(IAMBeanFactory.class);
-    };
+  public BeanContainerListener buildtimeConfig(String servicePath) {
+    return beanContainer -> beanContainer
+        .instance(IAMBeanFactory.class)
+        .servicePath(servicePath)
+    ;
   }
   
   public void runtimeConfig(RuntimeConfig runtimeConfig) {
-    CDI.current().select(IAMBeanFactory.class).get();
+    CDI.current().select(IAMBeanFactory.class).get()
+      .securityProxyPath(runtimeConfig.securityProxy.path)
+      .securityProxyHost(runtimeConfig.securityProxy.host);
   }
 
-  public Handler<RoutingContext> iamHandler(String liveness) {
+  public Handler<RoutingContext> iamHandler(String liveness, String roles) {
     final var identityAssociations = CDI.current().select(CurrentIdentityAssociation.class);
     CurrentIdentityAssociation association;
     if (identityAssociations.isResolvable()) {
@@ -57,7 +60,7 @@ public class IAMRecorder {
       association = null;
     }
     CurrentVertxRequest currentVertxRequest = CDI.current().select(CurrentVertxRequest.class).get();
-    return new IAMHandler(association, currentVertxRequest, liveness);
+    return new IAMHandler(association, currentVertxRequest, liveness, roles);
   }
 
   public Function<Router, Route> routeFunction(String rootPath, Handler<RoutingContext> bodyHandler) {

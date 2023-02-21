@@ -35,7 +35,7 @@ import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.ImmutableAttachment;
 import io.thestencil.iam.api.UserActionsClient.Attachment;
 import io.thestencil.iam.api.UserActionsClient.AttachmentBuilder;
-import io.thestencil.iam.api.UserActionsClient.ClientConfig;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.UserAction;
 import io.thestencil.iam.api.UserActionsClient.UserActionQuery;
 import io.thestencil.iam.spi.support.PortalAssert;
@@ -51,7 +51,7 @@ public class AttachmentBuilderDefault extends MessagesQueryBuilderDefault implem
   private String userId;
   private Map<String, String> data = new HashMap<>();
   
-  public AttachmentBuilderDefault(RequestOptions init, ClientConfig config, Supplier<UserActionQuery> query) {
+  public AttachmentBuilderDefault(RequestOptions init, UserActionsClientConfig config, Supplier<UserActionQuery> query) {
     super(init, config);
     this.query = query;
   }

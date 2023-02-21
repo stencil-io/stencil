@@ -37,7 +37,8 @@ public class IAMDeploymentTest {
   final static QuarkusUnitTest config = new QuarkusUnitTest()
     .setArchiveProducer(() -> ShrinkWrap.create(JavaArchive.class)
       .addAsResource(new StringAsset(
-          ""
+          "quarkus.user-iam.security-proxy.host=test\r\n"+ 
+          "quarkus.user-iam.security-proxy.path=test"
           ), "application.properties")
     );
   
@@ -50,4 +51,5 @@ public class IAMDeploymentTest {
     final var body = response.asString();
     Assertions.assertEquals("{\"type\":\"ANONYMOUS\",\"user\":null}", body);
   }
+  
 }

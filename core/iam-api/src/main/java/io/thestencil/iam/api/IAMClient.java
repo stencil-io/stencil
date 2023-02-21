@@ -1,5 +1,7 @@
 package io.thestencil.iam.api;
 
+import java.util.List;
+
 /*-
  * #%L
  * iam-api
@@ -22,17 +24,22 @@ package io.thestencil.iam.api;
 
 import javax.annotation.Nullable;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.immutables.value.Value;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import io.smallrye.mutiny.Uni;
+import io.vertx.mutiny.ext.web.client.WebClient;
 
 public interface IAMClient {
 
   LivenessQuery livenessQuery();
   UserQuery userQuery();
+  UserRolesQuery userRolesQuery();
+  
+  IAMClientConfig getConfig();
   
   interface LivenessQuery {
     Uni<UserLiveness> get();
@@ -40,7 +47,25 @@ public interface IAMClient {
   interface UserQuery {
     Uni<UserQueryResult> get();
   }
-  
+  interface UserRolesQuery {
+    Uni<UserRolesResult> get();
+  }
+  @Value.Immutable @JsonSerialize(as = ImmutableUserRolesResult.class) @JsonDeserialize(as = ImmutableUserRolesResult.class)
+  interface UserRolesResult {
+    ResultType getType();
+    @Nullable
+    UserRoles getUserRoles();
+  }
+  @Value.Immutable @JsonSerialize(as = ImmutableUserRoles.class) @JsonDeserialize(as = ImmutableUserRoles.class)
+  interface UserRoles {
+    List<String> getRoles();
+    UserRolesPrincipal getPrincipal(); 
+  }
+  @Value.Immutable @JsonSerialize(as = ImmutableUserRolesPrincipal.class) @JsonDeserialize(as = ImmutableUserRolesPrincipal.class)
+  interface UserRolesPrincipal {
+    String getPersonId();
+    String getName();
+  }
   
   @Value.Immutable @JsonSerialize(as = ImmutableUserLiveness.class) @JsonDeserialize(as = ImmutableUserLiveness.class)
   interface UserLiveness {
@@ -51,6 +76,11 @@ public interface IAMClient {
     long getExpiresIn();
   }
 
+  @Value.Immutable @JsonSerialize(as = ImmutableRepresentedPerson.class) @JsonDeserialize(as = ImmutableRepresentedPerson.class)
+  interface RepresentedPerson {
+    String getPersonId();
+    String getName();
+  }
   
   @Value.Immutable @JsonSerialize(as = ImmutableUser.class) @JsonDeserialize(as = ImmutableUser.class)
   interface User {
@@ -60,6 +90,8 @@ public interface IAMClient {
     String getLastName();
     Contact getContact();
     Boolean getProtectionOrder();
+    @Nullable
+    RepresentedPerson getRepresentedPerson();  
   }
 
   @Value.Immutable @JsonSerialize(as = ImmutableContact.class) @JsonDeserialize(as = ImmutableContact.class)
@@ -79,7 +111,7 @@ public interface IAMClient {
     String getCountry();
   }
   
-  enum ResultType { OK, ANONYMOUS }
+  enum ResultType { OK, ANONYMOUS, ERROR, EMPTY }
   
   @Value.Immutable @JsonSerialize(as = ImmutableUserQueryResult.class) @JsonDeserialize(as = ImmutableUserQueryResult.class)
   interface UserQueryResult {
@@ -87,4 +119,14 @@ public interface IAMClient {
     @Nullable
     User getUser();
   }
+  
+  
+  @Value.Immutable
+  interface IAMClientConfig {
+    JsonWebToken getToken();
+    WebClient getWebClient();
+    String getServicePath();
+    RemoteIntegration getSecurityProxy();
+  }
+
 }

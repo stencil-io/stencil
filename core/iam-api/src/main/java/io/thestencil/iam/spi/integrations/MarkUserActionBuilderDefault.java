@@ -29,7 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.smallrye.mutiny.Uni;
-import io.thestencil.iam.api.UserActionsClient.ClientConfig;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.MarkUserActionBuilder;
 import io.thestencil.iam.api.UserActionsClient.UserActionQuery;
 import io.thestencil.iam.api.UserActionsClient.UserMessage;
@@ -45,7 +45,7 @@ public class MarkUserActionBuilderDefault extends MessagesQueryBuilderDefault im
   private String processId;
   private String userName;
   
-  public MarkUserActionBuilderDefault(RequestOptions init, ClientConfig config, Supplier<UserActionQuery> query) {
+  public MarkUserActionBuilderDefault(RequestOptions init, UserActionsClientConfig config, Supplier<UserActionQuery> query) {
     super(init, config);
     this.query = query;
   }

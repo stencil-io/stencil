@@ -22,7 +22,7 @@ package io.thestencil.iam.spi.integrations;
 
 import java.util.function.Function;
 
-import io.thestencil.iam.api.ImmutableClientConfig;
+import io.thestencil.iam.api.ImmutableUserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient;
 import io.vertx.core.http.RequestOptions;
 
@@ -33,9 +33,9 @@ public class UserActionsClientDefault implements UserActionsClient {
   private final RequestOptions review;
   private final RequestOptions tasks;
   private final RequestOptions attachment;
-  private final ClientConfig config;
+  private final UserActionsClientConfig config;
   
-  public UserActionsClientDefault(ClientConfig config) {
+  public UserActionsClientDefault(UserActionsClientConfig config) {
     super();
     this.process = new RequestOptions()
         .setURI(config.getProcesses().getPath())
@@ -86,21 +86,8 @@ public class UserActionsClientDefault implements UserActionsClient {
     return new ReplyToBuilderDefault(tasks, config, () -> queryUserAction());
   }
   @Override
-  public ClientConfig config() {
+  public UserActionsClientConfig config() {
     return config;
-  }
-  public static Builder builder() {
-    return new Builder();
-  }
-  public static class Builder {
-    private ImmutableClientConfig.Builder config = ImmutableClientConfig.builder();
-    public Builder config(Function<ImmutableClientConfig.Builder, ImmutableClientConfig.Builder> c) {
-      this.config = c.apply(config);
-      return this;
-    }
-    public UserActionsClientDefault build() {
-      return new UserActionsClientDefault(config.build());
-    }
   }
   @Override
   public AttachmentBuilder attachment() {
@@ -113,5 +100,19 @@ public class UserActionsClientDefault implements UserActionsClient {
   @Override
   public AttachmentDownloadBuilder attachmentDownload() {
     return new AttachmentDownloadBuilderDefault(attachment, config, () -> queryUserAction());
+  }
+  
+  public static Builder builder() {
+    return new Builder();
+  }
+  public static class Builder {
+    private ImmutableUserActionsClientConfig.Builder config = ImmutableUserActionsClientConfig.builder();
+    public Builder config(Function<ImmutableUserActionsClientConfig.Builder, ImmutableUserActionsClientConfig.Builder> c) {
+      this.config = c.apply(config);
+      return this;
+    }
+    public UserActionsClientDefault build() {
+      return new UserActionsClientDefault(config.build());
+    }
   }
 }

@@ -31,8 +31,8 @@ import java.util.stream.Stream;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.ImmutableAttachment;
-import io.thestencil.iam.api.ImmutableClientConfig;
 import io.thestencil.iam.api.ImmutableUserAction;
+import io.thestencil.iam.api.ImmutableUserActionsClientConfig;
 import io.thestencil.iam.api.ImmutableUserMessage;
 import io.thestencil.iam.api.UserActionsClient;
 import io.thestencil.iam.spi.support.PortalAssert;
@@ -44,9 +44,9 @@ import io.vertx.mutiny.ext.web.client.WebClient;
 public class UserActionsClientMock implements UserActionsClient {
   
   private final MockClient dialobClient;
-  private final ClientConfig config;
+  private final UserActionsClientConfig config;
   
-  public UserActionsClientMock(WebClient client, ClientConfig config, String formId, String apiKey) {
+  public UserActionsClientMock(WebClient client, UserActionsClientConfig config, String formId, String apiKey) {
     this.dialobClient = new MockClient(client, config, formId, apiKey);
     this.config = config;
   }
@@ -266,7 +266,7 @@ public class UserActionsClientMock implements UserActionsClient {
   }
   
   @Override
-  public ClientConfig config() {
+  public UserActionsClientConfig config() {
     return config;
   }
   
@@ -277,7 +277,7 @@ public class UserActionsClientMock implements UserActionsClient {
     private String formId;
     private String apiKey;
     private WebClient webClient;
-    private ImmutableClientConfig.Builder config = ImmutableClientConfig.builder();
+    private ImmutableUserActionsClientConfig.Builder config = ImmutableUserActionsClientConfig.builder();
     public Builder webClient(WebClient webClient) {
       this.webClient = webClient;
       return this;
@@ -290,7 +290,7 @@ public class UserActionsClientMock implements UserActionsClient {
       this.apiKey = apiKey;
       return this;
     }
-    public Builder config(Function<ImmutableClientConfig.Builder, ImmutableClientConfig.Builder> c) {
+    public Builder config(Function<ImmutableUserActionsClientConfig.Builder, ImmutableUserActionsClientConfig.Builder> c) {
       this.config = c.apply(config);
       return this;
     }
