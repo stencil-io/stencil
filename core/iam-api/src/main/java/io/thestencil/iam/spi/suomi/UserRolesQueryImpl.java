@@ -40,12 +40,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserRolesQueryImpl extends BuilderTemplate implements UserRolesQuery {
   private final IAMClientConfig config;
-  
+  private String id;
   public UserRolesQueryImpl(IAMClientConfig config, RequestOptions init) {
     super(config.getWebClient(), init);
     this.config = config;
   }
-  
+  @Override
+  public UserRolesQuery id(String id) {
+    this.id = id;
+    return this;
+  }
   @Override
   public Uni<UserRolesResult> get() {
     return new UserQueryDefault(config.getToken()).get()
@@ -53,8 +57,9 @@ public class UserRolesQueryImpl extends BuilderTemplate implements UserRolesQuer
       if(user.getType() == IAMClient.ResultType.ANONYMOUS) {
         return Uni.createFrom().item(ImmutableUserRolesResult.builder().type(user.getType()).build());
       }
-      
-      return super.get(getUri(""))
+      final var uri = getUri("");
+      return super.get(uri)
+        .putHeader("cookie", id)
         .addQueryParam("representedPersonId", user.getUser().getSsn())
         .send().onItem()
         .transform(this::map);
@@ -65,9 +70,9 @@ public class UserRolesQueryImpl extends BuilderTemplate implements UserRolesQuer
     if (resp.statusCode() != 200) {
       String error = "USER ROLES: Can't create response, e = " + resp.statusCode() + " | " + resp.statusMessage() + " | " + resp.headers();
       log.error(error);
+      log.error("USER ROLES: Error body: " + resp.bodyAsString());
       return ImmutableUserRolesResult.builder().type(IAMClient.ResultType.ERROR).build();
     }
-    
     final JsonArray paged = resp.bodyAsJsonArray();
     if(paged.isEmpty()) {
       return ImmutableUserRolesResult.builder().type(IAMClient.ResultType.EMPTY).build();
@@ -89,5 +94,4 @@ public class UserRolesQueryImpl extends BuilderTemplate implements UserRolesQuer
             .build())
         .build();
   }
-  
 }

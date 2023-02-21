@@ -39,16 +39,14 @@ public class IAMRecorder {
   public static final String FEATURE_BUILD_ITEM = "user-iam";
   
   public BeanContainerListener buildtimeConfig(String servicePath) {
-    return beanContainer -> beanContainer
-        .instance(IAMBeanFactory.class)
-        .servicePath(servicePath)
-    ;
+    return beanContainer -> {
+      final var instance = beanContainer.instance(IAMBeanFactory.class);
+      instance.setServicePath(servicePath);
+    };
   }
   
   public void runtimeConfig(RuntimeConfig runtimeConfig) {
-    CDI.current().select(IAMBeanFactory.class).get()
-      .securityProxyPath(runtimeConfig.securityProxy.path)
-      .securityProxyHost(runtimeConfig.securityProxy.host);
+    CDI.current().select(IAMBeanFactory.class).get().setRuntimeConfig(runtimeConfig);
   }
 
   public Handler<RoutingContext> iamHandler(String liveness, String roles) {

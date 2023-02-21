@@ -48,6 +48,7 @@ public interface IAMClient {
     Uni<UserQueryResult> get();
   }
   interface UserRolesQuery {
+    UserRolesQuery id(String id);
     Uni<UserRolesResult> get();
   }
   @Value.Immutable @JsonSerialize(as = ImmutableUserRolesResult.class) @JsonDeserialize(as = ImmutableUserRolesResult.class)

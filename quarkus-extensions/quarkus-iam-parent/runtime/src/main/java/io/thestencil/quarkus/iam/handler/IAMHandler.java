@@ -50,7 +50,6 @@ public class IAMHandler extends IAMTemplate {
     if(event.request().method() != HttpMethod.GET) {
       return;
     }
-    
     final var path = event.normalizedPath();
     if(path.startsWith(liveness)) {
       ctx.livenessQuery().get()
@@ -59,7 +58,7 @@ public class IAMHandler extends IAMTemplate {
       .subscribe().with(data -> response.end(data));
     } else if(path.startsWith(roles)) {
       
-      ctx.userRolesQuery().get()
+      ctx.userRolesQuery().id(event.request().getHeader("cookie")).get()
       .onItem().transform(data -> JsonObject.mapFrom(data).toBuffer())
       .onFailure().invoke(e -> catch422(e, ctx, response))
       .subscribe().with(data -> response.end(data));

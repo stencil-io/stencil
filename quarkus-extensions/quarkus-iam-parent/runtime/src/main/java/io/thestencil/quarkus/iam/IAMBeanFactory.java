@@ -44,26 +44,25 @@ public class IAMBeanFactory {
   @Inject JsonWebToken idToken;
   
   private String servicePath;
-  private String securityProxyPath;
-  private String securityProxyHost;
-  
-  public IAMBeanFactory servicePath(String servicePath) {
+  private RuntimeConfig runtimeConfig;
+
+  public IAMBeanFactory setServicePath(String servicePath) {
     this.servicePath = servicePath;
     return this;
   }
-  public IAMBeanFactory securityProxyPath(String securityProxyPath) {
-    this.securityProxyPath = securityProxyPath;
-    return this;
-  }
-  public IAMBeanFactory securityProxyHost(String securityProxyHost) {
-    this.securityProxyHost = securityProxyHost;
+
+  public IAMBeanFactory setRuntimeConfig(RuntimeConfig runtimeConfig) {
+    this.runtimeConfig = runtimeConfig;
     return this;
   }
   
   @Produces @Singleton @DefaultBean
   public IAMClient iamClient(Vertx vertx) {
     final var webClient = WebClient.create(vertx, new WebClientOptions());
-    final var securityProxy = ImmutableRemoteIntegration.builder().host(cleanPath(securityProxyHost)).path(cleanPath(securityProxyPath)).build();
+    final var securityProxy = ImmutableRemoteIntegration.builder()
+        .host(cleanPath(runtimeConfig.securityProxy.host))
+        .path(cleanPath(runtimeConfig.securityProxy.path))
+        .build();
     
     return IAMClientSuomi.builder().idToken(idToken).servicePath(servicePath).securityProxy(securityProxy).webClient(webClient).builder();
   }
