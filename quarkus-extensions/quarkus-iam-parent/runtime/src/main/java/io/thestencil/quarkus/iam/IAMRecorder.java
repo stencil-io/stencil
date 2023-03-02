@@ -24,6 +24,10 @@ import java.util.function.Function;
 
 import javax.enterprise.inject.spi.CDI;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.quarkus.arc.Arc;
+import io.quarkus.arc.ArcContainer;
 import io.quarkus.arc.runtime.BeanContainerListener;
 import io.quarkus.runtime.annotations.Recorder;
 import io.quarkus.security.identity.CurrentIdentityAssociation;
@@ -58,7 +62,9 @@ public class IAMRecorder {
       association = null;
     }
     CurrentVertxRequest currentVertxRequest = CDI.current().select(CurrentVertxRequest.class).get();
-    return new IAMHandler(association, currentVertxRequest, liveness, roles);
+    ArcContainer container = Arc.container();
+    ObjectMapper objectMapper = container.instance(ObjectMapper.class).get();
+    return new IAMHandler(objectMapper, association, currentVertxRequest, liveness, roles);
   }
 
   public Function<Router, Route> routeFunction(String rootPath, Handler<RoutingContext> bodyHandler) {

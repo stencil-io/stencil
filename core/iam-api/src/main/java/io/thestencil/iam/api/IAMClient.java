@@ -60,6 +60,7 @@ public interface IAMClient {
   @Value.Immutable @JsonSerialize(as = ImmutableUserRoles.class) @JsonDeserialize(as = ImmutableUserRoles.class)
   interface UserRoles {
     List<String> getRoles();
+    @Nullable
     UserRolesPrincipal getPrincipal(); 
   }
   @Value.Immutable @JsonSerialize(as = ImmutableUserRolesPrincipal.class) @JsonDeserialize(as = ImmutableUserRolesPrincipal.class)

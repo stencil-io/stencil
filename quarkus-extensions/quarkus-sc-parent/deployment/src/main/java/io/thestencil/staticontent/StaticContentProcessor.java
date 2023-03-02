@@ -185,7 +185,7 @@ public class StaticContentProcessor {
     final String webjarPrefix = "META-INF/resources/webjars/" + webjarArtifactId + "/";
     
     // dev envir
-    final AppArtifact artifact = WebJarUtil.getAppArtifact(curateOutcomeBuildItem, webjarGroupId, webjarArtifactId);    
+    final var artifact = WebJarUtil.getAppArtifact(curateOutcomeBuildItem, webjarGroupId, webjarArtifactId);    
     if (launch.getLaunchMode().isDevOrTest()) {
       
       Path tempPath = WebJarUtil

@@ -26,7 +26,6 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.resys.thena.docdb.api.DocDB;
-import io.resys.thena.docdb.api.actions.CheckoutActions;
 import io.resys.thena.docdb.api.actions.CommitActions;
 import io.resys.thena.docdb.api.actions.DiffActions;
 import io.resys.thena.docdb.api.actions.HistoryActions;
@@ -99,10 +98,6 @@ public class StencilStoreInMemory implements StencilStore {
     }
     @Override
     public DiffActions diff() {
-      throw new IllegalArgumentException("no read or writes supported!");
-    }
-    @Override
-    public CheckoutActions checkout() {
       throw new IllegalArgumentException("no read or writes supported!");
     }
     @Override

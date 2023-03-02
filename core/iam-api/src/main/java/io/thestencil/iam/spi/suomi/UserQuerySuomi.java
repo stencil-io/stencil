@@ -2,6 +2,8 @@ package io.thestencil.iam.spi.suomi;
 
 import java.util.Map;
 
+import javax.json.JsonString;
+
 /*-
  * #%L
  * iam-api
@@ -37,10 +39,12 @@ import io.thestencil.iam.api.ImmutableRepresentedPerson;
 import io.thestencil.iam.api.ImmutableUser;
 import io.thestencil.iam.api.ImmutableUserQueryResult;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 
 @RequiredArgsConstructor
-public class UserQueryDefault implements UserQuery {
+@Slf4j
+public class UserQuerySuomi implements UserQuery {
   private final JsonWebToken idToken;
   
   @Override
@@ -96,14 +100,21 @@ public class UserQueryDefault implements UserQuery {
   
   @SuppressWarnings({ "unchecked" })
   private RepresentedPerson toRepresentedPerson() {
-    final var value = (Map<String, String>) idToken.getClaim("representedPerson");
+    final var value = (Map<String, Object>) idToken.getClaim("representedPerson");
     if(value == null) {
       return null;
     }
     
+    log.debug("rep claim is {}", value);
+    
+    final var name = (JsonString) value.get("name");
+    final var personId = (JsonString) value.get("personId");
+    log.debug("rep name is: {}", name);
+    log.debug("rep personId is: {}", personId);
+    
     return ImmutableRepresentedPerson.builder()
-        .name(value.get("name"))
-        .personId(value.get("personId"))
+        .name(name.getString())
+        .personId(personId.getString())
         .build();
   }
   

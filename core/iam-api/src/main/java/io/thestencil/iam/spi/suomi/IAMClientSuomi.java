@@ -59,7 +59,7 @@ public class IAMClientSuomi implements IAMClient {
   
   @Override
   public UserQuery userQuery() {
-    return new UserQueryDefault(config.getToken());
+    return new UserQuerySuomi(config.getToken());
   }
   
   @Override

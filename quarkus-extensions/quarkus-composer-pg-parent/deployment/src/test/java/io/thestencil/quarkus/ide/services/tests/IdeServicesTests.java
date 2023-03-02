@@ -1,5 +1,7 @@
 package io.thestencil.quarkus.ide.services.tests;
 
+import static org.hamcrest.Matchers.matchesPattern;
+
 /*-
  * #%L
  * quarkus-stencil-ide-services-deployment
@@ -22,10 +24,7 @@ package io.thestencil.quarkus.ide.services.tests;
 
 import java.util.Arrays;
 
-
 import org.hamcrest.Matchers;
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -33,10 +32,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import io.quarkus.test.QuarkusUnitTest;
 import io.restassured.RestAssured;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.Response;
+import io.thestencil.client.api.ImmutableArticle;
 import io.thestencil.client.api.ImmutableArticleMutator;
 import io.thestencil.client.api.ImmutableCreateArticle;
 import io.thestencil.client.api.ImmutableCreateLink;
@@ -44,17 +46,14 @@ import io.thestencil.client.api.ImmutableCreateLocale;
 import io.thestencil.client.api.ImmutableCreatePage;
 import io.thestencil.client.api.ImmutableCreateRelease;
 import io.thestencil.client.api.ImmutableCreateWorkflow;
+import io.thestencil.client.api.ImmutableEntity;
 import io.thestencil.client.api.ImmutableLinkMutator;
 import io.thestencil.client.api.ImmutableLocaleLabel;
 import io.thestencil.client.api.ImmutableLocaleMutator;
 import io.thestencil.client.api.ImmutablePageMutator;
 import io.thestencil.client.api.ImmutableWorkflowMutator;
-import io.thestencil.client.api.StencilClient.Article;
-import io.thestencil.client.api.StencilClient.Entity;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-
-import static org.hamcrest.Matchers.matchesPattern;
 
 
 //-Djava.util.logging.manager=org.jboss.logmanager.LogManager
@@ -118,10 +117,11 @@ public class IdeServicesTests extends PgSqlDbConfig {
     .then().statusCode(200)
     .extract()
       .response()
-      .body().as(new TypeRef<Entity<Article>>() {});
+      .body();
     
-   String articleId = createdArticle.getId();
-   Assertions.assertEquals(null, createdArticle.getBody().getDevMode());
+   String articleId = createdArticle.path("id");
+   
+   Assertions.assertNull(createdArticle.path("body.devMode"));
   
    
     

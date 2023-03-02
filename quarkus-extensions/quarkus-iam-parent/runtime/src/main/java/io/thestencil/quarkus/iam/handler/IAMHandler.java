@@ -1,5 +1,7 @@
 package io.thestencil.quarkus.iam.handler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /*-
  * #%L
  * quarkus-stencil-iam
@@ -27,21 +29,24 @@ import io.quarkus.vertx.http.runtime.CurrentVertxRequest;
 import io.thestencil.iam.api.IAMClient;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.JsonObject;
+import io.vertx.core.json.EncodeException;
 import io.vertx.ext.web.RoutingContext;
-
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 public class IAMHandler extends IAMTemplate {
 
+  private final ObjectMapper objectMapper;
   private final String liveness;
   private final String roles;
   
   public IAMHandler(
+      ObjectMapper objectMapper,
       CurrentIdentityAssociation currentIdentityAssociation,
       CurrentVertxRequest currentVertxRequest, String liveness, String roles) {
     super(currentIdentityAssociation, currentVertxRequest);
     this.liveness = liveness;
     this.roles = roles;
+    this.objectMapper = objectMapper;
   }
   
   @Override
@@ -53,22 +58,32 @@ public class IAMHandler extends IAMTemplate {
     final var path = event.normalizedPath();
     if(path.startsWith(liveness)) {
       ctx.livenessQuery().get()
-      .onItem().transform(data -> JsonObject.mapFrom(data).toBuffer())
+      .onItem().transform(data -> toBuffer(data))
       .onFailure().invoke(e -> catch422(e, ctx, response))
       .subscribe().with(data -> response.end(data));
     } else if(path.startsWith(roles)) {
       
       ctx.userRolesQuery().id(event.request().getHeader("cookie")).get()
-      .onItem().transform(data -> JsonObject.mapFrom(data).toBuffer())
+      .onItem().transform(data -> toBuffer(data))
       .onFailure().invoke(e -> catch422(e, ctx, response))
       .subscribe().with(data -> response.end(data));
     
     } else {
       ctx.userQuery().get()
-      .onItem().transform(data -> JsonObject.mapFrom(data).toBuffer())
+      .onItem().transform(data -> toBuffer(data))
       .onFailure().invoke(e -> catch422(e, ctx, response))
       .subscribe().with(data -> response.end(data));
     }
   
+  }
+  
+  private io.vertx.core.buffer.Buffer toBuffer(Object object) {
+
+    try {
+      log.debug("Responding object: {} body: {}, bodyAsString: {}", object.getClass(), object, objectMapper.writeValueAsString(object));
+      return io.vertx.core.buffer.Buffer.buffer(objectMapper.writeValueAsBytes(object));
+    } catch (Exception e) {
+      throw new EncodeException("Failed to encode as JSON: " + e.getMessage());
+    }
   }
 }
