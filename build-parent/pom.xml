@@ -3,7 +3,7 @@
   <parent>
     <groupId>io.thestencil</groupId>
     <artifactId>stencil-parent</artifactId>
-    <version>1.148.21</version>
+    <version>999-SNAPSHOT</version>
   </parent>
 
   <artifactId>stencil-build-parent</artifactId>
