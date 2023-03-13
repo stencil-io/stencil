@@ -60,8 +60,8 @@ public class UserQuerySuomi implements UserQuery {
   }
   
   private User toUser(String sub) {
-    final var firstName = (String) idToken.getClaim("firstNames");
-    final var lastName = (String) idToken.getClaim("lastName");
+    final var firstName = orEmpty((String) idToken.getClaim("firstNames"));
+    final var lastName = orEmpty((String) idToken.getClaim("lastName"));
     final var ssn = (String) idToken.getClaim("personalIdentityCode");
     final var email = (String) idToken.getClaim("email");
     
@@ -69,8 +69,9 @@ public class UserQuerySuomi implements UserQuery {
     final var protectionOrder = "true".equals(idToken.getClaim("protectionOrder"));
     
     return ImmutableUser.builder()
-        .firstName(orEmpty(firstName))
-        .lastName(orEmpty(lastName))
+        .username(firstName + " " + lastName)
+        .firstName(firstName)
+        .lastName(lastName)
         .ssn(orEmpty(ssn))
         .id(sub)
         .protectionOrder(protectionOrder)

@@ -41,10 +41,13 @@ public class JsonWebTokenUserQuery implements UserQuery {
   @Override
   public Uni<UserQueryResult> get() {
     this.idToken.getClaimNames();
+    final String last = this.idToken.getClaim("family_name");
+    final String first = this.idToken.getClaim("given_name");
     final var builder = ImmutableUser.builder()
       .id(this.idToken.getClaim("email"))
-      .lastName(this.idToken.getClaim("family_name"))
-      .firstName(this.idToken.getClaim("given_name"))
+      .username(first + " " + last)
+      .lastName(last)
+      .firstName(first)
       .protectionOrder(false)
       .ssn("")
       .contact(ImmutableContact.builder()

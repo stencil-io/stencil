@@ -253,7 +253,6 @@ public class UserActionsHandler extends UserActionsTemplate {
   
   
   private Uni<UserAction> createUserAction(UserActionsContext ctx, String actionId, UserQueryResult client, String clientLocale) {
-    
     return ctx.getClient().createUserAction()
       .actionName(actionId)
       .protectionOrder(client.getUser().getProtectionOrder())

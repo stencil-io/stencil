@@ -167,6 +167,6 @@ public abstract class UserActionsTemplate implements Handler<RoutingContext> {
   }
   
   public static String getUsername(User user) {
-    return user.getFirstName() + " " + user.getLastName();
+    return user.getUsername();
   }
 }

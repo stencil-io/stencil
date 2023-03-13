@@ -88,6 +88,7 @@ public interface IAMClient {
   interface User {
     String getId();
     String getSsn();
+    String getUsername();
     String getFirstName();
     String getLastName();
     Contact getContact();
