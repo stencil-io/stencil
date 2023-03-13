@@ -49,10 +49,19 @@ public interface UserActionsClient {
   AttachmentBuilder attachment();
   AttachmentDownloadBuilder attachmentDownload();
   AttachmentQuery queryAttachments();
+  AuthorizationActionQuery authorizationActionQuery();
+  
   
   FillBuilder fill();
   ReviewBuilder review();
   UserActionsClientConfig config();
+  
+  
+  interface AuthorizationActionQuery {
+    AuthorizationActionQuery userRoles(List<String> userRoles);
+    Uni<AuthorizationAction> get();
+  }
+  
   
   interface AttachmentQuery {
     Uni<List<Attachment>> processId(String processId);
@@ -216,5 +225,11 @@ public interface UserActionsClient {
     String getFileType();
   }
   
-
+  @Value.Immutable
+  @JsonSerialize(as = ImmutableAuthorizationAction.class)
+  @JsonDeserialize(as = ImmutableAuthorizationAction.class)
+  interface AuthorizationAction {
+    List<String> getUserRoles();
+    List<String> getAllowedProcessNames();
+  }
 }

@@ -21,6 +21,7 @@ package io.thestencil.iam.spi.mock;
  */
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
@@ -31,6 +32,7 @@ import java.util.stream.Stream;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.ImmutableAttachment;
+import io.thestencil.iam.api.ImmutableAuthorizationAction;
 import io.thestencil.iam.api.ImmutableUserAction;
 import io.thestencil.iam.api.ImmutableUserActionsClientConfig;
 import io.thestencil.iam.api.ImmutableUserMessage;
@@ -384,6 +386,23 @@ public class UserActionsClientMock implements UserActionsClient {
       @Override
       public Uni<List<Attachment>> processId(String processId) {
         return Uni.createFrom().item(Collections.emptyList());
+      }
+    };
+  }
+  @Override
+  public AuthorizationActionQuery authorizationActionQuery() {
+    return new AuthorizationActionQuery() {
+      private final List<String> userRoles = new ArrayList<>();
+      @Override
+      public AuthorizationActionQuery userRoles(List<String> userRoles) {
+        this.userRoles.addAll(userRoles);
+        return this;
+      }
+      @Override
+      public Uni<AuthorizationAction> get() {
+        return Uni.createFrom().item(ImmutableAuthorizationAction.builder()
+            .addAllUserRoles(userRoles)
+            .build());
       }
     };
   }

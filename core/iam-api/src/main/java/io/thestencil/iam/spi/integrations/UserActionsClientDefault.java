@@ -101,7 +101,10 @@ public class UserActionsClientDefault implements UserActionsClient {
   public AttachmentDownloadBuilder attachmentDownload() {
     return new AttachmentDownloadBuilderDefault(attachment, config, () -> queryUserAction());
   }
-  
+  @Override
+  public AuthorizationActionQuery authorizationActionQuery() {
+    return new AuthorizationActionQueryDefault(process, config);
+  }
   public static Builder builder() {
     return new Builder();
   }
