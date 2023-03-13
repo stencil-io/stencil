@@ -30,14 +30,16 @@ public final class UserActionsBuildItem extends SimpleBuildItem {
   private final String reviewPath;
   private final String messagesPath;
   private final String attachmentsPath;
+  private final String authorizationsPath;
 
-  public UserActionsBuildItem(String servicePath, String fillPath, String reviewPath, String messagesPath, String attachmentsPath) {
+  public UserActionsBuildItem(String servicePath, String fillPath, String reviewPath, String messagesPath, String attachmentsPath, String authorizationsPath) {
     super();
     this.servicePath = servicePath;
     this.fillPath = fillPath;
     this.reviewPath = reviewPath;
     this.messagesPath = messagesPath;
     this.attachmentsPath = attachmentsPath;
+    this.authorizationsPath = authorizationsPath;
   }
 
   public String getServicePath() {
@@ -54,5 +56,9 @@ public final class UserActionsBuildItem extends SimpleBuildItem {
   }
   public String getAttachmentsPath() {
     return attachmentsPath;
+  }
+
+  public String getAuthorizationsPath() {
+    return authorizationsPath;
   }
 }

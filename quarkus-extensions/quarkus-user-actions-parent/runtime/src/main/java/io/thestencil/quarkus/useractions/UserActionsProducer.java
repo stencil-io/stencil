@@ -42,6 +42,7 @@ public class UserActionsProducer {
   private String fillPath;
   private String messagesPath;
   private String attachmentsPath;
+  private String authorizationsPath;
   
   public UserActionsProducer setRuntimeConfig(RuntimeConfig runtimeConfig) {
     this.runtimeConfig = runtimeConfig;
@@ -73,6 +74,10 @@ public class UserActionsProducer {
     this.attachmentsPath = attachmentsPath;
     return this;
   }
+  public UserActionsProducer setAuthorizationsPath(String authorizationsPath) {
+    this.authorizationsPath = authorizationsPath;
+    return this;
+  }
   @Produces
   @ApplicationScoped
   public UserActionsContext userActionsContext(Vertx vertx) {
@@ -91,6 +96,7 @@ public class UserActionsProducer {
             .fillPath(fillPath)
             .reviewPath(reviewPath)
             .messagesPath(messagesPath)
+            .authorizationsPath(authorizationsPath)
             
             .replyTo(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.tasks.host)).path(cleanPath(runtimeConfig.tasks.path)).build())
             .processes(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.processes.host)).path(cleanPath(runtimeConfig.processes.path)).build())
@@ -112,6 +118,7 @@ public class UserActionsProducer {
         .fillPath(fillPath)
         .reviewPath(reviewPath)
         .messagesPath(messagesPath)
+        .authorizationsPath(authorizationsPath)
         
         .replyTo(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.tasks.host)).path(cleanPath(runtimeConfig.tasks.path)).build())
         .processes(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.processes.host)).path(cleanPath(runtimeConfig.processes.path)).build())

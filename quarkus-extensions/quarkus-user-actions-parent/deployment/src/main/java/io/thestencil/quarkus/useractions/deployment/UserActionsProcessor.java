@@ -78,7 +78,8 @@ public class UserActionsProcessor {
         "/" + buildItem.getFillPath(),
         "/" + buildItem.getReviewPath(),
         "/" + buildItem.getMessagesPath(),
-        "/" + buildItem.getAttachmentsPath()
+        "/" + buildItem.getAttachmentsPath(),
+        "/" + buildItem.getAuthorizationsPath()
         )));
   }
 
@@ -171,13 +172,15 @@ public class UserActionsProcessor {
         servicePath + "/fill", 
         servicePath + "/review",
         servicePath + "/messages",
-        servicePath + "/attachments");
+        servicePath + "/attachments",
+        servicePath + "/authorizations");
     
     displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(httpRootPathBuildItem.resolvePath(servicePath), "User Actions"));
     displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(httpRootPathBuildItem.resolvePath(buildItem.getAttachmentsPath()), "User Actions Attachments"));
     displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(httpRootPathBuildItem.resolvePath(buildItem.getFillPath()), "User Actions Fill Form"));
     displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(httpRootPathBuildItem.resolvePath(buildItem.getReviewPath()), "User Actions Review Form"));
     displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(httpRootPathBuildItem.resolvePath(buildItem.getMessagesPath()), "User Actions Messages"));
+    displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(httpRootPathBuildItem.resolvePath(buildItem.getAuthorizationsPath()), "User Actions Authorizations"));
     buildProducer.produce(buildItem);
   }
   

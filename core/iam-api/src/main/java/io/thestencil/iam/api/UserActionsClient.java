@@ -184,6 +184,7 @@ public interface UserActionsClient {
     String getReviewPath();
     String getMessagesPath();
     String getAttachmentsPath();
+    String getAuthorizationsPath();
     
     RemoteIntegration getAttachments();
     RemoteIntegration getReplyTo();

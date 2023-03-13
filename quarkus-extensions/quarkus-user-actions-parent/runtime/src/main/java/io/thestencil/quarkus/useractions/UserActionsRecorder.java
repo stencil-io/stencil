@@ -47,17 +47,18 @@ public class UserActionsRecorder {
   public BeanContainerListener configureBuildtimeConfig(
       boolean mockEnabled, String apiKey, String formId, 
       String servicePath, String fillPath, String reviewPath, 
-      String messagesPath, String attachmentsPath) {
+      String messagesPath, String attachmentsPath, String authorizationsPath) {
     
     return beanContainer -> {
-      UserActionsProducer producer = beanContainer.instance(UserActionsProducer.class);
+      UserActionsProducer producer = beanContainer.beanInstance(UserActionsProducer.class);
       producer
         .setMockEndabled(mockEnabled, apiKey, formId)
         .setServicePath(servicePath)
         .setMessagesPath(messagesPath)
         .setAttachmentsPath(attachmentsPath)
         .setReviewPath(reviewPath)
-        .setFillPath(fillPath);
+        .setFillPath(fillPath)
+        .setAuthorizationsPath(authorizationsPath);
     };
   }
   

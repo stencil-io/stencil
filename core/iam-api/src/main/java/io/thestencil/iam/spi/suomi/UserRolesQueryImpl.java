@@ -32,7 +32,6 @@ import io.thestencil.iam.api.ImmutableUserRolesPrincipal;
 import io.thestencil.iam.api.ImmutableUserRolesResult;
 import io.thestencil.iam.spi.support.BuilderTemplate;
 import io.vertx.core.http.RequestOptions;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.mutiny.ext.web.client.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -58,8 +57,9 @@ public class UserRolesQueryImpl extends BuilderTemplate implements UserRolesQuer
         return Uni.createFrom().item(ImmutableUserRolesResult.builder().type(user.getType()).build());
       }
       final var uri = getUri("");
-      log.error("USER ROLES: Uri = " + uri);
-      log.error("USER ROLES: Cookie = " + id);
+      if(log.isDebugEnabled()) {
+        log.debug("USER ROLES: Uri = {}, Cookie = {}", uri, id);
+      }
       return super.get(uri)
         .putHeader("cookie", id)
         .send().onItem()

@@ -49,4 +49,7 @@ public class UserActionsContext {
   public String getAttachmentsPath() {
     return client.config().getAttachmentsPath();
   }
+  public String getAuthorizationsPath() {
+    return client.config().getAuthorizationsPath();
+  }
 }
