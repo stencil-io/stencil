@@ -41,6 +41,7 @@ import io.quarkus.vertx.http.deployment.devmode.NotFoundPageDisplayableEndpointB
 import io.thestencil.iam.api.ImmutableAttachment;
 import io.thestencil.iam.api.ImmutableAttachmentData;
 import io.thestencil.iam.api.ImmutableAttachmentDownloadUrl;
+import io.thestencil.iam.api.ImmutableAuthorizationAction;
 import io.thestencil.iam.api.ImmutableUserAction;
 import io.thestencil.iam.api.ImmutableUserMessage;
 import io.thestencil.iam.spi.integrations.ImmutableProcessesInit;
@@ -138,6 +139,7 @@ public class UserActionsProcessor {
     List<String> names = new ArrayList<>();
     
     for(Class<?> clazz : Arrays.asList(
+        ImmutableAuthorizationAction.class,
         ImmutableAttachmentDownloadUrl.class,
         ImmutableUserAction.class,
         ImmutableAttachment.class,
