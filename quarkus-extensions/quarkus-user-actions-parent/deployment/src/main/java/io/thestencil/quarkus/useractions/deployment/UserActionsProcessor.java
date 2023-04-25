@@ -44,6 +44,7 @@ import io.thestencil.iam.api.ImmutableAttachmentDownloadUrl;
 import io.thestencil.iam.api.ImmutableAuthorizationAction;
 import io.thestencil.iam.api.ImmutableUserAction;
 import io.thestencil.iam.api.ImmutableUserMessage;
+import io.thestencil.iam.api.ImmutableUserTask;
 import io.thestencil.iam.spi.integrations.ImmutableProcessesInit;
 import io.thestencil.iam.spi.integrations.ImmutableUserActionReplyInit;
 import io.thestencil.quarkus.useractions.RuntimeConfig;
@@ -141,6 +142,7 @@ public class UserActionsProcessor {
     for(Class<?> clazz : Arrays.asList(
         ImmutableAuthorizationAction.class,
         ImmutableAttachmentDownloadUrl.class,
+        ImmutableUserTask.class,
         ImmutableUserAction.class,
         ImmutableAttachment.class,
         ImmutableUserMessage.class,

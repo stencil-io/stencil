@@ -1,6 +1,7 @@
 package io.thestencil.iam.api;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 /*-
  * #%L
@@ -138,6 +139,17 @@ public interface UserActionsClient {
     Multi<UserAction> list();
   }
   
+  @JsonSerialize(as = ImmutableUserTask.class)
+  @JsonDeserialize(as = ImmutableUserTask.class)
+  @Value.Immutable
+  interface UserTask {
+    String getId();
+    String getStatus();
+    ZonedDateTime getCreated();
+    @Nullable
+    ZonedDateTime getUpdated();
+  }
+  
   @JsonSerialize(as = ImmutableUserAction.class)
   @JsonDeserialize(as = ImmutableUserAction.class)
   @Value.Immutable
@@ -154,6 +166,14 @@ public interface UserActionsClient {
 
     @Nullable
     String getTaskId();
+    @Nullable
+    String getTaskStatus();
+    @Nullable
+    ZonedDateTime getTaskCreated();
+    @Nullable
+    ZonedDateTime getTaskUpdated();
+    
+    
     Boolean getViewed();
     List<UserMessage> getMessages();
     List<Attachment> getAttachments();

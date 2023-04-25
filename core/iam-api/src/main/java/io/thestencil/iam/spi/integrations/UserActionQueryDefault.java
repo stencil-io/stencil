@@ -29,32 +29,30 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.ImmutableUserAction;
 import io.thestencil.iam.api.ImmutableUserMessage;
 import io.thestencil.iam.api.UserActionsClient.Attachment;
 import io.thestencil.iam.api.UserActionsClient.AttachmentQuery;
-import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.UserAction;
 import io.thestencil.iam.api.UserActionsClient.UserActionQuery;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.UserMessage;
 import io.thestencil.iam.spi.support.BuilderTemplate;
 import io.thestencil.iam.spi.support.PortalAssert;
 import io.vertx.core.http.RequestOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.mutiny.ext.web.client.HttpResponse;
+import lombok.extern.slf4j.Slf4j;
 
 
-
+@Slf4j
 public class UserActionQueryDefault extends BuilderTemplate implements UserActionQuery {
-  private static final Logger LOGGER = LoggerFactory.getLogger(UserActionQueryDefault.class);
   private final UserActionsClientConfig config;
   private final Supplier<MessagesQueryBuilderDefault> messages;
   private final Supplier<AttachmentQuery> attachments;
+  private final Supplier<TaskQueryBuilderDefault> tasks;
   private String userId;
   private String processId;
   private Integer limit;
@@ -63,11 +61,13 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
   public UserActionQueryDefault(
       RequestOptions init, UserActionsClientConfig config, 
       Supplier<MessagesQueryBuilderDefault> messages,
-      Supplier<AttachmentQuery> attachments) {
+      Supplier<AttachmentQuery> attachments, 
+      Supplier<TaskQueryBuilderDefault> tasks) {
     super(config.getWebClient(), init);
     this.config = config;
     this.messages = messages;
     this.attachments = attachments;
+    this.tasks = tasks;
   }
   @Override
   public UserActionQuery userId(String userId) {
@@ -101,7 +101,7 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
       return Uni.combine().all().unis(process, tasks).asTuple()
           .onItem()
           .transformToMulti(tuple -> 
-            mapToElement(tuple.getItem1(), tuple.getItem2(), config.getFillPath(), config.getReviewPath(), config.getMessagesPath())
+            findOne(tuple.getItem1(), tuple.getItem2(), config.getFillPath(), config.getReviewPath(), config.getMessagesPath())
           )
           .onItem()
           .transformToUni(action -> addAttachments(action))
@@ -116,7 +116,7 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
       return Uni.combine().all().unis(processes, tasks).asTuple()
           .onItem()
           .transformToMulti(tuple -> 
-            mapToList(tuple.getItem1(), tuple.getItem2(), config.getFillPath(), config.getReviewPath(), config.getMessagesPath())
+            findAll(tuple.getItem1(), tuple.getItem2(), config.getFillPath(), config.getReviewPath(), config.getMessagesPath())
           )
           .onItem()
           .transformToUni(action -> addAttachments(action))
@@ -149,10 +149,9 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
         
   }
   
-  private Multi<UserAction> mapToElement(HttpResponse<?> resp, List<String> unreadTasks, String fillUri, String reviewUri, String replyUri) {
+  private Multi<UserAction> findOne(HttpResponse<?> resp, List<String> unreadTasks, String fillUri, String reviewUri, String replyUri) {
     if (resp.statusCode() != 200) {
-      String error = "USER ACTIONS: Can't create response, e = " + resp.statusCode() + " | " + resp.statusMessage() + " | " + resp.headers();
-      LOGGER.error(error);
+      log.error("USER ACTIONS, find one: Can't create response, code: {}, message: {}, headers:{}", resp.statusCode(), resp.statusMessage(), resp.headers());
       return Multi.createFrom().empty();
     }
     
@@ -165,10 +164,9 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
         .onItem().transformToUniAndMerge(action -> createAction(action, unreadTasks));
   }
   
-  private Multi<UserAction> mapToList(HttpResponse<?> resp, List<String> unreadTasks, String fillUri, String reviewUri, String replyUri) {
+  private Multi<UserAction> findAll(HttpResponse<?> resp, List<String> unreadTasks, String fillUri, String reviewUri, String replyUri) {
     if (resp.statusCode() != 200) {
-      String error = "USER ACTIONS: Can't create response, e = " + resp.statusCode() + " | " + resp.statusMessage() + " | " + resp.headers();
-      LOGGER.error(error);
+      log.error("USER ACTIONS, find all: code: {}, message: {}, headers:{} ", resp.statusCode(), resp.statusMessage(), resp.headers());
       return Multi.createFrom().empty();
     }
     
@@ -189,8 +187,16 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
   
   private Uni<UserAction> createAction(UserAction action, List<String> unreadTasks) {
     if(action.getTaskId() != null) {
-      return messages.get().getTask(action.getTaskId())
-          .onItem().transform(src -> {
+
+      return Uni.combine().all()
+          .unis(
+              messages.get().getTask(action.getTaskId()),
+              tasks.get().getTask(action.getTaskId())
+          ).asTuple()
+          .onItem().transform(tuple -> {
+            
+            final var src = tuple.getItem1();
+            final var task = tuple.getItem2();
             
             var lastUpdate = action.getUpdated();
             final var userMessages = new ArrayList<UserMessage>();
@@ -207,6 +213,9 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
             
             return ImmutableUserAction.builder()
               .from(action)
+              .taskStatus(task.getStatus())
+              .taskCreated(task.getCreated())
+              .taskUpdated(task.getUpdated())
               .updated(lastUpdate)
               .addAllMessages(userMessages)
               .viewed(userMessages.isEmpty() || !unreadTasks.contains(action.getTaskId()))

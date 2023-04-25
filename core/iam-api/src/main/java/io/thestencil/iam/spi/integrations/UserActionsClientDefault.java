@@ -62,7 +62,8 @@ public class UserActionsClientDefault implements UserActionsClient {
   public UserActionQuery queryUserAction() {
     return new UserActionQueryDefault(process, config, 
         () -> new MessagesQueryBuilderDefault(tasks, config),
-        () -> queryAttachments()
+        () -> queryAttachments(),
+        () -> new TaskQueryBuilderDefault(tasks, config)
         );
   }
   @Override
