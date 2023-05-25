@@ -121,6 +121,11 @@ public class UserActionsClientMock implements UserActionsClient {
       public Uni<UserAction> build() {
         return dialobClient.create();
       }
+      @Override
+      public UserActionBuilder representative(String representativeFirstName,
+          String representativeLastName, String representativeUserId) {
+        return this;
+      }
     };
   }
   @Override

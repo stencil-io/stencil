@@ -1,5 +1,7 @@
 package io.thestencil.iam.spi.integrations;
 
+import javax.annotation.Nullable;
+
 /*-
  * #%L
  * iam-api
@@ -47,6 +49,9 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
   private String address;
   private String email;
   private Boolean protectionOrder;
+  private String representativeFirstName; 
+  private String representativeLastName;
+  private String representativeUserId;
   
   @Value.Immutable
   public interface ProcessesInit {
@@ -58,6 +63,12 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
     String getAddress();
     String getLanguage();
     Boolean getProtectionOrder();
+    @Nullable
+    String getRepresentativeFirstName();
+    @Nullable
+    String getRepresentativeLastName();
+    @Nullable
+    String getRepresentativeIdentity();
   }
   
   public UserActionBuilderDefault(RequestOptions init, UserActionsClientConfig config) {
@@ -101,6 +112,18 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
     return this;
   }
   @Override
+  public UserActionBuilder representative(
+      String representativeFirstName, 
+      String representativeLastName, 
+      String representativeUserId) {
+    
+    this.representativeFirstName = representativeFirstName;
+    this.representativeLastName = representativeLastName;
+    this.representativeUserId = representativeUserId;
+    return this;
+  }
+  
+  @Override
   public Uni<UserAction> build() {
 
     
@@ -113,6 +136,9 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
         .email(email == null ? "" : email)
         .address(address == null ? "" : address)
         .language(language == null ? config.getDefaultLanguage() : language)
+        .representativeFirstName(representativeFirstName)
+        .representativeLastName(representativeLastName)
+        .representativeIdentity(representativeUserId)
         .build();
     
     return post(getUri("/processes/"))

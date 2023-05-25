@@ -251,17 +251,34 @@ public class UserActionsHandler extends UserActionsTemplate {
     }  
   }
   
+  private String[] getRepresentativeName(String name) {
+    final var splitAt = name.indexOf(" ");
+    if(splitAt <= 0) {
+      return new String[] {" ", name.trim()};
+    }
+    return new String[] {name.substring(0, splitAt).trim(), name.substring(splitAt).trim()};
+  }
   
   private Uni<UserAction> createUserAction(UserActionsContext ctx, String actionId, UserQueryResult client, String clientLocale) {
+	final var user = client.getUser();
+	final var representative = user.getRepresentedPerson();
+	final var representativeName = representative == null ? null : getRepresentativeName(representative.getName());
+	
+	final var representativeFirstName = representative == null ? null : representativeName[0];  
+	final var representativeLastName = representative == null ? null : representativeName[1];
+	final var representativeUserId = representative == null ? null : representative.getPersonId();
+	
     return ctx.getClient().createUserAction()
       .actionName(actionId)
-      .protectionOrder(client.getUser().getProtectionOrder())
-      .userName(client.getUser().getFirstName(), client.getUser().getLastName())
+      .protectionOrder(user.getProtectionOrder())
+      .userName(user.getFirstName(), user.getLastName())
       .language(clientLocale)
-      .email(client.getUser().getContact().getEmail())
-      .address(client.getUser().getContact().getAddressValue())
-      .userId(client.getUser().getSsn())
+      .email(user.getContact().getEmail())
+      .address(user.getContact().getAddressValue())
+      .userId(user.getSsn())
+      .representative(representativeFirstName, representativeLastName, representativeUserId)
       .build();
+    
   }
   
   public io.vertx.core.buffer.Buffer toBuffer(Object object) {

@@ -122,6 +122,8 @@ public interface UserActionsClient {
     UserActionBuilder email(String email);
     UserActionBuilder address(String address);
     UserActionBuilder protectionOrder(Boolean protectionOrder);
+    UserActionBuilder representative(String representativeFirstName, String representativeLastName, String representativeUserId);
+    
     Uni<UserAction> build();
   }
   interface CancelUserActionBuilder {
