@@ -29,6 +29,7 @@ import io.quarkus.security.identity.CurrentIdentityAssociation;
 import io.quarkus.vertx.http.runtime.CurrentVertxRequest;
 import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.IAMClient;
+import io.thestencil.iam.api.IAMClient.RepresentedCompany;
 import io.thestencil.iam.api.IAMClient.RepresentedPerson;
 import io.thestencil.iam.api.IAMClient.UserQueryResult;
 import io.thestencil.iam.api.UserActionsClient.AuthorizationAction;
@@ -173,12 +174,17 @@ public class UserActionsHandler extends UserActionsTemplate {
    if(event.request().method() == HttpMethod.GET) {
         
       iam.userQuery().get().onItem().transformToUni(client -> {
-        final RepresentedPerson rep = client.getUser().getRepresentedPerson();
-        if(rep == null) {
+        final RepresentedPerson person = client.getUser().getRepresentedPerson();
+        final RepresentedCompany company = client.getUser().getRepresentedCompany();
+        if(person == null && company == null) {
           return null; // Nobody is represented
         }
-        return iam
-            .userRolesQuery().id(event.request().getHeader("cookie")).get()
+        
+        final var id = event.request().getHeader("cookie");
+        final var query = person != null ? 
+            iam.personRolesQuery().id(id).get() : 
+            iam.companyRolesQuery().id(id).get();
+        return query
             .onItem().transformToUni(roleData -> ctx.getClient()
                 .authorizationActionQuery()
                 .userRoles(roleData.getUserRoles().getRoles())
@@ -224,12 +230,18 @@ public class UserActionsHandler extends UserActionsTemplate {
     } else if(event.request().method() == HttpMethod.GET) {
       iam.userQuery().get().onItem().transformToUni(client -> {
         
-        final RepresentedPerson rep = client.getUser().getRepresentedPerson();
-        if(rep == null) {
+        final RepresentedPerson person = client.getUser().getRepresentedPerson();
+        final RepresentedCompany company = client.getUser().getRepresentedCompany();
+        if(person == null && company == null) {
           return createUserAction(ctx, actionId, client, actionLocale); // Nobody is represented
         }
-        final Uni<AuthorizationAction> authorizations = iam
-            .userRolesQuery().id(event.request().getHeader("cookie")).get()
+                
+        final var id = event.request().getHeader("cookie");
+        final var query = person != null ? 
+            iam.personRolesQuery().id(id).get() : 
+            iam.companyRolesQuery().id(id).get();
+        
+        final Uni<AuthorizationAction> authorizations = query
             .onItem().transformToUni(roleData -> ctx.getClient()
                 .authorizationActionQuery()
                 .userRoles(roleData.getUserRoles().getRoles())

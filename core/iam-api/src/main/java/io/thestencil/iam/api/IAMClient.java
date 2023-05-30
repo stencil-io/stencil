@@ -37,7 +37,8 @@ public interface IAMClient {
 
   LivenessQuery livenessQuery();
   UserQuery userQuery();
-  UserRolesQuery userRolesQuery();
+  UserRolesQuery personRolesQuery();
+  UserRolesQuery companyRolesQuery();
   
   IAMClientConfig getConfig();
   
@@ -65,7 +66,7 @@ public interface IAMClient {
   }
   @Value.Immutable @JsonSerialize(as = ImmutableUserRolesPrincipal.class) @JsonDeserialize(as = ImmutableUserRolesPrincipal.class)
   interface UserRolesPrincipal {
-    String getPersonId();
+    String getIdentifier();
     String getName();
   }
   
@@ -84,6 +85,13 @@ public interface IAMClient {
     String getName();
   }
   
+  @Value.Immutable @JsonSerialize(as = ImmutableRepresentedCompany.class) @JsonDeserialize(as = ImmutableRepresentedCompany.class)
+  interface RepresentedCompany {
+    String getCompanyId();
+    String getName();
+  }
+  
+  
   @Value.Immutable @JsonSerialize(as = ImmutableUser.class) @JsonDeserialize(as = ImmutableUser.class)
   interface User {
     String getId();
@@ -94,7 +102,9 @@ public interface IAMClient {
     Contact getContact();
     Boolean getProtectionOrder();
     @Nullable
-    RepresentedPerson getRepresentedPerson();  
+    RepresentedPerson getRepresentedPerson();
+    @Nullable
+    RepresentedCompany getRepresentedCompany();  
   }
 
   @Value.Immutable @JsonSerialize(as = ImmutableContact.class) @JsonDeserialize(as = ImmutableContact.class)
@@ -129,7 +139,8 @@ public interface IAMClient {
     JsonWebToken getToken();
     WebClient getWebClient();
     String getServicePath();
-    RemoteIntegration getSecurityProxy();
+    RemoteIntegration getPersonSecurityProxy();
+    RemoteIntegration getCompanySecurityProxy();
   }
 
 }

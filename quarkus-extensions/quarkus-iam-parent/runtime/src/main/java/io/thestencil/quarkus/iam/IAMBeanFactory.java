@@ -59,12 +59,21 @@ public class IAMBeanFactory {
   @Produces @Singleton @DefaultBean
   public IAMClient iamClient(Vertx vertx) {
     final var webClient = WebClient.create(vertx, new WebClientOptions());
-    final var securityProxy = ImmutableRemoteIntegration.builder()
-        .host(cleanPath(runtimeConfig.securityProxy.host))
-        .path(cleanPath(runtimeConfig.securityProxy.path))
+    final var personSecurityProxy = ImmutableRemoteIntegration.builder()
+        .host(cleanPath(runtimeConfig.personSecurityProxy.host))
+        .path(cleanPath(runtimeConfig.personSecurityProxy.path))
+        .build();
+    final var companySecurityProxy = ImmutableRemoteIntegration.builder()
+        .host(cleanPath(runtimeConfig.companySecurityProxy.host))
+        .path(cleanPath(runtimeConfig.companySecurityProxy.path))
         .build();
     
-    return IAMClientSuomi.builder().idToken(idToken).servicePath(servicePath).securityProxy(securityProxy).webClient(webClient).builder();
+    return IAMClientSuomi.builder()
+        .idToken(idToken).servicePath(servicePath)
+        .personSecurityProxy(personSecurityProxy)
+        .companySecurityProxy(companySecurityProxy)
+        .webClient(webClient)
+        .builder();
   }
   
   public static String cleanPath(String value) {

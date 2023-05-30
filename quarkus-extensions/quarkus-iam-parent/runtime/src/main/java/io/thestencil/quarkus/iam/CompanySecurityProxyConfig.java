@@ -25,7 +25,7 @@ import io.quarkus.runtime.annotations.ConfigGroup;
 import io.quarkus.runtime.annotations.ConfigItem;
 
 @ConfigGroup
-public class SecurityProxyConfig {
+public class CompanySecurityProxyConfig {
   
   /**
    * backend host

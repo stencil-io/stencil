@@ -38,30 +38,37 @@ import io.vertx.mutiny.ext.web.client.WebClient;
 public class IAMClientSuomi implements IAMClient {
 
   private final IAMClientConfig config;
-  private final RequestOptions roles;
+  private final RequestOptions personRoles;
+  private final RequestOptions companyRoles;
   public IAMClientSuomi(IAMClientConfig config) {
     super();
     this.config = config;
-    this.roles = new RequestOptions()
-        .setURI(config.getSecurityProxy().getPath())
-        .setHost(config.getSecurityProxy().getHost());
+    
+    this.personRoles = new RequestOptions()
+        .setURI(config.getPersonSecurityProxy().getPath())
+        .setHost(config.getPersonSecurityProxy().getHost());
+    
+    this.companyRoles = new RequestOptions()
+        .setURI(config.getCompanySecurityProxy().getPath())
+        .setHost(config.getCompanySecurityProxy().getHost());
   }
 
   @Override
-  public UserRolesQuery userRolesQuery() {
-    return new UserRolesQueryImpl(config, roles);
+  public UserRolesQuery personRolesQuery() {
+    return new UserRolesQueryImpl(config, personRoles, true);
   }
-
+  @Override
+  public UserRolesQuery companyRolesQuery() {
+    return new UserRolesQueryImpl(config, companyRoles, false);
+  }
   @Override
   public IAMClientConfig getConfig() {
     return config;
   }
-  
   @Override
   public UserQuery userQuery() {
     return new UserQuerySuomi(config.getToken());
   }
-  
   @Override
   public LivenessQuery livenessQuery() {
     return new LivenessQuery() {
@@ -90,18 +97,21 @@ public class IAMClientSuomi implements IAMClient {
     private JsonWebToken idToken;
     private WebClient webClient;
     private String servicePath;
-    private RemoteIntegration securityProxy;
+    private RemoteIntegration personSecurityProxy;
+    private RemoteIntegration companySecurityProxy;
     
     public Builder webClient(WebClient webClient) { this.webClient = webClient; return this; }
     public Builder servicePath(String servicePath) { this.servicePath = servicePath; return this; }
-    public Builder securityProxy(RemoteIntegration securityProxy) { this.securityProxy = securityProxy; return this; }
+    public Builder personSecurityProxy(RemoteIntegration securityProxy) { this.personSecurityProxy = securityProxy; return this; }
+    public Builder companySecurityProxy(RemoteIntegration securityProxy) { this.companySecurityProxy = securityProxy; return this; }
     public Builder idToken(JsonWebToken idToken) { this.idToken = idToken; return this; }
     
     public IAMClientSuomi builder() {
       return new IAMClientSuomi(ImmutableIAMClientConfig.builder()
           .token(idToken)
           .servicePath(servicePath)
-          .securityProxy(securityProxy)
+          .personSecurityProxy(personSecurityProxy)
+          .companySecurityProxy(companySecurityProxy)
           .webClient(webClient)
           .build()); 
     }

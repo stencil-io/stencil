@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.security.identity.CurrentIdentityAssociation;
 import io.quarkus.vertx.http.runtime.CurrentVertxRequest;
 import io.thestencil.iam.api.IAMClient;
+import io.thestencil.iam.api.IAMClient.UserRolesResult;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.EncodeException;
@@ -63,10 +64,20 @@ public class IAMHandler extends IAMTemplate {
       .subscribe().with(data -> response.end(data));
     } else if(path.startsWith(roles)) {
       
-      ctx.userRolesQuery().id(event.request().getHeader("cookie")).get()
-      .onItem().transform(data -> toBuffer(data))
-      .onFailure().invoke(e -> catch422(e, ctx, response))
-      .subscribe().with(data -> response.end(data));
+      final var id = event.request().getHeader("cookie");
+      
+      ctx.userQuery().get().onItem()
+        .transformToUni(user -> {
+          if(user.getUser().getRepresentedCompany() != null) {
+            return ctx.companyRolesQuery().id(id).get();
+          } else if(user.getUser().getRepresentedPerson() != null) {
+            return ctx.personRolesQuery().id(id).get();
+          }
+          throw new RuntimeException("Represented person/company could not be resolved!");
+        })
+        .onItem().transform((UserRolesResult data) -> toBuffer(data))
+        .onFailure().invoke(e -> catch422(e, ctx, response))
+        .subscribe().with(data -> response.end(data));
     
     } else {
       ctx.userQuery().get()

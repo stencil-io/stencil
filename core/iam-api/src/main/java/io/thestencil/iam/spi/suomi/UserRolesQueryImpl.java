@@ -40,9 +40,11 @@ import lombok.extern.slf4j.Slf4j;
 public class UserRolesQueryImpl extends BuilderTemplate implements UserRolesQuery {
   private final IAMClientConfig config;
   private String id;
-  public UserRolesQueryImpl(IAMClientConfig config, RequestOptions init) {
+  private boolean isPersonRoles;
+  public UserRolesQueryImpl(IAMClientConfig config, RequestOptions init, boolean isPersonRoles) {
     super(config.getWebClient(), init);
     this.config = config;
+    this.isPersonRoles = isPersonRoles;
   }
   @Override
   public UserRolesQuery id(String id) {
@@ -73,25 +75,37 @@ public class UserRolesQueryImpl extends BuilderTemplate implements UserRolesQuer
       log.error("USER ROLES: Error: {} body: {}", error, resp.bodyAsString());
       return ImmutableUserRolesResult.builder().type(IAMClient.ResultType.ERROR).build();
     }
-    final var content = resp.bodyAsString();
-    log.error("USER ROLES BODY: {}", content);
+
     final JsonObject body = resp.bodyAsJsonObject();
     if(body.isEmpty()) {
       return ImmutableUserRolesResult.builder().type(IAMClient.ResultType.EMPTY).build();
     }
-    
+
     final var jsonRoles = body.getJsonArray("roles");
-    final var jsonPrincipal = body.getJsonObject("principal");
-    
     final var roles = jsonRoles.stream().map(data -> (String) data).collect(Collectors.toList());
+    
+    
+    final ImmutableUserRolesPrincipal principal;
+    if(isPersonRoles) {
+      final var jsonPrincipal = body.getJsonObject("principal");
+      principal = jsonPrincipal == null ? null : ImmutableUserRolesPrincipal.builder()
+          .name(jsonPrincipal.getString("name"))
+          .identifier(jsonPrincipal.getString("personId"))
+          .build();
+    } else {
+      final var jsonName = body.getString("name");
+      final var jsonIdentifier = body.getString("identifier");
+      
+      principal = jsonIdentifier == null ? null : ImmutableUserRolesPrincipal.builder()
+          .name(jsonName)
+          .identifier(jsonIdentifier)
+          .build(); 
+    }
     
     return ImmutableUserRolesResult.builder().type(IAMClient.ResultType.OK)
         .userRoles(ImmutableUserRoles.builder()
             .roles(roles)
-            .principal(jsonPrincipal == null ? null : ImmutableUserRolesPrincipal.builder()
-                .name(jsonPrincipal.getString("name"))
-                .personId(jsonPrincipal.getString("personId"))
-                .build())
+            .principal(principal)
             .build())
         .build();
   }

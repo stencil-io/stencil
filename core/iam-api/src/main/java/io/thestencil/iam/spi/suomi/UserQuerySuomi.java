@@ -28,6 +28,7 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.IAMClient.Address;
+import io.thestencil.iam.api.IAMClient.RepresentedCompany;
 import io.thestencil.iam.api.IAMClient.RepresentedPerson;
 import io.thestencil.iam.api.IAMClient.ResultType;
 import io.thestencil.iam.api.IAMClient.User;
@@ -35,6 +36,7 @@ import io.thestencil.iam.api.IAMClient.UserQuery;
 import io.thestencil.iam.api.IAMClient.UserQueryResult;
 import io.thestencil.iam.api.ImmutableAddress;
 import io.thestencil.iam.api.ImmutableContact;
+import io.thestencil.iam.api.ImmutableRepresentedCompany;
 import io.thestencil.iam.api.ImmutableRepresentedPerson;
 import io.thestencil.iam.api.ImmutableUser;
 import io.thestencil.iam.api.ImmutableUserQueryResult;
@@ -76,6 +78,7 @@ public class UserQuerySuomi implements UserQuery {
         .id(sub)
         .protectionOrder(protectionOrder)
         .representedPerson(toRepresentedPerson())
+        .representedCompany(toRepresentedCompany())
         .contact(ImmutableContact.builder()
             .email(orEmpty(email))
             .address(address)
@@ -118,6 +121,28 @@ public class UserQuerySuomi implements UserQuery {
         .personId(personId.getString())
         .build();
   }
+  
+
+  @SuppressWarnings({ "unchecked" })
+  private RepresentedCompany toRepresentedCompany() {
+    final var value = (Map<String, Object>) idToken.getClaim("representedOrganization");
+    if(value == null) {
+      return null;
+    }
+    
+    log.debug("rep claim is {}", value);
+    
+    final var name = (JsonString) value.get("name");
+    final var companyId = (JsonString) value.get("identifier");
+    log.debug("rep name is: {}", name);
+    log.debug("rep companyId is: {}", companyId);
+    
+    return ImmutableRepresentedCompany.builder()
+        .name(name.getString())
+        .companyId(companyId.getString())
+        .build();
+  }
+  
   
   private static String orEmpty(String value) {
     return value == null ? "" : value; 

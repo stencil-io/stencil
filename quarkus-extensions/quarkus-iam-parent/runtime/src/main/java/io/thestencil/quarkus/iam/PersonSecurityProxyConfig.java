@@ -1,10 +1,8 @@
 package io.thestencil.quarkus.iam;
 
-import io.quarkus.runtime.annotations.ConfigItem;
-
 /*-
  * #%L
- * quarkus-stencil-iam
+ * quarkus-stencil-user-actions
  * %%
  * Copyright (C) 2021 - 2022 Copyright 2021 ReSys OÜ
  * %%
@@ -22,23 +20,22 @@ import io.quarkus.runtime.annotations.ConfigItem;
  * #L%
  */
 
-import io.quarkus.runtime.annotations.ConfigPhase;
-import io.quarkus.runtime.annotations.ConfigRoot;
 
-@ConfigRoot(phase = ConfigPhase.RUN_TIME, name = IAMRecorder.FEATURE_BUILD_ITEM)
-public class RuntimeConfig {
-  
-  
-  /**
-   * Configuration for security proxy from where to get person roles
-   */
-  @ConfigItem
-  PersonSecurityProxyConfig personSecurityProxy;
-  
+import io.quarkus.runtime.annotations.ConfigGroup;
+import io.quarkus.runtime.annotations.ConfigItem;
+
+@ConfigGroup
+public class PersonSecurityProxyConfig {
   
   /**
-   * Configuration for security proxy from where to get company roles
+   * backend host
    */
   @ConfigItem
-  PersonSecurityProxyConfig companySecurityProxy;
+  String host;
+  
+  /**
+   * backend path
+   */
+  @ConfigItem
+  String path;
 }

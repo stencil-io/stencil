@@ -37,8 +37,11 @@ public class IAMDeploymentTest {
   final static QuarkusUnitTest config = new QuarkusUnitTest()
     .setArchiveProducer(() -> ShrinkWrap.create(JavaArchive.class)
       .addAsResource(new StringAsset(
-          "quarkus.user-iam.security-proxy.host=test\r\n"+ 
-          "quarkus.user-iam.security-proxy.path=test"
+          "quarkus.user-iam.person-security-proxy.host=test\r\n"+ 
+          "quarkus.user-iam.person-security-proxy.path=test\r\n" +
+              
+          "quarkus.user-iam.company-security-proxy.host=test\r\n"+ 
+          "quarkus.user-iam.company-security-proxy.path=test\r\n" 
           ), "application.properties")
     );
   

@@ -44,7 +44,7 @@ public class IAMRecorder {
   
   public BeanContainerListener buildtimeConfig(String servicePath) {
     return beanContainer -> {
-      final var instance = beanContainer.instance(IAMBeanFactory.class);
+      final var instance = beanContainer.beanInstance(IAMBeanFactory.class);
       instance.setServicePath(servicePath);
     };
   }
