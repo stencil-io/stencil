@@ -56,13 +56,13 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
   
   @Value.Immutable
   public interface ProcessesInit {
-    String getFirstName();
-    String getLastName();
-    String getCompanyName();
     String getIdentity();
     String getWorkflowName();
     Boolean getProtectionOrder();
-    
+
+    @Nullable String getLastName();
+    @Nullable String getFirstName();    
+    @Nullable String getCompanyName();
     @Nullable String getEmail();
     @Nullable String getAddress();
     @Nullable String getLanguage();

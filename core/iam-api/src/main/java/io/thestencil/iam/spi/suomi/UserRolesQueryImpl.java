@@ -32,6 +32,7 @@ import io.thestencil.iam.api.ImmutableUserRolesPrincipal;
 import io.thestencil.iam.api.ImmutableUserRolesResult;
 import io.thestencil.iam.spi.support.BuilderTemplate;
 import io.vertx.core.http.RequestOptions;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.mutiny.ext.web.client.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -75,38 +76,48 @@ public class UserRolesQueryImpl extends BuilderTemplate implements UserRolesQuer
       log.error("USER ROLES: Error: {} body: {}", error, resp.bodyAsString());
       return ImmutableUserRolesResult.builder().type(IAMClient.ResultType.ERROR).build();
     }
-
-    final JsonObject body = resp.bodyAsJsonObject();
-    if(body.isEmpty()) {
-      return ImmutableUserRolesResult.builder().type(IAMClient.ResultType.EMPTY).build();
-    }
-
-    final var jsonRoles = body.getJsonArray("roles");
-    final var roles = jsonRoles.stream().map(data -> (String) data).collect(Collectors.toList());
     
-    
-    final ImmutableUserRolesPrincipal principal;
+    final ImmutableUserRoles userRoles;
     if(isPersonRoles) {
+      final JsonObject body = resp.bodyAsJsonObject();
+      if(body.isEmpty()) {
+        return ImmutableUserRolesResult.builder().type(IAMClient.ResultType.EMPTY).build();
+      }
+
+      final var jsonRoles = body.getJsonArray("roles");
+      final var roles = jsonRoles.stream().map(data -> (String) data).collect(Collectors.toList());
       final var jsonPrincipal = body.getJsonObject("principal");
-      principal = jsonPrincipal == null ? null : ImmutableUserRolesPrincipal.builder()
+      final var principal = jsonPrincipal == null ? null : ImmutableUserRolesPrincipal.builder()
           .name(jsonPrincipal.getString("name"))
           .identifier(jsonPrincipal.getString("personId"))
           .build();
+      
+      userRoles = ImmutableUserRoles.builder()
+        .roles(roles)
+        .principal(principal)
+        .build();
     } else {
+      final JsonArray bodies = resp.bodyAsJsonArray();
+      if(bodies.isEmpty()) {
+        return ImmutableUserRolesResult.builder().type(IAMClient.ResultType.EMPTY).build();
+      }
+      
+      final var body = bodies.getJsonObject(0);
       final var jsonName = body.getString("name");
       final var jsonIdentifier = body.getString("identifier");
+      final var jsonRoles = body.getJsonArray("roles");
+      final var roles = jsonRoles.stream().map(data -> (String) data).collect(Collectors.toList());
       
-      principal = jsonIdentifier == null ? null : ImmutableUserRolesPrincipal.builder()
+      final var principal = jsonIdentifier == null ? null : ImmutableUserRolesPrincipal.builder()
           .name(jsonName)
           .identifier(jsonIdentifier)
           .build(); 
+      userRoles = ImmutableUserRoles.builder()
+          .roles(roles)
+          .principal(principal)
+          .build();
     }
     
-    return ImmutableUserRolesResult.builder().type(IAMClient.ResultType.OK)
-        .userRoles(ImmutableUserRoles.builder()
-            .roles(roles)
-            .principal(principal)
-            .build())
-        .build();
+    return ImmutableUserRolesResult.builder().type(IAMClient.ResultType.OK).userRoles(userRoles).build();
   }
 }

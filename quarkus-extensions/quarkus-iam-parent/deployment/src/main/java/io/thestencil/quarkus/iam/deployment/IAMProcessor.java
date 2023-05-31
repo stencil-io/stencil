@@ -36,6 +36,7 @@ import io.quarkus.vertx.http.deployment.RouteBuildItem;
 import io.quarkus.vertx.http.deployment.devmode.NotFoundPageDisplayableEndpointBuildItem;
 import io.thestencil.iam.api.ImmutableAddress;
 import io.thestencil.iam.api.ImmutableContact;
+import io.thestencil.iam.api.ImmutableRepresentedCompany;
 import io.thestencil.iam.api.ImmutableRepresentedPerson;
 import io.thestencil.iam.api.ImmutableUser;
 import io.thestencil.iam.api.ImmutableUserLiveness;
@@ -109,6 +110,7 @@ public class IAMProcessor {
   public ReflectiveClassBuildItem reflection() {
     return new ReflectiveClassBuildItem(true, true,
         ImmutableRepresentedPerson.class,
+        ImmutableRepresentedCompany.class,
         ImmutableUserRoles.class,
         ImmutableUserRolesResult.class,
         ImmutableUserRolesPrincipal.class,

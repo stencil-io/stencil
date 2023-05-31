@@ -208,14 +208,12 @@ public class UserActionsHandler extends UserActionsTemplate {
     if(actionId == null) {
       iam.userQuery().get().onItem().transformToUni(client -> {
         
-        final var workflows = ctx.getClient().queryUserAction()
-            .userId(client.getUser().getSsn())
-            .userName(getUsername(client.getUser()))
-            .list().collect().asList();
+
+        final var user = client.getUser();
         
-        if(client.getUser().getRepresentedCompany() != null || client.getUser().getRepresentedPerson() != null) {
+        if(user.getRepresentedCompany() != null || user.getRepresentedPerson() != null) {
           final var id = event.request().getHeader("cookie");
-          final var query = client.getUser().getRepresentedPerson() != null ? 
+          final var query = user.getRepresentedPerson() != null ? 
               iam.personRolesQuery().id(id).get() : 
               iam.companyRolesQuery().id(id).get();
           
@@ -225,13 +223,24 @@ public class UserActionsHandler extends UserActionsTemplate {
                   .userRoles(roleData.getUserRoles().getRoles())
                   .get());
           
+          final var personNames = user.getRepresentedPerson() == null ? null : getRepresentativeName(user.getRepresentedPerson().getName());
+          
+          final var workflows = ctx.getClient().queryUserAction()
+            .userId(user.getRepresentedPerson() != null ? user.getRepresentedPerson().getPersonId() : user.getRepresentedCompany().getCompanyId())
+            .userName(personNames != null ? personNames[1] + " " + personNames[0]: user.getRepresentedCompany().getName())
+            .list().collect().asList();
+          
           return Uni.combine().all().unis(workflows, authorizations)
           .asTuple().onItem().transform(tuple -> {
             final var validNames = tuple.getItem2().getAllowedProcessNames();
+            log.debug("Allowed process names: {}" , validNames, tuple.getItem1().stream().map(wk -> wk.getId() + "/" + wk.getName() + "/").collect(Collectors.toList()));
             return tuple.getItem1().stream().filter(wk -> validNames.contains(wk.getName())).collect(Collectors.toList());
           });
         }
-        return workflows; 
+        return ctx.getClient().queryUserAction()
+            .userId(user.getSsn())
+            .userName(getUsername(user))
+            .list().collect().asList();
       })
       .onItem().transform(data -> toBuffer(data))
       .onFailure().invoke(e -> catch422(e, ctx, response))
