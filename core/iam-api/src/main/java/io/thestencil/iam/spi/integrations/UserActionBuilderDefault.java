@@ -44,6 +44,7 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
   private String actionName;
   private String firstName;
   private String lastName;
+  private String companyName;
   private String userId;
   private String language;
   private String address;
@@ -57,18 +58,17 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
   public interface ProcessesInit {
     String getFirstName();
     String getLastName();
+    String getCompanyName();
     String getIdentity();
     String getWorkflowName();
-    String getEmail();
-    String getAddress();
-    String getLanguage();
     Boolean getProtectionOrder();
-    @Nullable
-    String getRepresentativeFirstName();
-    @Nullable
-    String getRepresentativeLastName();
-    @Nullable
-    String getRepresentativeIdentity();
+    
+    @Nullable String getEmail();
+    @Nullable String getAddress();
+    @Nullable String getLanguage();
+    @Nullable String getRepresentativeFirstName();
+    @Nullable String getRepresentativeLastName();
+    @Nullable String getRepresentativeIdentity();
   }
   
   public UserActionBuilderDefault(RequestOptions init, UserActionsClientConfig config) {
@@ -78,6 +78,11 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
   @Override
   public UserActionBuilder actionName(String actionName) {
     this.actionName = actionName;
+    return this;
+  }
+  @Override
+  public UserActionBuilder companyName(String companyName) {
+    this.companyName = companyName;
     return this;
   }
   @Override
@@ -125,11 +130,10 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
   
   @Override
   public Uni<UserAction> build() {
-
-    
     final var init = ImmutableProcessesInit.builder()
-        .firstName(firstName)
-        .lastName(lastName)
+        .firstName(firstName == null ? "" : firstName)
+        .lastName(lastName == null ? companyName : lastName)
+        .companyName(companyName)
         .workflowName(actionName)
         .protectionOrder(protectionOrder)
         .identity(userId)

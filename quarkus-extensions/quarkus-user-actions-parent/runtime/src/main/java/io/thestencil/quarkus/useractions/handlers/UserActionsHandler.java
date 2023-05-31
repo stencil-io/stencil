@@ -22,6 +22,7 @@ package io.thestencil.quarkus.useractions.handlers;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -205,12 +206,33 @@ public class UserActionsHandler extends UserActionsTemplate {
     String actionLocale = event.request().getParam("locale");
 
     if(actionId == null) {
-      iam.userQuery().get().onItem().transformToUni(client -> 
-        ctx.getClient().queryUserAction()
-        .userId(client.getUser().getSsn())
-        .userName(getUsername(client.getUser()))
-        .list().collect().asList()
-      )
+      iam.userQuery().get().onItem().transformToUni(client -> {
+        
+        final var workflows = ctx.getClient().queryUserAction()
+            .userId(client.getUser().getSsn())
+            .userName(getUsername(client.getUser()))
+            .list().collect().asList();
+        
+        if(client.getUser().getRepresentedCompany() != null || client.getUser().getRepresentedPerson() != null) {
+          final var id = event.request().getHeader("cookie");
+          final var query = client.getUser().getRepresentedPerson() != null ? 
+              iam.personRolesQuery().id(id).get() : 
+              iam.companyRolesQuery().id(id).get();
+          
+          final Uni<AuthorizationAction> authorizations = query
+              .onItem().transformToUni(roleData -> ctx.getClient()
+                  .authorizationActionQuery()
+                  .userRoles(roleData.getUserRoles().getRoles())
+                  .get());
+          
+          return Uni.combine().all().unis(workflows, authorizations)
+          .asTuple().onItem().transform(tuple -> {
+            final var validNames = tuple.getItem2().getAllowedProcessNames();
+            return tuple.getItem1().stream().filter(wk -> validNames.contains(wk.getName())).collect(Collectors.toList());
+          });
+        }
+        return workflows; 
+      })
       .onItem().transform(data -> toBuffer(data))
       .onFailure().invoke(e -> catch422(e, ctx, response))
       .subscribe().with(data -> response.end(data));    
@@ -272,25 +294,38 @@ public class UserActionsHandler extends UserActionsTemplate {
   }
   
   private Uni<UserAction> createUserAction(UserActionsContext ctx, String actionId, UserQueryResult client, String clientLocale) {
-	final var user = client.getUser();
-	final var representative = user.getRepresentedPerson();
-	final var representativeName = representative == null ? null : getRepresentativeName(representative.getName());
-	
-	final var representativeFirstName = representative == null ? null : representativeName[0];  
-	final var representativeLastName = representative == null ? null : representativeName[1];
-	final var representativeUserId = representative == null ? null : representative.getPersonId();
-	
-    return ctx.getClient().createUserAction()
+	  final var user = client.getUser();
+    final var person = user.getRepresentedPerson();
+    final var company = user.getRepresentedCompany();
+    final var create = ctx.getClient().createUserAction()
       .actionName(actionId)
       .protectionOrder(user.getProtectionOrder())
+      .language(clientLocale);
+    
+    if(person != null) {
+      final var representativeName = getRepresentativeName(person.getName());
+      final var representativeFirstName = representativeName[1];  
+      final var representativeLastName = representativeName[0];
+      
+      return create
+        .userName(representativeFirstName, representativeLastName)
+        .userId(person.getPersonId())
+        .representative(user.getFirstName(), user.getLastName(), user.getSsn())
+        .build();
+    } else if(company != null) {
+      return create
+        .companyName(company.getName())
+        .userId(company.getCompanyId())
+        .representative(user.getFirstName(), user.getLastName(), user.getSsn())
+        .build();
+    }
+	
+    return create
       .userName(user.getFirstName(), user.getLastName())
-      .language(clientLocale)
       .email(user.getContact().getEmail())
       .address(user.getContact().getAddressValue())
       .userId(user.getSsn())
-      .representative(representativeFirstName, representativeLastName, representativeUserId)
       .build();
-    
   }
   
   public io.vertx.core.buffer.Buffer toBuffer(Object object) {

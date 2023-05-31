@@ -117,6 +117,7 @@ public interface UserActionsClient {
   interface UserActionBuilder {
     UserActionBuilder actionName(String actionName);
     UserActionBuilder userName(String firstName, String lastName);
+    UserActionBuilder companyName(String companyName);
     UserActionBuilder userId(String userId);
     UserActionBuilder language(String language);
     UserActionBuilder email(String email);

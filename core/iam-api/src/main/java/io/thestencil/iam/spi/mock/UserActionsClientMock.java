@@ -126,6 +126,10 @@ public class UserActionsClientMock implements UserActionsClient {
           String representativeLastName, String representativeUserId) {
         return this;
       }
+      @Override
+      public UserActionBuilder companyName(String companyName) {
+        return this;
+      }
     };
   }
   @Override
