@@ -64,6 +64,7 @@ public class AuthorizationActionQueryDefault extends BuilderTemplate implements 
         .onItem().transform(resp -> map(resp));
   }
   
+  @SuppressWarnings("unchecked")
   private AuthorizationAction map(HttpResponse<?> resp) {
     if (resp.statusCode() != 200) {
       String error = "USER AUTHORIZATION ACTIONS: Can't create response, e = " + resp.statusCode() + " | " + resp.statusMessage() + " | " + resp.headers();
@@ -76,6 +77,10 @@ public class AuthorizationActionQueryDefault extends BuilderTemplate implements 
     if(LOGGER.isDebugEnabled()) {
       LOGGER.debug("USER AUTHORIZATION ACTIONS query succeeded: {}!", body);
     }
-    return body.mapTo(AuthorizationAction.class);
+    ;
+    return ImmutableAuthorizationAction.builder()
+        .allowedProcessNames(body.getJsonArray("allowedProcessNames").getList())
+        .userRoles(body.getJsonArray("userRoles").getList())
+        .build();
   }
 }
