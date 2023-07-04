@@ -57,6 +57,7 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
   private String processId;
   private Integer limit;
   private String userName;
+  private String representativeUserName;
   
   public UserActionQueryDefault(
       RequestOptions init, UserActionsClientConfig config, 
@@ -201,8 +202,11 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
             var lastUpdate = action.getUpdated();
             final var userMessages = new ArrayList<UserMessage>();
             for(final var msg : src) {
-              final var messageSender = msg.getUserName().equals(userName) ? userName : "";
-              final var userMsg = ImmutableUserMessage.builder().from(msg).userName(messageSender).build();
+
+              final var userMsg = ImmutableUserMessage.builder()
+                  .from(msg)
+                  .userName(getMessageUserName(msg))
+                  .build();
               userMessages.add(userMsg);
               
               final var msgCreated = OffsetDateTime.parse(msg.getCreated()).toLocalDateTime();
@@ -224,6 +228,17 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
     }
     return Uni.createFrom().item(action);    
   }
+  
+  private String getMessageUserName(UserMessage msg) {
+    final var start = msg.getUserName();
+    if(start.equals(userName)) {
+      return msg.getUserName();
+    }
+    if(start.equals(representativeUserName)) {
+      return msg.getUserName();
+    } 
+    return "";
+  }
 
   public static UserAction mapToUserAction(JsonObject entity, String fillUri, String reviewUri, String replyUri) {
     final var workflow = entity.getJsonObject("workflow");
@@ -244,5 +259,10 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
         .viewed(true)
         .formInProgress(formInProgress)
         .build();
+  }
+  @Override
+  public UserActionQuery representativeUserName(String representativeUserName) {
+    this.representativeUserName = representativeUserName;
+    return this;
   }
 }

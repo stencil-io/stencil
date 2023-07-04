@@ -136,6 +136,7 @@ public interface UserActionsClient {
   
   interface UserActionQuery {
     UserActionQuery userName(String userName);
+    UserActionQuery representativeUserName(String userName);
     UserActionQuery processId(String processId);
     UserActionQuery limit(Integer limit);
     UserActionQuery userId(String userId);

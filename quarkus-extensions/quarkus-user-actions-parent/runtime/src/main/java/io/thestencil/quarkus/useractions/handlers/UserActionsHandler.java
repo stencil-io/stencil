@@ -228,6 +228,7 @@ public class UserActionsHandler extends UserActionsTemplate {
           final var workflows = ctx.getClient().queryUserAction()
             .userId(user.getRepresentedPerson() != null ? user.getRepresentedPerson().getPersonId() : user.getRepresentedCompany().getCompanyId())
             .userName(personNames != null ? personNames[1] + " " + personNames[0]: user.getRepresentedCompany().getName())
+            .representativeUserName(getUsername(client.getUser()))
             .list().collect().asList();
           
           return Uni.combine().all().unis(workflows, authorizations)

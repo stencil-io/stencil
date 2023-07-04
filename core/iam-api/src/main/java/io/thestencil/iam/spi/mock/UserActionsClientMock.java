@@ -171,6 +171,10 @@ public class UserActionsClientMock implements UserActionsClient {
       public UserActionQuery userName(String userName) {
         return this;
       }
+      @Override
+      public UserActionQuery representativeUserName(String userName) {
+        return this;
+      }
     };
   }
 
