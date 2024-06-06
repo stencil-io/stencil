@@ -2,7 +2,6 @@
 
 # The Stencil CMS
   
-
 # Local Development Environment
 
 ## Prerequisites Java 11+, Maven 3.6.2+
