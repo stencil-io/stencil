@@ -1,5 +1,7 @@
 package io.thestencil.iam.spi.integrations;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 /*-
  * #%L
  * iam-api
@@ -21,8 +23,8 @@ package io.thestencil.iam.spi.integrations;
  */
 
 import io.smallrye.mutiny.Uni;
-import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.ReviewBuilder;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.spi.support.BuilderTemplate;
 import io.thestencil.iam.spi.support.PortalAssert;
 import io.vertx.core.http.RequestOptions;
@@ -35,8 +37,8 @@ public class DefaultReviewBuilder extends BuilderTemplate implements ReviewBuild
   private final UserActionsClientConfig config;
   private String path;
     
-  public DefaultReviewBuilder(RequestOptions init, UserActionsClientConfig config) {
-    super(config.getWebClient(), init);
+  public DefaultReviewBuilder(RequestOptions init, UserActionsClientConfig config, JsonWebToken idToken) {
+    super(config.getWebClient(), init, idToken);
     this.config = config;
   }
   @Override

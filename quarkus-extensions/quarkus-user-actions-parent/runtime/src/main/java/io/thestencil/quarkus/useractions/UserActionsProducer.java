@@ -22,6 +22,9 @@ package io.thestencil.quarkus.useractions;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import io.thestencil.iam.api.ImmutableRemoteIntegration;
 import io.thestencil.iam.spi.integrations.UserActionsClientDefault;
@@ -33,6 +36,12 @@ import io.vertx.mutiny.ext.web.client.WebClient;
 @ApplicationScoped
 public class UserActionsProducer {
 
+  /**
+   * Injection point for the ID Token issued by the OpenID Connect Provider
+   */
+  @Inject JsonWebToken idToken;
+  
+  
   private RuntimeConfig runtimeConfig;
   private boolean mockEnabled;
   private String mockFormId; 
@@ -126,7 +135,7 @@ public class UserActionsProducer {
         .review(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.review.host)).path(cleanPath(runtimeConfig.review.path)).build())
         
         .attachments(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.attachments.host)).path(cleanPath(runtimeConfig.attachments.path)).build())
-        ).build();
+        ).build(idToken);
     return new UserActionsContext(client);
   }
   

@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,8 +45,8 @@ public class AttachmentQueryDefault extends MessagesQueryBuilderDefault implemen
 
   private static final Logger LOGGER = LoggerFactory.getLogger(AttachmentQueryDefault.class);
   
-  public AttachmentQueryDefault(RequestOptions init, UserActionsClientConfig config) {
-    super(init, config);
+  public AttachmentQueryDefault(RequestOptions init, UserActionsClientConfig config, JsonWebToken idToken) {
+    super(init, config, idToken);
   }
 
   @Override

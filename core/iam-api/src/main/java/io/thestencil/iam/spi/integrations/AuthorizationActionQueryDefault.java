@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,8 +46,8 @@ public class AuthorizationActionQueryDefault extends BuilderTemplate implements 
   private final List<String> userRoles = new ArrayList<>();
   
   public AuthorizationActionQueryDefault(
-      RequestOptions init, UserActionsClientConfig config) {
-    super(config.getWebClient(), init);
+      RequestOptions init, UserActionsClientConfig config, JsonWebToken idToken) {
+    super(config.getWebClient(), init, idToken);
 
   }
   @Override

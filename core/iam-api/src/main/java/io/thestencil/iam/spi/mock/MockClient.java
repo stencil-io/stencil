@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.ImmutableUserAction;
-import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.UserAction;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.spi.support.BuilderTemplate;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.RequestOptions;
@@ -48,8 +48,8 @@ public class MockClient extends BuilderTemplate {
     super(client, new RequestOptions()
         .setURI(config.getReview().getPath())
         .setHost(config.getReview().getHost())
-        .addHeader("x-api-key", apiKey)
-        );
+        .addHeader("x-api-key", apiKey),
+        null);
     this.config = config;
     this.formId = formId;
   }
@@ -60,6 +60,7 @@ public class MockClient extends BuilderTemplate {
     
     final var client = getClient()
         .requestAbs(method, "https://" + options.getHost() + uri)
+        .putHeaders(new io.vertx.mutiny.core.MultiMap(options.getHeaders()))
         .putHeader(HttpHeaderNames.CONTENT_TYPE.toString(), "application/json");
     
    final Uni<HttpResponse<Buffer>> response;

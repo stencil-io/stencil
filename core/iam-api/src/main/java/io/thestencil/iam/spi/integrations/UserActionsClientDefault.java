@@ -22,6 +22,8 @@ package io.thestencil.iam.spi.integrations;
 
 import java.util.function.Function;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 import io.thestencil.iam.api.ImmutableUserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient;
 import io.vertx.core.http.RequestOptions;
@@ -34,8 +36,9 @@ public class UserActionsClientDefault implements UserActionsClient {
   private final RequestOptions tasks;
   private final RequestOptions attachment;
   private final UserActionsClientConfig config;
+  private final JsonWebToken idToken;
   
-  public UserActionsClientDefault(UserActionsClientConfig config) {
+  public UserActionsClientDefault(UserActionsClientConfig config, JsonWebToken idToken) {
     super();
     this.process = new RequestOptions()
         .setURI(config.getProcesses().getPath())
@@ -52,39 +55,41 @@ public class UserActionsClientDefault implements UserActionsClient {
     this.attachment = new RequestOptions()
         .setURI(config.getAttachments().getPath())
         .setHost(config.getAttachments().getHost());
+    
     this.config = config;
+    this.idToken = idToken;
   }
   @Override
   public UserActionBuilder createUserAction() {
-    return new UserActionBuilderDefault(process, config);
+    return new UserActionBuilderDefault(process, config, idToken);
   }
   @Override
   public UserActionQuery queryUserAction() {
     return new UserActionQueryDefault(process, config, 
-        () -> new MessagesQueryBuilderDefault(tasks, config),
+        () -> new MessagesQueryBuilderDefault(tasks, config, idToken),
         () -> queryAttachments(),
-        () -> new TaskQueryBuilderDefault(tasks, config)
-        );
+        () -> new TaskQueryBuilderDefault(tasks, config, idToken),
+        idToken);
   }
   @Override
   public MarkUserActionBuilder markUser() {
-    return new MarkUserActionBuilderDefault(tasks, config, () -> queryUserAction());
+    return new MarkUserActionBuilderDefault(tasks, config, () -> queryUserAction(), idToken);
   }
   @Override
   public FillBuilder fill() {
-    return new DefaultFillBuilder(fill, config);
+    return new DefaultFillBuilder(fill, config, idToken);
   }
   @Override
   public ReviewBuilder review() {
-    return new DefaultReviewBuilder(review, config);
+    return new DefaultReviewBuilder(review, config, idToken);
   }
   @Override
   public CancelUserActionBuilder cancelUserAction() {
-    return new CancelUserActionBuilderDefault(process, config, () -> queryUserAction());
+    return new CancelUserActionBuilderDefault(process, config, () -> queryUserAction(), idToken);
   }
   @Override
   public ReplyToBuilder replyTo() {
-    return new ReplyToBuilderDefault(tasks, config, () -> queryUserAction());
+    return new ReplyToBuilderDefault(tasks, config, () -> queryUserAction(), idToken);
   }
   @Override
   public UserActionsClientConfig config() {
@@ -92,19 +97,19 @@ public class UserActionsClientDefault implements UserActionsClient {
   }
   @Override
   public AttachmentBuilder attachment() {
-    return new AttachmentBuilderDefault(attachment, config, () -> queryUserAction());
+    return new AttachmentBuilderDefault(attachment, config, () -> queryUserAction(), idToken);
   }
   @Override
   public AttachmentQuery queryAttachments() {
-    return new AttachmentQueryDefault(attachment, config);
+    return new AttachmentQueryDefault(attachment, config, idToken);
   }
   @Override
   public AttachmentDownloadBuilder attachmentDownload() {
-    return new AttachmentDownloadBuilderDefault(attachment, config, () -> queryUserAction());
+    return new AttachmentDownloadBuilderDefault(attachment, config, () -> queryUserAction(), idToken);
   }
   @Override
   public AuthorizationActionQuery authorizationActionQuery() {
-    return new AuthorizationActionQueryDefault(process, config);
+    return new AuthorizationActionQueryDefault(process, config, idToken);
   }
   public static Builder builder() {
     return new Builder();
@@ -115,8 +120,8 @@ public class UserActionsClientDefault implements UserActionsClient {
       this.config = c.apply(config);
       return this;
     }
-    public UserActionsClientDefault build() {
-      return new UserActionsClientDefault(config.build());
+    public UserActionsClientDefault build(JsonWebToken idToken) {
+      return new UserActionsClientDefault(config.build(), idToken);
     }
   }
 }

@@ -1,5 +1,7 @@
 package io.thestencil.iam.spi.integrations;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 /*-
  * #%L
  * iam-api
@@ -22,8 +24,8 @@ package io.thestencil.iam.spi.integrations;
 
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.smallrye.mutiny.Uni;
-import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.FillBuilder;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.spi.support.BuilderTemplate;
 import io.thestencil.iam.spi.support.PortalAssert;
 import io.vertx.core.http.HttpMethod;
@@ -38,8 +40,8 @@ public class DefaultFillBuilder extends BuilderTemplate implements FillBuilder {
   private Buffer body;
   private String path;
     
-  public DefaultFillBuilder(RequestOptions init, UserActionsClientConfig config) {
-    super(config.getWebClient(), init);
+  public DefaultFillBuilder(RequestOptions init, UserActionsClientConfig config, JsonWebToken idToken) {
+    super(config.getWebClient(), init, idToken);
     this.config = config;
   }
   

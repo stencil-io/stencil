@@ -22,6 +22,8 @@ package io.thestencil.iam.spi.suomi;
 
 import java.util.stream.Collectors;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.IAMClient;
 import io.thestencil.iam.api.IAMClient.IAMClientConfig;
@@ -42,8 +44,8 @@ public class UserRolesQueryImpl extends BuilderTemplate implements UserRolesQuer
   private final IAMClientConfig config;
   private String id;
   private boolean isPersonRoles;
-  public UserRolesQueryImpl(IAMClientConfig config, RequestOptions init, boolean isPersonRoles) {
-    super(config.getWebClient(), init);
+  public UserRolesQueryImpl(IAMClientConfig config, RequestOptions init, boolean isPersonRoles, JsonWebToken idToken) {
+    super(config.getWebClient(), init, idToken);
     this.config = config;
     this.isPersonRoles = isPersonRoles;
   }

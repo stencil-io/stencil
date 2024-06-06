@@ -22,6 +22,7 @@ package io.thestencil.iam.spi.integrations;
 
 import java.util.function.Supplier;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,9 +30,9 @@ import io.netty.handler.codec.http.HttpHeaderNames;
 import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.ImmutableUserAction;
 import io.thestencil.iam.api.UserActionsClient.CancelUserActionBuilder;
-import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.UserAction;
 import io.thestencil.iam.api.UserActionsClient.UserActionQuery;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.spi.support.BuilderTemplate;
 import io.thestencil.iam.spi.support.PortalAssert;
 import io.vertx.core.http.RequestOptions;
@@ -47,8 +48,8 @@ public class CancelUserActionBuilderDefault extends BuilderTemplate implements C
   private String processId;
   
 
-  public CancelUserActionBuilderDefault(RequestOptions init, UserActionsClientConfig config, Supplier<UserActionQuery> query) {
-    super(config.getWebClient(), init);
+  public CancelUserActionBuilderDefault(RequestOptions init, UserActionsClientConfig config, Supplier<UserActionQuery> query, JsonWebToken idToken) {
+    super(config.getWebClient(), init, idToken);
     this.config = config;
     this.query = query;
   }

@@ -22,6 +22,8 @@ package io.thestencil.iam.spi.integrations;
 
 import java.time.ZonedDateTime;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.ImmutableUserMessage;
 import io.thestencil.iam.api.ImmutableUserTask;
@@ -40,8 +42,8 @@ import lombok.extern.slf4j.Slf4j;
 public class TaskQueryBuilderDefault extends BuilderTemplate {
   private final UserActionsClientConfig config;
   
-  public TaskQueryBuilderDefault(RequestOptions init, UserActionsClientConfig config) {
-    super(config.getWebClient(), init);
+  public TaskQueryBuilderDefault(RequestOptions init, UserActionsClientConfig config, JsonWebToken idToken) {
+    super(config.getWebClient(), init, idToken);
     this.config = config;
   }
   

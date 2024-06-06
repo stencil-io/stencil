@@ -1,5 +1,7 @@
 package io.thestencil.iam.spi.support;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 /*-
  * #%L
  * iam-api
@@ -31,11 +33,13 @@ import io.vertx.mutiny.ext.web.client.WebClient;
 public class BuilderTemplate {
   private final WebClient client;
   private final RequestOptions init;
+  private final JsonWebToken idToken;
   
-  protected BuilderTemplate(WebClient client, RequestOptions init) {
+  protected BuilderTemplate(WebClient client, RequestOptions init, JsonWebToken idToken) {
     super();
     this.client = client;
     this.init = init;
+    this.idToken = idToken;
   }
   
   protected RequestOptions options(String path) {
@@ -72,7 +76,12 @@ public class BuilderTemplate {
     final io.vertx.core.MultiMap headers = init.getHeaders() == null ? 
         io.vertx.core.MultiMap.caseInsensitiveMultiMap() : 
         init.getHeaders();
-    return new MultiMap(headers);
+    final var result = new MultiMap(headers);
+    if(idToken != null) {
+      result.add("Authorization", "Bearer " + idToken.getRawToken());
+    }
+    
+    return result;
   }
   
   public String getUri(String path) {

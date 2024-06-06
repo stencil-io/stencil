@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.ImmutableUserAction;
@@ -63,8 +65,9 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
       RequestOptions init, UserActionsClientConfig config, 
       Supplier<MessagesQueryBuilderDefault> messages,
       Supplier<AttachmentQuery> attachments, 
-      Supplier<TaskQueryBuilderDefault> tasks) {
-    super(config.getWebClient(), init);
+      Supplier<TaskQueryBuilderDefault> tasks, 
+      JsonWebToken idToken) {
+    super(config.getWebClient(), init, idToken);
     this.config = config;
     this.messages = messages;
     this.attachments = attachments;

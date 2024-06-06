@@ -40,9 +40,11 @@ public class IAMClientSuomi implements IAMClient {
   private final IAMClientConfig config;
   private final RequestOptions personRoles;
   private final RequestOptions companyRoles;
-  public IAMClientSuomi(IAMClientConfig config) {
+  private final JsonWebToken idToken;
+  public IAMClientSuomi(IAMClientConfig config, JsonWebToken idToken) {
     super();
     this.config = config;
+    this.idToken = idToken;
     
     this.personRoles = new RequestOptions()
         .setURI(config.getPersonSecurityProxy().getPath())
@@ -55,11 +57,11 @@ public class IAMClientSuomi implements IAMClient {
 
   @Override
   public UserRolesQuery personRolesQuery() {
-    return new UserRolesQueryImpl(config, personRoles, true);
+    return new UserRolesQueryImpl(config, personRoles, true, idToken);
   }
   @Override
   public UserRolesQuery companyRolesQuery() {
-    return new UserRolesQueryImpl(config, companyRoles, false);
+    return new UserRolesQueryImpl(config, companyRoles, false, idToken);
   }
   @Override
   public IAMClientConfig getConfig() {
@@ -113,7 +115,7 @@ public class IAMClientSuomi implements IAMClient {
           .personSecurityProxy(personSecurityProxy)
           .companySecurityProxy(companySecurityProxy)
           .webClient(webClient)
-          .build()); 
+          .build(), idToken);
     }
   }
 }

@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,8 +45,8 @@ public class MessagesQueryBuilderDefault extends BuilderTemplate {
   private static final Logger LOGGER = LoggerFactory.getLogger(MessagesQueryBuilderDefault.class);
   private final UserActionsClientConfig config;
   
-  public MessagesQueryBuilderDefault(RequestOptions init, UserActionsClientConfig config) {
-    super(config.getWebClient(), init);
+  public MessagesQueryBuilderDefault(RequestOptions init, UserActionsClientConfig config, JsonWebToken idToken) {
+    super(config.getWebClient(), init, idToken);
     this.config = config;
   }
   

@@ -25,13 +25,14 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.smallrye.mutiny.Uni;
-import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.MarkUserActionBuilder;
 import io.thestencil.iam.api.UserActionsClient.UserActionQuery;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.UserMessage;
 import io.thestencil.iam.spi.support.PortalAssert;
 import io.vertx.core.http.RequestOptions;
@@ -45,8 +46,8 @@ public class MarkUserActionBuilderDefault extends MessagesQueryBuilderDefault im
   private String processId;
   private String userName;
   
-  public MarkUserActionBuilderDefault(RequestOptions init, UserActionsClientConfig config, Supplier<UserActionQuery> query) {
-    super(init, config);
+  public MarkUserActionBuilderDefault(RequestOptions init, UserActionsClientConfig config, Supplier<UserActionQuery> query, JsonWebToken idToken) {
+    super(init, config, idToken);
     this.query = query;
   }
   @Override

@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,9 +36,9 @@ import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.ImmutableAttachment;
 import io.thestencil.iam.api.UserActionsClient.Attachment;
 import io.thestencil.iam.api.UserActionsClient.AttachmentBuilder;
-import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.UserAction;
 import io.thestencil.iam.api.UserActionsClient.UserActionQuery;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.spi.support.PortalAssert;
 import io.vertx.core.http.RequestOptions;
 
@@ -51,8 +52,8 @@ public class AttachmentBuilderDefault extends MessagesQueryBuilderDefault implem
   private String userId;
   private Map<String, String> data = new HashMap<>();
   
-  public AttachmentBuilderDefault(RequestOptions init, UserActionsClientConfig config, Supplier<UserActionQuery> query) {
-    super(init, config);
+  public AttachmentBuilderDefault(RequestOptions init, UserActionsClientConfig config, Supplier<UserActionQuery> query, JsonWebToken idToken) {
+    super(init, config, idToken);
     this.query = query;
   }
   @Override

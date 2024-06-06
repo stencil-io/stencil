@@ -40,3 +40,4 @@ target/
 /build
 .classpath
 .settings/
+.DS_Store

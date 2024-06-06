@@ -2,6 +2,8 @@ package io.thestencil.iam.spi.integrations;
 
 import javax.annotation.Nullable;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 /*-
  * #%L
  * iam-api
@@ -29,9 +31,9 @@ import org.slf4j.LoggerFactory;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.smallrye.mutiny.Uni;
 import io.thestencil.iam.api.ImmutableUserAction;
-import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.UserAction;
 import io.thestencil.iam.api.UserActionsClient.UserActionBuilder;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.spi.support.BuilderTemplate;
 import io.vertx.core.http.RequestOptions;
 import io.vertx.core.json.JsonObject;
@@ -71,8 +73,8 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
     @Nullable String getRepresentativeIdentity();
   }
   
-  public UserActionBuilderDefault(RequestOptions init, UserActionsClientConfig config) {
-    super(config.getWebClient(), init);
+  public UserActionBuilderDefault(RequestOptions init, UserActionsClientConfig config, JsonWebToken idToken) {
+    super(config.getWebClient(), init, idToken);
     this.config = config;
   }
   @Override

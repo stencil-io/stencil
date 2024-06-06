@@ -22,6 +22,7 @@ package io.thestencil.iam.spi.integrations;
 
 import java.util.function.Supplier;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,8 +31,8 @@ import io.thestencil.iam.api.ImmutableAttachmentDownloadUrl;
 import io.thestencil.iam.api.UserActionsClient.Attachment;
 import io.thestencil.iam.api.UserActionsClient.AttachmentDownloadBuilder;
 import io.thestencil.iam.api.UserActionsClient.AttachmentDownloadUrl;
-import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.api.UserActionsClient.UserActionQuery;
+import io.thestencil.iam.api.UserActionsClient.UserActionsClientConfig;
 import io.thestencil.iam.spi.support.PortalAssert;
 import io.vertx.core.http.RequestOptions;
 
@@ -46,8 +47,8 @@ public class AttachmentDownloadBuilderDefault extends MessagesQueryBuilderDefaul
   private String userId;
   private String attachmentId;
   
-  public AttachmentDownloadBuilderDefault(RequestOptions init, UserActionsClientConfig config, Supplier<UserActionQuery> userAction) {
-    super(init, config);
+  public AttachmentDownloadBuilderDefault(RequestOptions init, UserActionsClientConfig config, Supplier<UserActionQuery> userAction, JsonWebToken idToken) {
+    super(init, config, idToken);
     this.userAction = userAction;
   }
   
