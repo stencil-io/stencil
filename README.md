@@ -4,7 +4,7 @@
   
 
 # Local Development Environment
-  
+
 ## Prerequisites Java 11+, Maven 3.6.2+
 It's recommended to install them using [SDKMAN](https://sdkman.io/install)
 ```
