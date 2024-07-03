@@ -260,6 +260,8 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
         .formUri(fillUri)
         .formId(formId)
         .viewed(true)
+        .inputContextId(entity.getString("inputContextId"))
+        .inputParentContextId(entity.getString("inputParentContextId"))
         .formInProgress(formInProgress)
         .build();
   }

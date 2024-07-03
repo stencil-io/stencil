@@ -55,6 +55,8 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
   private String representativeFirstName; 
   private String representativeLastName;
   private String representativeUserId;
+  private String inputParentContextId;
+  private String inputContextId;
   
   @Value.Immutable
   public interface ProcessesInit {
@@ -62,6 +64,9 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
     String getWorkflowName();
     Boolean getProtectionOrder();
 
+    @Nullable String getInputContextId();
+    @Nullable String getInputParentContextId();
+    
     @Nullable String getLastName();
     @Nullable String getFirstName();    
     @Nullable String getCompanyName();
@@ -76,6 +81,16 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
   public UserActionBuilderDefault(RequestOptions init, UserActionsClientConfig config, JsonWebToken idToken) {
     super(config.getWebClient(), init, idToken);
     this.config = config;
+  }
+  @Override
+  public UserActionBuilder inputContextId(String inputContextId) {
+    this.inputContextId = inputContextId;
+    return this;
+  }
+  @Override
+  public UserActionBuilder inputParentContextId(String inputParentContextId) {
+    this.inputParentContextId = inputParentContextId;
+    return this;
   }
   @Override
   public UserActionBuilder actionName(String actionName) {
@@ -145,6 +160,10 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
         .representativeFirstName(representativeFirstName)
         .representativeLastName(representativeLastName)
         .representativeIdentity(representativeUserId)
+        
+        .inputContextId(inputContextId)
+        .inputParentContextId(inputParentContextId)
+        
         .build();
     
     return post(getUri("/processes/"))

@@ -130,6 +130,14 @@ public class UserActionsClientMock implements UserActionsClient {
       public UserActionBuilder companyName(String companyName) {
         return this;
       }
+      @Override
+      public UserActionBuilder inputContextId(String inputContextId) {
+        return this;
+      }
+      @Override
+      public UserActionBuilder inputParentContextId(String inputParentContextId) {
+        return this;
+      }
     };
   }
   @Override

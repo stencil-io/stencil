@@ -124,6 +124,8 @@ public interface UserActionsClient {
     UserActionBuilder address(String address);
     UserActionBuilder protectionOrder(Boolean protectionOrder);
     UserActionBuilder representative(String representativeFirstName, String representativeLastName, String representativeUserId);
+    UserActionBuilder inputContextId(String inputContextId);
+    UserActionBuilder inputParentContextId(String inputParentContextId);
     
     Uni<UserAction> build();
   }
@@ -167,6 +169,10 @@ public interface UserActionsClient {
     String getFormId();
     LocalDateTime getCreated();
     LocalDateTime getUpdated();
+    
+    @Nullable String getInputContextId();
+    @Nullable String getInputParentContextId();
+    
 
     @Nullable
     String getTaskId();
