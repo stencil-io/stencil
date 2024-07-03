@@ -261,11 +261,15 @@ public class UserActionsHandler extends UserActionsTemplate {
 
     } else if(event.request().method() == HttpMethod.GET) {
       iam.userQuery().get().onItem().transformToUni(client -> {
+        final var inputContextId = event.request().getParam("inputContextId");
+        final var inputParentContextId = event.request().getParam("inputParentContextId");
         
         final RepresentedPerson person = client.getUser().getRepresentedPerson();
         final RepresentedCompany company = client.getUser().getRepresentedCompany();
         if(person == null && company == null) {
-          return createUserAction(ctx, actionId, client, actionLocale); // Nobody is represented
+          return createUserAction(
+              ctx, actionId, client, actionLocale, inputContextId, inputParentContextId
+           ); // Nobody is represented
         }
                 
         final var id = event.request().getHeader("cookie");
@@ -280,7 +284,7 @@ public class UserActionsHandler extends UserActionsTemplate {
                 .get());
         return authorizations.onItem().transformToUni(auth -> {
           if(auth.getAllowedProcessNames().contains(actionId)) {
-            return createUserAction(ctx, actionId, client, actionLocale); // User allowed
+            return createUserAction(ctx, actionId, client, actionLocale, inputContextId, inputParentContextId); // User allowed
           }
           
           log.error("User blocked from accessing process: {} because they are not authorized!", actionId);
@@ -303,7 +307,12 @@ public class UserActionsHandler extends UserActionsTemplate {
     return new String[] {name.substring(0, splitAt).trim(), name.substring(splitAt).trim()};
   }
   
-  private Uni<UserAction> createUserAction(UserActionsContext ctx, String actionId, UserQueryResult client, String clientLocale) {
+  private Uni<UserAction> createUserAction(
+      UserActionsContext ctx, String actionId, 
+      UserQueryResult client, String clientLocale, 
+      String inputContextId,
+      String inputParentContextId
+      ) {
 	  final var user = client.getUser();
     final var person = user.getRepresentedPerson();
     final var company = user.getRepresentedCompany();
@@ -318,12 +327,16 @@ public class UserActionsHandler extends UserActionsTemplate {
       final var representativeLastName = representativeName[0];
       
       return create
+        .inputParentContextId(inputParentContextId)
+        .inputContextId(inputContextId)
         .userName(representativeFirstName, representativeLastName)
         .userId(person.getPersonId())
         .representative(user.getFirstName(), user.getLastName(), user.getSsn())
         .build();
     } else if(company != null) {
       return create
+        .inputParentContextId(inputParentContextId)
+        .inputContextId(inputContextId)
         .companyName(company.getName())
         .userId(company.getCompanyId())
         .representative(user.getFirstName(), user.getLastName(), user.getSsn())
@@ -335,6 +348,8 @@ public class UserActionsHandler extends UserActionsTemplate {
       .email(user.getContact().getEmail())
       .address(user.getContact().getAddressValue())
       .userId(user.getSsn())
+      .inputParentContextId(inputParentContextId)
+      .inputContextId(inputContextId)
       .build();
   }
   
