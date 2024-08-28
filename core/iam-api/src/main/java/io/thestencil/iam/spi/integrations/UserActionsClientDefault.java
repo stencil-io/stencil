@@ -25,6 +25,7 @@ import java.util.function.Function;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import io.thestencil.iam.api.ImmutableUserActionsClientConfig;
+import io.thestencil.iam.api.RemoteIntegration;
 import io.thestencil.iam.api.UserActionsClient;
 import io.vertx.core.http.RequestOptions;
 
@@ -40,25 +41,33 @@ public class UserActionsClientDefault implements UserActionsClient {
   
   public UserActionsClientDefault(UserActionsClientConfig config, JsonWebToken idToken) {
     super();
-    this.process = new RequestOptions()
-        .setURI(config.getProcesses().getPath())
-        .setHost(config.getProcesses().getHost());
-    this.fill = new RequestOptions()
-        .setURI(config.getFill().getPath())
-        .setHost(config.getFill().getHost());
-    this.review = new RequestOptions()
-        .setURI(config.getReview().getPath())
-        .setHost(config.getReview().getHost());
-    this.tasks = new RequestOptions()
-        .setURI(config.getReplyTo().getPath())
-        .setHost(config.getReplyTo().getHost());
-    this.attachment = new RequestOptions()
-        .setURI(config.getAttachments().getPath())
-        .setHost(config.getAttachments().getHost());
+    this.process = integrationToOptions(config.getProcesses());
+    this.fill = integrationToOptions(config.getFill());
+    this.review = integrationToOptions(config.getReview());
+    this.tasks = integrationToOptions(config.getReplyTo());
+    this.attachment = integrationToOptions(config.getAttachments());
     
     this.config = config;
     this.idToken = idToken;
   }
+  
+  private RequestOptions integrationToOptions(RemoteIntegration integration) {
+    boolean ssl = "https".equals(integration.getProtocol());
+    Integer port = integration.getPort();
+    if (port == null) {
+      port = ssl ? 443 : 80;
+    }
+    else if (ssl && port == 80) {
+      // ssl set but port default http, change it to default https
+      port = 443;
+    }
+    return new RequestOptions()
+        .setURI(integration.getPath())
+        .setHost(integration.getHost())
+        .setSsl(ssl)
+        .setPort(port);
+  }
+  
   @Override
   public UserActionBuilder createUserAction() {
     return new UserActionBuilderDefault(process, config, idToken);
