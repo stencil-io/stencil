@@ -32,6 +32,7 @@ import io.thestencil.iam.api.IAMClient;
 import io.thestencil.iam.api.ImmutableIAMClientConfig;
 import io.thestencil.iam.api.ImmutableUserLiveness;
 import io.thestencil.iam.api.RemoteIntegration;
+import io.thestencil.iam.spi.support.RemoteIntegrationConverter;
 import io.vertx.core.http.RequestOptions;
 import io.vertx.mutiny.ext.web.client.WebClient;
 
@@ -46,26 +47,10 @@ public class IAMClientSuomi implements IAMClient {
     this.config = config;
     this.idToken = idToken;
     
-    this.personRoles = integrationToOptions(config.getPersonSecurityProxy());
-    this.companyRoles = integrationToOptions(config.getCompanySecurityProxy());
+    this.personRoles = RemoteIntegrationConverter.integrationToOptions(config.getPersonSecurityProxy());
+    this.companyRoles = RemoteIntegrationConverter.integrationToOptions(config.getCompanySecurityProxy());
   }
-  
-  private RequestOptions integrationToOptions(RemoteIntegration integration) {
-    boolean ssl = "https".equals(integration.getProtocol());
-    Integer port = integration.getPort();
-    if (port == null) {
-      port = ssl ? 443 : 80;
-    }
-    else if (ssl && port == 80) {
-      // ssl set but port default http, change it to default https
-      port = 443;
-    }
-    return new RequestOptions()
-        .setURI(integration.getPath())
-        .setHost(integration.getHost())
-        .setSsl(ssl)
-        .setPort(port);
-  }
+ 
 
   @Override
   public UserRolesQuery personRolesQuery() {
