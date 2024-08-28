@@ -62,10 +62,14 @@ public class IAMBeanFactory {
     final var personSecurityProxy = ImmutableRemoteIntegration.builder()
         .host(cleanPath(runtimeConfig.personSecurityProxy.host))
         .path(cleanPath(runtimeConfig.personSecurityProxy.path))
+        .port(runtimeConfig.personSecurityProxy.port)
+        .protocol(runtimeConfig.personSecurityProxy.protocol)
         .build();
     final var companySecurityProxy = ImmutableRemoteIntegration.builder()
         .host(cleanPath(runtimeConfig.companySecurityProxy.host))
         .path(cleanPath(runtimeConfig.companySecurityProxy.path))
+        .port(runtimeConfig.companySecurityProxy.port)
+        .protocol(runtimeConfig.companySecurityProxy.protocol)
         .build();
     
     return IAMClientSuomi.builder()
