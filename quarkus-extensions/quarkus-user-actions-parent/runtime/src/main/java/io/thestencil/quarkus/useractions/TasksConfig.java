@@ -37,4 +37,16 @@ public class TasksConfig {
    */
   @ConfigItem
   String path;
+  
+  /**
+   * protocol: http (default) or https
+   */
+  @ConfigItem(defaultValue = "http")
+  String protocol;
+
+  /**
+   * port: default is 80
+   */
+  @ConfigItem(defaultValue = "80")
+  Integer port;
 }

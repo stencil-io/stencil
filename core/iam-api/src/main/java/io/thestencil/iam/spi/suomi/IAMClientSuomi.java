@@ -32,6 +32,7 @@ import io.thestencil.iam.api.IAMClient;
 import io.thestencil.iam.api.ImmutableIAMClientConfig;
 import io.thestencil.iam.api.ImmutableUserLiveness;
 import io.thestencil.iam.api.RemoteIntegration;
+import io.thestencil.iam.spi.support.RemoteIntegrationConverter;
 import io.vertx.core.http.RequestOptions;
 import io.vertx.mutiny.ext.web.client.WebClient;
 
@@ -46,14 +47,10 @@ public class IAMClientSuomi implements IAMClient {
     this.config = config;
     this.idToken = idToken;
     
-    this.personRoles = new RequestOptions()
-        .setURI(config.getPersonSecurityProxy().getPath())
-        .setHost(config.getPersonSecurityProxy().getHost());
-    
-    this.companyRoles = new RequestOptions()
-        .setURI(config.getCompanySecurityProxy().getPath())
-        .setHost(config.getCompanySecurityProxy().getHost());
+    this.personRoles = RemoteIntegrationConverter.integrationToOptions(config.getPersonSecurityProxy());
+    this.companyRoles = RemoteIntegrationConverter.integrationToOptions(config.getCompanySecurityProxy());
   }
+ 
 
   @Override
   public UserRolesQuery personRolesQuery() {

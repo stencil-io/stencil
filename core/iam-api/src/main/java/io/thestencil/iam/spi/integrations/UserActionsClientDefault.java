@@ -25,7 +25,9 @@ import java.util.function.Function;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import io.thestencil.iam.api.ImmutableUserActionsClientConfig;
+import io.thestencil.iam.api.RemoteIntegration;
 import io.thestencil.iam.api.UserActionsClient;
+import io.thestencil.iam.spi.support.RemoteIntegrationConverter;
 import io.vertx.core.http.RequestOptions;
 
 
@@ -40,25 +42,16 @@ public class UserActionsClientDefault implements UserActionsClient {
   
   public UserActionsClientDefault(UserActionsClientConfig config, JsonWebToken idToken) {
     super();
-    this.process = new RequestOptions()
-        .setURI(config.getProcesses().getPath())
-        .setHost(config.getProcesses().getHost());
-    this.fill = new RequestOptions()
-        .setURI(config.getFill().getPath())
-        .setHost(config.getFill().getHost());
-    this.review = new RequestOptions()
-        .setURI(config.getReview().getPath())
-        .setHost(config.getReview().getHost());
-    this.tasks = new RequestOptions()
-        .setURI(config.getReplyTo().getPath())
-        .setHost(config.getReplyTo().getHost());
-    this.attachment = new RequestOptions()
-        .setURI(config.getAttachments().getPath())
-        .setHost(config.getAttachments().getHost());
+    this.process = RemoteIntegrationConverter.integrationToOptions(config.getProcesses());
+    this.fill = RemoteIntegrationConverter.integrationToOptions(config.getFill());
+    this.review = RemoteIntegrationConverter.integrationToOptions(config.getReview());
+    this.tasks = RemoteIntegrationConverter.integrationToOptions(config.getReplyTo());
+    this.attachment = RemoteIntegrationConverter.integrationToOptions(config.getAttachments());
     
     this.config = config;
     this.idToken = idToken;
   }
+  
   @Override
   public UserActionBuilder createUserAction() {
     return new UserActionBuilderDefault(process, config, idToken);

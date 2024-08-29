@@ -26,4 +26,6 @@ import org.immutables.value.Value;
 public interface RemoteIntegration {
   String getHost();
   String getPath();
+  String getProtocol();
+  Integer getPort();
 }

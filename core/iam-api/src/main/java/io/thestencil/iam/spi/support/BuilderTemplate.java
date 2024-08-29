@@ -86,7 +86,7 @@ public class BuilderTemplate {
   
   public String getUri(String path) {
     final var options = options(path);
-    return "http://" + options.getHost() + "/" + options.getURI();
+    return String.format("%s://%s:%d/%s", (options.isSsl() ? "https" : "http"),  options.getHost(), options.getPort(), options.getURI());
   }
 
   public WebClient getClient() {

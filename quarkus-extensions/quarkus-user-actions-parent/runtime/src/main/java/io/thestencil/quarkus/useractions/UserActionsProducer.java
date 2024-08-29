@@ -107,12 +107,16 @@ public class UserActionsProducer {
             .messagesPath(messagesPath)
             .authorizationsPath(authorizationsPath)
             
-            .replyTo(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.tasks.host)).path(cleanPath(runtimeConfig.tasks.path)).build())
-            .processes(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.processes.host)).path(cleanPath(runtimeConfig.processes.path)).build())
-            .fill(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.fill.host)).path(cleanPath(runtimeConfig.fill.path)).build())
-            .review(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.review.host)).path(cleanPath(runtimeConfig.review.path)).build())
-            
-            .attachments(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.attachments.host)).path(cleanPath(runtimeConfig.attachments.path)).build())
+            .replyTo(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.tasks.host)).path(cleanPath(runtimeConfig.tasks.path))
+                .protocol(runtimeConfig.tasks.protocol).port(runtimeConfig.tasks.port).build())
+            .processes(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.processes.host)).path(cleanPath(runtimeConfig.processes.path))
+                .protocol(runtimeConfig.processes.protocol).port(runtimeConfig.processes.port).build())
+            .fill(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.fill.host)).path(cleanPath(runtimeConfig.fill.path))
+                .protocol(runtimeConfig.fill.protocol).port(runtimeConfig.fill.port).build())
+            .review(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.review.host)).path(cleanPath(runtimeConfig.review.path))
+                .protocol(runtimeConfig.review.protocol).port(runtimeConfig.review.port).build())
+            .attachments(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.attachments.host)).path(cleanPath(runtimeConfig.attachments.path))
+                .protocol(runtimeConfig.attachments.protocol).port(runtimeConfig.attachments.port).build())
           ).build();
       return new UserActionsContext(mockClient);
     }
@@ -129,12 +133,16 @@ public class UserActionsProducer {
         .messagesPath(messagesPath)
         .authorizationsPath(authorizationsPath)
         
-        .replyTo(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.tasks.host)).path(cleanPath(runtimeConfig.tasks.path)).build())
-        .processes(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.processes.host)).path(cleanPath(runtimeConfig.processes.path)).build())
-        .fill(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.fill.host)).path(cleanPath(runtimeConfig.fill.path)).build())
-        .review(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.review.host)).path(cleanPath(runtimeConfig.review.path)).build())
-        
-        .attachments(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.attachments.host)).path(cleanPath(runtimeConfig.attachments.path)).build())
+        .replyTo(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.tasks.host)).path(cleanPath(runtimeConfig.tasks.path))
+            .protocol(runtimeConfig.tasks.protocol).port(runtimeConfig.tasks.port).build())
+        .processes(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.processes.host)).path(cleanPath(runtimeConfig.processes.path))
+            .protocol(runtimeConfig.processes.protocol).port(runtimeConfig.processes.port).build())
+        .fill(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.fill.host)).path(cleanPath(runtimeConfig.fill.path))
+            .protocol(runtimeConfig.fill.protocol).port(runtimeConfig.fill.port).build())
+        .review(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.review.host)).path(cleanPath(runtimeConfig.review.path))
+            .protocol(runtimeConfig.review.protocol).port(runtimeConfig.review.port).build())
+        .attachments(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.attachments.host)).path(cleanPath(runtimeConfig.attachments.path))
+            .protocol(runtimeConfig.attachments.protocol).port(runtimeConfig.attachments.port).build())
         ).build(idToken);
     return new UserActionsContext(client);
   }
