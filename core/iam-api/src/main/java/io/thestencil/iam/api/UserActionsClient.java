@@ -151,6 +151,8 @@ public interface UserActionsClient {
   interface UserTask {
     String getId();
     String getStatus();
+    @Nullable
+    String getTaskRef();
     ZonedDateTime getCreated();
     @Nullable
     ZonedDateTime getUpdated();
@@ -176,6 +178,8 @@ public interface UserActionsClient {
 
     @Nullable
     String getTaskId();
+    @Nullable
+    String getTaskRef();
     @Nullable
     String getTaskStatus();
     @Nullable
