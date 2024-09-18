@@ -1,5 +1,7 @@
 package io.thestencil.iam.spi.integrations;
 
+import java.time.LocalDateTime;
+
 /*-
  * #%L
  * iam-api
@@ -84,6 +86,7 @@ public class CancelUserActionBuilderDefault extends BuilderTemplate implements C
   
   private static UserAction map(HttpResponse<?> resp, String fillUri, String reviewUri) {
     int code = resp.statusCode();
+    LocalDateTime now = LocalDateTime.now();
     if (code < 200 || code >= 300) {
       String error = "USER ACTIONS CANCEL: Can't create response, e = " + resp.statusCode() + " | " + resp.statusMessage() + " | " + resp.headers();
       LOGGER.error(error);
@@ -95,6 +98,8 @@ public class CancelUserActionBuilderDefault extends BuilderTemplate implements C
           .viewed(true)
           .formUri(fillUri)
           .formInProgress(false)
+          .created(now)
+          .updated(now)
           .build();
     }
     return ImmutableUserAction.builder()
@@ -103,9 +108,10 @@ public class CancelUserActionBuilderDefault extends BuilderTemplate implements C
         .reviewUri("")
         .messagesUri("")
         .formUri(fillUri)
-
         .viewed(true)
         .formInProgress(false)
+        .created(now)
+        .updated(now)
         .build();
   }
 }
