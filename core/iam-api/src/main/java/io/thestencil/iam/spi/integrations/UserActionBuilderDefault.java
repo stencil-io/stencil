@@ -1,5 +1,7 @@
 package io.thestencil.iam.spi.integrations;
 
+import java.time.LocalDateTime;
+
 import javax.annotation.Nullable;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
@@ -176,6 +178,7 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
     if (resp.statusCode() != 201) {
       String error = "USER ACTIONS: Can't create response, e = " + resp.statusCode() + " | " + resp.statusMessage() + " | " + resp.headers();
       LOGGER.error(error);
+      LocalDateTime now = LocalDateTime.now();
       return ImmutableUserAction.builder()
           .id("").name("").status("")
           .formId("")
@@ -183,6 +186,8 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
           .formUri(fillUri)
           .viewed(true)
           .formInProgress(false)
+          .created(now)
+          .updated(now)
           .build();
     }
     final var body = resp.bodyAsJsonObject();
