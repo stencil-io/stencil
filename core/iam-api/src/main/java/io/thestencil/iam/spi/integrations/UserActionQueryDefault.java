@@ -223,6 +223,7 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
               .taskStatus(task.getStatus())
               .taskCreated(task.getCreated())
               .taskUpdated(task.getUpdated())
+              .taskRef(task.getTaskRef())
               .updated(lastUpdate)
               .addAllMessages(userMessages)
               .viewed(userMessages.isEmpty() || !unreadTasks.contains(action.getTaskId()))
