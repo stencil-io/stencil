@@ -5,7 +5,7 @@
   <parent>
     <groupId>io.thestencil</groupId>
     <artifactId>stencil-build-parent</artifactId>
-    <version>1.148.34</version>
+    <version>999-SNAPSHOT</version>
     <relativePath>../build-parent/pom.xml</relativePath>
   </parent>
 
