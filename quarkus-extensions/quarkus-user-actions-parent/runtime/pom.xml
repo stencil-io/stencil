@@ -4,7 +4,7 @@
   <parent>
     <artifactId>quarkus-stencil-user-actions-parent</artifactId>
     <groupId>io.thestencil</groupId>
-    <version>1.148.35</version>
+    <version>999-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>quarkus-stencil-user-actions</artifactId>
