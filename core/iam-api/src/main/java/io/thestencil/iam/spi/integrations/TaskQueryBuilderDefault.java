@@ -68,6 +68,7 @@ public class TaskQueryBuilderDefault extends BuilderTemplate {
     return ImmutableUserTask.builder()
         .id(json.getString("id"))
         .status(json.getString("status"))
+        .taskRef(json.getString("taskRef"))
         .created(ZonedDateTime.parse(json.getString("created")))
         .updated(updated == null ? null : ZonedDateTime.parse(updated))
         .build();
