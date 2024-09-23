@@ -175,7 +175,7 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
   }
   
   private static UserAction map(HttpResponse<?> resp, String fillUri, String reviewUri, String replyToUri) {
-    if (resp.statusCode() != 201) {
+    if (!(resp.statusCode() == 201 || resp.statusCode() == 200)) {
       String error = "USER ACTIONS: Can't create response, e = " + resp.statusCode() + " | " + resp.statusMessage() + " | " + resp.headers();
       LOGGER.error(error);
       LocalDateTime now = LocalDateTime.now();
@@ -183,6 +183,7 @@ public class UserActionBuilderDefault extends BuilderTemplate implements UserAct
           .id("").name("").status("")
           .formId("")
           .reviewUri("")
+          .messagesUri("")
           .formUri(fillUri)
           .viewed(true)
           .formInProgress(false)

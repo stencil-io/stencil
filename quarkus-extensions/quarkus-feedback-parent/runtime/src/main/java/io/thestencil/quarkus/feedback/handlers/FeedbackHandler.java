@@ -124,7 +124,7 @@ public class FeedbackHandler extends FeedbackTemplate {
 
     final var create = ctx.getClient().createUserAction()
       .actionName(actionId)
-      .protectionOrder(null)
+      .protectionOrder(false)
       .language(clientLocale);
     	
     return create
