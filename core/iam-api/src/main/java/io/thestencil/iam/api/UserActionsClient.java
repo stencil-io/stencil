@@ -220,11 +220,16 @@ public interface UserActionsClient {
     String getAttachmentsPath();
     String getAuthorizationsPath();
     
+    @Nullable
     RemoteIntegration getAttachments();
-    RemoteIntegration getReplyTo();
-    RemoteIntegration getProcesses();
+    @Nullable
     RemoteIntegration getFill();
+    @Nullable
     RemoteIntegration getReview();
+    @Nullable
+    RemoteIntegration getReplyTo();
+    
+    RemoteIntegration getProcesses();
   }
 
   @JsonSerialize(as = ImmutableAttachmentDownloadUrl.class)

@@ -58,7 +58,7 @@ public class FeedbackProducer {
   @Produces
   @ApplicationScoped
   public FeedbackContext feedbackContext(Vertx vertx) {
-	final JsonWebToken idToken = null;
+    final JsonWebToken idToken = null;
     final var webClient = WebClient.create(vertx, new WebClientOptions());
     final var client = UserActionsClientDefault.builder()
       .config(b -> b
@@ -79,6 +79,8 @@ public class FeedbackProducer {
         .fill(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.fill.host)).path(cleanPath(runtimeConfig.fill.path))
             .protocol(runtimeConfig.fill.protocol).port(runtimeConfig.fill.port).build())
 
+        
+        
         ).build(idToken);
     
     

@@ -43,9 +43,9 @@ public class UserActionsClientDefault implements UserActionsClient {
     super();
     this.process = RemoteIntegrationConverter.integrationToOptions(config.getProcesses());
     this.fill = RemoteIntegrationConverter.integrationToOptions(config.getFill());
-    this.review = RemoteIntegrationConverter.integrationToOptions(config.getReview());
-    this.tasks = RemoteIntegrationConverter.integrationToOptions(config.getReplyTo());
-    this.attachment = RemoteIntegrationConverter.integrationToOptions(config.getAttachments());
+    this.review = config.getReview() != null ? RemoteIntegrationConverter.integrationToOptions(config.getReview()) : null;
+    this.tasks = config.getReview() != null ? RemoteIntegrationConverter.integrationToOptions(config.getReplyTo()) : null;
+    this.attachment = config.getReview() != null ? RemoteIntegrationConverter.integrationToOptions(config.getAttachments()) : null;
     
     this.config = config;
     this.idToken = idToken;
