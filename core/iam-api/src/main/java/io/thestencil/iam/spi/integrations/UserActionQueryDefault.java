@@ -245,7 +245,6 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
   }
 
   public static UserAction mapToUserAction(JsonObject entity, String fillUri, String reviewUri, String replyUri) {
-    final var workflow = entity.getJsonObject("workflow");
     final var status = entity.getString("status");
     final var formInProgress = "ANSWERING".equalsIgnoreCase(status) || "CREATED".equalsIgnoreCase(status);
     final var formId = entity.getString("questionnaire");
@@ -254,7 +253,7 @@ public class UserActionQueryDefault extends BuilderTemplate implements UserActio
         .status(status)
         .created(LocalDateTime.parse(entity.getString("created")))
         .updated(LocalDateTime.parse(entity.getString("updated")))
-        .name(workflow.getString("name"))
+        .name(entity.getString("workflowName"))
         .taskId(entity.getString("task"))
         .messagesUri(replyUri)
         .reviewUri(reviewUri)
