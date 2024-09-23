@@ -44,13 +44,14 @@ public class FeedbackRecorder {
   public static final String FEATURE_BUILD_ITEM = "feedback";
   
   public BeanContainerListener configureBuildtimeConfig(
-      String servicePath, String fillPath) {
+      String servicePath, String fillPath, String allowedPath) {
     
     return beanContainer -> {
       FeedbackProducer producer = beanContainer.beanInstance(FeedbackProducer.class);
       producer
         .setServicePath(servicePath)
-        .setFillPath(fillPath);
+        .setFillPath(fillPath)
+        .setAllowedPath(allowedPath);
     };
   }
   

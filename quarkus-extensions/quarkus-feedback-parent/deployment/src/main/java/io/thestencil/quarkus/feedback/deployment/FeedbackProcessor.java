@@ -74,7 +74,8 @@ public class FeedbackProcessor {
     buildItems.produce(AdditionalBeanBuildItem.builder().setUnremovable().addBeanClass(FeedbackProducer.class).build());
     beans.produce(new BeanContainerListenerBuildItem(recorder.configureBuildtimeConfig(
         "/" + buildItem.getServicePath(),
-        "/" + buildItem.getFillPath()
+        "/" + buildItem.getFillPath(),
+        "/" + buildItem.getAllowedPath()
         )));
   }
 
@@ -154,9 +155,11 @@ public class FeedbackProcessor {
     final var servicePath = cleanPath(config.servicePath);
     final var buildItem = new FeedbackBuildItem(
         servicePath, 
-        servicePath + "/fill");
+        servicePath + "/fill",
+        servicePath + "/allowed");
     
     displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(httpRootPathBuildItem.resolvePath(servicePath), "Feedback"));
+    displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(httpRootPathBuildItem.resolvePath(buildItem.getAllowedPath()), "Feedback Allowed"));
     displayableEndpoints.produce(new NotFoundPageDisplayableEndpointBuildItem(httpRootPathBuildItem.resolvePath(buildItem.getFillPath()), "Feedback Fill Form"));
     buildProducer.produce(buildItem);
   }

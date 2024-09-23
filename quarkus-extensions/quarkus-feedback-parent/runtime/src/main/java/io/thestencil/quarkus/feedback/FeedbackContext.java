@@ -33,14 +33,17 @@ public class FeedbackContext {
   private final String lastName;
   private final String email;
   private final String address;
+  private final String allowedPath;
   
   public FeedbackContext(
       UserActionsClient client,
+      String allowedPath,
       List<String> allowed, 
       String userName, String userId,
       String firstName, String lastName,
       String email, String address) {
     super();
+    this.allowedPath = allowedPath;
     this.client = client;
     this.allowed = allowed;
     this.userName = userName;
@@ -79,6 +82,9 @@ public class FeedbackContext {
   }
   public String getAddress() {
     return address;
+  }
+  public String getAllowedPath() {
+    return allowedPath;
   }
 
 }

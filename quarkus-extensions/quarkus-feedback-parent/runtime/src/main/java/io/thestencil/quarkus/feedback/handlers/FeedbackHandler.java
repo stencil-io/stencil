@@ -54,7 +54,13 @@ public class FeedbackHandler extends FeedbackTemplate {
 
     final var path = event.normalizedPath();
     
-    // fill 
+     
+    if(path.startsWith(ctx.getAllowedPath())) {
+      response.end(toBuffer(ctx.getAllowed()));
+      return;
+    }
+    
+ // fill
     if(path.startsWith(ctx.getFillPath())) {
     	ctx.getClient().fill()
         .path(path)

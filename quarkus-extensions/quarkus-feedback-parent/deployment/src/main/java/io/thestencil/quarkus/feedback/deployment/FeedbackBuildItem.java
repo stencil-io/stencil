@@ -27,13 +27,15 @@ public final class FeedbackBuildItem extends SimpleBuildItem {
   
   private final String servicePath;
   private final String fillPath;
+  private final String allowedPath;
 
 
   public FeedbackBuildItem(
-		  String servicePath, String fillPath) {
+		  String servicePath, String fillPath, String allowedPath) {
     super();
     this.servicePath = servicePath;
     this.fillPath = fillPath;
+    this.allowedPath = allowedPath;
   }
 
   public String getServicePath() {
@@ -41,5 +43,9 @@ public final class FeedbackBuildItem extends SimpleBuildItem {
   }
   public String getFillPath() {
     return fillPath;
+  }
+
+  public String getAllowedPath() {
+    return allowedPath;
   }
 }

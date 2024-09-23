@@ -1,7 +1,5 @@
 package io.thestencil.quarkus.feedback;
 
-import java.util.Arrays;
-
 /*-
  * #%L
  * quarkus-stencil-user-actions
@@ -39,6 +37,7 @@ public class FeedbackProducer {
   private RuntimeConfig runtimeConfig;
   private String servicePath;
   private String fillPath;
+  private String allowedPath;
   
   public FeedbackProducer setRuntimeConfig(RuntimeConfig runtimeConfig) {
     this.runtimeConfig = runtimeConfig;
@@ -52,7 +51,10 @@ public class FeedbackProducer {
     this.fillPath = fillPath;
     return this;
   }
-
+  public FeedbackProducer setAllowedPath(String allowedPath) {
+    this.allowedPath = allowedPath;
+    return this;
+  }
   @Produces
   @ApplicationScoped
   public FeedbackContext feedbackContext(Vertx vertx) {
@@ -82,6 +84,7 @@ public class FeedbackProducer {
     
     return new FeedbackContext(
         client, 
+        allowedPath,
         runtimeConfig.allowed,
         runtimeConfig.userName, 
         runtimeConfig.userId,
