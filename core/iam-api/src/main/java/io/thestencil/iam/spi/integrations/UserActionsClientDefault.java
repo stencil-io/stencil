@@ -25,7 +25,6 @@ import java.util.function.Function;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import io.thestencil.iam.api.ImmutableUserActionsClientConfig;
-import io.thestencil.iam.api.RemoteIntegration;
 import io.thestencil.iam.api.UserActionsClient;
 import io.thestencil.iam.spi.support.RemoteIntegrationConverter;
 import io.vertx.core.http.RequestOptions;

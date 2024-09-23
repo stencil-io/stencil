@@ -73,9 +73,6 @@ public class UserActionsProcessor {
     
     buildItems.produce(AdditionalBeanBuildItem.builder().setUnremovable().addBeanClass(UserActionsProducer.class).build());
     beans.produce(new BeanContainerListenerBuildItem(recorder.configureBuildtimeConfig(
-        this.config.mock.enabled,
-        this.config.mock.apiKey, 
-        this.config.mock.formId,
         "/" + buildItem.getServicePath(),
         "/" + buildItem.getFillPath(),
         "/" + buildItem.getReviewPath(),

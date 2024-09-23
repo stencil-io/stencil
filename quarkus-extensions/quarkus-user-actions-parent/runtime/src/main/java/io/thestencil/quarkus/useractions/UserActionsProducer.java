@@ -28,7 +28,6 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import io.thestencil.iam.api.ImmutableRemoteIntegration;
 import io.thestencil.iam.spi.integrations.UserActionsClientDefault;
-import io.thestencil.iam.spi.mock.UserActionsClientMock;
 import io.vertx.ext.web.client.WebClientOptions;
 import io.vertx.mutiny.core.Vertx;
 import io.vertx.mutiny.ext.web.client.WebClient;
@@ -43,9 +42,6 @@ public class UserActionsProducer {
   
   
   private RuntimeConfig runtimeConfig;
-  private boolean mockEnabled;
-  private String mockFormId; 
-  private String mockApiKey;
   private String servicePath;
   private String reviewPath;
   private String fillPath;
@@ -57,12 +53,6 @@ public class UserActionsProducer {
     this.runtimeConfig = runtimeConfig;
     return this;
   }
-  public UserActionsProducer setMockEndabled(boolean mockEnabled, String apiKey, String formId) {
-    this.mockEnabled = mockEnabled;
-    this.mockFormId = formId;
-    this.mockApiKey = apiKey;
-    return this;
-  }  
   public UserActionsProducer setServicePath(String servicePath) {
     this.servicePath = servicePath;
     return this;
@@ -91,36 +81,6 @@ public class UserActionsProducer {
   @ApplicationScoped
   public UserActionsContext userActionsContext(Vertx vertx) {
     final var webClient = WebClient.create(vertx, new WebClientOptions());
-    if(mockEnabled) {
-      final var mockClient = UserActionsClientMock.builder()
-          .webClient(webClient)
-          .setApiKey(mockApiKey)
-          .setFormId(mockFormId)
-          .config(b -> b
-            .webClient(webClient)
-            .defaultLanguage(runtimeConfig.defaultLocale)
-            
-            .attachmentsPath(attachmentsPath)
-            .servicePath(servicePath)
-            .fillPath(fillPath)
-            .reviewPath(reviewPath)
-            .messagesPath(messagesPath)
-            .authorizationsPath(authorizationsPath)
-            
-            .replyTo(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.tasks.host)).path(cleanPath(runtimeConfig.tasks.path))
-                .protocol(runtimeConfig.tasks.protocol).port(runtimeConfig.tasks.port).build())
-            .processes(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.processes.host)).path(cleanPath(runtimeConfig.processes.path))
-                .protocol(runtimeConfig.processes.protocol).port(runtimeConfig.processes.port).build())
-            .fill(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.fill.host)).path(cleanPath(runtimeConfig.fill.path))
-                .protocol(runtimeConfig.fill.protocol).port(runtimeConfig.fill.port).build())
-            .review(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.review.host)).path(cleanPath(runtimeConfig.review.path))
-                .protocol(runtimeConfig.review.protocol).port(runtimeConfig.review.port).build())
-            .attachments(ImmutableRemoteIntegration.builder().host(cleanPath(runtimeConfig.attachments.host)).path(cleanPath(runtimeConfig.attachments.path))
-                .protocol(runtimeConfig.attachments.protocol).port(runtimeConfig.attachments.port).build())
-          ).build();
-      return new UserActionsContext(mockClient);
-    }
-      
     final var client = UserActionsClientDefault.builder()
       .config(b -> b
         .webClient(webClient)

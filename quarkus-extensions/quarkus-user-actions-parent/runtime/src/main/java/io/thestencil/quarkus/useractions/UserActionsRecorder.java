@@ -45,14 +45,12 @@ public class UserActionsRecorder {
   public static final String FEATURE_BUILD_ITEM = "user-actions";
   
   public BeanContainerListener configureBuildtimeConfig(
-      boolean mockEnabled, String apiKey, String formId, 
       String servicePath, String fillPath, String reviewPath, 
       String messagesPath, String attachmentsPath, String authorizationsPath) {
     
     return beanContainer -> {
       UserActionsProducer producer = beanContainer.beanInstance(UserActionsProducer.class);
       producer
-        .setMockEndabled(mockEnabled, apiKey, formId)
         .setServicePath(servicePath)
         .setMessagesPath(messagesPath)
         .setAttachmentsPath(attachmentsPath)

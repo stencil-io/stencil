@@ -33,10 +33,4 @@ public class UserActionsConfig {
    */
   @ConfigItem(defaultValue = "portal-app/user-actions")
   String servicePath;
-  
-  /**
-   * Configuration for mock envir
-   */
-  @ConfigItem
-  UserActionsMockConfig mock;
 }

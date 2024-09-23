@@ -32,7 +32,8 @@ public final class UserActionsBuildItem extends SimpleBuildItem {
   private final String attachmentsPath;
   private final String authorizationsPath;
 
-  public UserActionsBuildItem(String servicePath, String fillPath, String reviewPath, String messagesPath, String attachmentsPath, String authorizationsPath) {
+  public UserActionsBuildItem(
+		  String servicePath, String fillPath, String reviewPath, String messagesPath, String attachmentsPath, String authorizationsPath) {
     super();
     this.servicePath = servicePath;
     this.fillPath = fillPath;
