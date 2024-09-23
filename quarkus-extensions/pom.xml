@@ -19,6 +19,7 @@
     <module>quarkus-site-pg-parent</module>
     <module>quarkus-iam-parent</module>
     <module>quarkus-user-actions-parent</module>
+    <module>quarkus-stencil-feedback-parent</module>
   </modules>
 
 </project>
