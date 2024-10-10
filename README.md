@@ -1,5 +1,9 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
 
+
+# This repository has been deprecated and is no longer maintained.
+Codebase has been moved and is now maintained in https://github.com/digiexpress-io/digiexpress-parent
+
 # The Stencil CMS 
      
 # Local Development Environment
